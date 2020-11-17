@@ -27,15 +27,21 @@ scatter_data = the_one_ring[
      ec_votes_col, votes_counted_col, vote_weight_col, 
      vote_margin_col, swing_weight_col, party_col]
 ]
+# set state abbrev as key (index) for each row
 scatter_data = scatter_data.set_index('Abbrev')
+
+# remove states lacking electoral college votes for this year
+# scatter_data = scatter_data[pd.notnull(scatter_data[ec_votes_col])]
+# remove states lacking vote weight for this year 
+scatter_data = scatter_data[pd.notnull(scatter_data[vote_weight_col])]
+
+# explicitly set type of votes counted and vote margin data to int (not sure why this isn't automatic)
+scatter_data[[votes_counted_col, vote_margin_col]] = scatter_data[[votes_counted_col, vote_margin_col]].astype(int)
 
 # extract US totals data before removing US column
 ec_total = scatter_data.loc['US'][ec_votes_col]
 pop_total = scatter_data.loc['US'][votes_counted_col]
 pop_margin = scatter_data.loc['US'][vote_margin_col]
-
-# remove states lacking electoral college votes for this year
-scatter_data = scatter_data[pd.notnull(scatter_data[ec_votes_col])]
 # remove US column
 scatter_data = scatter_data.drop('US')
 
