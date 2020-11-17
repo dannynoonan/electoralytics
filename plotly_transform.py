@@ -4,22 +4,22 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 # constant metadata
-category_orders = {'Group': ['Confederate','Border','Northeast','Midwest','West','Small']}
-color_discrete_sequence = ['Red','DarkSalmon','MediumBlue','Cyan','SpringGreen','Gold']
+category_orders = {'Group': ['Small','Confederate','Border','Northeast','Midwest','West']}
+color_discrete_sequence = ['Gold','Red','DarkSalmon','MediumBlue','Cyan','SpringGreen']
 
 # load electoral college data
 the_one_ring = pd.read_csv('/Users/andyshirey/Documents/dev/mappingProjects/electoralResults/csv/theOneRing.csv')
 
-# input year and set properties derived from year
-year = 1900
+# input year  
+year = 1828
+
+# generate columns to be extract based on year
 ec_votes_col = f'{year} EC votes'
 votes_counted_col = f'{year} Votes counted'
 vote_weight_col = f'{year} Vote weight'
 vote_margin_col = f'{year} Vote margin'
 swing_weight_col = f'{year} Swing weight'
 party_col = f'{year} Party'
-hover_data={vote_weight_col: True, 'State': True, votes_counted_col: True, ec_votes_col: True, 'Group': True}
-scatter_labels = {vote_weight_col: 'Impact per voter'}
 
 # extract electoral college data for year
 scatter_data = the_one_ring[
@@ -27,8 +27,13 @@ scatter_data = the_one_ring[
      ec_votes_col, votes_counted_col, vote_weight_col, 
      vote_margin_col, swing_weight_col, party_col]
 ]
-# set state abbrev as key (index) for each row
+
+# set state abbrev as key/index for each row
 scatter_data = scatter_data.set_index('Abbrev')
+
+hover_data = {vote_weight_col: True, 'State': True, votes_counted_col: True, ec_votes_col: True, 'Group': True}
+scatter_labels = {ec_votes_col: 'EC votes', votes_counted_col: 'Votes counted', vote_weight_col: 'Impact per voter',
+                  vote_margin_col: 'Vote margin', swing_weight_col: 'Swing weight', party_col: 'Party'}
 
 # remove states lacking electoral college votes for this year
 # scatter_data = scatter_data[pd.notnull(scatter_data[ec_votes_col])]
@@ -57,8 +62,8 @@ mean_data = pd.DataFrame({'Mean votes counted': linear_pop_per_ec, 'Mean EC vote
 flat_data = pd.DataFrame({'EC votes': [0, ec_max], 'Mean vote weight': [1, 1]})
 
 # titles and labels
-scatter_title = f'{year} presidential election: voter impact per state'
-box_title = f'{year} presidential election: voter impact per state grouping'
+scatter_title = f'{year} presidential election: voter impact by state'
+box_title = f'{year} presidential election: voter impact by state grouping'
 trace_name_natl_avg = f'Nat\'l avg (1 EC : {pop_per_ec} pop)'
 
 # scatter plot 1
