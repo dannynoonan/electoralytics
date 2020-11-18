@@ -18,6 +18,7 @@ avg_weight_by_year = pd.DataFrame({'Group': groups})
 groups_by_year = groups_by_year.set_index('Group')
 avg_weight_by_year = avg_weight_by_year.set_index('Group')
 
+### PROCESS CSV DATA ###
 year = 1828
 while year <= 2016:
     
@@ -79,9 +80,56 @@ while year <= 2016:
 # write groups_by_year to file
 # groups_by_year.to_csv('/Users/andyshirey/Documents/dev/mappingProjects/electoralResults/csv/groupsByYear.csv')
 
-# remove Total column from avg_weight_by_year
-avg_weight_by_year = avg_weight_by_year.drop(['Total'])
+# remove Total row/index from avg_weight_by_year
+# avg_weight_by_year = avg_weight_by_year.drop(['Total'])
+# rename Total row/index to 
+avg_weight_by_year = avg_weight_by_year.rename(index={'Total': 'Nat\'l Average'})
 
+
+### STATIC PLOT ###
+# static line plot
+layout = go.Layout(
+    title="Individual voter impact per state grouping over time",
+    plot_bgcolor="#FFFFFF",
+    legend=dict(
+        # Adjust click behavior
+        itemclick="toggleothers",
+        itemdoubleclick="toggle",
+    ),
+    xaxis=dict(
+        title="Year",
+        linecolor="#BCCCDC",
+    ),
+    yaxis=dict(
+        title="State Grouping",
+        linecolor="#BCCCDC"
+    ),
+    height=500,
+    width=1000
+)
+
+scatters = []
+for group in avg_weight_by_year.index:
+    x_years = avg_weight_by_year.keys()
+    y_vote_weights = []
+    for year in x_years:
+        group_in_year = avg_weight_by_year.loc[group, year]
+        #print(f"state: {state}, year {year}, vote_weight: {state_in_year}")
+        y_vote_weights.append(group_in_year)
+    
+    line_chart = go.Scatter(
+        x=x_years,
+        y=y_vote_weights,
+        name=group
+    )
+    scatters.append(line_chart)
+
+fig = go.Figure(data=scatters, layout=layout)
+#fig.update_yaxes(type="log", range=[-.4,0.8])
+fig.show(config={"displayModeBar": False, "showTips": False}) # Remove floating menu
+
+
+### ANIMATION ###
 # init animation writer
 Writer = animation.writers['ffmpeg']
 writer = Writer(fps=20, metadata=dict(artist='Me'), bitrate=1800)
