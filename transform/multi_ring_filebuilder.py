@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-from electoralytics.metadata import THE_ONE_RING_CSV, GROUPS_BY_YEAR_CSV, AVG_WEIGHT_BY_YEAR_CSV, ALL_YEARS_PIVOT_CSV
+from electoralytics.metadata import THE_ONE_RING_CSV, GROUPS_BY_YEAR_CSV, AVG_WEIGHT_BY_YEAR_CSV, PIVOT_ON_YEAR_CSV, TOTALS_BY_YEAR_CSV
 
 
 
@@ -25,17 +25,20 @@ COL_VOTES_COUNTED = 'Votes counted'
 COL_VOTE_WEIGHT = 'Vote weight'
 COL_AVG_WEIGHT = 'Average weight'
 COL_PARTY = 'Party'
+COL_POP_PER_EC = 'Population per EC vote'
 
 # initialize new data frames
 groups_by_year = pd.DataFrame({COL_GROUP: groups})
 avg_weight_by_year = pd.DataFrame({COL_GROUP: groups})
-all_years_pivot = pd.DataFrame(columns=[COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED,
-                                       COL_VOTE_WEIGHT, COL_PARTY])
+pivot_on_year = pd.DataFrame(columns=[COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED,
+                                      COL_VOTE_WEIGHT, COL_PARTY])
+totals_by_year = pd.DataFrame(columns=[COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_POP_PER_EC])
 
 # set key/index for rows
 groups_by_year = groups_by_year.set_index(COL_GROUP)
 avg_weight_by_year = avg_weight_by_year.set_index(COL_GROUP)
 
+# begin iterating through years in the_one_ring
 year = 1828
 while year <= 2016:
 
@@ -60,32 +63,37 @@ while year <= 2016:
     # explicitly set type of votes counted and vote margin data to int (not sure why this isn't automatic)
     year_data[[votes_counted_col]] = year_data[[votes_counted_col]].astype(int)
 
-    # extract US totals data before removing US column
+    # extract US totals data 
     ec_total = year_data.loc['US'][ec_votes_col]
     pop_total = year_data.loc['US'][votes_counted_col]
     # calculate average popular vote per EC vote
     pop_per_ec = round(pop_total / ec_total)
-    # remove US column
+    
+    # remove US column from year_data
     year_data = year_data.drop('US')
 
     # map states having 4 or fewer electoral college votes to 'Small' Group
     year_data.loc[year_data[ec_votes_col] <= 4, COL_GROUP] = 'Small'
 
 
-    # DATA PIVOTING: all_years_pivot
-    # init table for this year
+    # EXTRACTION: pivot_on_year, totals_by_year
+    # init year_pivot
     year_pivot = year_data.rename(columns={ec_votes_col: COL_EC_VOTES, votes_counted_col: COL_VOTES_COUNTED, 
                                            vote_weight_col: COL_VOTE_WEIGHT, party_col: COL_PARTY})
     year_pivot[COL_YEAR] = [year] * len(year_pivot.index)
-
-    # unset index so we can append to all_years_pivot
+    # unset index so we can append to pivot_on_year
     year_pivot.reset_index(inplace=True)
+    # append year_pivot to pivot_on_year
+    pivot_on_year = pd.concat([pivot_on_year, year_pivot], ignore_index=True, sort=False)
+    
+    # init year_totals
+    year_totals = pd.DataFrame([[year, ec_total, pop_total, pop_per_ec]],
+                               columns=[COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_POP_PER_EC])
+    # append year_totals to totals_by_year
+    totals_by_year = pd.concat([totals_by_year, year_totals], ignore_index=True, sort=False)
+    
 
-    # append year_pivot to all_years_pivot
-    all_years_pivot = pd.concat([all_years_pivot, year_pivot], ignore_index=True, sort=False)
-
-
-    # DATA AGGREGATION: groups_by_year, avg_weight_by_year
+    # AGGREGATION: groups_by_year, avg_weight_by_year
     # aggregate EC votes and popular votes for each Group, assign summed values to new year_agg dataframe
     year_agg = year_data.groupby(COL_GROUP).agg({ec_votes_col: 'sum', votes_counted_col: 'sum'})
     # add Average weight column by dividing EC votes by popular votes and multiplying by national pop-per-EC factor
@@ -118,5 +126,8 @@ groups_by_year.to_csv(GROUPS_BY_YEAR_CSV)
 avg_weight_by_year = avg_weight_by_year.rename(index={'Total': 'Nat\'l Average'})
 avg_weight_by_year.to_csv(AVG_WEIGHT_BY_YEAR_CSV)
 
-# write all_years_pivot to file
-all_years_pivot.to_csv(ALL_YEARS_PIVOT_CSV)
+# write pivot_on_year to file
+pivot_on_year.to_csv(ALL_YEARS_PIVOT_CSV)
+
+# write totals_by_year to file
+totals_by_year.to_csv(TOTALS_BY_YEAR_CSV)
