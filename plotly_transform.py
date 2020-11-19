@@ -69,7 +69,7 @@ trace_name_natl_avg = f'Nat\'l avg (1 EC : {pop_per_ec} pop)'
 # scatter plot 1
 fig = px.scatter(scatter_data, x=votes_counted_col, y=ec_votes_col, color='Group', labels=scatter_labels,
                  category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
-                 width=1000, height=800, opacity=0.7, hover_data=hover_data, title=scatter_title)
+                 width=1000, height=800, opacity=0.7, hover_data=hover_data, hover_name='State', title=scatter_title)
 
 fig.update_traces(marker=dict(size=12, line=dict(width=1, color='DarkSlateGrey')),
                   selector=dict(mode='markers'))
