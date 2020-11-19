@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-from electoralytics.metadata import THE_ONE_RING_CSV, GROUPS_BY_YEAR_CSV, AVG_WEIGHT_BY_YEAR_CSV, PIVOT_ON_YEAR_CSV, TOTALS_BY_YEAR_CSV
+from electoralytics.metadata import THE_ONE_RING_CSV, PIVOT_ON_YEAR_CSV, TOTALS_BY_YEAR_CSV, GROUP_AGGS_BY_YEAR_CSV
 
 
 
@@ -28,19 +28,20 @@ COL_PARTY = 'Party'
 COL_POP_PER_EC = 'Population per EC vote'
 
 # initialize new data frames
-groups_by_year = pd.DataFrame({COL_GROUP: groups})
-avg_weight_by_year = pd.DataFrame({COL_GROUP: groups})
 pivot_on_year = pd.DataFrame(columns=[COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED,
                                       COL_VOTE_WEIGHT, COL_PARTY])
+group_aggs_by_year = pd.DataFrame(columns=[COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_AVG_WEIGHT])
 totals_by_year = pd.DataFrame(columns=[COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_POP_PER_EC])
 
-# set key/index for rows
+### LEGACY ###
+groups_by_year = pd.DataFrame({COL_GROUP: groups}) 
+avg_weight_by_year = pd.DataFrame({COL_GROUP: groups}) 
 groups_by_year = groups_by_year.set_index(COL_GROUP)
 avg_weight_by_year = avg_weight_by_year.set_index(COL_GROUP)
 
-# begin iterating through years in the_one_ring
+## begin iterating through years in the_one_ring
 year = 1828
-while year <= 2016:
+while year <= 1832:
 
     # column names for current year
     ec_votes_col = f'{year} {COL_EC_VOTES}'
@@ -52,15 +53,14 @@ while year <= 2016:
     # extract electoral college data for year
     year_data = the_one_ring[[COL_ABBREV, COL_STATE, COL_GROUP, ec_votes_col, votes_counted_col, 
                               vote_weight_col, party_col]]
-
     # set state abbrev as key/index for each row
     year_data = year_data.set_index(COL_ABBREV)
 
     # DATA CLEANSING
     # remove states lacking vote weight for this year 
     year_data = year_data[pd.notnull(year_data[vote_weight_col])]
-
-    # explicitly set type of votes counted and vote margin data to int (not sure why this isn't automatic)
+    
+    # explicitly set type of votes counted data to int (not sure why this isn't automatic)
     year_data[[votes_counted_col]] = year_data[[votes_counted_col]].astype(int)
 
     # extract US totals data 
@@ -93,16 +93,29 @@ while year <= 2016:
     totals_by_year = pd.concat([totals_by_year, year_totals], ignore_index=True, sort=False)
     
 
-    # AGGREGATION: groups_by_year, avg_weight_by_year
+    # AGGREGATION: group_aggs_by_year
+    # aggregate EC votes and popular votes for each Group, assign summed values to new year_agg dataframe
+    year_group_aggs = year_data.groupby(COL_GROUP).agg({ec_votes_col: 'sum', votes_counted_col: 'sum'})
+    # unset index, rename columns, add year column
+    year_group_aggs.reset_index(inplace=True)
+    year_group_aggs.rename(columns={ec_votes_col: COL_EC_VOTES, votes_counted_col: COL_VOTES_COUNTED}, inplace=True)
+    year_group_aggs[COL_YEAR] = [year] * len(year_group_aggs)
+    # add average weight column by dividing EC votes by popular votes and multiplying by national pop-per-EC factor
+    year_group_aggs[COL_AVG_WEIGHT] = pop_per_ec * year_group_aggs[COL_EC_VOTES] / year_group_aggs[COL_VOTES_COUNTED]
+    # append year_group_aggs to group_aggs_by_year
+    group_aggs_by_year = pd.concat([group_aggs_by_year, year_group_aggs], ignore_index=True, sort=False)
+    
+    
+    ### LEGACY ###
     # aggregate EC votes and popular votes for each Group, assign summed values to new year_agg dataframe
     year_agg = year_data.groupby(COL_GROUP).agg({ec_votes_col: 'sum', votes_counted_col: 'sum'})
     # add Average weight column by dividing EC votes by popular votes and multiplying by national pop-per-EC factor
     year_agg[avg_weight_col] = pop_per_ec * year_agg[ec_votes_col] / year_agg[votes_counted_col]
+
     # add Total row to end of of year_agg
     total_row = pd.DataFrame([['Total', ec_total, pop_total, 1.0]], 
                              columns=[COL_GROUP, ec_votes_col, votes_counted_col, avg_weight_col])
     total_row = total_row.set_index(COL_GROUP)
-    # append total_row by merging dataframes
     year_agg = year_agg.append(total_row)
 
     # combine year_agg into groups_by_year
@@ -115,19 +128,20 @@ while year <= 2016:
     avg_weight_df = avg_weight_df.rename(columns={avg_weight_col: year})
     avg_weight_by_year = avg_weight_by_year.join(avg_weight_df, how='outer')
 
+    
     # increment to next election
     year = year + 4
 
     
+# write pivot_on_year, totals_by_year, group_aggs_by_year to file
+pivot_on_year.to_csv(PIVOT_ON_YEAR_CSV)
+totals_by_year.to_csv(TOTALS_BY_YEAR_CSV)
+group_aggs_by_year.to_csv(GROUP_AGGS_BY_YEAR_CSV)
+
+### LEGACY ###
 # write groups_by_year to file
-groups_by_year.to_csv(GROUPS_BY_YEAR_CSV)
+#groups_by_year.to_csv(GROUPS_BY_YEAR_CSV)
 
 # rename Total column and write avg_weight_by_year to file
-avg_weight_by_year = avg_weight_by_year.rename(index={'Total': 'Nat\'l Average'})
-avg_weight_by_year.to_csv(AVG_WEIGHT_BY_YEAR_CSV)
-
-# write pivot_on_year to file
-pivot_on_year.to_csv(ALL_YEARS_PIVOT_CSV)
-
-# write totals_by_year to file
-totals_by_year.to_csv(TOTALS_BY_YEAR_CSV)
+#avg_weight_by_year = avg_weight_by_year.rename(index={'Total': 'Nat\'l Average'})
+#avg_weight_by_year.to_csv(AVG_WEIGHT_BY_YEAR_CSV)
