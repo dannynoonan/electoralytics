@@ -28,10 +28,12 @@ COL_PARTY = 'Party'
 COL_POP_PER_EC = 'Population per EC vote'
 COL_STATE_COUNT = 'State count'
 COL_MOST_EC_VOTES = 'Most EC votes'
+COL_VOTES_COUNTED_PCT = 'Votes counted %'
 
 # initialize new data frames
 pivot_on_year = pd.DataFrame(
-    columns=[COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_VOTE_WEIGHT, COL_PARTY])
+    columns=[COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, 
+             COL_VOTES_COUNTED_PCT, COL_VOTE_WEIGHT, COL_PARTY])
 group_aggs_by_year = pd.DataFrame(
     columns=[COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_AVG_WEIGHT, COL_STATE_COUNT])
 totals_by_year = pd.DataFrame(columns=[COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_POP_PER_EC, COL_MOST_EC_VOTES])
@@ -85,15 +87,16 @@ while year <= 2016:
 
     # DF 1: assemble year_pivot to append to pivot_on_year
     year_pivot = year_data
-    # add and populate year column
+    # add and populate year and votes counted pct columns
     year_pivot[COL_YEAR] = [year] * len(year_pivot.index)
+    year_pivot[COL_VOTES_COUNTED_PCT] = (year_pivot[COL_VOTES_COUNTED] / pop_total) * 100
     # unset index so we can append 
     year_pivot.reset_index(inplace=True)
     # add placeholder row for any Group that isn't represented 
     if len(year_pivot.loc[year_pivot['Group'] == 'West']) == 0:
-        year_pivot_bonus = pd.DataFrame([['', '', 'West', year, 0, 0, 0, '']],
+        year_pivot_bonus = pd.DataFrame([['', '', 'West', year, 0, 0, 0, 0, '']],
             columns=[COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, 
-                     COL_VOTE_WEIGHT, COL_PARTY])
+                     COL_VOTES_COUNTED_PCT, COL_VOTE_WEIGHT, COL_PARTY])
         year_pivot = pd.concat([year_pivot, year_pivot_bonus], ignore_index=True, sort=False)
     # append year_pivot to pivot_on_year
     pivot_on_year = pd.concat([pivot_on_year, year_pivot], ignore_index=True, sort=False)
