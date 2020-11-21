@@ -15,7 +15,8 @@ the_one_ring = pd.read_csv(THE_ONE_RING_CSV)
 # * silder_pivot 
 
 # metadata
-groups = pd.Series(np.array(['Small', 'Confederate', 'Border', 'Northeast', 'Midwest', 'West', 'Total']))
+GROUPS = ['Small', 'Confederate', 'Border', 'Northeast', 'Midwest', 'West']
+GROUPS_SER = pd.Series(np.array(GROUPS + ['Total']))
 COL_ABBREV = 'Abbrev'
 COL_STATE = 'State'
 COL_GROUP = 'Group'
@@ -30,17 +31,19 @@ COL_PARTY = 'Party'
 COL_POP_PER_EC = 'Population per EC vote'
 COL_STATE_COUNT = 'State count'
 COL_MOST_EC_VOTES = 'Most EC votes'
+COL_STATES_IN_GROUP = 'States in group'
 
 # initialize new data frames
 pivot_on_year = pd.DataFrame(
     columns=[COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, 
              COL_EC_VOTES_NORM, COL_VOTE_WEIGHT, COL_PARTY])
 group_aggs_by_year = pd.DataFrame(
-    columns=[COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_AVG_WEIGHT, COL_STATE_COUNT])
+    columns=[COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_EC_VOTES_NORM,
+             COL_AVG_WEIGHT, COL_STATE_COUNT, COL_STATES_IN_GROUP])
 totals_by_year = pd.DataFrame(columns=[COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_POP_PER_EC, COL_MOST_EC_VOTES])
 
 ### LEGACY ###
-avg_weight_by_year = pd.DataFrame({COL_GROUP: groups}) 
+avg_weight_by_year = pd.DataFrame({COL_GROUP: GROUPS_SER}) 
 avg_weight_by_year = avg_weight_by_year.set_index(COL_GROUP)
 # groups_by_year = pd.DataFrame({COL_GROUP: groups}) 
 # groups_by_year = groups_by_year.set_index(COL_GROUP)
@@ -89,18 +92,19 @@ while year <= 2016:
 
     # DF 1: assemble year_pivot to append to pivot_on_year
     year_pivot = year_data
-    # add and populate year and votes counted pct columns
+    # add/derive/populate year, votes counted pct, and ec votes normalized columns
     year_pivot[COL_YEAR] = [year] * len(year_pivot.index)
     year_pivot[COL_VOTES_COUNTED_PCT] = (100 * year_pivot[COL_VOTES_COUNTED] / pop_total).round(decimals=2)
     year_pivot[COL_EC_VOTES_NORM] = (year_pivot[COL_VOTES_COUNTED] / pop_per_ec).round(decimals=2)
     # unset index so we can append 
     year_pivot.reset_index(inplace=True)
     # add placeholder row for any Group that isn't represented 
-    if len(year_pivot.loc[year_pivot['Group'] == 'West']) == 0:
-        year_pivot_bonus = pd.DataFrame([['', '', 'West', year, 0, 0, 0, 0, 0, '']],
-            columns=[COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, 
-                     COL_VOTES_COUNTED_PCT, COL_EC_VOTES_NORM, COL_VOTE_WEIGHT, COL_PARTY])
-        year_pivot = pd.concat([year_pivot, year_pivot_bonus], ignore_index=True, sort=False)
+    for group in GROUPS:
+        if len(year_pivot.loc[year_pivot[COL_GROUP] == group]) == 0:
+            year_pivot_bonus = pd.DataFrame([['', '', group, year, 0, 0, 0, 0, 0, '']],
+                columns=[COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, 
+                         COL_VOTES_COUNTED_PCT, COL_EC_VOTES_NORM, COL_VOTE_WEIGHT, COL_PARTY])
+            year_pivot = pd.concat([year_pivot, year_pivot_bonus], ignore_index=True, sort=False)
     # append year_pivot to pivot_on_year
     pivot_on_year = pd.concat([pivot_on_year, year_pivot], ignore_index=True, sort=False)
         
@@ -111,20 +115,28 @@ while year <= 2016:
     totals_by_year = pd.concat([totals_by_year, year_totals], ignore_index=True, sort=False)  
 
     
-    # DF 3: aggregate EC votes and popular votes for each Group, assign summed values to new year_agg dataframe
+    # DF 3: aggregate EC votes, popular votes, and states for each Group, assign summed values to new year_group_aggs dataframe
     year_group_aggs = year_data.groupby(COL_GROUP).agg(
         {COL_EC_VOTES: 'sum', COL_VOTES_COUNTED: 'sum', COL_STATE: 'count'})
+    year_group_aggs_2 = year_data.groupby(COL_GROUP).agg({COL_ABBREV: ','.join})
+    year_group_aggs_2.rename(columns={COL_ABBREV: COL_STATES_IN_GROUP}, inplace=True)
+    year_group_aggs = year_group_aggs.join(year_group_aggs_2, how='outer')
+    # add/derive/populate year, votes counted pct, and ec votes normalized columns
+    year_group_aggs[COL_YEAR] = [year] * len(year_group_aggs)
+    year_group_aggs[COL_VOTES_COUNTED_PCT] = (100 * year_group_aggs[COL_VOTES_COUNTED] / pop_total).round(decimals=2)
+    year_group_aggs[COL_EC_VOTES_NORM] = (year_group_aggs[COL_VOTES_COUNTED] / pop_per_ec).round(decimals=2)
     # unset index, rename columns, add year column
     year_group_aggs.reset_index(inplace=True)
     year_group_aggs.rename(columns={COL_STATE: COL_STATE_COUNT}, inplace=True)
-    year_group_aggs[COL_YEAR] = [year] * len(year_group_aggs)
     # add average weight column by dividing EC votes by popular votes and multiplying by national pop-per-EC factor
-    year_group_aggs[COL_AVG_WEIGHT] = pop_per_ec * year_group_aggs[COL_EC_VOTES] / year_group_aggs[COL_VOTES_COUNTED]
+    year_group_aggs[COL_AVG_WEIGHT] = (pop_per_ec * year_group_aggs[COL_EC_VOTES] / year_group_aggs[COL_VOTES_COUNTED]).round(decimals=2)
     # add placeholder row for any Group that isn't represented 
-    if len(year_group_aggs.loc[year_group_aggs['Group'] == 'West']) == 0:
-        year_group_aggs_bonus = pd.DataFrame([['West', year, 0, 0, 0, 0]],
-            columns=[COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_AVG_WEIGHT, COL_STATE_COUNT])
-        year_group_aggs = pd.concat([year_group_aggs, year_group_aggs_bonus], ignore_index=True, sort=False)
+    for group in GROUPS:
+        if len(year_group_aggs.loc[year_group_aggs[COL_GROUP] == group]) == 0:
+            year_group_aggs_bonus = pd.DataFrame([[group, year, 0, 0, 0, 0, 0, 0, '']],
+                columns=[COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_EC_VOTES_NORM,
+                         COL_AVG_WEIGHT, COL_STATE_COUNT, COL_STATES_IN_GROUP])
+            year_group_aggs = pd.concat([year_group_aggs, year_group_aggs_bonus], ignore_index=True, sort=False)
     # append year_group_aggs to group_aggs_by_year
     group_aggs_by_year = pd.concat([group_aggs_by_year, year_group_aggs], ignore_index=True, sort=False)
     
