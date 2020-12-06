@@ -7,14 +7,12 @@ import dash
 from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
-import flask
+#import flask
 
 import pandas as pd
 import plotly.express as px
 
 # from .metadata import PIVOT_ON_YEAR_CSV
-
-server = flask.Flask('app')
 
 
 BASE_DATA_DIR = 'data'
@@ -23,9 +21,13 @@ print(f"PIVOT_ON_YEAR_CSV: {PIVOT_ON_YEAR_CSV}")
 
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+server = app.server
+
+#server = flask.Flask('app')
 # app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-app = dash.Dash('app', server=server, external_stylesheets=external_stylesheets)
-app.scripts.config.serve_locally = False
+#app = dash.Dash('app', server=server, external_stylesheets=external_stylesheets)
+#app.scripts.config.serve_locally = False
 
 
 colors = {
