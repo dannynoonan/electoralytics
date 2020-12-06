@@ -4,13 +4,18 @@
 # visit http://127.0.0.1:8050/ in your web browser.
 
 import dash
+from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
-import plotly.express as px
+import flask
+
 import pandas as pd
-from dash.dependencies import Input, Output
+import plotly.express as px
 
 # from .metadata import PIVOT_ON_YEAR_CSV
+
+server = flask.Flask('app')
+
 
 BASE_DATA_DIR = 'data'
 PIVOT_ON_YEAR_CSV = f'{BASE_DATA_DIR}/pivotOnYear.csv'
@@ -18,14 +23,14 @@ print(f"PIVOT_ON_YEAR_CSV: {PIVOT_ON_YEAR_CSV}")
 
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+# app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app = dash.Dash('app', server=server, external_stylesheets=external_stylesheets)
+
 
 colors = {
     'background': '#111111',
     'text': '#7FDBFF'
 }
-
-
 
 
 # load source data 
