@@ -36,9 +36,9 @@ color_discrete_sequence = ['Gold', 'Red', 'DarkSalmon', 'MediumBlue', 'Cyan', 'S
 
 
 # load source data 
-PIVOT_ON_YEAR_CSV = '/Users/andyshirey/Documents/dev/mappingProjects/electoralResults/csv/pivotOnYear.csv'
-TOTALS_BY_YEAR_CSV = '/Users/andyshirey/Documents/dev/mappingProjects/electoralResults/csv/totalsByYear.csv'
-GROUP_AGGS_BY_YEAR_CSV = '/Users/andyshirey/Documents/dev/mappingProjects/electoralResults/csv/groupAggsByYear.csv'
+# PIVOT_ON_YEAR_CSV = '/Users/andyshirey/Documents/dev/mappingProjects/electoralResults/csv/pivotOnYear.csv'
+# TOTALS_BY_YEAR_CSV = '/Users/andyshirey/Documents/dev/mappingProjects/electoralResults/csv/totalsByYear.csv'
+# GROUP_AGGS_BY_YEAR_CSV = '/Users/andyshirey/Documents/dev/mappingProjects/electoralResults/csv/groupAggsByYear.csv'
 
 pivot_on_year = pd.read_csv(PIVOT_ON_YEAR_CSV)
 pivot_on_year.drop('Unnamed: 0', axis=1, inplace=True)
