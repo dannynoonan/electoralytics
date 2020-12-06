@@ -25,6 +25,7 @@ print(f"PIVOT_ON_YEAR_CSV: {PIVOT_ON_YEAR_CSV}")
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 # app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 app = dash.Dash('app', server=server, external_stylesheets=external_stylesheets)
+app.scripts.config.serve_locally = False
 
 
 colors = {
