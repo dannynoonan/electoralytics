@@ -22,7 +22,8 @@ PIVOT_ON_YEAR_CSV = f'{BASE_DATA_DIR}/pivotOnYear.csv'
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-#server = app.server
+# server is needed for heroku deployment
+server = app.server
 
 
 colors = {
