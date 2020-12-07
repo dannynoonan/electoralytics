@@ -10,6 +10,7 @@ import dash_html_components as html
 #import flask
 
 import pandas as pd
+import plotly
 import plotly.express as px
 
 # from .metadata import PIVOT_ON_YEAR_CSV
@@ -24,15 +25,10 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 
-#server = flask.Flask('app')
-# app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-#app = dash.Dash('app', server=server, external_stylesheets=external_stylesheets)
-#app.scripts.config.serve_locally = False
-
 
 colors = {
     'background': '#111111',
-    'text': '#7FDBFF'
+    'text': '#000000'
 }
 
 
@@ -55,24 +51,42 @@ fig.update_layout(
 # show fig via app layout
 app.layout = html.Div(children=[
     html.H1(
-        children='Ahoy',
+        children='Individual voter impact per state',
         style={
             'textAlign': 'center',
             'color': colors['text']
         }
     ),
 
-    html.Div(children='Where does this appear?', style={
-        'textAlign': 'center',
-        'color': colors['text']
-    }),
+    html.Div(["Select Year: ",
+              dcc.Input(id='year-input', value='2016', type='text')]),
 
     dcc.Graph(
-        id='does-this-matter',
+        id='indicator-graphic',
         figure=fig
     ),
 ])
 
+
+@app.callback(
+    Output('indicator-graphic', 'figure'),
+    Input('year-input', 'value'))
+def update_graph(year_input):
+    year = int(year_input)
+    #print(f"Accessing pivot_on_year with len: {len(pivot_on_year)} for year_value: {year}")
+    pivot_on_single_year = pivot_on_year[pivot_on_year['Year'] == year].sort_values('Party', ascending=True)
+    #print(f"Sorted pivot_on_single_year with len: {len(pivot_on_single_year)}")
+    
+    # update fig
+    fig = px.bar(pivot_on_single_year, x='Vote weight', y='State', color='Party', 
+                width=1000, height=800)
+
+    fig.update_layout(
+        yaxis={'tickangle':35, 'showticklabels':True, 'type':'category', 'tickfont_size':8},
+        yaxis_categoryorder = 'total ascending'
+    )
+
+    return fig
 
 
 if __name__ == '__main__':
