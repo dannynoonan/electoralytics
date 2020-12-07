@@ -10,18 +10,15 @@ import dash_html_components as html
 #import flask
 
 import pandas as pd
-import plotly
 import plotly.express as px
 
-# from .metadata import PIVOT_ON_YEAR_CSV
+from functions import validate_input, build_fig_for_year
+from metadata import BASE_DATA_DIR, PIVOT_ON_YEAR_CSV
 
 
-BASE_DATA_DIR = 'data'
-PIVOT_ON_YEAR_CSV = f'{BASE_DATA_DIR}/pivotOnYear.csv'
-
-# override hover_data
-hover_data = {'Party': False, 'Votes counted': True, 'EC votes': True, 'Pop. per EC vote': True, 
-              'EC votes normalized': True}
+# # override hover_data
+# hover_data = {'Party': False, 'Votes counted': True, 'EC votes': True, 'Pop. per EC vote': True, 
+#               'EC votes normalized': True}
 
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -37,44 +34,20 @@ colors = {
 
 
 
-def validate_input(year_input):
-    year = int(year_input)
-    if year in all_years:
-        return year
-    else:
-        return -1
-
-def build_fig_for_year(year):
-    # extract single-year data
-    pivot_on_single_year = pivot_on_year[pivot_on_year['Year'] == year].sort_values('Party', ascending=True)
-    
-    # declare fig
-    fig = px.bar(pivot_on_single_year, x='Vote weight', y='State', color='Party', hover_data=hover_data,
-                width=1000, height=800)
-
-    fig.update_layout(
-        yaxis={'tickangle':35, 'showticklabels':True, 'type':'category', 'tickfont_size':8},
-        yaxis_categoryorder = 'total ascending'
-    )
-
-    return fig
-
-
-
 # load source data 
-pivot_on_year = pd.read_csv(PIVOT_ON_YEAR_CSV)
-pivot_on_year.drop('Unnamed: 0', axis=1, inplace=True)
+pivot_on_year_df = pd.read_csv(PIVOT_ON_YEAR_CSV)
+pivot_on_year_df.drop('Unnamed: 0', axis=1, inplace=True)
 # rename pop per EC vote
-pivot_on_year.rename(columns={'Population per EC vote': 'Pop. per EC vote'}, inplace=True)
+pivot_on_year_df.rename(columns={'Population per EC vote': 'Pop. per EC vote'}, inplace=True)
 # extract valid election years (for request validation)
-all_years = pivot_on_year['Year'].unique()
+all_years = pivot_on_year_df['Year'].unique()
 
 # init default fig
-fig = build_fig_for_year(2016)
+fig = build_fig_for_year(2016, pivot_on_year_df)
 
 
 
-# show fig via app layout
+# render fig via app layout
 app.layout = html.Div(children=[
     html.H1(
         children='Where votes count the most',
@@ -106,11 +79,11 @@ app.layout = html.Div(children=[
     Output('indicator-graphic', 'figure'),
     Input('year-input', 'value'))
 def update_graph(year_input):
-    year = validate_input(year_input)
+    year = validate_input(year_input, all_years)
     if year == -1:
         year = 2016
 
-    fig = build_fig_for_year(year)
+    fig = build_fig_for_year(year, pivot_on_year_df)
 
     return fig
 
