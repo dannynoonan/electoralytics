@@ -18,12 +18,11 @@ import plotly.express as px
 
 BASE_DATA_DIR = 'data'
 PIVOT_ON_YEAR_CSV = f'{BASE_DATA_DIR}/pivotOnYear.csv'
-print(f"PIVOT_ON_YEAR_CSV: {PIVOT_ON_YEAR_CSV}")
 
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-server = app.server
+#server = app.server
 
 
 colors = {
@@ -32,34 +31,61 @@ colors = {
 }
 
 
+
+def validate_input(year_input):
+    year = int(year_input)
+    if year in all_years:
+        return year
+    else:
+        return -1
+
+def build_fig_for_year(year):
+    # extract single-year data
+    pivot_on_single_year = pivot_on_year[pivot_on_year['Year'] == year].sort_values('Party', ascending=True)
+    
+    # update fig
+    fig = px.bar(pivot_on_single_year, x='Vote weight', y='State', color='Party', 
+                width=1000, height=800)
+
+    fig.update_layout(
+        yaxis={'tickangle':35, 'showticklabels':True, 'type':'category', 'tickfont_size':8},
+        yaxis_categoryorder = 'total ascending'
+    )
+
+    return fig
+
+
+
 # load source data 
 pivot_on_year = pd.read_csv(PIVOT_ON_YEAR_CSV)
 pivot_on_year.drop('Unnamed: 0', axis=1, inplace=True)
+all_years = pivot_on_year['Year'].unique()
 
-# extract single-year data
-pivot_on_year_2016 = pivot_on_year[pivot_on_year['Year'] == 2016].sort_values('Party', ascending=True)
+# init default fig
+fig = build_fig_for_year(2016)
 
-# create fig
-fig = px.bar(pivot_on_year_2016, x="Vote weight", y="State", color='Party', 
-             width=1000, height=800)
 
-fig.update_layout(
-    yaxis={'tickangle':35, 'showticklabels':True, 'type':'category', 'tickfont_size':8},
-    yaxis_categoryorder = 'total ascending'
-)
 
 # show fig via app layout
 app.layout = html.Div(children=[
     html.H1(
-        children='Individual voter impact per state',
+        children='Where votes count the most',
         style={
             'textAlign': 'center',
             'color': colors['text']
         }
     ),
 
-    html.Div(["Select Year: ",
-              dcc.Input(id='year-input', value='2016', type='text')]),
+    html.Div(
+        children='Individual voter impact per state in Presidential elections',
+        style={
+            'textAlign': 'center',
+            'color': colors['text']
+        }
+    ),
+
+    html.Div(["Election Year: ",
+              dcc.Input(id='year-input', value='2016', type='text', debounce=True)]),
 
     dcc.Graph(
         id='indicator-graphic',
@@ -72,19 +98,11 @@ app.layout = html.Div(children=[
     Output('indicator-graphic', 'figure'),
     Input('year-input', 'value'))
 def update_graph(year_input):
-    year = int(year_input)
-    #print(f"Accessing pivot_on_year with len: {len(pivot_on_year)} for year_value: {year}")
-    pivot_on_single_year = pivot_on_year[pivot_on_year['Year'] == year].sort_values('Party', ascending=True)
-    #print(f"Sorted pivot_on_single_year with len: {len(pivot_on_single_year)}")
-    
-    # update fig
-    fig = px.bar(pivot_on_single_year, x='Vote weight', y='State', color='Party', 
-                width=1000, height=800)
+    year = validate_input(year_input)
+    if year == -1:
+        year = 2016
 
-    fig.update_layout(
-        yaxis={'tickangle':35, 'showticklabels':True, 'type':'category', 'tickfont_size':8},
-        yaxis_categoryorder = 'total ascending'
-    )
+    fig = build_fig_for_year(year)
 
     return fig
 
