@@ -19,6 +19,10 @@ import plotly.express as px
 BASE_DATA_DIR = 'data'
 PIVOT_ON_YEAR_CSV = f'{BASE_DATA_DIR}/pivotOnYear.csv'
 
+# override hover_data
+hover_data = {'Party': False, 'Votes counted': True, 'EC votes': True, 'Pop. per EC vote': True, 
+              'EC votes normalized': True}
+
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -44,8 +48,8 @@ def build_fig_for_year(year):
     # extract single-year data
     pivot_on_single_year = pivot_on_year[pivot_on_year['Year'] == year].sort_values('Party', ascending=True)
     
-    # update fig
-    fig = px.bar(pivot_on_single_year, x='Vote weight', y='State', color='Party', 
+    # declare fig
+    fig = px.bar(pivot_on_single_year, x='Vote weight', y='State', color='Party', hover_data=hover_data,
                 width=1000, height=800)
 
     fig.update_layout(
@@ -60,6 +64,9 @@ def build_fig_for_year(year):
 # load source data 
 pivot_on_year = pd.read_csv(PIVOT_ON_YEAR_CSV)
 pivot_on_year.drop('Unnamed: 0', axis=1, inplace=True)
+# rename pop per EC vote
+pivot_on_year.rename(columns={'Population per EC vote': 'Pop. per EC vote'}, inplace=True)
+# extract valid election years (for request validation)
 all_years = pivot_on_year['Year'].unique()
 
 # init default fig
