@@ -1,15 +1,24 @@
+# -*- coding: utf-8 -*-
+
+# Run this app with `python app.py` and
+# visit http://127.0.0.1:8050/ in your web browser.
+
 import dash
+from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output, State
-
-import flask
+#import flask
 
 import pandas as pd
 import plotly.express as px
 
 from functions import validate_input, build_fig_for_year
 from metadata import BASE_DATA_DIR, PIVOT_ON_YEAR_CSV
+
+
+# # override hover_data
+# hover_data = {'Party': False, 'Votes counted': True, 'EC votes': True, 'Pop. per EC vote': True, 
+#               'EC votes normalized': True}
 
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -22,6 +31,7 @@ colors = {
     'background': '#111111',
     'text': '#000000'
 }
+
 
 
 # load source data 
@@ -37,18 +47,8 @@ fig = build_fig_for_year(2016, pivot_on_year_df)
 
 
 
-url_bar_and_content_div = html.Div([
-    dcc.Location(id='url', refresh=False),
-    html.Div(id='page-content')
-])
-
-layout_index = html.Div([
-    dcc.Link('Voter impact by state', href='/page-1'),
-    html.Br(),
-    dcc.Link('Some other page', href='/page-2'),
-])
-
-layout_page_1 = html.Div([
+# render fig via app layout
+app.layout = html.Div(children=[
     html.H1(
         children='Where votes count the most',
         style={
@@ -72,53 +72,9 @@ layout_page_1 = html.Div([
         id='indicator-graphic',
         figure=fig
     ),
-
-
-    html.Br(),
-    dcc.Link('Home', href='/'),
-    html.Br(),
-    dcc.Link('Some other page', href='/page-2'),
-])
-
-layout_page_2 = html.Div([
-    html.H2('Some other page'),
-    dcc.Dropdown(
-        id='page-2-dropdown',
-        options=[{'label': i, 'value': i} for i in ['LA', 'NYC', 'MTL']],
-        value='LA'
-    ),
-    html.Div(id='page-2-display-value'),
-    html.Br(),
-    dcc.Link('Home', href='/'),
-    html.Br(),
-    dcc.Link('Voter impact by state', href='/page-1'),
-])
-
-# index layout
-app.layout = url_bar_and_content_div
-
-# "complete" layout
-app.validation_layout = html.Div([
-    url_bar_and_content_div,
-    layout_index,
-    layout_page_1,
-    layout_page_2,
 ])
 
 
-# Index callbacks
-@app.callback(Output('page-content', 'children'),
-              Input('url', 'pathname'))
-def display_page(pathname):
-    if pathname == "/page-1":
-        return layout_page_1
-    elif pathname == "/page-2":
-        return layout_page_2
-    else:
-        return layout_index
-
-
-# Page 1 callbacks
 @app.callback(
     Output('indicator-graphic', 'figure'),
     Input('year-input', 'value'))
@@ -132,13 +88,7 @@ def update_graph(year_input):
     return fig
 
 
-# Page 2 callbacks
-@app.callback(Output('page-2-display-value', 'children'),
-              Input('page-2-dropdown', 'value'))
-def display_value(value):
-    print('display_value')
-    return 'You have selected "{}"'.format(value)
-
-
 if __name__ == '__main__':
+    # hot-reload: automatically reload page when source is edited
     app.run_server(debug=True)
+    # app.run_server(dev_tools_hot_reload=False)
