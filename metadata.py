@@ -1,5 +1,5 @@
 
-BASE_DATA_DIR = 'data/'
+BASE_DATA_DIR = 'data'
 THE_ONE_RING_CSV = f'{BASE_DATA_DIR}/theOneRing.csv'
 #GROUPS_BY_YEAR_CSV = f'{BASE_DATA_DIR}/groupsByYear.csv'
 #AVG_WEIGHT_BY_YEAR_CSV = f'{BASE_DATA_DIR}/avgWeightByYear.csv'

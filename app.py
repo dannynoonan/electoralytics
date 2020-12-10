@@ -8,8 +8,9 @@ import flask
 import pandas as pd
 import plotly.express as px
 
-from functions import validate_input, build_fig_for_year
-from metadata import BASE_DATA_DIR, PIVOT_ON_YEAR_CSV
+from data_processor.data_objects import DataObject
+from data_processor.fig_builder import build_fig_for_year
+from data_processor.functions import validate_input
 
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -25,15 +26,11 @@ colors = {
 
 
 # load source data 
-pivot_on_year_df = pd.read_csv(PIVOT_ON_YEAR_CSV)
-pivot_on_year_df.drop('Unnamed: 0', axis=1, inplace=True)
-# rename pop per EC vote
-pivot_on_year_df.rename(columns={'Population per EC vote': 'Pop. per EC vote'}, inplace=True)
-# extract valid election years (for request validation)
-all_years = pivot_on_year_df['Year'].unique()
+do = DataObject()
+do.load_pivot_on_year()
 
 # init default fig
-fig = build_fig_for_year(2016, pivot_on_year_df)
+fig = build_fig_for_year(2016, do.pivot_on_year_df)
 
 
 
@@ -122,12 +119,12 @@ def display_page(pathname):
 @app.callback(
     Output('indicator-graphic', 'figure'),
     Input('year-input', 'value'))
-def update_graph(year_input):
-    year = validate_input(year_input, all_years)
+def update_figure(year_input):
+    year = validate_input(year_input, do.all_years)
     if year == -1:
         year = 2016
 
-    fig = build_fig_for_year(year, pivot_on_year_df)
+    fig = build_fig_for_year(year, do.pivot_on_year_df)
 
     return fig
 
