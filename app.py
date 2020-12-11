@@ -9,7 +9,7 @@ import pandas as pd
 import plotly.express as px
 
 from data_processor.data_objects import DataObject
-from data_processor.fig_builder import build_fig_for_year
+from data_processor.fig_builder import build_actual_vs_adjusted_ec_fig, build_fig_for_year
 from data_processor.functions import validate_input
 
 
@@ -24,6 +24,7 @@ server = app.server
 # load source data 
 do = DataObject()
 do.load_pivot_on_year()
+do.melt_pivot_on_year()
 
 
 
@@ -50,7 +51,7 @@ inputs = dbc.FormGroup([
 # app layout
 app.layout = dbc.Container(fluid=True, children=[
     ## Top
-    html.H1('Electrolytics', id="nav-pills"),
+    html.H1('Electoralytics', id="nav-pills"),
     navbar,
     html.Br(),html.Br(),html.Br(),
     ## Body
@@ -65,11 +66,8 @@ app.layout = dbc.Container(fluid=True, children=[
         dbc.Col(md=9, children=[
             dbc.Col(html.H4("Where votes count the most"), width={"size":6,"offset":3}), 
             dbc.Tabs(className="nav nav-pills", children=[
-                dbc.Tab(dcc.Graph(
-                    id="voter-impact-per-state"), 
-                    label="Voter impact per state",   
-                ),
-                # dbc.Tab(dcc.Graph(id="adjusted-ec-votes-per-state"), label="Adjusted EC votes per state")
+                dbc.Tab(dcc.Graph(id="voter-impact-per-state"), label="Voter impact per state"),
+                dbc.Tab(dcc.Graph(id="adjusted-ec-votes-per-state"), label="Adjusted EC votes per state"),
             ])
         ])
     ])
@@ -167,6 +165,16 @@ app.layout = dbc.Container(fluid=True, children=[
 def update_figure(year_input):
     year = int(year_input)
     fig = build_fig_for_year(year, do.pivot_on_year_df)
+    return fig
+
+
+@app.callback(
+    Output('adjusted-ec-votes-per-state', 'figure'),
+    Input('year-input', 'value'),
+)
+def update_overlay_figure(year_input):
+    year = int(year_input)
+    fig = build_actual_vs_adjusted_ec_fig(year, do.melted_pivot_on_year_df)
     return fig
 
 
