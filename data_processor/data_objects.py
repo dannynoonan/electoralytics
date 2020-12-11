@@ -32,6 +32,6 @@ class DataObject():
             pivot_on_year_mod, 
             id_vars=['Abbrev','State','Group','Year','Votes counted','Votes counted %','Pop per EC vote',
                     'Vote weight','Party'],
-            var_name='Actual vs Adjusted EC votes',
-            value_name='Electoral College votes'
+            var_name='Actual vs Adjusted EC votes^',
+            value_name='EC votes^'
         )
