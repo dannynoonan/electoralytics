@@ -64,7 +64,7 @@ app.layout = dbc.Container(fluid=True, children=[
         ]),
         ### figures
         dbc.Col(md=9, children=[
-            dbc.Col(html.H4("Where votes count the most"), width={"size": 6, "offset": 3}), 
+            dbc.Col(html.H4("States where votes count the most"), width={"size": 6, "offset": 3}), 
             dbc.Tabs(className="nav nav-pills", children=[
                 dbc.Tab(dcc.Graph(id="voter-impact-per-state"), label="Voter impact per state"),
                 dbc.Tab(dcc.Graph(id="adjusted-ec-votes-per-state"), label="Actual vs Adjusted EC votes"),

@@ -21,6 +21,7 @@ def build_fig_for_year(year, pivot_on_year_df):
 
 
 def build_actual_vs_adjusted_ec_fig(year, melted_pivot_on_year_df):
+    # ref: https://towardsdatascience.com/how-to-create-a-grouped-bar-chart-with-plotly-express-in-python-e2b64ed4abd7
     # extract single-year data
     melted_pivot_on_single_year = melted_pivot_on_year_df[melted_pivot_on_year_df['Year'] == year]
 
