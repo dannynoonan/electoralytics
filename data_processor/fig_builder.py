@@ -18,3 +18,4 @@ def build_fig_for_year(year, pivot_on_year_df):
     )
 
     return fig
+    
