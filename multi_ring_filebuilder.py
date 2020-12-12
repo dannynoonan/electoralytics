@@ -7,7 +7,7 @@ import numpy as np
 
 from metadata import (
     THE_ONE_RING_CSV, AVG_WEIGHT_BY_YEAR_CSV, GROUP_AGGS_BY_YEAR_CSV, GROUPS_BY_YEAR_CSV, PIVOT_ON_YEAR_CSV, TOTALS_BY_YEAR_CSV, 
-    BASE_DATA_DIR, ALT_GROUP_DIR, NO_SMALL_DIR, ALT_GROUP_NO_SMALL_DIR, GROUPS, ALT_GROUPS, 
+    BASE_DATA_DIR, GEN_DATA_DIR, GEN_ALT_GROUP_DIR, GEN_NO_SMALL_DIR, GEN_ALT_GROUP_NO_SMALL_DIR, GROUPS, ALT_GROUPS, 
     COL_ABBREV, COL_AVG_WEIGHT, COL_EC_VOTES, COL_EC_VOTES_NORM, COL_GROUP, COL_ALT_GROUP, COL_MOST_EC_VOTES, COL_PARTY, COL_POP_PER_EC, 
     COL_STATE, COL_STATE_COUNT, COL_STATES_IN_GROUP, COL_VOTE_WEIGHT, COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_YEAR
 )
@@ -68,18 +68,18 @@ if args.write:
 
 
 # adjust settings based on params
-data_dir = BASE_DATA_DIR
+gen_data_dir = GEN_DATA_DIR
 # Group: Northeast+Midwest+West, AltGroup: Union+West
 if USE_ALT_GROUP:
     GROUPS = ALT_GROUPS
     COL_GROUP = COL_ALT_GROUP
-    data_dir = ALT_GROUP_DIR
+    gen_data_dir = GEN_ALT_GROUP_DIR
 # Small or No Small
 if NO_SMALL:
     GROUPS.remove('Small')
-    data_dir = NO_SMALL_DIR
+    gen_data_dir = GEN_NO_SMALL_DIR
     if USE_ALT_GROUP:
-        data_dir = ALT_GROUP_NO_SMALL_DIR
+        gen_data_dir = GEN_ALT_GROUP_NO_SMALL_DIR
 
 
 # TODO modify csv file names based on input params
@@ -233,10 +233,10 @@ while year <= 2020:
     year = year + 4
 
 
-PIVOT_ON_YEAR_CSV = f"{data_dir}/{PIVOT_ON_YEAR_CSV}"
-TOTALS_BY_YEAR_CSV = f"{data_dir}/{TOTALS_BY_YEAR_CSV}"
-GROUP_AGGS_BY_YEAR_CSV = f"{data_dir}/{GROUP_AGGS_BY_YEAR_CSV}"
-AVG_WEIGHT_BY_YEAR_CSV = f"{data_dir}/{AVG_WEIGHT_BY_YEAR_CSV}"
+PIVOT_ON_YEAR_CSV = f"{gen_data_dir}/{PIVOT_ON_YEAR_CSV}"
+TOTALS_BY_YEAR_CSV = f"{gen_data_dir}/{TOTALS_BY_YEAR_CSV}"
+GROUP_AGGS_BY_YEAR_CSV = f"{gen_data_dir}/{GROUP_AGGS_BY_YEAR_CSV}"
+AVG_WEIGHT_BY_YEAR_CSV = f"{gen_data_dir}/{AVG_WEIGHT_BY_YEAR_CSV}"
 
 print(f"Rows in {PIVOT_ON_YEAR_CSV}: {len(pivot_on_year)}")
 print(f"{pivot_on_year}")
@@ -249,8 +249,8 @@ print(f"{avg_weight_by_year}")
 
 
 if WRITE_TO_CSV:
-    if not os.path.exists(data_dir):
-        os.makedirs(data_dir)
+    if not os.path.exists(gen_data_dir):
+        os.makedirs(gen_data_dir)
 
     # write pivot_on_year, totals_by_year, group_aggs_by_year to file
     pivot_on_year.to_csv(PIVOT_ON_YEAR_CSV)

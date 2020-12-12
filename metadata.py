@@ -1,8 +1,9 @@
 # data dirs
 BASE_DATA_DIR = 'data'
-ALT_GROUP_DIR = f'{BASE_DATA_DIR}/_altGroup'
-NO_SMALL_DIR = f'{BASE_DATA_DIR}/_noSmall'
-ALT_GROUP_NO_SMALL_DIR = f'{BASE_DATA_DIR}/_altGroupNoSmall'
+GEN_DATA_DIR = f'{BASE_DATA_DIR}/gen'
+GEN_ALT_GROUP_DIR = f'{BASE_DATA_DIR}/gen_altGroup'
+GEN_NO_SMALL_DIR = f'{BASE_DATA_DIR}/gen_noSmall'
+GEN_ALT_GROUP_NO_SMALL_DIR = f'{BASE_DATA_DIR}/gen_altGroupNoSmall'
 # data files
 THE_ONE_RING_CSV = f'{BASE_DATA_DIR}/theOneRing.csv'
 GROUPS_BY_YEAR_CSV = 'groupsByYear.csv'
@@ -10,11 +11,6 @@ AVG_WEIGHT_BY_YEAR_CSV = 'avgWeightByYear.csv'
 PIVOT_ON_YEAR_CSV = 'pivotOnYear.csv'
 TOTALS_BY_YEAR_CSV = 'totalsByYear.csv'
 GROUP_AGGS_BY_YEAR_CSV = 'groupAggsByYear.csv'
-# GROUPS_BY_YEAR_CSV = f'{BASE_DATA_DIR}/groupsByYear.csv'
-# AVG_WEIGHT_BY_YEAR_CSV = f'{BASE_DATA_DIR}/avgWeightByYear.csv'
-# PIVOT_ON_YEAR_CSV = f'{BASE_DATA_DIR}/pivotOnYear.csv'
-# TOTALS_BY_YEAR_CSV = f'{BASE_DATA_DIR}/totalsByYear.csv'
-# GROUP_AGGS_BY_YEAR_CSV = f'{BASE_DATA_DIR}/groupAggsByYear.csv'
 
 
 # state groupings
