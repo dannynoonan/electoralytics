@@ -1,6 +1,9 @@
 import pandas as pd
 
-from metadata import BASE_DATA_DIR, PIVOT_ON_YEAR_CSV
+from metadata import (
+    BASE_DATA_DIR, PIVOT_ON_YEAR_CSV, COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_EC_VOTES_NORM, 
+    COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_VOTE_WEIGHT, COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY
+)
 
 
 PIVOT_ON_YEAR_CSV = f"{BASE_DATA_DIR}/{PIVOT_ON_YEAR_CSV}"
@@ -20,21 +23,21 @@ class DataObject():
         self.pivot_on_year_df = pd.read_csv(PIVOT_ON_YEAR_CSV)
         self.pivot_on_year_df.drop('Unnamed: 0', axis=1, inplace=True)
         # rename pop per EC vote
-        self.pivot_on_year_df.rename(columns={'Population per EC vote': 'Pop per EC vote'}, inplace=True)
+        self.pivot_on_year_df.rename(columns={COL_POP_PER_EC: COL_POP_PER_EC_SHORT}, inplace=True)
 
         # extract valid election years (for request validation)
-        self.all_years = self.pivot_on_year_df['Year'].unique()
+        self.all_years = self.pivot_on_year_df[COL_YEAR].unique()
 
     def melt_pivot_on_year(self):
         print(f'melting {PIVOT_ON_YEAR_CSV}')
 
         pivot_on_year_mod = self.pivot_on_year_df.rename(
-            columns={'EC votes': 'EC votes: Actual', 'EC votes normalized': 'ECV: Adjusted for population'})
+            columns={COL_EC_VOTES: 'EC votes: Actual', COL_EC_VOTES_NORM: 'ECV: Adjusted for population'})
 
         self.melted_pivot_on_year_df = pd.melt(
             pivot_on_year_mod, 
-            id_vars=['Abbrev', 'State', 'Group', 'Year', 'Votes counted', 'Votes counted %', 'Pop per EC vote',
-                    'Vote weight', 'Party'],
+            id_vars=[COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_POP_PER_EC_SHORT,
+                    COL_VOTE_WEIGHT, COL_PARTY],
             var_name='Actual vs Adjusted EC votes^',
             value_name='EC votes^'
         )
