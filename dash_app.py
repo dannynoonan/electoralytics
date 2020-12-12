@@ -14,8 +14,6 @@ from data_processor.functions import validate_input
 
 
 # base config
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-#app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 app = dash.Dash(external_stylesheets=[dbc.themes.SOLAR])
 # server is needed for heroku deployment
 server = app.server
@@ -45,7 +43,7 @@ navbar = dbc.Nav(className="nav nav-pills", children=[
 # inputs
 inputs = dbc.FormGroup([
     html.H4("Election Year"),
-    dcc.Dropdown(id="year-input", options=[{"label": y, "value": y} for y in do.all_years], value="2016")
+    dcc.Dropdown(id="year-input", options=[{"label": y, "value": y} for y in do.all_years], value="2020")
 ])
 
 # app layout

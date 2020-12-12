@@ -1,8 +1,88 @@
+#!/usr/bin/env python
+import argparse
+import os
+
 import pandas as pd
 import numpy as np
 
-from electoralytics.metadata import THE_ONE_RING_CSV, PIVOT_ON_YEAR_CSV, TOTALS_BY_YEAR_CSV, GROUP_AGGS_BY_YEAR_CSV
+from metadata import (
+    THE_ONE_RING_CSV, AVG_WEIGHT_BY_YEAR_CSV, GROUP_AGGS_BY_YEAR_CSV, GROUPS_BY_YEAR_CSV, PIVOT_ON_YEAR_CSV, TOTALS_BY_YEAR_CSV, 
+    BASE_DATA_DIR, ALT_GROUP_DIR, NO_SMALL_DIR, ALT_GROUP_NO_SMALL_DIR, GROUPS, ALT_GROUPS, 
+    COL_ABBREV, COL_AVG_WEIGHT, COL_EC_VOTES, COL_EC_VOTES_NORM, COL_GROUP, COL_ALT_GROUP, COL_MOST_EC_VOTES, COL_PARTY, COL_POP_PER_EC, 
+    COL_STATE, COL_STATE_COUNT, COL_STATES_IN_GROUP, COL_VOTE_WEIGHT, COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_YEAR
+)
 
+GROUPS_SER = pd.Series(np.array(GROUPS + ['Total']))
+
+# disable unhelpful 'SettingWithCopyWarnings'
+pd.options.mode.chained_assignment = None
+
+
+print(f"Starting the electoralytics 'multi_ring_filebuilder' script. This process will:")
+print(f"(1) load the superset of electoralytics data from {THE_ONE_RING_CSV} into a pandas dataframe")
+print(f"(2) transform the source data into multiple formats optimized for plotly figure-building")
+print(f"(3) output a truncated view of the data in the response, or if '--write=True' output the data to csv files")
+
+# init default params
+WRITE_TO_CSV = False
+NO_SMALL = False
+USE_ALT_GROUP = False
+
+# init parser and recognized args
+parser = argparse.ArgumentParser()
+parser.add_argument("--small", "-s", help="True (default) or False: extract 'Small states' (4 EC votes or fewer) into their own Group")
+parser.add_argument("--groups", "-g", help="Orig (default) or Alt: Orig=Northeast,Border,Confederate,Midwest,West. Alt=Union,Border,Confederate,West")
+parser.add_argument("--write", "-w", help="True or False (default): write output to csv files")
+
+# read cmd-line args
+args = parser.parse_args()
+
+# map args to params
+if args.small:
+    print(f"Argument 'small' was input as: {args.small}")
+    if args.small in ['False','false']:
+        NO_SMALL = True
+        print(f"Setting NO_SMALL param to: {NO_SMALL}")
+    elif args.small in ['True','true']:
+        print(f"Keeping NO_SMALL param as: {NO_SMALL}")
+    else:
+        print(f"A 'small' value of {args.small} isn't recognized. Recognized values are: ['True','False']. Keeping NO_SMALL param as: {NO_SMALL}")
+if args.groups:
+    print(f"Argument 'groups' was input as: {args.groups}")
+    if args.groups in ['Alt','alt','ALT']:
+        USE_ALT_GROUP = True
+        print(f"Setting USE_ALT_GROUP param to: {USE_ALT_GROUP}")
+    elif args.groups in ['Default','default']:
+        print(f"Keeping USE_ALT_GROUP param as: {USE_ALT_GROUP}")
+    else:
+        print(f"A 'groups' value of {args.groups} isn't recognized. Recognized values are: ['Alt','Default']. Keeping USE_ALT_GROUP param as: {USE_ALT_GROUP}")
+if args.write:
+    print(f"Argument 'write' was input as: {args.write}")
+    if args.write in ['True','true']:
+        WRITE_TO_CSV = True
+        print(f"Setting WRITE_TO_CSV param to: {WRITE_TO_CSV}")
+    elif args.write in ['False','false']:
+        print(f"Keeping WRITE_TO_CSV param as: {WRITE_TO_CSV}")
+    else:
+        print(f"A 'write' value of {args.write} isn't recognized. Recognized values are: ['True','False']. Keeping WRITE_TO_CSV param as: {WRITE_TO_CSV}")
+
+
+# adjust settings based on params
+data_dir = BASE_DATA_DIR
+# Group: Northeast+Midwest+West, AltGroup: Union+West
+if USE_ALT_GROUP:
+    GROUPS = ALT_GROUPS
+    COL_GROUP = COL_ALT_GROUP
+    data_dir = ALT_GROUP_DIR
+# Small or No Small
+if NO_SMALL:
+    GROUPS.remove('Small')
+    data_dir = NO_SMALL_DIR
+    if USE_ALT_GROUP:
+        data_dir = ALT_GROUP_NO_SMALL_DIR
+
+
+# TODO modify csv file names based on input params
 
 
 # load electoral college data
@@ -14,44 +94,27 @@ the_one_ring = pd.read_csv(THE_ONE_RING_CSV)
 # * avg_weight_by_year 
 # * silder_pivot 
 
-# metadata
-GROUPS = ['Small', 'Confederate', 'Border', 'Northeast', 'Midwest', 'West']
-GROUPS_SER = pd.Series(np.array(GROUPS + ['Total']))
-COL_ABBREV = 'Abbrev'
-COL_STATE = 'State'
-COL_GROUP = 'Group'
-COL_YEAR = 'Year'
-COL_EC_VOTES = 'EC votes'
-COL_VOTES_COUNTED = 'Votes counted'
-COL_VOTES_COUNTED_PCT = 'Votes counted %'
-COL_EC_VOTES_NORM = 'EC votes normalized'
-COL_VOTE_WEIGHT = 'Vote weight'
-COL_AVG_WEIGHT = 'Average weight'
-COL_PARTY = 'Party'
-COL_POP_PER_EC = 'Population per EC vote'
-COL_STATE_COUNT = 'State count'
-COL_MOST_EC_VOTES = 'Most EC votes'
-COL_STATES_IN_GROUP = 'States in group'
 
 # initialize new data frames
 pivot_on_year = pd.DataFrame(
     columns=[COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, 
-             COL_EC_VOTES_NORM, COL_VOTE_WEIGHT, COL_PARTY])
+             COL_EC_VOTES_NORM, COL_POP_PER_EC, COL_VOTE_WEIGHT, COL_PARTY])
 group_aggs_by_year = pd.DataFrame(
     columns=[COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_EC_VOTES_NORM,
-             COL_AVG_WEIGHT, COL_STATE_COUNT, COL_STATES_IN_GROUP])
+             COL_POP_PER_EC, COL_AVG_WEIGHT, COL_STATE_COUNT, COL_STATES_IN_GROUP])
 totals_by_year = pd.DataFrame(columns=[COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_POP_PER_EC, COL_MOST_EC_VOTES])
+
 
 ### LEGACY ###
 avg_weight_by_year = pd.DataFrame({COL_GROUP: GROUPS_SER}) 
-avg_weight_by_year = avg_weight_by_year.set_index(COL_GROUP)
+avg_weight_by_year.set_index(COL_GROUP, inplace=True)
 # groups_by_year = pd.DataFrame({COL_GROUP: groups}) 
-# groups_by_year = groups_by_year.set_index(COL_GROUP)
+# groups_by_year.set_index(COL_GROUP, inplace=True)
 
 
 # begin iterating through years in the_one_ring
 year = 1828
-while year <= 2016:
+while year <= 2020:
 
     # column names for current year
     ec_votes_col = f'{year} {COL_EC_VOTES}'
@@ -67,7 +130,7 @@ while year <= 2016:
     year_data.rename(columns={ec_votes_col: COL_EC_VOTES, votes_counted_col: COL_VOTES_COUNTED,
                               vote_weight_col: COL_VOTE_WEIGHT, party_col: COL_PARTY},
                     inplace=True)
-    year_data = year_data.set_index(COL_ABBREV)
+    year_data.set_index(COL_ABBREV, inplace=True)
 
     
     # DATA CLEANSING
@@ -87,7 +150,8 @@ while year <= 2016:
     year_data = year_data.drop('US')
 
     # map states having 4 or fewer electoral college votes to 'Small' Group
-    year_data.loc[year_data[COL_EC_VOTES] <= 4, COL_GROUP] = 'Small'
+    if not NO_SMALL:
+        year_data.loc[year_data[COL_EC_VOTES] <= 4, COL_GROUP] = 'Small'
 
 
     # DF 1: assemble year_pivot to append to pivot_on_year
@@ -96,14 +160,15 @@ while year <= 2016:
     year_pivot[COL_YEAR] = [year] * len(year_pivot.index)
     year_pivot[COL_VOTES_COUNTED_PCT] = (100 * year_pivot[COL_VOTES_COUNTED] / pop_total).round(decimals=2)
     year_pivot[COL_EC_VOTES_NORM] = (year_pivot[COL_VOTES_COUNTED] / pop_per_ec).round(decimals=2)
+    year_pivot[COL_POP_PER_EC] = round(year_pivot[COL_VOTES_COUNTED] / year_pivot[COL_EC_VOTES])
     # unset index so we can append 
     year_pivot.reset_index(inplace=True)
     # add placeholder row for any Group that isn't represented 
     for group in GROUPS:
         if len(year_pivot.loc[year_pivot[COL_GROUP] == group]) == 0:
-            year_pivot_bonus = pd.DataFrame([['', '', group, year, 0, 0, 0, 0, 0, '']],
+            year_pivot_bonus = pd.DataFrame([['', '', group, year, 0, 0, 0, 0, 0, 0, '']],
                 columns=[COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, 
-                         COL_VOTES_COUNTED_PCT, COL_EC_VOTES_NORM, COL_VOTE_WEIGHT, COL_PARTY])
+                         COL_VOTES_COUNTED_PCT, COL_EC_VOTES_NORM, COL_POP_PER_EC, COL_VOTE_WEIGHT, COL_PARTY])
             year_pivot = pd.concat([year_pivot, year_pivot_bonus], ignore_index=True, sort=False)
     # append year_pivot to pivot_on_year
     pivot_on_year = pd.concat([pivot_on_year, year_pivot], ignore_index=True, sort=False)
@@ -125,6 +190,7 @@ while year <= 2016:
     year_group_aggs[COL_YEAR] = [year] * len(year_group_aggs)
     year_group_aggs[COL_VOTES_COUNTED_PCT] = (100 * year_group_aggs[COL_VOTES_COUNTED] / pop_total).round(decimals=2)
     year_group_aggs[COL_EC_VOTES_NORM] = (year_group_aggs[COL_VOTES_COUNTED] / pop_per_ec).round(decimals=2)
+    year_group_aggs[COL_POP_PER_EC] = round(year_group_aggs[COL_VOTES_COUNTED] / year_group_aggs[COL_EC_VOTES])
     # unset index, rename columns, add year column
     year_group_aggs.reset_index(inplace=True)
     year_group_aggs.rename(columns={COL_STATE: COL_STATE_COUNT}, inplace=True)
@@ -133,14 +199,12 @@ while year <= 2016:
     # add placeholder row for any Group that isn't represented 
     for group in GROUPS:
         if len(year_group_aggs.loc[year_group_aggs[COL_GROUP] == group]) == 0:
-            year_group_aggs_bonus = pd.DataFrame([[group, year, 0, 0, 0, 0, 0, 0, '']],
+            year_group_aggs_bonus = pd.DataFrame([[group, year, 0, 0, 0, 0, 0, 0, 0, '']],
                 columns=[COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_EC_VOTES_NORM,
-                         COL_AVG_WEIGHT, COL_STATE_COUNT, COL_STATES_IN_GROUP])
+                         COL_POP_PER_EC, COL_AVG_WEIGHT, COL_STATE_COUNT, COL_STATES_IN_GROUP])
             year_group_aggs = pd.concat([year_group_aggs, year_group_aggs_bonus], ignore_index=True, sort=False)
     # append year_group_aggs to group_aggs_by_year
     group_aggs_by_year = pd.concat([group_aggs_by_year, year_group_aggs], ignore_index=True, sort=False)
-    
-    
     
     
     ### LEGACY ###
@@ -163,25 +227,41 @@ while year <= 2016:
     # extract avg_weight column into its own dataframe, rename column to be simply the year
     avg_weight_df = year_agg.drop([COL_EC_VOTES, COL_VOTES_COUNTED], axis=1)
     avg_weight_by_year = avg_weight_by_year.join(avg_weight_df, how='outer')
-
-    
-    
     
     
     # increment to next election
     year = year + 4
 
 
-# write pivot_on_year, totals_by_year, group_aggs_by_year to file
-pivot_on_year.to_csv(PIVOT_ON_YEAR_CSV)
-totals_by_year.to_csv(TOTALS_BY_YEAR_CSV)
-group_aggs_by_year.to_csv(GROUP_AGGS_BY_YEAR_CSV)
+PIVOT_ON_YEAR_CSV = f"{data_dir}/{PIVOT_ON_YEAR_CSV}"
+TOTALS_BY_YEAR_CSV = f"{data_dir}/{TOTALS_BY_YEAR_CSV}"
+GROUP_AGGS_BY_YEAR_CSV = f"{data_dir}/{GROUP_AGGS_BY_YEAR_CSV}"
+AVG_WEIGHT_BY_YEAR_CSV = f"{data_dir}/{AVG_WEIGHT_BY_YEAR_CSV}"
+
+print(f"Rows in {PIVOT_ON_YEAR_CSV}: {len(pivot_on_year)}")
+print(f"{pivot_on_year}")
+print(f"Rows in {TOTALS_BY_YEAR_CSV}: {len(totals_by_year)}")
+print(f"{totals_by_year}")
+print(f"Rows in {GROUP_AGGS_BY_YEAR_CSV}: {len(group_aggs_by_year)}")
+print(f"{group_aggs_by_year}")
+print(f"Rows in {AVG_WEIGHT_BY_YEAR_CSV}: {len(avg_weight_by_year)}")
+print(f"{avg_weight_by_year}")
 
 
-### LEGACY ###
-# write groups_by_year to file
-#groups_by_year.to_csv(GROUPS_BY_YEAR_CSV)
+if WRITE_TO_CSV:
+    if not os.path.exists(data_dir):
+        os.makedirs(data_dir)
 
-# rename Total column and write avg_weight_by_year to file
-avg_weight_by_year = avg_weight_by_year.rename(index={'Total': 'Nat\'l Average'})
-avg_weight_by_year.to_csv(AVG_WEIGHT_BY_YEAR_CSV)
+    # write pivot_on_year, totals_by_year, group_aggs_by_year to file
+    pivot_on_year.to_csv(PIVOT_ON_YEAR_CSV)
+    totals_by_year.to_csv(TOTALS_BY_YEAR_CSV)
+    group_aggs_by_year.to_csv(GROUP_AGGS_BY_YEAR_CSV)
+
+
+    ### LEGACY ###
+    # write groups_by_year to file
+    #groups_by_year.to_csv(GROUPS_BY_YEAR_CSV)
+
+    # rename Total column and write avg_weight_by_year to file
+    avg_weight_by_year.rename(index={'Total': 'Nat\'l Average'}, inplace=True)
+    avg_weight_by_year.to_csv(AVG_WEIGHT_BY_YEAR_CSV)
