@@ -1,8 +1,9 @@
 import pandas as pd
 
 from metadata import (
-    GEN_DATA_DIR, PIVOT_ON_YEAR_CSV, COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_EC_VOTES_NORM, 
-    COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_VOTE_WEIGHT, COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY
+    GEN_DATA_DIR, PIVOT_ON_YEAR_CSV, SWALLOWED_VOTE_2020_CSV,
+    COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_EC_VOTES_NORM, COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, 
+    COL_VOTE_WEIGHT, COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY
 )
 
 
@@ -15,6 +16,7 @@ class DataObject():
         self.pivot_on_year_df = None
         self.melted_pivot_on_year_df = None
         self.all_years = None
+        self.swallowed_vote_df = None
 
     # load pivot_on_year data from csv
     def load_pivot_on_year(self):
@@ -41,3 +43,8 @@ class DataObject():
             var_name='Actual vs Adjusted EC votes^',
             value_name='EC votes^'
         )
+
+    def load_swallowed_vote_sampler(self):
+        print(f'loading {SWALLOWED_VOTE_2020_CSV}')
+        self.swallowed_vote_df = pd.read_csv(SWALLOWED_VOTE_2020_CSV)
+  

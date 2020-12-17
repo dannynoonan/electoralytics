@@ -44,4 +44,87 @@ def build_actual_vs_adjusted_ec_fig(year, melted_pivot_on_year_df):
     )
 
     return fig
+
+
+def build_swallowed_vote_fig_1(swallowed_vote_df):
+    print(f"in build_swallowed_vote_fig_1, swallowed_vote_df.head(): {swallowed_vote_df.head()}")
+
+    # override hover_data
+    hover_data = {'State': True, 'Candidate': True, 'EC Votes for Candidate': True, 'State: Candidate': False,
+                'Candidate: Outcome': False}
+
+    # assign group colors
+    category_orders = {'Candidate': ['Biden','Trump']}
+    color_discrete_sequence = ['Blue','Red']
+
+    fig = px.bar(swallowed_vote_df, x="Popular Vote", y="State: Candidate", 
+                color='Candidate', hover_data=hover_data,
+                category_orders=category_orders, color_discrete_sequence=color_discrete_sequence)
+
+    fig.update_layout(yaxis_categoryorder='total ascending')
+    fig.update_xaxes(range=[0,10000000])
+
+    return fig
     
+
+def build_swallowed_vote_fig_2(swallowed_vote_df):
+    print(f"in build_swallowed_vote_fig_2, swallowed_vote_df.head(): {swallowed_vote_df.head()}")
+
+    # override hover_data
+    hover_data = {'State': True, 'Candidate': True, 'EC Votes for Candidate': True, 'State: Candidate': False, 
+                'Candidate: Outcome': False}
+
+    # assign group colors
+    category_orders = {'Candidate: Outcome': ['Biden: Win','Trump: Win','Biden: Loss','Trump: Loss']}
+    color_discrete_sequence = ['Blue','Red','Gray','Gray']
+
+    fig = px.bar(swallowed_vote_df, x="Popular Vote", y="State: Candidate", 
+                color='Candidate: Outcome', hover_data=hover_data,
+                category_orders=category_orders, color_discrete_sequence=color_discrete_sequence)
+
+    fig.update_layout(yaxis_categoryorder='total ascending')
+    fig.update_xaxes(range=[0,10000000])
+
+    return fig
+
+
+def build_swallowed_vote_fig_3(swallowed_vote_df):
+    print(f"in build_swallowed_vote_fig_3, swallowed_vote_df.head(): {swallowed_vote_df.head()}")
+
+    # override hover_data
+    hover_data = {'State': True, 'Candidate': True, 'EC Votes for Candidate': True, 'State: Candidate': False, 
+                'Candidate: Outcome': False}
+
+    category_orders = {'Candidate: Outcome': ['Biden: Win','Trump: Win','Biden: Loss','Trump: Loss']}
+    color_discrete_sequence = ['Blue','Red','Gray','Gray']
+
+    fig = px.bar(swallowed_vote_df, x="Popular Vote", y="State", 
+                color='Candidate: Outcome', barmode='relative', hover_data=hover_data,
+                category_orders=category_orders, color_discrete_sequence=color_discrete_sequence)
+
+    fig.update_layout(yaxis_categoryorder='total ascending')
+    fig.update_xaxes(range=[0,18000000])
+
+    return fig
+
+
+def build_swallowed_vote_fig_4(swallowed_vote_df):
+    distilled_svs = swallowed_vote_df.sort_values('EC Votes for Candidate', ascending=False)
+    distilled_svs = distilled_svs[distilled_svs['EC Votes for Candidate'] != 0]
+    
+    print(f"in build_swallowed_vote_fig_4, swallowed_vote_df.head(): {swallowed_vote_df.head()}")
+
+    # override hover_data
+    hover_data = {'State': True, 'EC Votes for Candidate': True, 'State: Candidate': False}
+
+    # assign group colors
+    category_orders = {'Candidate': ['Biden','Trump']}
+    color_discrete_sequence = ['Blue','Red']
+
+    fig = px.bar(distilled_svs, x="EC Votes for Candidate", y="State", 
+                color='Candidate', hover_data=hover_data,
+                category_orders=category_orders, color_discrete_sequence=color_discrete_sequence)
+
+    fig.update_layout(yaxis_categoryorder='total ascending')
+
+    return fig

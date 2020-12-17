@@ -1,0 +1,13 @@
+State: Candidate,Popular Vote,Candidate,EC Votes for Candidate,State,Candidate: Outcome
+CA for Biden,11110250,Biden,55,California,Biden: Win
+CA for Trump,6006429,Trump,0,California,Trump: Loss
+TX for Trump,5890347,Trump,38,Texas,Trump: Win
+TX for Biden,5259126,Biden,0,Texas,Biden: Loss
+NY for Biden,5230985,Biden,29,New York,Biden: Win
+NY for Trump,3244798,Trump,0,New York,Trump: Loss
+OH for Trump,3154834,Trump,18,Ohio,Trump: Win
+OH for Biden,2679165,Biden,0,Ohio,Biden: Loss
+GA for Biden,2473633,Biden,16,Georgia,Biden: Win
+GA for Trump,2461854,Trump,0,Georgia,Trump: Loss
+SC+MS for Trump,2141892,Trump,15,S. Carolina + Mississippi,Trump: Win
+SC+MS for Biden,1631049,Biden,0,S. Carolina + Mississippi,Biden: Loss

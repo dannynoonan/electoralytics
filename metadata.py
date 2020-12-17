@@ -6,6 +6,7 @@ GEN_NO_SMALL_DIR = f'{BASE_DATA_DIR}/gen_noSmall'
 GEN_ALT_GROUP_NO_SMALL_DIR = f'{BASE_DATA_DIR}/gen_altGroupNoSmall'
 # data files
 THE_ONE_RING_CSV = f'{BASE_DATA_DIR}/theOneRing.csv'
+SWALLOWED_VOTE_2020_CSV = f'{BASE_DATA_DIR}/swallowedVoteSampler2020.csv'
 GROUPS_BY_YEAR_CSV = 'groupsByYear.csv'
 AVG_WEIGHT_BY_YEAR_CSV = 'avgWeightByYear.csv'
 PIVOT_ON_YEAR_CSV = 'pivotOnYear.csv'
