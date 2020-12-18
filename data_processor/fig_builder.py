@@ -35,8 +35,7 @@ def build_actual_vs_adjusted_ec_fig(year, melted_pivot_on_year_df):
 
     fig = px.bar(melted_pivot_on_single_year, x='EC votes^', y=COL_STATE, 
                 color='Actual vs Adjusted EC votes^', barmode='group', 
-                hover_data=hover_data,
-                width=1000, height=1200)
+                hover_data=hover_data, width=1000, height=1200)
 
     fig.update_layout(
         yaxis={'tickangle': 35, 'showticklabels': True, 'type': 'category', 'tickfont_size': 8},
@@ -58,7 +57,7 @@ def build_swallowed_vote_fig_1(swallowed_vote_df):
     color_discrete_sequence = ['Blue','Red']
 
     fig = px.bar(swallowed_vote_df, x="Popular Vote", y="State: Candidate", 
-                color='Candidate', hover_data=hover_data,
+                color='Candidate', hover_data=hover_data, width=1000, height=800,
                 category_orders=category_orders, color_discrete_sequence=color_discrete_sequence)
 
     fig.update_layout(yaxis_categoryorder='total ascending')
@@ -79,7 +78,7 @@ def build_swallowed_vote_fig_2(swallowed_vote_df):
     color_discrete_sequence = ['Blue','Red','Gray','Gray']
 
     fig = px.bar(swallowed_vote_df, x="Popular Vote", y="State: Candidate", 
-                color='Candidate: Outcome', hover_data=hover_data,
+                color='Candidate: Outcome', hover_data=hover_data, width=1000, height=800,
                 category_orders=category_orders, color_discrete_sequence=color_discrete_sequence)
 
     fig.update_layout(yaxis_categoryorder='total ascending')
@@ -99,7 +98,7 @@ def build_swallowed_vote_fig_3(swallowed_vote_df):
     color_discrete_sequence = ['Blue','Red','Gray','Gray']
 
     fig = px.bar(swallowed_vote_df, x="Popular Vote", y="State", 
-                color='Candidate: Outcome', barmode='relative', hover_data=hover_data,
+                color='Candidate: Outcome', barmode='relative', hover_data=hover_data, width=1000, height=800,
                 category_orders=category_orders, color_discrete_sequence=color_discrete_sequence)
 
     fig.update_layout(yaxis_categoryorder='total ascending')
@@ -122,9 +121,36 @@ def build_swallowed_vote_fig_4(swallowed_vote_df):
     color_discrete_sequence = ['Blue','Red']
 
     fig = px.bar(distilled_svs, x="EC Votes for Candidate", y="State", 
-                color='Candidate', hover_data=hover_data,
+                color='Candidate', hover_data=hover_data, width=1000, height=800,
                 category_orders=category_orders, color_discrete_sequence=color_discrete_sequence)
 
     fig.update_layout(yaxis_categoryorder='total ascending')
 
+    return fig
+
+
+def build_ivw_by_state_group_box_plot(year, pivot_on_year_df):
+    # extract single-year data
+    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year].sort_values(COL_PARTY, ascending=True)
+
+    # constant metadata
+    category_orders = {'Group': ['Small','Confederate','Border','Northeast','Midwest','West']}
+    color_discrete_sequence = ['Gold','Red','DarkSalmon','MediumBlue','Cyan','SpringGreen']
+
+    # box plot
+    box_data = pivot_on_single_year[[COL_GROUP, COL_VOTE_WEIGHT]]
+    pivot = box_data.pivot(columns=COL_GROUP, values=COL_VOTE_WEIGHT)
+
+    box_title = f'{year} presidential election: voter impact by state grouping'
+
+    fig = px.box(pivot, color=COL_GROUP, 
+                category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                width=1000, height=600, log_y=True, title=box_title)
+
+    # fig.add_trace(go.Scatter(x=flat_data['EC votes'], y=flat_data['Mean vote weight'], 
+    #                          mode='lines', name=trace_name_natl_avg, line=dict(color='black', width=1)))
+
+    fig.update_xaxes(title_text='')
+    fig.update_yaxes(title_text='Range of individual voter impact within state grouping')
+    fig.update_layout(title_x=0.46)
     return fig

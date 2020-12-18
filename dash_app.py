@@ -38,7 +38,8 @@ navbar = html.Div([
     dbc.Nav(className="nav nav-pills", children=[
         dbc.DropdownMenu(label="Pages / Graphs", nav=True, children=[
             dbc.DropdownMenuItem([html.I(className="fa"), "Voter impact per state"], href='/page-1', target="_blank"), 
-            dbc.DropdownMenuItem([html.I(className="fa"), "Swallowed vote sampler"], href='/page-2', target="_blank")
+            dbc.DropdownMenuItem([html.I(className="fa"), "Swallowed vote sampler"], href='/page-2', target="_blank"),
+            dbc.DropdownMenuItem([html.I(className="fa"), "Voter impact per state group"], href='/page-3', target="_blank")
         ]),
         dbc.DropdownMenu(label="References / Resources", nav=True, children=[
             dbc.DropdownMenuItem([html.I(className="fa"), "Source code"], href='https://github.com/dannynoonan/electoralytics', target="_blank"), 
@@ -64,7 +65,6 @@ swallowed_vote_view_dropdown = dbc.FormGroup([
 # page 1
 layout_page_1 = html.Div([
     ## Top
-    # html.H1('Electoralytics', id="nav-pills"),
     navbar,
     html.Br(),html.Br(),
 
@@ -90,7 +90,6 @@ layout_page_1 = html.Div([
 # page 2
 layout_page_2 = html.Div([
     ## Top
-    # html.H1('Electoralytics', id="nav-pills"),
     navbar,
     html.Br(),html.Br(),
 
@@ -115,6 +114,28 @@ layout_page_2 = html.Div([
 ])
 
 
+# page 3
+layout_page_3 = html.Div([
+    ## Top
+    navbar,
+    html.Br(),html.Br(),
+
+    dbc.Row([
+        ### input + panel
+        dbc.Col(md=3, children=[
+            year_dropdown, 
+            html.Br(),html.Br(),html.Br(),
+            html.Div(id="year-info")
+        ]),
+        ### figures
+        dbc.Col(md=9, children=[
+            dbc.Col(html.H4("Individual voter impact by state group"), width={"size": 6, "offset": 3}), 
+            dcc.Graph(id="voter-impact-by-state-group-box")
+        ])
+    ])
+])
+
+
 empty_layout = html.Div([
     navbar,
 ])
@@ -133,6 +154,7 @@ app.validation_layout = dbc.Container(fluid=True, children=[
     ## Body
     layout_page_1,
     layout_page_2,
+    layout_page_3,
     empty_layout,
 ])
 
@@ -146,6 +168,8 @@ def display_page(pathname):
         return layout_page_1
     elif pathname == "/page-2":
         return layout_page_2
+    elif pathname == "/page-3":
+        return layout_page_3
     else:
         return empty_layout
 
@@ -202,6 +226,17 @@ def display_swallowed_vote_fig_3(display_type):
 )
 def display_swallowed_vote_fig_4(display_type):
     fig = fig_builder.build_swallowed_vote_fig_4(do.swallowed_vote_df)
+    return fig
+
+
+# Page 3 callbacks
+@app.callback(
+    Output('voter-impact-by-state-group-box', 'figure'),
+    Input('year-input', 'value'),
+)
+def display_voter_impact_by_state_group_box(year_input):
+    year = int(year_input)
+    fig = fig_builder.build_ivw_by_state_group_box_plot(year, do.pivot_on_year_df)
     return fig
 
 
