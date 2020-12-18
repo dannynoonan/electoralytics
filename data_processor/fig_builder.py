@@ -2,7 +2,7 @@ import plotly.express as px
 
 from metadata import (
     COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_EC_VOTES_NORM,  COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, 
-    COL_VOTE_WEIGHT, COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY
+    COL_VOTE_WEIGHT, COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY, GROUPS, GROUP_COLORS, PARTIES, PARTY_COLORS
 )
 
 
@@ -10,11 +10,14 @@ def build_fig_for_year(year, pivot_on_year_df):
     # extract single-year data
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year].sort_values(COL_PARTY, ascending=True)
 
-    # override hover_data
+    # display metadata
     hover_data = {COL_PARTY: False, COL_VOTES_COUNTED: True, COL_EC_VOTES: True, COL_POP_PER_EC_SHORT: True, COL_EC_VOTES_NORM: True}
+    category_orders = {COL_PARTY: PARTIES}
+    color_discrete_sequence = [PARTY_COLORS[p] for p in PARTIES]
     
     # declare fig
     fig = px.bar(pivot_on_single_year, x=COL_VOTE_WEIGHT, y=COL_STATE, color=COL_PARTY, hover_data=hover_data,
+                category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
                 labels={COL_VOTE_WEIGHT: 'Relative impact per voter'}, width=1000, height=800)
 
     fig.update_layout(
@@ -30,12 +33,15 @@ def build_actual_vs_adjusted_ec_fig(year, melted_pivot_on_year_df):
     # extract single-year data
     melted_pivot_on_single_year = melted_pivot_on_year_df[melted_pivot_on_year_df[COL_YEAR] == year]
 
-    # override hover_data
+    # display metadata
     hover_data = {COL_PARTY: False, 'Actual vs Adjusted EC votes^': False, COL_VOTES_COUNTED: True, COL_POP_PER_EC_SHORT: True}
+    category_orders = {COL_PARTY: PARTIES}
+    color_discrete_sequence = [PARTY_COLORS[p] for p in PARTIES]
 
-    fig = px.bar(melted_pivot_on_single_year, x='EC votes^', y=COL_STATE, 
-                color='Actual vs Adjusted EC votes^', barmode='group', 
-                hover_data=hover_data, width=1000, height=1200)
+    fig = px.bar(melted_pivot_on_single_year, x='EC votes^', y=COL_STATE,  
+                color='Actual vs Adjusted EC votes^', barmode='group', hover_data=hover_data,
+                category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                width=1000, height=1200)
 
     fig.update_layout(
         yaxis={'tickangle': 35, 'showticklabels': True, 'type': 'category', 'tickfont_size': 8},
@@ -133,15 +139,14 @@ def build_ivw_by_state_group_box_plot(year, pivot_on_year_df):
     # extract single-year data
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year].sort_values(COL_PARTY, ascending=True)
 
-    # constant metadata
-    category_orders = {'Group': ['Small','Confederate','Border','Northeast','Midwest','West']}
-    color_discrete_sequence = ['Gold','Red','DarkSalmon','MediumBlue','Cyan','SpringGreen']
+    # display metadata
+    category_orders = {COL_GROUP: GROUPS}
+    color_discrete_sequence = [GROUP_COLORS[g] for g in GROUPS]
+    box_title = f'{year} presidential election: voter impact by state grouping'
 
     # box plot
     box_data = pivot_on_single_year[[COL_GROUP, COL_VOTE_WEIGHT]]
     pivot = box_data.pivot(columns=COL_GROUP, values=COL_VOTE_WEIGHT)
-
-    box_title = f'{year} presidential election: voter impact by state grouping'
 
     fig = px.box(pivot, color=COL_GROUP, 
                 category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,

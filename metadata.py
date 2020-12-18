@@ -13,11 +13,43 @@ PIVOT_ON_YEAR_CSV = 'pivotOnYear.csv'
 TOTALS_BY_YEAR_CSV = 'totalsByYear.csv'
 GROUP_AGGS_BY_YEAR_CSV = 'groupAggsByYear.csv'
 
-
 # state groupings
 GROUPS = ['Small', 'Confederate', 'Border', 'Northeast', 'Midwest', 'West']
 ALT_GROUPS = ['Small', 'Confederate', 'Border', 'Union', 'West']
+GROUP_COLORS = {
+    'Small': 'Gold', 
+    'Confederate': 'Red', 
+    'Border': 'DarkSalmon', 
+    'Union': 'MediumBlue',
+    'Northeast': 'MediumBlue',
+    'Midwest': 'Cyan',
+    'West': 'SpringGreen'
+}
 
+# parties
+PARTIES = ['Democrat', 'Republican', 'Whig', 'Whig-Harrison', 'Whig-White', 'Whig-Webster', 'National Republican', 
+        'Anti-Masonic', 'Constitutional Union', 'American', 'Democrat-Breckenridge', 'Democrat-Douglas', 
+        'Democrat-Unpledged', 'Populist', 'Progressive', 'Dixiecrat', 'American Independent']
+
+PARTY_COLORS = {
+    'Democrat': 'Blue', 
+    'Republican': 'Red', 
+    'Whig': 'Orange',
+    'Whig-Harrison': 'OrangeRed',
+    'Whig-White': 'Tomato',
+    'Whig-Webster': 'DarkOrange', 
+    'National Republican': 'Crimson',
+    'Anti-Masonic': 'ForestGreen',
+    'Constitutional Union': 'Green',
+    'American': 'SpringGreen',
+    'Democrat-Breckenridge': 'LightBlue',
+    'Democrat-Douglas': 'DodgerBlue',
+    'Democrat-Unpledged': 'Cyan',
+    'Populist': 'SeaGreen', 
+    'Progressive': 'DarkGreen',
+    'Dixiecrat': 'DarkTurquoise',
+    'American Independent': 'LightSkyBlue',
+}
 
 # columns
 COL_ABBREV = 'Abbrev'
