@@ -1,9 +1,10 @@
+import numpy as np
 import pandas as pd
 
 from metadata import (
     GEN_DATA_DIR, PIVOT_ON_YEAR_CSV, SWALLOWED_VOTE_2020_CSV,
     COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_EC_VOTES_NORM, COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, 
-    COL_VOTE_WEIGHT, COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY
+    COL_VOTE_WEIGHT, COL_LOG_VOTE_WEIGHT, COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY
 )
 
 
@@ -26,6 +27,8 @@ class DataObject():
         self.pivot_on_year_df.drop('Unnamed: 0', axis=1, inplace=True)
         # rename pop per EC vote
         self.pivot_on_year_df.rename(columns={COL_POP_PER_EC: COL_POP_PER_EC_SHORT}, inplace=True)
+        # generate Vote Weight (log) column, workaround to choropleth lacking log color scale option
+        self.pivot_on_year_df[COL_LOG_VOTE_WEIGHT] = np.log2(self.pivot_on_year_df[COL_VOTE_WEIGHT])
 
         # extract valid election years (for request validation)
         self.all_years = self.pivot_on_year_df[COL_YEAR].unique()
