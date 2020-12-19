@@ -1,8 +1,10 @@
+import math
+import numpy as np
 import plotly.express as px
 
 from metadata import (
     COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_EC_VOTES_NORM,  COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, 
-    COL_VOTE_WEIGHT, COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY, GROUPS, GROUP_COLORS, PARTIES, PARTY_COLORS
+    COL_VOTE_WEIGHT, COL_LOG_VOTE_WEIGHT, COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY, GROUPS, GROUP_COLORS, PARTIES, PARTY_COLORS
 )
 
 
@@ -54,11 +56,9 @@ def build_actual_vs_adjusted_ec_fig(year, melted_pivot_on_year_df):
 def build_swallowed_vote_fig_1(swallowed_vote_df):
     print(f"in build_swallowed_vote_fig_1, swallowed_vote_df.head(): {swallowed_vote_df.head()}")
 
-    # override hover_data
+    # display metadata
     hover_data = {'State': True, 'Candidate': True, 'EC Votes for Candidate': True, 'State: Candidate': False,
                 'Candidate: Outcome': False}
-
-    # assign group colors
     category_orders = {'Candidate': ['Biden','Trump']}
     color_discrete_sequence = ['Blue','Red']
 
@@ -75,11 +75,9 @@ def build_swallowed_vote_fig_1(swallowed_vote_df):
 def build_swallowed_vote_fig_2(swallowed_vote_df):
     print(f"in build_swallowed_vote_fig_2, swallowed_vote_df.head(): {swallowed_vote_df.head()}")
 
-    # override hover_data
+    # display metadata
     hover_data = {'State': True, 'Candidate': True, 'EC Votes for Candidate': True, 'State: Candidate': False, 
                 'Candidate: Outcome': False}
-
-    # assign group colors
     category_orders = {'Candidate: Outcome': ['Biden: Win','Trump: Win','Biden: Loss','Trump: Loss']}
     color_discrete_sequence = ['Blue','Red','Gray','Gray']
 
@@ -96,10 +94,9 @@ def build_swallowed_vote_fig_2(swallowed_vote_df):
 def build_swallowed_vote_fig_3(swallowed_vote_df):
     print(f"in build_swallowed_vote_fig_3, swallowed_vote_df.head(): {swallowed_vote_df.head()}")
 
-    # override hover_data
+    # display metadata
     hover_data = {'State': True, 'Candidate': True, 'EC Votes for Candidate': True, 'State: Candidate': False, 
                 'Candidate: Outcome': False}
-
     category_orders = {'Candidate: Outcome': ['Biden: Win','Trump: Win','Biden: Loss','Trump: Loss']}
     color_discrete_sequence = ['Blue','Red','Gray','Gray']
 
@@ -119,10 +116,8 @@ def build_swallowed_vote_fig_4(swallowed_vote_df):
     
     print(f"in build_swallowed_vote_fig_4, swallowed_vote_df.head(): {swallowed_vote_df.head()}")
 
-    # override hover_data
+    # display metadata
     hover_data = {'State': True, 'EC Votes for Candidate': True, 'State: Candidate': False}
-
-    # assign group colors
     category_orders = {'Candidate': ['Biden','Trump']}
     color_discrete_sequence = ['Blue','Red']
 
@@ -158,4 +153,24 @@ def build_ivw_by_state_group_box_plot(year, pivot_on_year_df):
     fig.update_xaxes(title_text='')
     fig.update_yaxes(title_text='Range of individual voter impact within state grouping')
     fig.update_layout(title_x=0.46)
+    return fig
+
+
+def build_ivw_by_state_map(year, pivot_on_year_df):
+    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
+
+    # generate COL_LOG_VOTE_WEIGHT column, workaround to manually create log color scale
+    pivot_on_single_year[COL_LOG_VOTE_WEIGHT] = np.log2(pivot_on_single_year[COL_VOTE_WEIGHT])
+
+    hover_data = {COL_YEAR: False, COL_ABBREV: False, COL_LOG_VOTE_WEIGHT: False, COL_STATE: True, COL_GROUP: True,
+                COL_VOTES_COUNTED: True, COL_EC_VOTES: True, COL_VOTE_WEIGHT: True}
+
+    fig = px.choropleth(pivot_on_single_year, locations=COL_ABBREV, color=COL_LOG_VOTE_WEIGHT, animation_frame=COL_YEAR,
+                        color_continuous_scale=px.colors.diverging.BrBG[::-1], locationmode='USA-states', scope="usa",
+                        hover_data=hover_data, title='Vote weight per person per state', height=600)
+
+    fig.update_layout(
+        coloraxis_colorbar=dict(tickvals=[-0.693, -0.357, 0, 0.405, 0.916, 1.386, 1.792, 2.197],
+                                ticktext=['0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']))
+
     return fig
