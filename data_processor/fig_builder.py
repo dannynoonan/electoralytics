@@ -162,6 +162,13 @@ def build_ivw_by_state_map(year, pivot_on_year_df):
     # generate COL_LOG_VOTE_WEIGHT column, workaround to manually create log color scale
     # pivot_on_single_year[COL_LOG_VOTE_WEIGHT] = np.log2(pivot_on_single_year[COL_VOTE_WEIGHT])
 
+    # log_vote_weight_ser = pivot_on_year_df[COL_LOG_VOTE_WEIGHT].replace([np.inf, -np.inf], np.nan).dropna()
+    # log_vote_weight_min = log_vote_weight_ser.min()
+    # log_vote_weight_max = log_vote_weight_ser.max()
+    # vote_weight_ser = pivot_on_year_df[COL_VOTE_WEIGHT].replace([np.inf, -np.inf], np.nan).dropna()
+    # vote_weight_min = vote_weight_ser.min()
+    # vote_weight_max = vote_weight_ser.max()
+
     # display metadata
     hover_data = {COL_YEAR: False, COL_ABBREV: False, COL_LOG_VOTE_WEIGHT: False, COL_STATE: True, COL_GROUP: True,
                 COL_VOTES_COUNTED: True, COL_EC_VOTES: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True, 
@@ -171,11 +178,14 @@ def build_ivw_by_state_map(year, pivot_on_year_df):
     fig = px.choropleth(pivot_on_single_year, locations=COL_ABBREV, color=COL_LOG_VOTE_WEIGHT,
                         locationmode='USA-states', scope="usa", hover_data=hover_data, 
                         color_continuous_scale=px.colors.diverging.BrBG[::-1], 
+                        # range_color=[-1.0, pivot_on_single_year[COL_LOG_VOTE_WEIGHT].max()],
+                        # range_color=[log_vote_weight_min, log_vote_weight_max],
+                        color_continuous_midpoint=0,
                         title=map_title, width=1000, height=600)
 
     fig.update_layout(
-        coloraxis_colorbar=dict(tickvals=[-0.693, -0.357, 0, 0.405, 0.916, 1.386, 1.792, 2.197],
-                                ticktext=['0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']))
+        coloraxis_colorbar=dict(tickvals=[-2.303, -1.609, -1.109, -0.693, -0.357, 0, 0.405, 0.916, 1.386, 1.792, 2.197],
+                                ticktext=['0.1', '0.2', '0.33', '0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']))
 
     return fig
 
