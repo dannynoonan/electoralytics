@@ -40,7 +40,7 @@ navbar = html.Div([
             dbc.DropdownMenuItem([html.I(className="fa"), "Voter impact per state"], href='/page-1', target="_blank"), 
             dbc.DropdownMenuItem([html.I(className="fa"), "Swallowed vote sampler"], href='/page-2', target="_blank"),
             dbc.DropdownMenuItem([html.I(className="fa"), "Voter impact per state group"], href='/page-3', target="_blank"),
-            dbc.DropdownMenuItem([html.I(className="fa"), "Map of voter impact per state"], href='/page-4', target="_blank")
+            dbc.DropdownMenuItem([html.I(className="fa"), "Maps"], href='/page-4', target="_blank")
         ]),
         dbc.DropdownMenu(label="References / Resources", nav=True, children=[
             dbc.DropdownMenuItem([html.I(className="fa"), "Source code"], href='https://github.com/dannynoonan/electoralytics', target="_blank"), 
@@ -152,8 +152,11 @@ layout_page_4 = html.Div([
         ]),
         ### figures
         dbc.Col(md=9, children=[
-            dbc.Col(html.H4("Map of individual voter impact by state"), width={"size": 6, "offset": 3}), 
-            dcc.Graph(id="voter-impact-by-state-map")
+            dbc.Col(html.H4("Maps of state groupings and influence"), width={"size": 6, "offset": 3}), 
+            dbc.Tabs(className="nav nav-pills", children=[
+                dbc.Tab(dcc.Graph(id="voter-impact-by-state-map"), label="Voter impact by state"),
+                dbc.Tab(dcc.Graph(id="state-groups-map"), label="State groupings"),
+            ])
         ])
     ])
 ])
@@ -274,6 +277,15 @@ def display_voter_impact_by_state_group_box(year_input):
 def display_voter_impact_by_state_map(year_input):
     year = int(year_input)
     fig = fig_builder.build_ivw_by_state_map(year, do.pivot_on_year_df)
+    return fig
+
+@app.callback(
+    Output('state-groups-map', 'figure'),
+    Input('year-input', 'value'),
+)
+def display_state_groups_map(year_input):
+    year = int(year_input)
+    fig = fig_builder.build_state_groups_map(year, do.pivot_on_year_df)
     return fig
 
 
