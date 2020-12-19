@@ -39,7 +39,8 @@ navbar = html.Div([
         dbc.DropdownMenu(label="Pages / Graphs", nav=True, children=[
             dbc.DropdownMenuItem([html.I(className="fa"), "Voter impact per state"], href='/page-1', target="_blank"), 
             dbc.DropdownMenuItem([html.I(className="fa"), "Swallowed vote sampler"], href='/page-2', target="_blank"),
-            dbc.DropdownMenuItem([html.I(className="fa"), "Voter impact per state group"], href='/page-3', target="_blank")
+            dbc.DropdownMenuItem([html.I(className="fa"), "Voter impact per state group"], href='/page-3', target="_blank"),
+            dbc.DropdownMenuItem([html.I(className="fa"), "Map of voter impact per state"], href='/page-4', target="_blank")
         ]),
         dbc.DropdownMenu(label="References / Resources", nav=True, children=[
             dbc.DropdownMenuItem([html.I(className="fa"), "Source code"], href='https://github.com/dannynoonan/electoralytics', target="_blank"), 
@@ -136,6 +137,28 @@ layout_page_3 = html.Div([
 ])
 
 
+# page 4
+layout_page_4 = html.Div([
+    ## Top
+    navbar,
+    html.Br(),html.Br(),
+
+    dbc.Row([
+        ### input + panel
+        dbc.Col(md=3, children=[
+            year_dropdown, 
+            html.Br(),html.Br(),html.Br(),
+            html.Div(id="year-details")
+        ]),
+        ### figures
+        dbc.Col(md=9, children=[
+            dbc.Col(html.H4("Map of individual voter impact by state"), width={"size": 6, "offset": 3}), 
+            dcc.Graph(id="voter-impact-by-state-map")
+        ])
+    ])
+])
+
+
 empty_layout = html.Div([
     navbar,
 ])
@@ -155,6 +178,7 @@ app.validation_layout = dbc.Container(fluid=True, children=[
     layout_page_1,
     layout_page_2,
     layout_page_3,
+    layout_page_4,
     empty_layout,
 ])
 
@@ -170,6 +194,8 @@ def display_page(pathname):
         return layout_page_2
     elif pathname == "/page-3":
         return layout_page_3
+    elif pathname == "/page-4":
+        return layout_page_4
     else:
         return empty_layout
 
@@ -237,6 +263,17 @@ def display_swallowed_vote_fig_4(display_type):
 def display_voter_impact_by_state_group_box(year_input):
     year = int(year_input)
     fig = fig_builder.build_ivw_by_state_group_box_plot(year, do.pivot_on_year_df)
+    return fig
+
+
+# Page 4 callbacks
+@app.callback(
+    Output('voter-impact-by-state-map', 'figure'),
+    Input('year-input', 'value'),
+)
+def display_voter_impact_by_state_map(year_input):
+    year = int(year_input)
+    fig = fig_builder.build_ivw_by_state_map(year, do.pivot_on_year_df)
     return fig
 
 
