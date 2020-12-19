@@ -24,6 +24,7 @@ do = DataObject()
 do.load_pivot_on_year()
 do.melt_pivot_on_year()
 do.load_swallowed_vote_sampler()
+do.load_group_aggs_by_year()
 
 
 
@@ -41,7 +42,8 @@ navbar = html.Div([
             dbc.DropdownMenuItem([html.I(className="fa"), "Swallowed vote sampler"], href='/page-2', target="_blank"),
             dbc.DropdownMenuItem([html.I(className="fa"), "Voter impact per state group"], href='/page-3', target="_blank"),
             dbc.DropdownMenuItem([html.I(className="fa"), "Maps"], href='/page-4', target="_blank"),
-            dbc.DropdownMenuItem([html.I(className="fa"), "Scatter plots"], href='/page-5', target="_blank")
+            dbc.DropdownMenuItem([html.I(className="fa"), "State scatter plots"], href='/page-5', target="_blank"),
+            dbc.DropdownMenuItem([html.I(className="fa"), "State group scatter plots"], href='/page-6', target="_blank")
         ]),
         dbc.DropdownMenu(label="References / Resources", nav=True, children=[
             dbc.DropdownMenuItem([html.I(className="fa"), "Source code"], href='https://github.com/dannynoonan/electoralytics', target="_blank"), 
@@ -180,9 +182,34 @@ layout_page_5 = html.Div([
         dbc.Col(md=9, children=[
             dbc.Col(html.H4("Voter impact by state: Scatter plots"), width={"size": 6, "offset": 3}), 
             dbc.Tabs(className="nav nav-pills", children=[
-                dbc.Tab(dcc.Graph(id="voter-impact-by-state-scatter-1"), label="Scatter 1"),
-                dbc.Tab(dcc.Graph(id="voter-impact-by-state-scatter-2"), label="Scatter 2"),
-                dbc.Tab(dcc.Graph(id="voter-impact-by-state-scatter-3"), label="Scatter 3"),
+                dbc.Tab(dcc.Graph(id="voter-impact-by-state-scatter-1"), label="State scatter 1"),
+                dbc.Tab(dcc.Graph(id="voter-impact-by-state-scatter-2"), label="State scatter 2"),
+                dbc.Tab(dcc.Graph(id="voter-impact-by-state-scatter-3"), label="State scatter 3"),
+            ])
+        ])
+    ])
+])
+
+
+# page 6
+layout_page_6 = html.Div([
+    ## Top
+    navbar,
+    html.Br(),html.Br(),
+
+    dbc.Row([
+        ### input + panel
+        dbc.Col(md=3, children=[
+            year_dropdown, 
+            html.Br(),html.Br(),html.Br(),
+            html.Div(id="year-stuff")
+        ]),
+        ### figures
+        dbc.Col(md=9, children=[
+            dbc.Col(html.H4("Voter impact by state: Scatter plots"), width={"size": 6, "offset": 3}), 
+            dbc.Tabs(className="nav nav-pills", children=[
+                dbc.Tab(dcc.Graph(id="voter-impact-by-state-group-scatter-1"), label="State group scatter 1"),
+                dbc.Tab(dcc.Graph(id="voter-impact-by-state-group-scatter-2"), label="State group scatter 2"),
             ])
         ])
     ])
@@ -210,6 +237,7 @@ app.validation_layout = dbc.Container(fluid=True, children=[
     layout_page_3,
     layout_page_4,
     layout_page_5,
+    layout_page_6,
     empty_layout,
 ])
 
@@ -229,6 +257,8 @@ def display_page(pathname):
         return layout_page_4
     elif pathname == "/page-5":
         return layout_page_5
+    elif pathname == "/page-6":
+        return layout_page_6
     else:
         return empty_layout
 
@@ -345,6 +375,26 @@ def display_voter_impact_by_state_scatter_2(year_input):
 def display_voter_impact_by_state_scatter_3(year_input):
     year = int(year_input)
     fig = fig_builder.build_ivw_by_state_scatter_3(year, do.pivot_on_year_df)
+    return fig
+
+
+# Page 6 callbacks
+@app.callback(
+    Output('voter-impact-by-state-group-scatter-1', 'figure'),
+    Input('year-input', 'value'),
+)
+def display_voter_impact_by_state_scatter_1(year_input):
+    year = int(year_input)
+    fig = fig_builder.build_ivw_by_state_group_scatter_1(year, do.group_aggs_by_year_df)
+    return fig
+
+@app.callback(
+    Output('voter-impact-by-state-group-scatter-2', 'figure'),
+    Input('year-input', 'value'),
+)
+def display_voter_impact_by_state_group_scatter_2(year_input):
+    year = int(year_input)
+    fig = fig_builder.build_ivw_by_state_group_scatter_2(year, do.group_aggs_by_year_df)
     return fig
 
 
