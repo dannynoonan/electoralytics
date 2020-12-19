@@ -2,13 +2,15 @@ import numpy as np
 import pandas as pd
 
 from metadata import (
-    GEN_DATA_DIR, PIVOT_ON_YEAR_CSV, SWALLOWED_VOTE_2020_CSV,
+    GEN_DATA_DIR, PIVOT_ON_YEAR_CSV, SWALLOWED_VOTE_2020_CSV, GROUP_AGGS_BY_YEAR_CSV,
     COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_EC_VOTES_NORM, COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, 
     COL_VOTE_WEIGHT, COL_LOG_VOTE_WEIGHT, COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY
 )
 
 
+# TODO rewors this
 PIVOT_ON_YEAR_CSV = f"{GEN_DATA_DIR}/{PIVOT_ON_YEAR_CSV}"
+GROUP_AGGS_BY_YEAR_CSV = f"{GEN_DATA_DIR}/{GROUP_AGGS_BY_YEAR_CSV}"
 
 
 class DataObject():
@@ -18,6 +20,7 @@ class DataObject():
         self.melted_pivot_on_year_df = None
         self.all_years = None
         self.swallowed_vote_df = None
+        self.group_aggs_by_year_df = None
 
     # load pivot_on_year data from csv
     def load_pivot_on_year(self):
@@ -50,4 +53,10 @@ class DataObject():
     def load_swallowed_vote_sampler(self):
         print(f'loading {SWALLOWED_VOTE_2020_CSV}')
         self.swallowed_vote_df = pd.read_csv(SWALLOWED_VOTE_2020_CSV)
-  
+
+    def load_group_aggs_by_year(self):
+        print(f'loading {GROUP_AGGS_BY_YEAR_CSV}')
+        self.group_aggs_by_year_df = pd.read_csv(GROUP_AGGS_BY_YEAR_CSV)
+        self.group_aggs_by_year_df.drop('Unnamed: 0', axis=1, inplace=True)
+        # rename pop per EC vote
+        self.group_aggs_by_year_df.rename(columns={COL_POP_PER_EC: COL_POP_PER_EC_SHORT}, inplace=True)
