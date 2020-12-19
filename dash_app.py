@@ -40,7 +40,8 @@ navbar = html.Div([
             dbc.DropdownMenuItem([html.I(className="fa"), "Voter impact per state"], href='/page-1', target="_blank"), 
             dbc.DropdownMenuItem([html.I(className="fa"), "Swallowed vote sampler"], href='/page-2', target="_blank"),
             dbc.DropdownMenuItem([html.I(className="fa"), "Voter impact per state group"], href='/page-3', target="_blank"),
-            dbc.DropdownMenuItem([html.I(className="fa"), "Maps"], href='/page-4', target="_blank")
+            dbc.DropdownMenuItem([html.I(className="fa"), "Maps"], href='/page-4', target="_blank"),
+            dbc.DropdownMenuItem([html.I(className="fa"), "Scatter plots"], href='/page-5', target="_blank")
         ]),
         dbc.DropdownMenu(label="References / Resources", nav=True, children=[
             dbc.DropdownMenuItem([html.I(className="fa"), "Source code"], href='https://github.com/dannynoonan/electoralytics', target="_blank"), 
@@ -162,6 +163,32 @@ layout_page_4 = html.Div([
 ])
 
 
+# page 5
+layout_page_5 = html.Div([
+    ## Top
+    navbar,
+    html.Br(),html.Br(),
+
+    dbc.Row([
+        ### input + panel
+        dbc.Col(md=3, children=[
+            year_dropdown, 
+            html.Br(),html.Br(),html.Br(),
+            html.Div(id="year-stuff")
+        ]),
+        ### figures
+        dbc.Col(md=9, children=[
+            dbc.Col(html.H4("Voter impact by state: Scatter plots"), width={"size": 6, "offset": 3}), 
+            dbc.Tabs(className="nav nav-pills", children=[
+                dbc.Tab(dcc.Graph(id="voter-impact-by-state-scatter-1"), label="Scatter 1"),
+                dbc.Tab(dcc.Graph(id="voter-impact-by-state-scatter-2"), label="Scatter 2"),
+                dbc.Tab(dcc.Graph(id="voter-impact-by-state-scatter-3"), label="Scatter 3"),
+            ])
+        ])
+    ])
+])
+
+
 empty_layout = html.Div([
     navbar,
 ])
@@ -182,6 +209,7 @@ app.validation_layout = dbc.Container(fluid=True, children=[
     layout_page_2,
     layout_page_3,
     layout_page_4,
+    layout_page_5,
     empty_layout,
 ])
 
@@ -199,6 +227,8 @@ def display_page(pathname):
         return layout_page_3
     elif pathname == "/page-4":
         return layout_page_4
+    elif pathname == "/page-5":
+        return layout_page_5
     else:
         return empty_layout
 
@@ -286,6 +316,35 @@ def display_voter_impact_by_state_map(year_input):
 def display_state_groups_map(year_input):
     year = int(year_input)
     fig = fig_builder.build_state_groups_map(year, do.pivot_on_year_df)
+    return fig
+
+
+# Page 5 callbacks
+@app.callback(
+    Output('voter-impact-by-state-scatter-1', 'figure'),
+    Input('year-input', 'value'),
+)
+def display_voter_impact_by_state_scatter_1(year_input):
+    year = int(year_input)
+    fig = fig_builder.build_ivw_by_state_scatter_1(year, do.pivot_on_year_df)
+    return fig
+
+@app.callback(
+    Output('voter-impact-by-state-scatter-2', 'figure'),
+    Input('year-input', 'value'),
+)
+def display_voter_impact_by_state_scatter_2(year_input):
+    year = int(year_input)
+    fig = fig_builder.build_ivw_by_state_scatter_2(year, do.pivot_on_year_df)
+    return fig
+
+@app.callback(
+    Output('voter-impact-by-state-scatter-3', 'figure'),
+    Input('year-input', 'value'),
+)
+def display_voter_impact_by_state_scatter_3(year_input):
+    year = int(year_input)
+    fig = fig_builder.build_ivw_by_state_scatter_3(year, do.pivot_on_year_df)
     return fig
 
 

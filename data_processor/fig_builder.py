@@ -1,6 +1,7 @@
 import math
 import numpy as np
 import plotly.express as px
+import plotly.graph_objects as go
 
 from metadata import (
     COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_EC_VOTES_NORM,  COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, 
@@ -207,5 +208,148 @@ def build_state_groups_map(year, pivot_on_year_df):
                         locationmode='USA-states', scope="usa", hover_data=hover_data, 
                         category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
                         title=map_title, width=1000, height=600)
+
+    return fig
+
+
+def build_ivw_by_state_scatter_1(year, pivot_on_year_df):
+    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
+    
+    # calculate axis range boundaries 
+    ec_max = round(pivot_on_year_df[COL_EC_VOTES].max() * 1.05)
+    norm_max = round(pivot_on_year_df[COL_EC_VOTES_NORM].max() * 1.05)
+
+    # display metadata
+    hover_data = {COL_VOTES_COUNTED: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True}
+    base_fig_title = 'Voter impact by state'
+    init_fig_title = f'{base_fig_title}: 1828 - 2016'
+    period_info = "1828-1860: Antebellum<br>1864-1876: Reconstruction<br>1880-1964: Jim Crow<br>1968-2016: Civil Rights"
+
+    # init figure with core properties
+    fig = px.scatter(pivot_on_single_year, x=COL_EC_VOTES_NORM, y=COL_EC_VOTES, 
+                    animation_group=COL_STATE, color=COL_GROUP, title=init_fig_title, 
+                    hover_name=COL_STATE, hover_data=hover_data,
+    #                  category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+    #                  log_x=True, log_y=True, range_x=[.4,norm_max], range_y=[2,ec_max],
+                    width=1000, height=800, opacity=0.7, range_x=[0,norm_max], range_y=[0,ec_max])
+    
+    # scatterplot dot formatting
+    fig.update_traces(marker=dict(size=24, line=dict(width=1, color='DarkSlateGrey')), 
+                    selector=dict(mode='markers'))
+
+    # reference mean / quazi-linear regression line
+    fig.add_trace(go.Scatter(x=[0,ec_max], y=[0,ec_max], mode='lines', 
+                            name='Nationwide mean', line=dict(color='black', width=1)))
+
+    # axis labels
+    fig.update_xaxes(title_text='State EC votes if adjusted for popular vote turnout')
+    fig.update_yaxes(title_text='Electoral college votes per state')
+
+    # embedded period_info
+    fig.add_annotation(
+            x=14, y=52, xref="x", yref="y", align="left", ax=0, ay=0, text=period_info,
+            font={'family': "Courier New, monospace", 'size': 16, 'color': "#ffffff"}, 
+            bordercolor="#c7c7c7", borderwidth=2, borderpad=4, bgcolor="#ff7f0e", opacity=0.8)
+
+    fig.update_layout(title_x=0.45)
+
+    return fig
+
+
+def build_ivw_by_state_scatter_2(year, pivot_on_year_df):
+    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
+
+    # calculate axis range boundaries 
+    ec_max = round(pivot_on_year_df[COL_EC_VOTES].max() * 1.05)
+    norm_max = round(pivot_on_year_df[COL_EC_VOTES_NORM].max() * 1.05)
+
+    # display metadata
+    hover_data = {COL_VOTES_COUNTED: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True}
+    base_fig_title = 'Voter impact by state'
+    init_fig_title = f'{base_fig_title}: 1828 - 2016'
+    period_info = "1828-1860: Antebellum<br>1864-1876: Reconstruction<br>1880-1964: Jim Crow<br>1968-2016: Civil Rights"
+
+    # init figure with core properties
+    fig = px.scatter(pivot_on_single_year, x=COL_EC_VOTES_NORM, y=COL_EC_VOTES, 
+                    color=COL_GROUP, title=init_fig_title, 
+                    hover_name=COL_STATE, hover_data=hover_data, text=COL_ABBREV,
+    #                  category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                    log_x=True, log_y=True, range_x=[.4,norm_max], range_y=[2.5,ec_max],
+                    width=1000, height=800, opacity=0.7)
+        
+    # scatterplot dot formatting
+    fig.update_traces(marker=dict(size=24, line=dict(width=1, color='DarkSlateGrey')), 
+                    selector=dict(mode='markers'))
+
+    # reference mean / quazi-linear regression line
+    fig.add_trace(go.Scatter(x=[0,ec_max], y=[0,ec_max], mode='lines', 
+                            name='Nationwide mean', line=dict(color='black', width=1)))
+
+    # axis labels
+    fig.update_xaxes(title_text='State EC votes if adjusted for popular vote turnout')
+    fig.update_yaxes(title_text='Electoral college votes per state')
+
+    # axis tick overrides
+    layout = dict(
+        yaxis=dict(tickmode='array', tickvals=[3,4,5,6,7,8,9,10,12,15,20,25,30,40,50]),
+        xaxis=dict(tickmode='array', tickvals=[.5,.75,1,1.5,2,3,4,5,6,7,8,10,12,15,20,25,30,40,50,60])
+    )
+    fig.update_layout(layout)
+
+    # embedded period_info - TODO why isn't this working?
+    fig.add_annotation(
+            x=20, y=20, xref="x", yref="y", align="left", ax=0, ay=0, text=period_info,
+            font={'family': "Courier New, monospace", 'size': 16, 'color': "#ffffff"}, 
+            bordercolor="#c7c7c7", borderwidth=2, borderpad=4, bgcolor="#ff7f0e", opacity=0.8)  
+
+    fig.update_layout(title_x=0.45)
+
+    return fig
+
+
+def build_ivw_by_state_scatter_3(year, pivot_on_year_df):
+    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
+
+    # calculate axis range boundaries 
+    ec_max = round(pivot_on_year_df[COL_EC_VOTES].max())
+    weight_min = pivot_on_year_df[pivot_on_year_df[COL_VOTE_WEIGHT] > 0][COL_VOTE_WEIGHT].min() * 0.9
+    weight_max = pivot_on_year_df[COL_VOTE_WEIGHT].max()
+
+    # display metadata
+    hover_data = {COL_VOTES_COUNTED: True, COL_POP_PER_EC_SHORT: True}
+    base_fig_title = 'Voter impact by state'
+    init_fig_title = f'{base_fig_title}: 1828 - 2016'
+    period_info = "1828-1860: Antebellum<br>1864-1876: Reconstruction<br>1880-1964: Jim Crow<br>1968-2016: Civil Rights"
+
+    # init figure with core properties
+    fig = px.scatter(pivot_on_single_year, x=COL_EC_VOTES, y=COL_VOTE_WEIGHT, 
+                    size=COL_VOTES_COUNTED_PCT, color=COL_GROUP, hover_name=COL_STATE, 
+    #                  category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                    title=init_fig_title, hover_data=hover_data, width=1000, height=800, opacity=0.5,
+                    log_y=True, size_max=80, range_x=[0,ec_max], range_y=[weight_min,weight_max])
+
+    # scatterplot dot formatting
+    fig.update_traces(marker=dict(line=dict(width=1, color='white')), 
+                    selector=dict(mode='markers'))
+
+    # reference mean / quazi-linear regression line
+    fig.add_trace(go.Scatter(x=[0,ec_max], y=[1,1], mode='lines', 
+                            name='Nationwide mean', line=dict(color='black', width=1)))
+
+    # axis labels
+    fig.update_xaxes(title_text='Electoral college votes per state')
+    fig.update_yaxes(title_text='Individual voter impact per state')
+
+    # axis tick overrides
+    layout = dict(yaxis=dict(tickmode='array', tickvals=[0.4,0.5,.6,.8,1,1.5,2,3,5,8]))
+    fig.update_layout(layout)
+
+    # embedded period_info
+    fig.add_annotation(
+            x=45, y=.85, xref="x", yref="y", align="left", ax=0, ay=0, text=period_info,
+            font={'family': "Courier New, monospace", 'size': 16, 'color': "#ffffff"}, 
+            bordercolor="#c7c7c7", borderwidth=2, borderpad=4, bgcolor="#ff7f0e", opacity=0.8)
+
+    fig.update_layout(title_x=0.45)
 
     return fig
