@@ -42,10 +42,11 @@ class DataObject():
         pivot_on_year_mod = self.pivot_on_year_df.rename(
             columns={COL_EC_VOTES: 'EC votes: Actual', COL_EC_VOTES_NORM: 'ECV: Adjusted for population'})
 
+        # TODO id_vars is all cols not being melted, should be automatic not enumerated
         self.melted_pivot_on_year_df = pd.melt(
             pivot_on_year_mod, 
             id_vars=[COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_POP_PER_EC_SHORT,
-                    COL_VOTE_WEIGHT, COL_PARTY],
+                    COL_VOTE_WEIGHT, COL_LOG_VOTE_WEIGHT, COL_PARTY],
             var_name='Actual vs Adjusted EC votes^',
             value_name='EC votes^'
         )
