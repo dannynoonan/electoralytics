@@ -4,9 +4,11 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 from metadata import (
-    GEN_DATA_DIR, GROUPS, GROUP_COLORS, PARTIES, PARTY_COLORS, COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, 
-    COL_EC_VOTES, COL_EC_VOTES_NORM,  COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_VOTE_WEIGHT, COL_LOG_VOTE_WEIGHT, 
-    COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY, COL_AVG_WEIGHT, COL_STATE_COUNT, COL_STATES_IN_GROUP
+    GEN_DATA_DIR, GEN_ALT_GROUP_DIR, GEN_NO_SMALL_DIR, GEN_ALT_GROUP_NO_SMALL_DIR, 
+    GROUPS, ALT_GROUPS, GROUP_COLORS, PARTIES, PARTY_COLORS, 
+    COL_ABBREV, COL_STATE, COL_GROUP, COL_ALT_GROUP, COL_YEAR, COL_EC_VOTES, COL_EC_VOTES_NORM, 
+    COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_VOTE_WEIGHT, COL_LOG_VOTE_WEIGHT, COL_AVG_WEIGHT, 
+    COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY, COL_STATE_COUNT, COL_STATES_IN_GROUP
 )
 
 
@@ -137,12 +139,17 @@ def build_ivw_by_state_group_box_plot(data_obj, year, subdir=None):
         subdir = GEN_DATA_DIR
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
 
+    # shift to altGroup if specified by subdir 
+    groups = GROUPS
+    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
+        groups = ALT_GROUPS
+
     # extract single-year data
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year].sort_values(COL_PARTY, ascending=True)
 
     # display metadata
-    category_orders = {COL_GROUP: GROUPS}
-    color_discrete_sequence = [GROUP_COLORS[g] for g in GROUPS]
+    category_orders = {COL_GROUP: groups}
+    color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
     box_title = f'{year} presidential election: voter impact by state grouping'
 
     # box plot
@@ -206,6 +213,11 @@ def build_state_groups_map(data_obj, year, subdir=None):
         subdir = GEN_DATA_DIR
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
 
+    # shift to altGroup if specified by subdir 
+    groups = GROUPS
+    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
+        groups = ALT_GROUPS
+
     # extract single-year data
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
 
@@ -215,8 +227,8 @@ def build_state_groups_map(data_obj, year, subdir=None):
     # display metadata
     hover_data = {COL_YEAR: False, COL_ABBREV: False, COL_STATE: True, COL_GROUP: True, COL_VOTES_COUNTED: True, 
               COL_EC_VOTES: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True, COL_EC_VOTES_NORM: True}
-    category_orders = {COL_GROUP: GROUPS}
-    color_discrete_sequence = [GROUP_COLORS[g] for g in GROUPS]
+    category_orders = {COL_GROUP: groups}
+    color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
     map_title = f'{year} presidential election: State groupings'
 
     fig = px.choropleth(pivot_on_single_year, locations=COL_ABBREV, color=COL_GROUP, 
@@ -231,6 +243,11 @@ def build_ivw_by_state_scatter_1(data_obj, year, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
+
+    # shift to altGroup if specified by subdir 
+    groups = GROUPS
+    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
+        groups = ALT_GROUPS
 
     # extract single-year data
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
@@ -280,6 +297,11 @@ def build_ivw_by_state_scatter_2(data_obj, year, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
+
+    # shift to altGroup if specified by subdir 
+    groups = GROUPS
+    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
+        groups = ALT_GROUPS
 
     # extract single-year data
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
@@ -337,6 +359,11 @@ def build_ivw_by_state_scatter_3(data_obj, year, subdir=None):
         subdir = GEN_DATA_DIR
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
 
+    # shift to altGroup if specified by subdir 
+    groups = GROUPS
+    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
+        groups = ALT_GROUPS
+
     # extract single-year data
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
 
@@ -389,6 +416,11 @@ def build_ivw_by_state_group_scatter_1(data_obj, year, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
     group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
+
+    # shift to altGroup if specified by subdir 
+    groups = GROUPS
+    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
+        groups = ALT_GROUPS
 
     # extract single-year data
     group_aggs_by_single_year = group_aggs_by_year_df[group_aggs_by_year_df[COL_YEAR] == year]
@@ -445,6 +477,11 @@ def build_ivw_by_state_group_scatter_2(data_obj, year, subdir=None):
         subdir = GEN_DATA_DIR
     group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
 
+    # shift to altGroup if specified by subdir 
+    groups = GROUPS
+    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
+        groups = ALT_GROUPS
+
     # extract single-year data
     group_aggs_by_single_year = group_aggs_by_year_df[group_aggs_by_year_df[COL_YEAR] == year]
 
@@ -492,6 +529,11 @@ def build_ivw_by_state_group_line_chart(data_obj, year, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
     group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
+
+    # shift to altGroup if specified by subdir 
+    groups = GROUPS
+    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
+        groups = ALT_GROUPS
 
     # display metadata
     hover_data = {COL_STATES_IN_GROUP: True, COL_EC_VOTES: True}

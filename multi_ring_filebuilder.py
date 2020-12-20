@@ -12,8 +12,6 @@ from metadata import (
     COL_STATE, COL_STATE_COUNT, COL_STATES_IN_GROUP, COL_VOTE_WEIGHT, COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_YEAR
 )
 
-GROUPS_SER = pd.Series(np.array(GROUPS + ['Total']))
-
 # disable unhelpful 'SettingWithCopyWarnings'
 pd.options.mode.chained_assignment = None
 
@@ -68,18 +66,21 @@ if args.write:
 
 
 # adjust settings based on params
-gen_data_dir = GEN_DATA_DIR
+subdir = GEN_DATA_DIR
 # Group: Northeast+Midwest+West, AltGroup: Union+West
+groups_source_col = COL_GROUP
 if USE_ALT_GROUP:
-    GROUPS = ALT_GROUPS
-    COL_GROUP = COL_ALT_GROUP
-    gen_data_dir = GEN_ALT_GROUP_DIR
+    GROUPS = ALT_GROUPS  # TODO this feels like something to avoid
+    groups_source_col = COL_ALT_GROUP
+    subdir = GEN_ALT_GROUP_DIR
 # Small or No Small
 if NO_SMALL:
     GROUPS.remove('Small')
-    gen_data_dir = GEN_NO_SMALL_DIR
+    subdir = GEN_NO_SMALL_DIR
     if USE_ALT_GROUP:
-        gen_data_dir = GEN_ALT_GROUP_NO_SMALL_DIR
+        subdir = GEN_ALT_GROUP_NO_SMALL_DIR
+
+GROUPS_SER = pd.Series(np.array(GROUPS + ['Total']))
 
 
 # TODO modify csv file names based on input params
@@ -125,9 +126,9 @@ while year <= 2020:
 
     # extract electoral college data for year
     year_data = the_one_ring[
-        [COL_ABBREV, COL_STATE, COL_GROUP, ec_votes_col, votes_counted_col, vote_weight_col, party_col]]
+        [COL_ABBREV, COL_STATE, groups_source_col, ec_votes_col, votes_counted_col, vote_weight_col, party_col]]
     # rename columns and set row keys/index
-    year_data.rename(columns={ec_votes_col: COL_EC_VOTES, votes_counted_col: COL_VOTES_COUNTED,
+    year_data.rename(columns={groups_source_col: COL_GROUP, ec_votes_col: COL_EC_VOTES, votes_counted_col: COL_VOTES_COUNTED,
                               vote_weight_col: COL_VOTE_WEIGHT, party_col: COL_PARTY},
                     inplace=True)
     year_data.set_index(COL_ABBREV, inplace=True)
@@ -233,10 +234,10 @@ while year <= 2020:
     year = year + 4
 
 
-PIVOT_ON_YEAR_CSV = f"{gen_data_dir}/{PIVOT_ON_YEAR_CSV}"
-TOTALS_BY_YEAR_CSV = f"{gen_data_dir}/{TOTALS_BY_YEAR_CSV}"
-GROUP_AGGS_BY_YEAR_CSV = f"{gen_data_dir}/{GROUP_AGGS_BY_YEAR_CSV}"
-AVG_WEIGHT_BY_YEAR_CSV = f"{gen_data_dir}/{AVG_WEIGHT_BY_YEAR_CSV}"
+PIVOT_ON_YEAR_CSV = f"{BASE_DATA_DIR}/{subdir}/{PIVOT_ON_YEAR_CSV}"
+TOTALS_BY_YEAR_CSV = f"{BASE_DATA_DIR}/{subdir}/{TOTALS_BY_YEAR_CSV}"
+GROUP_AGGS_BY_YEAR_CSV = f"{BASE_DATA_DIR}/{subdir}/{GROUP_AGGS_BY_YEAR_CSV}"
+AVG_WEIGHT_BY_YEAR_CSV = f"{BASE_DATA_DIR}/{subdir}/{AVG_WEIGHT_BY_YEAR_CSV}"
 
 print(f"Rows in {PIVOT_ON_YEAR_CSV}: {len(pivot_on_year)}")
 print(f"{pivot_on_year}")
@@ -249,8 +250,8 @@ print(f"{avg_weight_by_year}")
 
 
 if WRITE_TO_CSV:
-    if not os.path.exists(gen_data_dir):
-        os.makedirs(gen_data_dir)
+    if not os.path.exists(f"{BASE_DATA_DIR}/{subdir}"):
+        os.makedirs(f"{BASE_DATA_DIR}/{subdir}")
 
     # write pivot_on_year, totals_by_year, group_aggs_by_year to file
     pivot_on_year.to_csv(PIVOT_ON_YEAR_CSV)

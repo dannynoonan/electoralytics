@@ -10,7 +10,7 @@ import plotly.express as px
 
 from data_processor.data_objects import DataObject
 from data_processor import fig_builder 
-from data_processor.functions import validate_input
+from data_processor.functions import validate_input, map_to_subdir
 
 
 # base config
@@ -21,10 +21,8 @@ server = app.server
 
 # load source data for default subdir
 data_obj = DataObject()
-data_obj.load_pivot_on_year()
-data_obj.melt_pivot_on_year()
+data_obj.load_dfs_for_subdir()
 data_obj.load_swallowed_vote_sampler()
-data_obj.load_group_aggs_by_year()
 
 
 ### BOOTSTRAP COMPONENTS ###
@@ -59,8 +57,29 @@ navbar = html.Div([
 # inputs
 year_dropdown = dbc.FormGroup([
     html.H4("Election Year"),
-    dcc.Dropdown(id="year-input", options=[{"label": y, "value": y} for y in data_obj.all_years], value="2020")
+    dcc.Dropdown(
+        id="year-input", 
+        options=[{"label": y, "value": y} for y in data_obj.all_years], 
+        value="2020"
+    ),
+    html.H4("Grouping Options"),
+    dcc.Dropdown(
+        id="groupings-input", 
+        options=[
+            {'label': 'Original', 'value': 'Original'},
+            {'label': 'Alternate', 'value': 'Alternate'}
+        ], 
+        value="Original"
+    ), 
+    dcc.Checklist(
+        id="small-group-input", 
+        options=[
+            {'label': 'Extract Small', 'value': 'Extract Small'},
+        ],
+        value=['Extract Small']
+    )
 ])
+
 
 swallowed_vote_view_dropdown = dbc.FormGroup([
     html.H4("Swallowed vote view"),
@@ -294,20 +313,29 @@ def display_page(pathname):
 @app.callback(
     Output('voter-impact-per-state', 'figure'),
     Input('year-input', 'value'),
+    Input('groupings-input', 'value'),
+    Input('small-group-input', 'value'),
 )
-def update_figure(year_input):
+def update_figure(year_input, groupings_input, small_group_input):
     year = int(year_input)
-    fig = fig_builder.build_fig_for_year(data_obj, year)
+    subdir = map_to_subdir(groupings_input, small_group_input)
+    print(f"subdir for groupings_input={groupings_input} and small_group_input={small_group_input} => {subdir}")
+    data_obj.load_dfs_for_subdir(subdir)
+    fig = fig_builder.build_fig_for_year(data_obj, year, subdir=subdir)
     return fig
-
 
 @app.callback(
     Output('adjusted-ec-votes-per-state', 'figure'),
     Input('year-input', 'value'),
+    Input('groupings-input', 'value'),
+    Input('small-group-input', 'value'),
 )
-def update_overlay_figure(year_input):
+def update_overlay_figure(year_input, groupings_input, small_group_input):
     year = int(year_input)
-    fig = fig_builder.build_actual_vs_adjusted_ec_fig(data_obj, year)
+    subdir = map_to_subdir(groupings_input, small_group_input)
+    print(f"subdir for groupings_input={groupings_input} and small_group_input={small_group_input} => {subdir}")
+    data_obj.load_dfs_for_subdir(subdir)
+    fig = fig_builder.build_actual_vs_adjusted_ec_fig(data_obj, year, subdir=subdir)
     return fig
 
 
@@ -349,10 +377,15 @@ def display_swallowed_vote_fig_4(display_type):
 @app.callback(
     Output('voter-impact-by-state-group-box', 'figure'),
     Input('year-input', 'value'),
+    Input('groupings-input', 'value'),
+    Input('small-group-input', 'value'),
 )
-def display_voter_impact_by_state_group_box(year_input):
+def display_voter_impact_by_state_group_box(year_input, groupings_input, small_group_input):
     year = int(year_input)
-    fig = fig_builder.build_ivw_by_state_group_box_plot(data_obj, year)
+    subdir = map_to_subdir(groupings_input, small_group_input)
+    print(f"subdir for groupings_input={groupings_input} and small_group_input={small_group_input} => {subdir}")
+    data_obj.load_dfs_for_subdir(subdir)
+    fig = fig_builder.build_ivw_by_state_group_box_plot(data_obj, year, subdir=subdir)
     return fig
 
 
@@ -360,19 +393,27 @@ def display_voter_impact_by_state_group_box(year_input):
 @app.callback(
     Output('voter-impact-by-state-map', 'figure'),
     Input('year-input', 'value'),
+    Input('groupings-input', 'value'),
+    Input('small-group-input', 'value'),
 )
-def display_voter_impact_by_state_map(year_input):
+def display_voter_impact_by_state_map(year_input, groupings_input, small_group_input):
     year = int(year_input)
-    fig = fig_builder.build_ivw_by_state_map(data_obj, year)
+    subdir = map_to_subdir(groupings_input, small_group_input)
+    data_obj.load_dfs_for_subdir(subdir)
+    fig = fig_builder.build_ivw_by_state_map(data_obj, year, subdir=subdir)
     return fig
 
 @app.callback(
     Output('state-groups-map', 'figure'),
     Input('year-input', 'value'),
+    Input('groupings-input', 'value'),
+    Input('small-group-input', 'value'),
 )
-def display_state_groups_map(year_input):
+def display_state_groups_map(year_input, groupings_input, small_group_input):
     year = int(year_input)
-    fig = fig_builder.build_state_groups_map(data_obj, year)
+    subdir = map_to_subdir(groupings_input, small_group_input)
+    data_obj.load_dfs_for_subdir(subdir)
+    fig = fig_builder.build_state_groups_map(data_obj, year, subdir=subdir)
     return fig
 
 
@@ -380,28 +421,40 @@ def display_state_groups_map(year_input):
 @app.callback(
     Output('voter-impact-by-state-scatter-1', 'figure'),
     Input('year-input', 'value'),
+    Input('groupings-input', 'value'),
+    Input('small-group-input', 'value'),
 )
-def display_voter_impact_by_state_scatter_1(year_input):
+def display_voter_impact_by_state_scatter_1(year_input, groupings_input, small_group_input):
     year = int(year_input)
-    fig = fig_builder.build_ivw_by_state_scatter_1(data_obj, year)
+    subdir = map_to_subdir(groupings_input, small_group_input)
+    data_obj.load_dfs_for_subdir(subdir)
+    fig = fig_builder.build_ivw_by_state_scatter_1(data_obj, year, subdir=subdir)
     return fig
 
 @app.callback(
     Output('voter-impact-by-state-scatter-2', 'figure'),
     Input('year-input', 'value'),
+    Input('groupings-input', 'value'),
+    Input('small-group-input', 'value'),
 )
-def display_voter_impact_by_state_scatter_2(year_input):
+def display_voter_impact_by_state_scatter_2(year_input, groupings_input, small_group_input):
     year = int(year_input)
-    fig = fig_builder.build_ivw_by_state_scatter_2(data_obj, year)
+    subdir = map_to_subdir(groupings_input, small_group_input)
+    data_obj.load_dfs_for_subdir(subdir)
+    fig = fig_builder.build_ivw_by_state_scatter_2(data_obj, year, subdir=subdir)
     return fig
 
 @app.callback(
     Output('voter-impact-by-state-scatter-3', 'figure'),
     Input('year-input', 'value'),
+    Input('groupings-input', 'value'),
+    Input('small-group-input', 'value'),
 )
-def display_voter_impact_by_state_scatter_3(year_input):
+def display_voter_impact_by_state_scatter_3(year_input, groupings_input, small_group_input):
     year = int(year_input)
-    fig = fig_builder.build_ivw_by_state_scatter_3(data_obj, year)
+    subdir = map_to_subdir(groupings_input, small_group_input)
+    data_obj.load_dfs_for_subdir(subdir)
+    fig = fig_builder.build_ivw_by_state_scatter_3(data_obj, year, subdir=subdir)
     return fig
 
 
@@ -409,19 +462,27 @@ def display_voter_impact_by_state_scatter_3(year_input):
 @app.callback(
     Output('voter-impact-by-state-group-scatter-1', 'figure'),
     Input('year-input', 'value'),
+    Input('groupings-input', 'value'),
+    Input('small-group-input', 'value'),
 )
-def display_voter_impact_by_state_group_scatter_1(year_input):
+def display_voter_impact_by_state_group_scatter_1(year_input, groupings_input, small_group_input):
     year = int(year_input)
-    fig = fig_builder.build_ivw_by_state_group_scatter_1(data_obj, year)
+    subdir = map_to_subdir(groupings_input, small_group_input)
+    data_obj.load_dfs_for_subdir(subdir)
+    fig = fig_builder.build_ivw_by_state_group_scatter_1(data_obj, year, subdir=subdir)
     return fig
 
 @app.callback(
     Output('voter-impact-by-state-group-scatter-2', 'figure'),
     Input('year-input', 'value'),
+    Input('groupings-input', 'value'),
+    Input('small-group-input', 'value'),
 )
-def display_voter_impact_by_state_group_scatter_2(year_input):
+def display_voter_impact_by_state_group_scatter_2(year_input, groupings_input, small_group_input):
     year = int(year_input)
-    fig = fig_builder.build_ivw_by_state_group_scatter_2(data_obj, year)
+    subdir = map_to_subdir(groupings_input, small_group_input)
+    data_obj.load_dfs_for_subdir(subdir)
+    fig = fig_builder.build_ivw_by_state_group_scatter_2(data_obj, year, subdir=subdir)
     return fig
 
 
@@ -429,10 +490,14 @@ def display_voter_impact_by_state_group_scatter_2(year_input):
 @app.callback(
     Output('voter-impact-by-state-group-line', 'figure'),
     Input('year-input', 'value'),
+    Input('groupings-input', 'value'),
+    Input('small-group-input', 'value'),
 )
-def display_voter_impact_by_state_group_line(year_input):
+def display_voter_impact_by_state_group_line(year_input, groupings_input, small_group_input):
     year = int(year_input)
-    fig = fig_builder.build_ivw_by_state_group_line_chart(data_obj, year)
+    subdir = map_to_subdir(groupings_input, small_group_input)
+    data_obj.load_dfs_for_subdir(subdir)
+    fig = fig_builder.build_ivw_by_state_group_line_chart(data_obj, year, subdir=subdir)
     return fig
 
 

@@ -2,20 +2,33 @@ import numpy as np
 import pandas as pd
 
 from metadata import (
-    BASE_DATA_DIR, GEN_DATA_DIR, PIVOT_ON_YEAR_CSV, SWALLOWED_VOTE_2020_CSV, GROUP_AGGS_BY_YEAR_CSV,
-    COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_EC_VOTES_NORM, COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, 
-    COL_VOTE_WEIGHT, COL_LOG_VOTE_WEIGHT, COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY
+    BASE_DATA_DIR, GEN_DATA_DIR, GEN_ALT_GROUP_DIR, GEN_NO_SMALL_DIR, GEN_ALT_GROUP_NO_SMALL_DIR,
+    PIVOT_ON_YEAR_CSV, SWALLOWED_VOTE_2020_CSV, GROUP_AGGS_BY_YEAR_CSV,
+    COL_ABBREV, COL_STATE, COL_GROUP, COL_ALT_GROUP, COL_YEAR, COL_EC_VOTES, COL_EC_VOTES_NORM, 
+    COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_VOTE_WEIGHT, COL_LOG_VOTE_WEIGHT, COL_POP_PER_EC, 
+    COL_POP_PER_EC_SHORT, COL_PARTY
 )
 
 
 class DataObject():
 
     def __init__(self):
+        self.subdirs_loaded = []
         self.pivot_on_year_dfs = {}
         self.melted_pivot_on_year_dfs = {}
         self.group_aggs_by_year_dfs = {}
         self.all_years = None
         self.swallowed_vote_df = None
+
+
+    def load_dfs_for_subdir(self, subdir=None):
+        if not subdir:
+            subdir = GEN_DATA_DIR
+        if not subdir in self.subdirs_loaded:
+            self.load_pivot_on_year(subdir=subdir)
+            self.melt_pivot_on_year(subdir=subdir)
+            self.load_group_aggs_by_year(subdir=subdir)
+            self.subdirs_loaded.append(subdir)
 
 
     # load pivot_on_year data from csv
