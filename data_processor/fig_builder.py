@@ -448,3 +448,21 @@ def build_ivw_by_state_group_scatter_2(year, group_aggs_by_year_df):
     fig.update_layout(title_x=0.45)
 
     return fig
+
+
+def build_ivw_by_state_group_line_chart(year, group_aggs_by_year_df):
+    # display metadata
+    hover_data = {COL_STATES_IN_GROUP: True, COL_EC_VOTES: True}
+    avg_weight_min = group_aggs_by_year_df[group_aggs_by_year_df[COL_AVG_WEIGHT] > 0][COL_AVG_WEIGHT].min() * 0.8
+    avg_weight_max = group_aggs_by_year_df[group_aggs_by_year_df[COL_AVG_WEIGHT] > 0][COL_AVG_WEIGHT].max() * 1.05
+
+    fig = px.line(group_aggs_by_year_df, x=COL_YEAR, y=COL_AVG_WEIGHT, color=COL_GROUP, hover_data=hover_data, 
+    #               log_y=True
+                )
+
+    fig.update_layout(yaxis_range=[avg_weight_min, avg_weight_max])
+
+    fig.add_trace(go.Scatter(x=[year, year], y=[avg_weight_min, avg_weight_max], 
+                            mode='lines', name=year, line=dict(color='black', width=1)))
+
+    return fig
