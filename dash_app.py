@@ -19,15 +19,16 @@ app = dash.Dash(external_stylesheets=[dbc.themes.SOLAR])
 server = app.server
 
 
-# load source data 
-do = DataObject()
-do.load_pivot_on_year()
-do.melt_pivot_on_year()
-do.load_swallowed_vote_sampler()
-do.load_group_aggs_by_year()
+# load source data for default subdir
+data_obj = DataObject()
+data_obj.load_pivot_on_year()
+data_obj.melt_pivot_on_year()
+data_obj.load_swallowed_vote_sampler()
+data_obj.load_group_aggs_by_year()
 
 
-
+### BOOTSTRAP COMPONENTS ###
+# url / page  
 url_bar_and_content_div = html.Div([
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content')
@@ -58,7 +59,7 @@ navbar = html.Div([
 # inputs
 year_dropdown = dbc.FormGroup([
     html.H4("Election Year"),
-    dcc.Dropdown(id="year-input", options=[{"label": y, "value": y} for y in do.all_years], value="2020")
+    dcc.Dropdown(id="year-input", options=[{"label": y, "value": y} for y in data_obj.all_years], value="2020")
 ])
 
 swallowed_vote_view_dropdown = dbc.FormGroup([
@@ -296,7 +297,7 @@ def display_page(pathname):
 )
 def update_figure(year_input):
     year = int(year_input)
-    fig = fig_builder.build_fig_for_year(year, do.pivot_on_year_df)
+    fig = fig_builder.build_fig_for_year(data_obj, year)
     return fig
 
 
@@ -306,7 +307,7 @@ def update_figure(year_input):
 )
 def update_overlay_figure(year_input):
     year = int(year_input)
-    fig = fig_builder.build_actual_vs_adjusted_ec_fig(year, do.melted_pivot_on_year_df)
+    fig = fig_builder.build_actual_vs_adjusted_ec_fig(data_obj, year)
     return fig
 
 
@@ -316,7 +317,7 @@ def update_overlay_figure(year_input):
     Input('display-type', 'value'),
 )
 def display_swallowed_vote_fig_1(display_type):
-    fig = fig_builder.build_swallowed_vote_fig_1(do.swallowed_vote_df)
+    fig = fig_builder.build_swallowed_vote_fig_1(data_obj)
     return fig
 
 @app.callback(
@@ -324,7 +325,7 @@ def display_swallowed_vote_fig_1(display_type):
     Input('display-type', 'value'),
 )
 def display_swallowed_vote_fig_2(display_type):
-    fig = fig_builder.build_swallowed_vote_fig_2(do.swallowed_vote_df)
+    fig = fig_builder.build_swallowed_vote_fig_2(data_obj)
     return fig
 
 @app.callback(
@@ -332,7 +333,7 @@ def display_swallowed_vote_fig_2(display_type):
     Input('display-type', 'value'),
 )
 def display_swallowed_vote_fig_3(display_type):
-    fig = fig_builder.build_swallowed_vote_fig_3(do.swallowed_vote_df)
+    fig = fig_builder.build_swallowed_vote_fig_3(data_obj)
     return fig
 
 @app.callback(
@@ -340,7 +341,7 @@ def display_swallowed_vote_fig_3(display_type):
     Input('display-type', 'value'),
 )
 def display_swallowed_vote_fig_4(display_type):
-    fig = fig_builder.build_swallowed_vote_fig_4(do.swallowed_vote_df)
+    fig = fig_builder.build_swallowed_vote_fig_4(data_obj)
     return fig
 
 
@@ -351,7 +352,7 @@ def display_swallowed_vote_fig_4(display_type):
 )
 def display_voter_impact_by_state_group_box(year_input):
     year = int(year_input)
-    fig = fig_builder.build_ivw_by_state_group_box_plot(year, do.pivot_on_year_df)
+    fig = fig_builder.build_ivw_by_state_group_box_plot(data_obj, year)
     return fig
 
 
@@ -362,7 +363,7 @@ def display_voter_impact_by_state_group_box(year_input):
 )
 def display_voter_impact_by_state_map(year_input):
     year = int(year_input)
-    fig = fig_builder.build_ivw_by_state_map(year, do.pivot_on_year_df)
+    fig = fig_builder.build_ivw_by_state_map(data_obj, year)
     return fig
 
 @app.callback(
@@ -371,7 +372,7 @@ def display_voter_impact_by_state_map(year_input):
 )
 def display_state_groups_map(year_input):
     year = int(year_input)
-    fig = fig_builder.build_state_groups_map(year, do.pivot_on_year_df)
+    fig = fig_builder.build_state_groups_map(data_obj, year)
     return fig
 
 
@@ -382,7 +383,7 @@ def display_state_groups_map(year_input):
 )
 def display_voter_impact_by_state_scatter_1(year_input):
     year = int(year_input)
-    fig = fig_builder.build_ivw_by_state_scatter_1(year, do.pivot_on_year_df)
+    fig = fig_builder.build_ivw_by_state_scatter_1(data_obj, year)
     return fig
 
 @app.callback(
@@ -391,7 +392,7 @@ def display_voter_impact_by_state_scatter_1(year_input):
 )
 def display_voter_impact_by_state_scatter_2(year_input):
     year = int(year_input)
-    fig = fig_builder.build_ivw_by_state_scatter_2(year, do.pivot_on_year_df)
+    fig = fig_builder.build_ivw_by_state_scatter_2(data_obj, year)
     return fig
 
 @app.callback(
@@ -400,7 +401,7 @@ def display_voter_impact_by_state_scatter_2(year_input):
 )
 def display_voter_impact_by_state_scatter_3(year_input):
     year = int(year_input)
-    fig = fig_builder.build_ivw_by_state_scatter_3(year, do.pivot_on_year_df)
+    fig = fig_builder.build_ivw_by_state_scatter_3(data_obj, year)
     return fig
 
 
@@ -409,9 +410,9 @@ def display_voter_impact_by_state_scatter_3(year_input):
     Output('voter-impact-by-state-group-scatter-1', 'figure'),
     Input('year-input', 'value'),
 )
-def display_voter_impact_by_state_scatter_1(year_input):
+def display_voter_impact_by_state_group_scatter_1(year_input):
     year = int(year_input)
-    fig = fig_builder.build_ivw_by_state_group_scatter_1(year, do.group_aggs_by_year_df)
+    fig = fig_builder.build_ivw_by_state_group_scatter_1(data_obj, year)
     return fig
 
 @app.callback(
@@ -420,7 +421,7 @@ def display_voter_impact_by_state_scatter_1(year_input):
 )
 def display_voter_impact_by_state_group_scatter_2(year_input):
     year = int(year_input)
-    fig = fig_builder.build_ivw_by_state_group_scatter_2(year, do.group_aggs_by_year_df)
+    fig = fig_builder.build_ivw_by_state_group_scatter_2(data_obj, year)
     return fig
 
 
@@ -431,7 +432,7 @@ def display_voter_impact_by_state_group_scatter_2(year_input):
 )
 def display_voter_impact_by_state_group_line(year_input):
     year = int(year_input)
-    fig = fig_builder.build_ivw_by_state_group_line_chart(year, do.group_aggs_by_year_df)
+    fig = fig_builder.build_ivw_by_state_group_line_chart(data_obj, year)
     return fig
 
 

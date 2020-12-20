@@ -1,9 +1,9 @@
 # data dirs
 BASE_DATA_DIR = 'data'
-GEN_DATA_DIR = f'{BASE_DATA_DIR}/gen'
-GEN_ALT_GROUP_DIR = f'{BASE_DATA_DIR}/gen_altGroup'
-GEN_NO_SMALL_DIR = f'{BASE_DATA_DIR}/gen_noSmall'
-GEN_ALT_GROUP_NO_SMALL_DIR = f'{BASE_DATA_DIR}/gen_altGroupNoSmall'
+GEN_DATA_DIR = 'gen'
+GEN_ALT_GROUP_DIR = 'gen_altGroup'
+GEN_NO_SMALL_DIR = 'gen_noSmall'
+GEN_ALT_GROUP_NO_SMALL_DIR = 'gen_altGroupNoSmall'
 # data files
 THE_ONE_RING_CSV = f'{BASE_DATA_DIR}/theOneRing.csv'
 SWALLOWED_VOTE_2020_CSV = f'{BASE_DATA_DIR}/swallowedVoteSampler2020.csv'

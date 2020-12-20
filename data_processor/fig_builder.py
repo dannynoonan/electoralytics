@@ -4,14 +4,17 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 from metadata import (
-    COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_EC_VOTES_NORM,  COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, 
-    COL_VOTE_WEIGHT, COL_LOG_VOTE_WEIGHT, COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY, 
-    COL_AVG_WEIGHT, COL_STATE_COUNT, COL_STATES_IN_GROUP,
-    GROUPS, GROUP_COLORS, PARTIES, PARTY_COLORS
+    GEN_DATA_DIR, GROUPS, GROUP_COLORS, PARTIES, PARTY_COLORS, COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, 
+    COL_EC_VOTES, COL_EC_VOTES_NORM,  COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_VOTE_WEIGHT, COL_LOG_VOTE_WEIGHT, 
+    COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY, COL_AVG_WEIGHT, COL_STATE_COUNT, COL_STATES_IN_GROUP
 )
 
 
-def build_fig_for_year(year, pivot_on_year_df):
+def build_fig_for_year(data_obj, year, subdir=None):
+    if not subdir:
+        subdir = GEN_DATA_DIR
+    pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
+
     # extract single-year data
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year].sort_values(COL_PARTY, ascending=True)
 
@@ -33,8 +36,12 @@ def build_fig_for_year(year, pivot_on_year_df):
     return fig
 
 
-def build_actual_vs_adjusted_ec_fig(year, melted_pivot_on_year_df):
-    # ref: https://towardsdatascience.com/how-to-create-a-grouped-bar-chart-with-plotly-express-in-python-e2b64ed4abd7
+# ref: https://towardsdatascience.com/how-to-create-a-grouped-bar-chart-with-plotly-express-in-python-e2b64ed4abd7
+def build_actual_vs_adjusted_ec_fig(data_obj, year, subdir=None):
+    if not subdir:
+        subdir = GEN_DATA_DIR
+    melted_pivot_on_year_df = data_obj.melted_pivot_on_year_dfs[subdir]
+
     # extract single-year data
     melted_pivot_on_single_year = melted_pivot_on_year_df[melted_pivot_on_year_df[COL_YEAR] == year]
 
@@ -56,16 +63,14 @@ def build_actual_vs_adjusted_ec_fig(year, melted_pivot_on_year_df):
     return fig
 
 
-def build_swallowed_vote_fig_1(swallowed_vote_df):
-    print(f"in build_swallowed_vote_fig_1, swallowed_vote_df.head(): {swallowed_vote_df.head()}")
-
+def build_swallowed_vote_fig_1(data_obj):
     # display metadata
     hover_data = {'State': True, 'Candidate': True, 'EC Votes for Candidate': True, 'State: Candidate': False,
                 'Candidate: Outcome': False}
     category_orders = {'Candidate': ['Biden','Trump']}
     color_discrete_sequence = ['Blue','Red']
 
-    fig = px.bar(swallowed_vote_df, x="Popular Vote", y="State: Candidate", 
+    fig = px.bar(data_obj.swallowed_vote_df, x="Popular Vote", y="State: Candidate", 
                 color='Candidate', hover_data=hover_data, width=1000, height=800,
                 category_orders=category_orders, color_discrete_sequence=color_discrete_sequence)
 
@@ -75,16 +80,14 @@ def build_swallowed_vote_fig_1(swallowed_vote_df):
     return fig
     
 
-def build_swallowed_vote_fig_2(swallowed_vote_df):
-    print(f"in build_swallowed_vote_fig_2, swallowed_vote_df.head(): {swallowed_vote_df.head()}")
-
+def build_swallowed_vote_fig_2(data_obj):
     # display metadata
     hover_data = {'State': True, 'Candidate': True, 'EC Votes for Candidate': True, 'State: Candidate': False, 
                 'Candidate: Outcome': False}
     category_orders = {'Candidate: Outcome': ['Biden: Win','Trump: Win','Biden: Loss','Trump: Loss']}
     color_discrete_sequence = ['Blue','Red','Gray','Gray']
 
-    fig = px.bar(swallowed_vote_df, x="Popular Vote", y="State: Candidate", 
+    fig = px.bar(data_obj.swallowed_vote_df, x="Popular Vote", y="State: Candidate", 
                 color='Candidate: Outcome', hover_data=hover_data, width=1000, height=800,
                 category_orders=category_orders, color_discrete_sequence=color_discrete_sequence)
 
@@ -94,16 +97,14 @@ def build_swallowed_vote_fig_2(swallowed_vote_df):
     return fig
 
 
-def build_swallowed_vote_fig_3(swallowed_vote_df):
-    print(f"in build_swallowed_vote_fig_3, swallowed_vote_df.head(): {swallowed_vote_df.head()}")
-
+def build_swallowed_vote_fig_3(data_obj):
     # display metadata
     hover_data = {'State': True, 'Candidate': True, 'EC Votes for Candidate': True, 'State: Candidate': False, 
                 'Candidate: Outcome': False}
     category_orders = {'Candidate: Outcome': ['Biden: Win','Trump: Win','Biden: Loss','Trump: Loss']}
     color_discrete_sequence = ['Blue','Red','Gray','Gray']
 
-    fig = px.bar(swallowed_vote_df, x="Popular Vote", y="State", 
+    fig = px.bar(data_obj.swallowed_vote_df, x="Popular Vote", y="State", 
                 color='Candidate: Outcome', barmode='relative', hover_data=hover_data, width=1000, height=800,
                 category_orders=category_orders, color_discrete_sequence=color_discrete_sequence)
 
@@ -113,12 +114,10 @@ def build_swallowed_vote_fig_3(swallowed_vote_df):
     return fig
 
 
-def build_swallowed_vote_fig_4(swallowed_vote_df):
-    distilled_svs = swallowed_vote_df.sort_values('EC Votes for Candidate', ascending=False)
+def build_swallowed_vote_fig_4(data_obj):
+    distilled_svs = data_obj.swallowed_vote_df.sort_values('EC Votes for Candidate', ascending=False)
     distilled_svs = distilled_svs[distilled_svs['EC Votes for Candidate'] != 0]
     
-    print(f"in build_swallowed_vote_fig_4, swallowed_vote_df.head(): {swallowed_vote_df.head()}")
-
     # display metadata
     hover_data = {'State': True, 'EC Votes for Candidate': True, 'State: Candidate': False}
     category_orders = {'Candidate': ['Biden','Trump']}
@@ -133,7 +132,11 @@ def build_swallowed_vote_fig_4(swallowed_vote_df):
     return fig
 
 
-def build_ivw_by_state_group_box_plot(year, pivot_on_year_df):
+def build_ivw_by_state_group_box_plot(data_obj, year, subdir=None):
+    if not subdir:
+        subdir = GEN_DATA_DIR
+    pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
+
     # extract single-year data
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year].sort_values(COL_PARTY, ascending=True)
 
@@ -159,7 +162,12 @@ def build_ivw_by_state_group_box_plot(year, pivot_on_year_df):
     return fig
 
 
-def build_ivw_by_state_map(year, pivot_on_year_df):
+def build_ivw_by_state_map(data_obj, year, subdir=None):
+    if not subdir:
+        subdir = GEN_DATA_DIR
+    pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
+
+    # extract single-year data
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
 
     # generate COL_LOG_VOTE_WEIGHT column, workaround to manually create log color scale
@@ -193,7 +201,12 @@ def build_ivw_by_state_map(year, pivot_on_year_df):
     return fig
 
 
-def build_state_groups_map(year, pivot_on_year_df):
+def build_state_groups_map(data_obj, year, subdir=None):
+    if not subdir:
+        subdir = GEN_DATA_DIR
+    pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
+
+    # extract single-year data
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
 
     # generate COL_LOG_VOTE_WEIGHT column, workaround to manually create log color scale
@@ -214,7 +227,12 @@ def build_state_groups_map(year, pivot_on_year_df):
     return fig
 
 
-def build_ivw_by_state_scatter_1(year, pivot_on_year_df):
+def build_ivw_by_state_scatter_1(data_obj, year, subdir=None):
+    if not subdir:
+        subdir = GEN_DATA_DIR
+    pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
+
+    # extract single-year data
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
     
     # calculate axis range boundaries 
@@ -258,7 +276,12 @@ def build_ivw_by_state_scatter_1(year, pivot_on_year_df):
     return fig
 
 
-def build_ivw_by_state_scatter_2(year, pivot_on_year_df):
+def build_ivw_by_state_scatter_2(data_obj, year, subdir=None):
+    if not subdir:
+        subdir = GEN_DATA_DIR
+    pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
+
+    # extract single-year data
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
 
     # calculate axis range boundaries 
@@ -309,7 +332,12 @@ def build_ivw_by_state_scatter_2(year, pivot_on_year_df):
     return fig
 
 
-def build_ivw_by_state_scatter_3(year, pivot_on_year_df):
+def build_ivw_by_state_scatter_3(data_obj, year, subdir=None):
+    if not subdir:
+        subdir = GEN_DATA_DIR
+    pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
+
+    # extract single-year data
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
 
     # calculate axis range boundaries 
@@ -357,7 +385,12 @@ def build_ivw_by_state_scatter_3(year, pivot_on_year_df):
     return fig
 
 
-def build_ivw_by_state_group_scatter_1(year, group_aggs_by_year_df):
+def build_ivw_by_state_group_scatter_1(data_obj, year, subdir=None):
+    if not subdir:
+        subdir = GEN_DATA_DIR
+    group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
+
+    # extract single-year data
     group_aggs_by_single_year = group_aggs_by_year_df[group_aggs_by_year_df[COL_YEAR] == year]
 
     # calculate axis range boundaries
@@ -407,7 +440,12 @@ def build_ivw_by_state_group_scatter_1(year, group_aggs_by_year_df):
     return fig
 
 
-def build_ivw_by_state_group_scatter_2(year, group_aggs_by_year_df):
+def build_ivw_by_state_group_scatter_2(data_obj, year, subdir=None):
+    if not subdir:
+        subdir = GEN_DATA_DIR
+    group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
+
+    # extract single-year data
     group_aggs_by_single_year = group_aggs_by_year_df[group_aggs_by_year_df[COL_YEAR] == year]
 
     # calculate axis range boundaries
@@ -450,7 +488,11 @@ def build_ivw_by_state_group_scatter_2(year, group_aggs_by_year_df):
     return fig
 
 
-def build_ivw_by_state_group_line_chart(year, group_aggs_by_year_df):
+def build_ivw_by_state_group_line_chart(data_obj, year, subdir=None):
+    if not subdir:
+        subdir = GEN_DATA_DIR
+    group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
+
     # display metadata
     hover_data = {COL_STATES_IN_GROUP: True, COL_EC_VOTES: True}
     avg_weight_min = group_aggs_by_year_df[group_aggs_by_year_df[COL_AVG_WEIGHT] > 0][COL_AVG_WEIGHT].min() * 0.8
