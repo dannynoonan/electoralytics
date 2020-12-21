@@ -23,12 +23,16 @@ def map_to_subdir(groupings_input, small_group_input):
 
 def get_era_for_year(year):
     if year <= 1860:
-        return 'Antebellum Period'
+        return 'Antebellum'
     elif year == 1864:
         return 'Civil War'
     elif year <= 1876:
         return 'Reconstruction'
+    elif year <= 1900:
+        return 'Early Jim Crow'
+    elif year <= 1952:
+        return 'Jim Crow'
     elif year <= 1964:
-        return 'Jim Crow Era'
+        return 'Late Jim Crow'
     else:
-        return 'Civil Rights Era'
+        return 'Voting Rights Act'

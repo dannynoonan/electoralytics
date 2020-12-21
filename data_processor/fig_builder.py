@@ -43,7 +43,8 @@ def build_ivw_by_state_bar(data_obj, year, subdir=None):
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year].sort_values(COL_PARTY, ascending=True)
 
     # display metadata
-    hover_data = {COL_PARTY: False, COL_VOTES_COUNTED: True, COL_EC_VOTES: True, COL_POP_PER_EC_SHORT: True, COL_EC_VOTES_NORM: True}
+    hover_data = {COL_PARTY: False, COL_VOTES_COUNTED: True, COL_EC_VOTES: True, COL_POP_PER_EC_SHORT: True, COL_EC_VOTES_NORM: True,
+                COL_STATE: False}
     # category_orders = {COL_PARTY: PARTIES}
     # color_discrete_sequence = [PARTY_COLORS[p] for p in PARTIES]
     category_orders = {COL_GROUP: groups}
@@ -53,7 +54,7 @@ def build_ivw_by_state_bar(data_obj, year, subdir=None):
     fig_title = f'Comparative Vote Weight Per Ballot Cast Per State: {year} ({era})'
     
     # declare fig
-    fig = px.bar(pivot_on_single_year, x=COL_VOTE_WEIGHT, y=COL_STATE, color=COL_GROUP, hover_data=hover_data,
+    fig = px.bar(pivot_on_single_year, x=COL_VOTE_WEIGHT, y=COL_STATE, color=COL_GROUP, hover_name=COL_STATE, hover_data=hover_data,
                 # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
                 labels={COL_VOTE_WEIGHT: 'Relative impact per voter'}, width=BAR_WIDTH, height=BAR_HEIGHT, title=fig_title)
 
@@ -75,7 +76,8 @@ def build_actual_vs_adjusted_ec_bar(data_obj, year, subdir=None):
     melted_pivot_on_single_year = melted_pivot_on_year_df[melted_pivot_on_year_df[COL_YEAR] == year]
 
     # display metadata
-    hover_data = {COL_PARTY: False, 'Actual vs Adjusted EC votes^': False, COL_VOTES_COUNTED: True, COL_POP_PER_EC_SHORT: True}
+    hover_data = {COL_PARTY: False, 'Actual vs Adjusted EC votes^': False, COL_VOTES_COUNTED: True, COL_POP_PER_EC_SHORT: True,
+                COL_STATE: False}
     # category_orders = {COL_PARTY: PARTIES}
     # color_discrete_sequence = [PARTY_COLORS[p] for p in PARTIES]
     # fig_title = f'{year} Presidential Election: Actual EC Votes vs EC Votes Adjusted For Turnout'
@@ -83,7 +85,7 @@ def build_actual_vs_adjusted_ec_bar(data_obj, year, subdir=None):
     fig_title = f'Actual EC Votes vs EC Votes Adjusted For Turnout: {year} ({era})'
 
     fig = px.bar(melted_pivot_on_single_year, x='EC votes^', y=COL_STATE,  
-                color='Actual vs Adjusted EC votes^', barmode='group', hover_data=hover_data,
+                color='Actual vs Adjusted EC votes^', barmode='group', hover_name=COL_STATE, hover_data=hover_data,
                 # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
                 width=BAR_WIDTH, height=BAR_HEIGHT, title=fig_title)
 
@@ -114,7 +116,7 @@ def build_ivw_by_state_map(data_obj, year, subdir=None):
     # vote_weight_max = vote_weight_ser.max()
 
     # display metadata
-    hover_data = {COL_YEAR: False, COL_ABBREV: False, COL_LOG_VOTE_WEIGHT: False, COL_STATE: True, COL_GROUP: True,
+    hover_data = {COL_YEAR: False, COL_ABBREV: False, COL_LOG_VOTE_WEIGHT: False, COL_GROUP: True,
                 COL_VOTES_COUNTED: True, COL_EC_VOTES: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True, 
                 COL_EC_VOTES_NORM: True}
     # map_title = f'{year} presidential election: Vote weight per person per state'
@@ -122,7 +124,7 @@ def build_ivw_by_state_map(data_obj, year, subdir=None):
     fig_title = f'Vote Weight Per Person Per State: {year} ({era})'
 
     fig = px.choropleth(pivot_on_single_year, locations=COL_ABBREV, color=COL_LOG_VOTE_WEIGHT,
-                        locationmode='USA-states', scope="usa", hover_data=hover_data, 
+                        locationmode='USA-states', scope="usa", hover_name=COL_STATE, hover_data=hover_data, 
                         color_continuous_scale=px.colors.diverging.BrBG[::-1], 
                         # range_color=[-1.0, pivot_on_single_year[COL_LOG_VOTE_WEIGHT].max()],
                         # range_color=[log_vote_weight_min, log_vote_weight_max],
@@ -269,9 +271,9 @@ def build_ivw_by_state_scatter_bubbles(data_obj, year, subdir=None):
 
     # init figure with core properties
     fig = px.scatter(pivot_on_single_year, x=COL_EC_VOTES, y=COL_VOTE_WEIGHT, 
-                    size=COL_VOTES_COUNTED_PCT, color=COL_GROUP, hover_name=COL_STATE, 
+                    size=COL_VOTES_COUNTED_PCT, color=COL_GROUP, hover_name=COL_STATE, hover_data=hover_data, 
                     # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
-                    title=fig_title, hover_data=hover_data, width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.5,
+                    title=fig_title, width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.5,
                     log_y=True, size_max=80, range_x=[0,ec_max], range_y=[weight_min,weight_max])
 
     # scatterplot dot formatting
@@ -349,7 +351,7 @@ def build_state_groups_map(data_obj, year, subdir=None):
     # pivot_on_single_year[COL_LOG_VOTE_WEIGHT] = np.log2(pivot_on_single_year[COL_VOTE_WEIGHT])
 
     # display metadata
-    hover_data = {COL_YEAR: False, COL_ABBREV: False, COL_STATE: True, COL_GROUP: True, COL_VOTES_COUNTED: True, 
+    hover_data = {COL_YEAR: False, COL_ABBREV: False, COL_GROUP: True, COL_VOTES_COUNTED: True, 
               COL_EC_VOTES: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True, COL_EC_VOTES_NORM: True}
     category_orders = {COL_GROUP: groups}
     color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
@@ -357,7 +359,7 @@ def build_state_groups_map(data_obj, year, subdir=None):
     fig_title = f'Regional Groupings During {year} Presidential Election ({era})'
 
     fig = px.choropleth(pivot_on_single_year, locations=COL_ABBREV, color=COL_GROUP, 
-                        locationmode='USA-states', scope="usa", hover_data=hover_data, 
+                        locationmode='USA-states', scope="usa", hover_name=COL_STATE, hover_data=hover_data, 
                         # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
                         title=fig_title, width=MAP_WIDTH, height=MAP_HEIGHT)
 
@@ -393,8 +395,7 @@ def build_ivw_by_state_group_scatter_dots(data_obj, year, subdir=None):
     # init figure with core properties
     fig = px.scatter(group_aggs_by_single_year, x=COL_EC_VOTES_NORM, y=COL_EC_VOTES, 
                     # animation_frame=COL_YEAR, animation_group=COL_GROUP, 
-                    color=COL_GROUP, title=fig_title, 
-                    hover_name=COL_GROUP, hover_data=hover_data,
+                    color=COL_GROUP, title=fig_title, hover_name=COL_GROUP, hover_data=hover_data,
                     # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
     #                  log_x=True, log_y=True, range_x=[.4,norm_max], range_y=[2,ec_max],
                     width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.7, range_x=[0, norm_max], range_y=[0, ec_max])
@@ -448,9 +449,9 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, year, subdir=None):
     # init figure with core properties
     fig = px.scatter(group_aggs_by_single_year, x=COL_EC_VOTES, y=COL_AVG_WEIGHT, 
                     # animation_frame=COL_YEAR, animation_group=COL_GROUP, 
-                    size=COL_VOTES_COUNTED_PCT, color=COL_GROUP, hover_name=COL_GROUP, 
+                    size=COL_VOTES_COUNTED_PCT, color=COL_GROUP, hover_name=COL_GROUP, hover_data=hover_data, 
                     # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
-                    title=fig_title, hover_data=hover_data, width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.5,
+                    title=fig_title, width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.5,
                     log_y=True, size_max=80, range_x=[0, ec_max], range_y=[weight_min, weight_max])
 
     # scatterplot dot formatting
