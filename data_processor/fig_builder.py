@@ -78,21 +78,20 @@ def build_actual_vs_adjusted_ec_bar(data_obj, year, subdir=None):
     # display metadata
     hover_data = {COL_PARTY: False, 'Actual vs Adjusted EC votes^': False, COL_VOTES_COUNTED: True, COL_POP_PER_EC_SHORT: True,
                 COL_STATE: False}
-    # category_orders = {COL_PARTY: PARTIES}
-    # color_discrete_sequence = [PARTY_COLORS[p] for p in PARTIES]
+    color_discrete_sequence = ['LimeGreen','DarkGreen']
     # fig_title = f'{year} Presidential Election: Actual EC Votes vs EC Votes Adjusted For Turnout'
     era = get_era_for_year(year)
     fig_title = f'Actual EC Votes vs EC Votes Adjusted For Turnout: {year} ({era})'
 
     fig = px.bar(melted_pivot_on_single_year, x='EC votes^', y=COL_STATE,  
                 color='Actual vs Adjusted EC votes^', barmode='group', hover_name=COL_STATE, hover_data=hover_data,
-                # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
-                width=BAR_WIDTH, height=BAR_HEIGHT, title=fig_title)
+                color_discrete_sequence=color_discrete_sequence, width=BAR_WIDTH, height=BAR_HEIGHT, title=fig_title)
 
     fig.update_layout(
         yaxis={'tickangle': 35, 'showticklabels': True, 'type': 'category', 'tickfont_size': 8},
         yaxis_categoryorder='total descending'
     )
+    fig.update_xaxes(title_text='Actual EC votes / EC Votes If Adjusted For Popular Vote Turnout')
 
     return fig
 
