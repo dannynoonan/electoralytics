@@ -66,8 +66,11 @@ year_slider = dbc.FormGroup([
             dcc.Slider(
                 id="year-input",
                 min=1828,
-                max=2000,
-                marks={int(y): str(y) for y in data_obj.all_years},
+                max=2020,
+                marks={
+                    int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)'}}
+                    for y in data_obj.all_years
+                },
                 value=1960,
             )
         ]),
