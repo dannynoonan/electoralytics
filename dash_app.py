@@ -50,32 +50,47 @@ navbar = html.Div([
     ])
 ])
 
+
 # inputs
-year_dropdown = dbc.FormGroup([
-    html.H4("Election Year"),
-    dcc.Dropdown(
-        id="year-input", 
-        options=[{"label": y, "value": y} for y in data_obj.all_years], 
-        value="2020"
-    ),
-    html.Br(),
-    html.H4("Grouping Options"),
-    dcc.Dropdown(
-        id="groupings-input", 
-        options=[
-            {'label': 'Original', 'value': 'Original'},
-            {'label': 'Alternate', 'value': 'Alternate'}
-        ], 
-        value="Original"
-    ), 
-    html.Br(),
-    dcc.Checklist(
-        id="small-group-input", 
-        options=[
-            {'label': 'Extract Small', 'value': 'Extract Small'},
-        ],
-        value=['Extract Small']
-    )
+year_slider = dbc.FormGroup([
+    dbc.Row([
+        dbc.Col(md=9, children=[
+            html.H4("Election Year")
+        ]),
+        dbc.Col(md=3, children=[
+            html.H4("Grouping Options")
+        ])
+    ]),
+    dbc.Row([
+        dbc.Col(md=9, children=[
+            dcc.Slider(
+                id="year-input",
+                min=1828,
+                max=2000,
+                marks={int(y): str(y) for y in data_obj.all_years},
+                value=1960,
+            )
+        ]),
+        dbc.Col(md=2, children=[
+            dcc.Dropdown(
+                id="groupings-input", 
+                options=[
+                    {'label': 'Original', 'value': 'Original'},
+                    {'label': 'Alternate', 'value': 'Alternate'}
+                ], 
+                value="Original"
+            )
+        ]),
+        dbc.Col(md=1, children=[
+            dcc.Checklist(
+                id="small-group-input", 
+                options=[
+                    {'label': ' Extract Small', 'value': 'Extract Small'},
+                ],
+                value=['Extract Small']
+            )
+        ])
+    ])
 ])
 
 
@@ -86,41 +101,46 @@ swallowed_vote_view_dropdown = dbc.FormGroup([
 
 
 layout_1 = html.Div([
-    ## Top
     navbar,
     html.Br(),
-
     dbc.Row([
-        ### input + panel
-        dbc.Col(md=2, children=[
-            year_dropdown,
-            html.Br(),html.Br(),
-            html.Div(id="year-summary")
-        ]),
-        dbc.Col(md=10, children=[
-            dbc.Col(html.H4("Inter-State Voter Impact Comparison"), width={"size": 6, "offset": 3}), 
-            html.Br(),
+        # html.H3("Comparing Individual Voter Impact Per State"),
+        # html.H3("Comparing Vote Weight Per Ballot Cast Per State"),
+        html.H3("Comparing Vote Weight Per Ballot Cast (Per State/Per Region)"),
+    ], justify="center", align="center"),
+    dbc.Row([
+        dbc.Col(md=12, children=[
+            year_slider,
+            # group_select,
+        ])
+    ]),
+    dbc.Row([
+        dbc.Col(md=12, children=[
+            # dbc.Col(html.H4("Inter-State Voter Impact Comparison"), width={"size": 6, "offset": 3}), 
+            # html.Br(),
             dbc.Tabs(className="nav nav-pills", children=[
-                dbc.Tab(label="Comparing States", children=[
+                dbc.Tab(label="State-Level Comparisons", tab_style={"font-size": "20px"}, children=[
                     dbc.Row([
                         dbc.Col(md=6, children=[
                             dcc.Graph(id="vote-weight-comparison-by-state-map-1"),
                             html.Br(),
+                            dcc.Graph(id="vote-weight-comparison-by-state-scatter-dots"),
+                            html.Br(),
                             dcc.Graph(id="vote-weight-comparison-by-state-bar-1"),
                             html.Br(),
-                            dcc.Graph(id="vote-weight-comparison-by-state-bar-2")
                         ]),
                         dbc.Col(md=6, children=[
-                            dcc.Graph(id="vote-weight-comparison-by-state-scatter-1"),
+                            dcc.Graph(id="vote-weight-comparison-by-state-scatter-bubbles"),
+                            html.Br(), 
+                            dcc.Graph(id="vote-weight-comparison-by-state-scatter-abbrevs"),
                             html.Br(),
-                            dcc.Graph(id="vote-weight-comparison-by-state-scatter-2"),
+                            dcc.Graph(id="vote-weight-comparison-by-state-bar-2"),
                             html.Br(),
-                            dcc.Graph(id="vote-weight-comparison-by-state-scatter-3")
                         ])
                     ])
                 ]),
 
-                dbc.Tab(label="Comparing Historical Regions", children=[
+                dbc.Tab(label="Regional Aggregate Comparisons", tab_style={"font-size": "20px"}, children=[
                     dbc.Row([
                         dbc.Col(md=12, children=[
                             dcc.Graph(id="vote-weight-comparison-by-state-group-line-1")
@@ -130,15 +150,17 @@ layout_1 = html.Div([
                     dbc.Row([
                         ### input + panel
                         dbc.Col(md=6, children=[
+                            dcc.Graph(id="vote-weight-comparison-by-state-group-box-1"),
+                            html.Br(),
                             dcc.Graph(id="vote-weight-comparison-by-state-group-map-1"),
                             html.Br(),
-                            dcc.Graph(id="vote-weight-comparison-by-state-group-box-1")
                         ]),
                         ### map
                         dbc.Col(md=6, children=[
-                            dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-1"),
+                            dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-bubbles"),
                             html.Br(),
-                            dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-2")
+                            dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-dots"),
+                            html.Br(),
                         ])
                     ])
                 ]),
@@ -216,38 +238,38 @@ def display_page(pathname):
     Output('vote-weight-comparison-by-state-map-1', 'figure'),
     Output('vote-weight-comparison-by-state-bar-1', 'figure'),
     Output('vote-weight-comparison-by-state-bar-2', 'figure'),
-    Output('vote-weight-comparison-by-state-scatter-1', 'figure'),
-    Output('vote-weight-comparison-by-state-scatter-2', 'figure'),
-    Output('vote-weight-comparison-by-state-scatter-3', 'figure'),
+    Output('vote-weight-comparison-by-state-scatter-dots', 'figure'),
+    Output('vote-weight-comparison-by-state-scatter-abbrevs', 'figure'),
+    Output('vote-weight-comparison-by-state-scatter-bubbles', 'figure'),
     Input('year-input', 'value'),
     Input('groupings-input', 'value'),
     Input('small-group-input', 'value'),
 )
-def update_figure(year_input, groupings_input, small_group_input):
+def display_state_level_figs(year_input, groupings_input, small_group_input):
     # process input
     year = int(year_input)
     subdir = map_to_subdir(groupings_input, small_group_input)
     data_obj.load_dfs_for_subdir(subdir)
     # generate figs
     fig_map_1 = fig_builder.build_ivw_by_state_map(data_obj, year, subdir=subdir)
-    fig_bar_1 = fig_builder.build_fig_for_year(data_obj, year, subdir=subdir)
-    fig_bar_2 = fig_builder.build_actual_vs_adjusted_ec_fig(data_obj, year, subdir=subdir)
-    fig_scatter_1 = fig_builder.build_ivw_by_state_scatter_1(data_obj, year, subdir=subdir)
-    fig_scatter_2 = fig_builder.build_ivw_by_state_scatter_2(data_obj, year, subdir=subdir)
-    fig_scatter_3 = fig_builder.build_ivw_by_state_scatter_3(data_obj, year, subdir=subdir)
-    return fig_map_1, fig_bar_1, fig_bar_2, fig_scatter_1, fig_scatter_2, fig_scatter_3
+    fig_bar_1 = fig_builder.build_ivw_by_state_bar(data_obj, year, subdir=subdir)
+    fig_bar_2 = fig_builder.build_actual_vs_adjusted_ec_bar(data_obj, year, subdir=subdir)
+    fig_scatter_dots = fig_builder.build_ivw_by_state_scatter_dots(data_obj, year, subdir=subdir)
+    fig_scatter_abbrevs = fig_builder.build_ivw_by_state_scatter_abbrevs(data_obj, year, subdir=subdir)
+    fig_scatter_bubbles = fig_builder.build_ivw_by_state_scatter_bubbles(data_obj, year, subdir=subdir)
+    return fig_map_1, fig_bar_1, fig_bar_2, fig_scatter_dots, fig_scatter_abbrevs, fig_scatter_bubbles
 
 @app.callback(
     Output('vote-weight-comparison-by-state-group-map-1', 'figure'),
     Output('vote-weight-comparison-by-state-group-line-1', 'figure'),
     Output('vote-weight-comparison-by-state-group-box-1', 'figure'),
-    Output('vote-weight-comparison-by-state-group-scatter-1', 'figure'),
-    Output('vote-weight-comparison-by-state-group-scatter-2', 'figure'),
+    Output('vote-weight-comparison-by-state-group-scatter-dots', 'figure'),
+    Output('vote-weight-comparison-by-state-group-scatter-bubbles', 'figure'),
     Input('year-input', 'value'),
     Input('groupings-input', 'value'),
     Input('small-group-input', 'value'),
 )
-def update_overlay_figure(year_input, groupings_input, small_group_input):
+def display_regional_aggregate_figs(year_input, groupings_input, small_group_input):
     # process input
     year = int(year_input)
     subdir = map_to_subdir(groupings_input, small_group_input)
@@ -256,9 +278,9 @@ def update_overlay_figure(year_input, groupings_input, small_group_input):
     fig_map_1 = fig_builder.build_state_groups_map(data_obj, year, subdir=subdir)
     fig_line_1 = fig_builder.build_ivw_by_state_group_line_chart(data_obj, year, subdir=subdir)
     fig_box_1 = fig_builder.build_ivw_by_state_group_box_plot(data_obj, year, subdir=subdir)
-    fig_scatter_1 = fig_builder.build_ivw_by_state_group_scatter_1(data_obj, year, subdir=subdir)
-    fig_scatter_2 = fig_builder.build_ivw_by_state_group_scatter_2(data_obj, year, subdir=subdir)
-    return fig_map_1, fig_line_1, fig_box_1, fig_scatter_1, fig_scatter_2
+    fig_scatter_dots = fig_builder.build_ivw_by_state_group_scatter_dots(data_obj, year, subdir=subdir)
+    fig_scatter_bubbles = fig_builder.build_ivw_by_state_group_scatter_bubbles(data_obj, year, subdir=subdir)
+    return fig_map_1, fig_line_1, fig_box_1, fig_scatter_dots, fig_scatter_bubbles
 
 
 # Layout 2 callbacks

@@ -71,7 +71,7 @@ class DataObject():
 
         print(f"melting self.pivot_on_year_dfs[{subdir}]")
         mod_pivot_on_year_df = self.pivot_on_year_dfs[subdir].rename(
-            columns={COL_EC_VOTES: 'EC votes: Actual', COL_EC_VOTES_NORM: 'ECV: Adjusted for population'})
+            columns={COL_EC_VOTES: 'EC votes: Actual', COL_EC_VOTES_NORM: 'ECV: Adjusted for turnout'})
         # TODO id_vars is all cols not being melted, should be automatic not enumerated
         melted_pivot_on_year_df = pd.melt(
             mod_pivot_on_year_df, 

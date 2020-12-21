@@ -3,6 +3,7 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 
+from data_processor.functions import get_era_for_year
 from metadata import (
     GEN_DATA_DIR, GEN_ALT_GROUP_DIR, GEN_NO_SMALL_DIR, GEN_ALT_GROUP_NO_SMALL_DIR, 
     GROUPS, ALT_GROUPS, GROUP_COLORS, PARTIES, PARTY_COLORS, 
@@ -12,73 +13,23 @@ from metadata import (
 )
 
 
-BAR_WIDTH=600
+BAR_WIDTH=800
 BAR_HEIGHT=800
 
-SCATTER_WIDTH=600
-SCATTER_HEIGHT=450
+SCATTER_WIDTH=800
+SCATTER_HEIGHT=600
 
-MAP_WIDTH=600
-MAP_HEIGHT=450
+MAP_WIDTH=800
+MAP_HEIGHT=600
 
-BOX_WIDTH=600
-BOX_HEIGHT=450
+BOX_WIDTH=800
+BOX_HEIGHT=600
 
-
-def build_fig_for_year(data_obj, year, subdir=None):
-    if not subdir:
-        subdir = GEN_DATA_DIR
-    pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
-
-    # extract single-year data
-    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year].sort_values(COL_PARTY, ascending=True)
-
-    # display metadata
-    hover_data = {COL_PARTY: False, COL_VOTES_COUNTED: True, COL_EC_VOTES: True, COL_POP_PER_EC_SHORT: True, COL_EC_VOTES_NORM: True}
-    category_orders = {COL_PARTY: PARTIES}
-    color_discrete_sequence = [PARTY_COLORS[p] for p in PARTIES]
-    
-    # declare fig
-    fig = px.bar(pivot_on_single_year, x=COL_VOTE_WEIGHT, y=COL_STATE, color=COL_PARTY, hover_data=hover_data,
-                category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
-                labels={COL_VOTE_WEIGHT: 'Relative impact per voter'}, width=BAR_WIDTH, height=BAR_HEIGHT)
-
-    fig.update_layout(
-        yaxis={'tickangle': 35, 'showticklabels': True, 'type': 'category', 'tickfont_size': 8},
-        yaxis_categoryorder='total ascending',
-    )
-
-    return fig
+LINE_WIDTH=1640
+LINE_HEIGHT=500
 
 
-# ref: https://towardsdatascience.com/how-to-create-a-grouped-bar-chart-with-plotly-express-in-python-e2b64ed4abd7
-def build_actual_vs_adjusted_ec_fig(data_obj, year, subdir=None):
-    if not subdir:
-        subdir = GEN_DATA_DIR
-    melted_pivot_on_year_df = data_obj.melted_pivot_on_year_dfs[subdir]
-
-    # extract single-year data
-    melted_pivot_on_single_year = melted_pivot_on_year_df[melted_pivot_on_year_df[COL_YEAR] == year]
-
-    # display metadata
-    hover_data = {COL_PARTY: False, 'Actual vs Adjusted EC votes^': False, COL_VOTES_COUNTED: True, COL_POP_PER_EC_SHORT: True}
-    category_orders = {COL_PARTY: PARTIES}
-    color_discrete_sequence = [PARTY_COLORS[p] for p in PARTIES]
-
-    fig = px.bar(melted_pivot_on_single_year, x='EC votes^', y=COL_STATE,  
-                color='Actual vs Adjusted EC votes^', barmode='group', hover_data=hover_data,
-                category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
-                width=BAR_WIDTH, height=BAR_HEIGHT)
-
-    fig.update_layout(
-        yaxis={'tickangle': 35, 'showticklabels': True, 'type': 'category', 'tickfont_size': 8},
-        yaxis_categoryorder='total descending'
-    )
-
-    return fig
-
-
-def build_ivw_by_state_group_box_plot(data_obj, year, subdir=None):
+def build_ivw_by_state_bar(data_obj, year, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
@@ -92,24 +43,55 @@ def build_ivw_by_state_group_box_plot(data_obj, year, subdir=None):
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year].sort_values(COL_PARTY, ascending=True)
 
     # display metadata
+    hover_data = {COL_PARTY: False, COL_VOTES_COUNTED: True, COL_EC_VOTES: True, COL_POP_PER_EC_SHORT: True, COL_EC_VOTES_NORM: True}
+    # category_orders = {COL_PARTY: PARTIES}
+    # color_discrete_sequence = [PARTY_COLORS[p] for p in PARTIES]
     category_orders = {COL_GROUP: groups}
     color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
-    box_title = f'{year} presidential election: voter impact by state grouping'
+    # fig_title = f'{year} Presidential Election: Comparative Vote Weight Per Ballot Cast Per State'
+    era = get_era_for_year(year)
+    fig_title = f'Comparative Vote Weight Per Ballot Cast Per State: {year} ({era})'
+    
+    # declare fig
+    fig = px.bar(pivot_on_single_year, x=COL_VOTE_WEIGHT, y=COL_STATE, color=COL_GROUP, hover_data=hover_data,
+                # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                labels={COL_VOTE_WEIGHT: 'Relative impact per voter'}, width=BAR_WIDTH, height=BAR_HEIGHT, title=fig_title)
 
-    # box plot
-    box_data = pivot_on_single_year[[COL_GROUP, COL_VOTE_WEIGHT]]
-    pivot = box_data.pivot(columns=COL_GROUP, values=COL_VOTE_WEIGHT)
+    fig.update_layout(
+        yaxis={'tickangle': 35, 'showticklabels': True, 'type': 'category', 'tickfont_size': 8},
+        yaxis_categoryorder='total ascending',
+    )
 
-    fig = px.box(pivot, color=COL_GROUP, 
-                category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
-                width=BOX_WIDTH, height=BOX_HEIGHT, log_y=True, title=box_title)
+    return fig
 
-    # fig.add_trace(go.Scatter(x=flat_data['EC votes'], y=flat_data['Mean vote weight'], 
-    #                          mode='lines', name=trace_name_natl_avg, line=dict(color='black', width=1)))
 
-    fig.update_xaxes(title_text='')
-    fig.update_yaxes(title_text='Range of individual voter impact within state grouping')
-    fig.update_layout(title_x=0.46)
+# ref: https://towardsdatascience.com/how-to-create-a-grouped-bar-chart-with-plotly-express-in-python-e2b64ed4abd7
+def build_actual_vs_adjusted_ec_bar(data_obj, year, subdir=None):
+    if not subdir:
+        subdir = GEN_DATA_DIR
+    melted_pivot_on_year_df = data_obj.melted_pivot_on_year_dfs[subdir]
+
+    # extract single-year data
+    melted_pivot_on_single_year = melted_pivot_on_year_df[melted_pivot_on_year_df[COL_YEAR] == year]
+
+    # display metadata
+    hover_data = {COL_PARTY: False, 'Actual vs Adjusted EC votes^': False, COL_VOTES_COUNTED: True, COL_POP_PER_EC_SHORT: True}
+    # category_orders = {COL_PARTY: PARTIES}
+    # color_discrete_sequence = [PARTY_COLORS[p] for p in PARTIES]
+    # fig_title = f'{year} Presidential Election: Actual EC Votes vs EC Votes Adjusted For Turnout'
+    era = get_era_for_year(year)
+    fig_title = f'Actual EC Votes vs EC Votes Adjusted For Turnout: {year} ({era})'
+
+    fig = px.bar(melted_pivot_on_single_year, x='EC votes^', y=COL_STATE,  
+                color='Actual vs Adjusted EC votes^', barmode='group', hover_data=hover_data,
+                # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                width=BAR_WIDTH, height=BAR_HEIGHT, title=fig_title)
+
+    fig.update_layout(
+        yaxis={'tickangle': 35, 'showticklabels': True, 'type': 'category', 'tickfont_size': 8},
+        yaxis_categoryorder='total descending'
+    )
+
     return fig
 
 
@@ -135,7 +117,9 @@ def build_ivw_by_state_map(data_obj, year, subdir=None):
     hover_data = {COL_YEAR: False, COL_ABBREV: False, COL_LOG_VOTE_WEIGHT: False, COL_STATE: True, COL_GROUP: True,
                 COL_VOTES_COUNTED: True, COL_EC_VOTES: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True, 
                 COL_EC_VOTES_NORM: True}
-    map_title = f'{year} presidential election: Vote weight per person per state'
+    # map_title = f'{year} presidential election: Vote weight per person per state'
+    era = get_era_for_year(year)
+    fig_title = f'Vote Weight Per Person Per State: {year} ({era})'
 
     fig = px.choropleth(pivot_on_single_year, locations=COL_ABBREV, color=COL_LOG_VOTE_WEIGHT,
                         locationmode='USA-states', scope="usa", hover_data=hover_data, 
@@ -143,12 +127,208 @@ def build_ivw_by_state_map(data_obj, year, subdir=None):
                         # range_color=[-1.0, pivot_on_single_year[COL_LOG_VOTE_WEIGHT].max()],
                         # range_color=[log_vote_weight_min, log_vote_weight_max],
                         color_continuous_midpoint=0,
-                        title=map_title, width=MAP_WIDTH, height=MAP_HEIGHT)
+                        title=fig_title, width=MAP_WIDTH, height=MAP_HEIGHT)
 
     fig.update_layout(
         coloraxis_colorbar=dict(tickvals=[-2.303, -1.609, -1.109, -0.693, -0.357, 0, 0.405, 0.916, 1.386, 1.792, 2.197],
                                 ticktext=['0.1', '0.2', '0.33', '0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']))
 
+    return fig
+
+
+def build_ivw_by_state_scatter_dots(data_obj, year, subdir=None):
+    if not subdir:
+        subdir = GEN_DATA_DIR
+    pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
+
+    # shift to altGroup if specified by subdir 
+    groups = GROUPS
+    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
+        groups = ALT_GROUPS
+
+    # extract single-year data
+    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
+    
+    # calculate axis range boundaries 
+    ec_max = round(pivot_on_year_df[COL_EC_VOTES].max() * 1.05)
+    norm_max = round(pivot_on_year_df[COL_EC_VOTES_NORM].max() * 1.05)
+
+    # display metadata
+    hover_data = {COL_VOTES_COUNTED: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True}
+    category_orders = {COL_GROUP: groups}
+    color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
+    era = get_era_for_year(year)
+    fig_title = f'Vote Weight Per Person Per State: {year} ({era})'
+
+    # init figure with core properties
+    fig = px.scatter(pivot_on_single_year, x=COL_EC_VOTES_NORM, y=COL_EC_VOTES, 
+                    # animation_group=COL_STATE, 
+                    color=COL_GROUP, title=fig_title, 
+                    hover_name=COL_STATE, hover_data=hover_data,
+                    # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+    #                  log_x=True, log_y=True, range_x=[.4,norm_max], range_y=[2,ec_max],
+                    width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.7, range_x=[0,norm_max], range_y=[0,ec_max])
+    
+    # scatterplot dot formatting
+    fig.update_traces(marker=dict(size=24, line=dict(width=1, color='DarkSlateGrey')), 
+                    selector=dict(mode='markers'))
+
+    # reference mean / quazi-linear regression line
+    fig.add_trace(go.Scatter(x=[0,ec_max], y=[0,ec_max], mode='lines', 
+                            name='Nationwide mean', line=dict(color='black', width=1)))
+
+    # axis labels
+    fig.update_xaxes(title_text='State EC votes if adjusted for popular vote turnout')
+    fig.update_yaxes(title_text='Electoral college votes per state')
+
+    fig.update_layout(title_x=0.45)
+
+    return fig
+
+
+def build_ivw_by_state_scatter_abbrevs(data_obj, year, subdir=None):
+    if not subdir:
+        subdir = GEN_DATA_DIR
+    pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
+
+    # shift to altGroup if specified by subdir 
+    groups = GROUPS
+    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
+        groups = ALT_GROUPS
+
+    # extract single-year data
+    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
+
+    # calculate axis range boundaries 
+    ec_max = round(pivot_on_year_df[COL_EC_VOTES].max() * 1.05)
+    norm_max = round(pivot_on_year_df[COL_EC_VOTES_NORM].max() * 1.05)
+
+    # display metadata
+    hover_data = {COL_VOTES_COUNTED: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True}
+    category_orders = {COL_GROUP: groups}
+    color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
+    era = get_era_for_year(year)
+    fig_title = f'Vote Weight Per Person Per State: {year} ({era})'
+
+    # init figure with core properties
+    fig = px.scatter(pivot_on_single_year, x=COL_EC_VOTES_NORM, y=COL_EC_VOTES, 
+                    color=COL_GROUP, title=fig_title, 
+                    hover_name=COL_STATE, hover_data=hover_data, text=COL_ABBREV,
+                    # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                    log_x=True, log_y=True, range_x=[.4,norm_max], range_y=[2.5,ec_max],
+                    width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.7)
+        
+    # scatterplot dot formatting
+    fig.update_traces(marker=dict(size=24, line=dict(width=1, color='DarkSlateGrey')), 
+                    selector=dict(mode='markers'))
+
+    # reference mean / quazi-linear regression line
+    fig.add_trace(go.Scatter(x=[0,ec_max], y=[0,ec_max], mode='lines', 
+                            name='Nationwide mean', line=dict(color='black', width=1)))
+
+    # axis labels
+    fig.update_xaxes(title_text='State EC votes if adjusted for popular vote turnout (log)')
+    fig.update_yaxes(title_text='Electoral college votes per state (log)')
+
+    # axis tick overrides
+    layout = dict(
+        yaxis=dict(tickmode='array', tickvals=[3,4,5,6,7,8,9,10,12,15,20,25,30,40,50]),
+        xaxis=dict(tickmode='array', tickvals=[.5,.75,1,1.5,2,3,4,5,6,7,8,10,12,15,20,25,30,40,50,60])
+    )
+    fig.update_layout(layout)
+
+    fig.update_layout(title_x=0.45)
+
+    return fig
+
+
+def build_ivw_by_state_scatter_bubbles(data_obj, year, subdir=None):
+    if not subdir:
+        subdir = GEN_DATA_DIR
+    pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
+
+    # shift to altGroup if specified by subdir 
+    groups = GROUPS
+    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
+        groups = ALT_GROUPS
+
+    # extract single-year data
+    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
+
+    # calculate axis range boundaries 
+    ec_max = round(pivot_on_year_df[COL_EC_VOTES].max())
+    weight_min = pivot_on_year_df[pivot_on_year_df[COL_VOTE_WEIGHT] > 0][COL_VOTE_WEIGHT].min() * 0.9
+    weight_max = pivot_on_year_df[COL_VOTE_WEIGHT].max()
+
+    # display metadata
+    hover_data = {COL_VOTES_COUNTED: True, COL_POP_PER_EC_SHORT: True}
+    category_orders = {COL_GROUP: groups}
+    color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
+    era = get_era_for_year(year)
+    fig_title = f'Vote Weight Per Person Per State: {year} ({era})'
+
+    # init figure with core properties
+    fig = px.scatter(pivot_on_single_year, x=COL_EC_VOTES, y=COL_VOTE_WEIGHT, 
+                    size=COL_VOTES_COUNTED_PCT, color=COL_GROUP, hover_name=COL_STATE, 
+                    # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                    title=fig_title, hover_data=hover_data, width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.5,
+                    log_y=True, size_max=80, range_x=[0,ec_max], range_y=[weight_min,weight_max])
+
+    # scatterplot dot formatting
+    fig.update_traces(marker=dict(line=dict(width=1, color='white')), 
+                    selector=dict(mode='markers'))
+
+    # reference mean / quazi-linear regression line
+    fig.add_trace(go.Scatter(x=[0,ec_max], y=[1,1], mode='lines', 
+                            name='Nationwide mean', line=dict(color='black', width=1)))
+
+    # axis labels
+    fig.update_xaxes(title_text='Electoral college votes per state')
+    fig.update_yaxes(title_text='Individual voter impact per state (log)')
+
+    # axis tick overrides
+    layout = dict(yaxis=dict(tickmode='array', tickvals=[0.4,0.5,.6,.8,1,1.5,2,3,5,8]))
+    fig.update_layout(layout)
+
+    fig.update_layout(title_x=0.45)
+
+    return fig
+
+
+def build_ivw_by_state_group_box_plot(data_obj, year, subdir=None):
+    if not subdir:
+        subdir = GEN_DATA_DIR
+    pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
+
+    # shift to altGroup if specified by subdir 
+    groups = GROUPS
+    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
+        groups = ALT_GROUPS
+
+    # extract single-year data
+    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year].sort_values(COL_PARTY, ascending=True)
+
+    # display metadata
+    category_orders = {COL_GROUP: groups}
+    color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
+    # box_title = f'{year} presidential election: voter impact by state grouping'
+    era = get_era_for_year(year)
+    fig_title = f'Ranges of Vote Weight Per Person Per Regional Grouping: {year} ({era})'
+
+    # box plot
+    box_data = pivot_on_single_year[[COL_GROUP, COL_VOTE_WEIGHT]]
+    pivot = box_data.pivot(columns=COL_GROUP, values=COL_VOTE_WEIGHT)
+
+    fig = px.box(pivot, color=COL_GROUP, 
+                # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                width=BOX_WIDTH, height=BOX_HEIGHT, log_y=True, title=fig_title)
+
+    # fig.add_trace(go.Scatter(x=flat_data['EC votes'], y=flat_data['Mean vote weight'], 
+    #                          mode='lines', name=trace_name_natl_avg, line=dict(color='black', width=1)))
+
+    fig.update_xaxes(title_text='')
+    fig.update_yaxes(title_text='Range of Vote Weight Per Person Within Regional Grouping')
+    fig.update_layout(title_x=0.46)
     return fig
 
 
@@ -173,190 +353,18 @@ def build_state_groups_map(data_obj, year, subdir=None):
               COL_EC_VOTES: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True, COL_EC_VOTES_NORM: True}
     category_orders = {COL_GROUP: groups}
     color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
-    map_title = f'{year} presidential election: State groupings'
+    era = get_era_for_year(year)
+    fig_title = f'Regional Groupings During {year} Presidential Election ({era})'
 
     fig = px.choropleth(pivot_on_single_year, locations=COL_ABBREV, color=COL_GROUP, 
                         locationmode='USA-states', scope="usa", hover_data=hover_data, 
-                        category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
-                        title=map_title, width=MAP_WIDTH, height=MAP_HEIGHT)
+                        # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                        title=fig_title, width=MAP_WIDTH, height=MAP_HEIGHT)
 
     return fig
 
 
-def build_ivw_by_state_scatter_1(data_obj, year, subdir=None):
-    if not subdir:
-        subdir = GEN_DATA_DIR
-    pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
-
-    # shift to altGroup if specified by subdir 
-    groups = GROUPS
-    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
-        groups = ALT_GROUPS
-
-    # extract single-year data
-    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
-    
-    # calculate axis range boundaries 
-    ec_max = round(pivot_on_year_df[COL_EC_VOTES].max() * 1.05)
-    norm_max = round(pivot_on_year_df[COL_EC_VOTES_NORM].max() * 1.05)
-
-    # display metadata
-    hover_data = {COL_VOTES_COUNTED: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True}
-    base_fig_title = 'Voter impact by state'
-    init_fig_title = f'{base_fig_title}: 1828 - 2016'
-    period_info = "1828-1860: Antebellum<br>1864-1876: Reconstruction<br>1880-1964: Jim Crow<br>1968-2016: Civil Rights"
-
-    # init figure with core properties
-    fig = px.scatter(pivot_on_single_year, x=COL_EC_VOTES_NORM, y=COL_EC_VOTES, 
-                    animation_group=COL_STATE, color=COL_GROUP, title=init_fig_title, 
-                    hover_name=COL_STATE, hover_data=hover_data,
-    #                  category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
-    #                  log_x=True, log_y=True, range_x=[.4,norm_max], range_y=[2,ec_max],
-                    width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.7, range_x=[0,norm_max], range_y=[0,ec_max])
-    
-    # scatterplot dot formatting
-    fig.update_traces(marker=dict(size=24, line=dict(width=1, color='DarkSlateGrey')), 
-                    selector=dict(mode='markers'))
-
-    # reference mean / quazi-linear regression line
-    fig.add_trace(go.Scatter(x=[0,ec_max], y=[0,ec_max], mode='lines', 
-                            name='Nationwide mean', line=dict(color='black', width=1)))
-
-    # axis labels
-    fig.update_xaxes(title_text='State EC votes if adjusted for popular vote turnout')
-    fig.update_yaxes(title_text='Electoral college votes per state')
-
-    # embedded period_info
-    fig.add_annotation(
-            x=14, y=52, xref="x", yref="y", align="left", ax=0, ay=0, text=period_info,
-            font={'family': "Courier New, monospace", 'size': 16, 'color': "#ffffff"}, 
-            bordercolor="#c7c7c7", borderwidth=2, borderpad=4, bgcolor="#ff7f0e", opacity=0.8)
-
-    fig.update_layout(title_x=0.45)
-
-    return fig
-
-
-def build_ivw_by_state_scatter_2(data_obj, year, subdir=None):
-    if not subdir:
-        subdir = GEN_DATA_DIR
-    pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
-
-    # shift to altGroup if specified by subdir 
-    groups = GROUPS
-    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
-        groups = ALT_GROUPS
-
-    # extract single-year data
-    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
-
-    # calculate axis range boundaries 
-    ec_max = round(pivot_on_year_df[COL_EC_VOTES].max() * 1.05)
-    norm_max = round(pivot_on_year_df[COL_EC_VOTES_NORM].max() * 1.05)
-
-    # display metadata
-    hover_data = {COL_VOTES_COUNTED: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True}
-    base_fig_title = 'Voter impact by state'
-    init_fig_title = f'{base_fig_title}: 1828 - 2016'
-    period_info = "1828-1860: Antebellum<br>1864-1876: Reconstruction<br>1880-1964: Jim Crow<br>1968-2016: Civil Rights"
-
-    # init figure with core properties
-    fig = px.scatter(pivot_on_single_year, x=COL_EC_VOTES_NORM, y=COL_EC_VOTES, 
-                    color=COL_GROUP, title=init_fig_title, 
-                    hover_name=COL_STATE, hover_data=hover_data, text=COL_ABBREV,
-    #                  category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
-                    log_x=True, log_y=True, range_x=[.4,norm_max], range_y=[2.5,ec_max],
-                    width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.7)
-        
-    # scatterplot dot formatting
-    fig.update_traces(marker=dict(size=24, line=dict(width=1, color='DarkSlateGrey')), 
-                    selector=dict(mode='markers'))
-
-    # reference mean / quazi-linear regression line
-    fig.add_trace(go.Scatter(x=[0,ec_max], y=[0,ec_max], mode='lines', 
-                            name='Nationwide mean', line=dict(color='black', width=1)))
-
-    # axis labels
-    fig.update_xaxes(title_text='State EC votes if adjusted for popular vote turnout')
-    fig.update_yaxes(title_text='Electoral college votes per state')
-
-    # axis tick overrides
-    layout = dict(
-        yaxis=dict(tickmode='array', tickvals=[3,4,5,6,7,8,9,10,12,15,20,25,30,40,50]),
-        xaxis=dict(tickmode='array', tickvals=[.5,.75,1,1.5,2,3,4,5,6,7,8,10,12,15,20,25,30,40,50,60])
-    )
-    fig.update_layout(layout)
-
-    # embedded period_info - TODO why isn't this working?
-    fig.add_annotation(
-            x=20, y=20, xref="x", yref="y", align="left", ax=0, ay=0, text=period_info,
-            font={'family': "Courier New, monospace", 'size': 16, 'color': "#ffffff"}, 
-            bordercolor="#c7c7c7", borderwidth=2, borderpad=4, bgcolor="#ff7f0e", opacity=0.8)  
-
-    fig.update_layout(title_x=0.45)
-
-    return fig
-
-
-def build_ivw_by_state_scatter_3(data_obj, year, subdir=None):
-    if not subdir:
-        subdir = GEN_DATA_DIR
-    pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
-
-    # shift to altGroup if specified by subdir 
-    groups = GROUPS
-    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
-        groups = ALT_GROUPS
-
-    # extract single-year data
-    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
-
-    # calculate axis range boundaries 
-    ec_max = round(pivot_on_year_df[COL_EC_VOTES].max())
-    weight_min = pivot_on_year_df[pivot_on_year_df[COL_VOTE_WEIGHT] > 0][COL_VOTE_WEIGHT].min() * 0.9
-    weight_max = pivot_on_year_df[COL_VOTE_WEIGHT].max()
-
-    # display metadata
-    hover_data = {COL_VOTES_COUNTED: True, COL_POP_PER_EC_SHORT: True}
-    base_fig_title = 'Voter impact by state'
-    init_fig_title = f'{base_fig_title}: 1828 - 2016'
-    period_info = "1828-1860: Antebellum<br>1864-1876: Reconstruction<br>1880-1964: Jim Crow<br>1968-2016: Civil Rights"
-
-    # init figure with core properties
-    fig = px.scatter(pivot_on_single_year, x=COL_EC_VOTES, y=COL_VOTE_WEIGHT, 
-                    size=COL_VOTES_COUNTED_PCT, color=COL_GROUP, hover_name=COL_STATE, 
-    #                  category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
-                    title=init_fig_title, hover_data=hover_data, width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.5,
-                    log_y=True, size_max=80, range_x=[0,ec_max], range_y=[weight_min,weight_max])
-
-    # scatterplot dot formatting
-    fig.update_traces(marker=dict(line=dict(width=1, color='white')), 
-                    selector=dict(mode='markers'))
-
-    # reference mean / quazi-linear regression line
-    fig.add_trace(go.Scatter(x=[0,ec_max], y=[1,1], mode='lines', 
-                            name='Nationwide mean', line=dict(color='black', width=1)))
-
-    # axis labels
-    fig.update_xaxes(title_text='Electoral college votes per state')
-    fig.update_yaxes(title_text='Individual voter impact per state')
-
-    # axis tick overrides
-    layout = dict(yaxis=dict(tickmode='array', tickvals=[0.4,0.5,.6,.8,1,1.5,2,3,5,8]))
-    fig.update_layout(layout)
-
-    # embedded period_info
-    fig.add_annotation(
-            x=45, y=.85, xref="x", yref="y", align="left", ax=0, ay=0, text=period_info,
-            font={'family': "Courier New, monospace", 'size': 16, 'color': "#ffffff"}, 
-            bordercolor="#c7c7c7", borderwidth=2, borderpad=4, bgcolor="#ff7f0e", opacity=0.8)
-
-    fig.update_layout(title_x=0.45)
-
-    return fig
-
-
-def build_ivw_by_state_group_scatter_1(data_obj, year, subdir=None):
+def build_ivw_by_state_group_scatter_dots(data_obj, year, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
     group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
@@ -377,17 +385,19 @@ def build_ivw_by_state_group_scatter_1(data_obj, year, subdir=None):
     # display metadata
     hover_data = {COL_VOTES_COUNTED: True, COL_AVG_WEIGHT: True, COL_POP_PER_EC_SHORT: True,
                 COL_STATE_COUNT: True, COL_STATES_IN_GROUP: True}
-    base_fig_title = 'Voter impact by state'
-    init_fig_title = f'{base_fig_title}: 1828 - 2016'
-    period_info = "1828-1860: Antebellum<br>1864-1876: Reconstruction<br>1880-1964: Jim Crow<br>1968-2016: Civil Rights"
+    category_orders = {COL_GROUP: groups}
+    color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
+    era = get_era_for_year(year)
+    fig_title = f'Average Vote Weight Per Person Per Regional Grouping: {year} ({era})'
 
     # init figure with core properties
-    fig = px.scatter(group_aggs_by_single_year, x=COL_EC_VOTES_NORM, y=COL_EC_VOTES, animation_frame=COL_YEAR, 
-                    animation_group=COL_GROUP, color=COL_GROUP, title=init_fig_title, 
+    fig = px.scatter(group_aggs_by_single_year, x=COL_EC_VOTES_NORM, y=COL_EC_VOTES, 
+                    # animation_frame=COL_YEAR, animation_group=COL_GROUP, 
+                    color=COL_GROUP, title=fig_title, 
                     hover_name=COL_GROUP, hover_data=hover_data,
-    #                  category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                    # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
     #                  log_x=True, log_y=True, range_x=[.4,norm_max], range_y=[2,ec_max],
-                    width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.7, range_x=[0,norm_max], range_y=[0,ec_max])
+                    width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.7, range_x=[0, norm_max], range_y=[0, ec_max])
         
     # scatterplot dot formatting
     fig.update_traces(marker=dict(size=24, line=dict(width=1, color='DarkSlateGrey')), selector=dict(mode='markers'))
@@ -405,18 +415,12 @@ def build_ivw_by_state_group_scatter_1(data_obj, year, subdir=None):
     layout = dict(xaxis=dict(tickmode='array', tickvals=[t*50 for t in range(num_xticks)]))
     fig.update_layout(layout)
 
-    # embedded period_info
-    fig.add_annotation(
-            x=75, y=norm_max-125, xref="x", yref="y", align="left", ax=0, ay=0, text=period_info,
-            font={'family': "Courier New, monospace", 'size': 16, 'color': "#ffffff"}, 
-            bordercolor="#c7c7c7", borderwidth=2, borderpad=4, bgcolor="#ff7f0e", opacity=0.8)
-
     fig.update_layout(title_x=0.45)
 
     return fig
 
 
-def build_ivw_by_state_group_scatter_2(data_obj, year, subdir=None):
+def build_ivw_by_state_group_scatter_bubbles(data_obj, year, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
     group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
@@ -436,16 +440,18 @@ def build_ivw_by_state_group_scatter_2(data_obj, year, subdir=None):
 
     # display metadata
     hover_data = {COL_VOTES_COUNTED: True, COL_STATE_COUNT: True, COL_STATES_IN_GROUP: True, COL_POP_PER_EC_SHORT: True}
-    base_fig_title = 'Voter impact by state'
-    init_fig_title = f'{base_fig_title}: 1828 - 2016'
-    period_info = "1828-1860: Antebellum<br>1864-1876: Reconstruction<br>1880-1964: Jim Crow<br>1968-2016: Civil Rights"
+    category_orders = {COL_GROUP: groups}
+    color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
+    era = get_era_for_year(year)
+    fig_title = f'Average Vote Weight Per Person Per Regional Grouping: {year} ({era})'
 
     # init figure with core properties
-    fig = px.scatter(group_aggs_by_single_year, x=COL_EC_VOTES, y=COL_AVG_WEIGHT, animation_frame=COL_YEAR, 
-                    animation_group=COL_GROUP, size=COL_VOTES_COUNTED_PCT, color=COL_GROUP, hover_name=COL_GROUP, 
-    #                  category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
-                    title=init_fig_title, hover_data=hover_data, width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.5,
-                    log_y=True, size_max=80, range_x=[0,ec_max], range_y=[weight_min,weight_max])
+    fig = px.scatter(group_aggs_by_single_year, x=COL_EC_VOTES, y=COL_AVG_WEIGHT, 
+                    # animation_frame=COL_YEAR, animation_group=COL_GROUP, 
+                    size=COL_VOTES_COUNTED_PCT, color=COL_GROUP, hover_name=COL_GROUP, 
+                    # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                    title=fig_title, hover_data=hover_data, width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.5,
+                    log_y=True, size_max=80, range_x=[0, ec_max], range_y=[weight_min, weight_max])
 
     # scatterplot dot formatting
     fig.update_traces(marker=dict(line=dict(width=1, color='white')),
@@ -457,12 +463,6 @@ def build_ivw_by_state_group_scatter_2(data_obj, year, subdir=None):
     # axis labels
     fig.update_xaxes(title_text='Electoral college votes per group')
     fig.update_yaxes(title_text='Impact per individual voter per group')
-
-    # embedded period_info
-    fig.add_annotation(
-            x=90, y=0.4, xref="x", yref="y", align="left", ax=0, ay=0, text=period_info,
-            font={'family': "Courier New, monospace", 'size': 14, 'color': "#ffffff"}, 
-            bordercolor="#c7c7c7", borderwidth=2, borderpad=4, bgcolor="#ff7f0e", opacity=0.8)
 
     fig.update_layout(title_x=0.45)
 
@@ -481,16 +481,25 @@ def build_ivw_by_state_group_line_chart(data_obj, year, subdir=None):
 
     # display metadata
     hover_data = {COL_STATES_IN_GROUP: True, COL_EC_VOTES: True}
+    category_orders = {COL_GROUP: groups}
+    color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
     avg_weight_min = group_aggs_by_year_df[group_aggs_by_year_df[COL_AVG_WEIGHT] > 0][COL_AVG_WEIGHT].min() * 0.8
     avg_weight_max = group_aggs_by_year_df[group_aggs_by_year_df[COL_AVG_WEIGHT] > 0][COL_AVG_WEIGHT].max() * 1.05
+    fig_title = f'Average Vote Weight Per Ballot Cast For Each Election, Grouped By Region (Highlighting {year})'
 
     fig = px.line(group_aggs_by_year_df, x=COL_YEAR, y=COL_AVG_WEIGHT, color=COL_GROUP, hover_data=hover_data, 
+                    width=LINE_WIDTH, height=LINE_HEIGHT, title=fig_title, 
     #               log_y=True
                 )
 
     fig.update_layout(yaxis_range=[avg_weight_min, avg_weight_max])
 
+    # axis labels
+    fig.update_xaxes(title_text='Election Year')
+    fig.update_yaxes(title_text='Average Vote Weight Per Ballot Cast')
+
     fig.add_trace(go.Scatter(x=[year, year], y=[avg_weight_min, avg_weight_max], 
+                            # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence, 
                             mode='lines', name=year, line=dict(color='black', width=1)))
 
     return fig
