@@ -34,16 +34,12 @@ url_bar_and_content_div = html.Div([
 
 # navbar
 navbar = html.Div([
+    html.Br(),
     html.H1('Electoralytics', id="nav-pills"),
     dbc.Nav(className="nav nav-pills", children=[
         dbc.DropdownMenu(label="Pages / Graphs", nav=True, children=[
-            dbc.DropdownMenuItem([html.I(className="fa"), "Voter impact per state"], href='/page-1', target="_blank"), 
-            dbc.DropdownMenuItem([html.I(className="fa"), "Swallowed vote sampler"], href='/page-2', target="_blank"),
-            dbc.DropdownMenuItem([html.I(className="fa"), "Voter impact per state group"], href='/page-3', target="_blank"),
-            dbc.DropdownMenuItem([html.I(className="fa"), "Maps"], href='/page-4', target="_blank"),
-            dbc.DropdownMenuItem([html.I(className="fa"), "State scatter plots"], href='/page-5', target="_blank"),
-            dbc.DropdownMenuItem([html.I(className="fa"), "State group scatter plots"], href='/page-6', target="_blank"),
-            dbc.DropdownMenuItem([html.I(className="fa"), "State group line chart"], href='/page-7', target="_blank"),
+            dbc.DropdownMenuItem([html.I(className="fa"), "Inter-State Voter Impact Comparison"], href='/vote-weight-comparison', target="_blank"), 
+            dbc.DropdownMenuItem([html.I(className="fa"), "Sampler of Swallowed Votes"], href='/swallowed-vote-sampler', target="_blank"),
         ]),
         dbc.DropdownMenu(label="References / Resources", nav=True, children=[
             dbc.DropdownMenuItem([html.I(className="fa"), "Source code"], href='https://github.com/dannynoonan/electoralytics', target="_blank"), 
@@ -62,6 +58,7 @@ year_dropdown = dbc.FormGroup([
         options=[{"label": y, "value": y} for y in data_obj.all_years], 
         value="2020"
     ),
+    html.Br(),
     html.H4("Grouping Options"),
     dcc.Dropdown(
         id="groupings-input", 
@@ -71,6 +68,7 @@ year_dropdown = dbc.FormGroup([
         ], 
         value="Original"
     ), 
+    html.Br(),
     dcc.Checklist(
         id="small-group-input", 
         options=[
@@ -87,33 +85,71 @@ swallowed_vote_view_dropdown = dbc.FormGroup([
 ])
 
 
-# page 1
-layout_page_1 = html.Div([
+layout_1 = html.Div([
     ## Top
     navbar,
-    html.Br(),html.Br(),
+    html.Br(),
 
     dbc.Row([
         ### input + panel
-        dbc.Col(md=3, children=[
-            year_dropdown, 
-            html.Br(),html.Br(),html.Br(),
+        dbc.Col(md=2, children=[
+            year_dropdown,
+            html.Br(),html.Br(),
             html.Div(id="year-summary")
         ]),
-        ### figures
-        dbc.Col(md=9, children=[
-            dbc.Col(html.H4("States where votes count the most"), width={"size": 6, "offset": 3}), 
+        dbc.Col(md=10, children=[
+            dbc.Col(html.H4("Inter-State Voter Impact Comparison"), width={"size": 6, "offset": 3}), 
+            html.Br(),
             dbc.Tabs(className="nav nav-pills", children=[
-                dbc.Tab(dcc.Graph(id="voter-impact-per-state"), label="Voter impact per state"),
-                dbc.Tab(dcc.Graph(id="adjusted-ec-votes-per-state"), label="Actual vs Adjusted EC votes"),
+                dbc.Tab(label="Comparing States", children=[
+                    dbc.Row([
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="vote-weight-comparison-by-state-map-1"),
+                            html.Br(),
+                            dcc.Graph(id="vote-weight-comparison-by-state-bar-1"),
+                            html.Br(),
+                            dcc.Graph(id="vote-weight-comparison-by-state-bar-2")
+                        ]),
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="vote-weight-comparison-by-state-scatter-1"),
+                            html.Br(),
+                            dcc.Graph(id="vote-weight-comparison-by-state-scatter-2"),
+                            html.Br(),
+                            dcc.Graph(id="vote-weight-comparison-by-state-scatter-3")
+                        ])
+                    ])
+                ]),
+
+                dbc.Tab(label="Comparing Historical Regions", children=[
+                    dbc.Row([
+                        dbc.Col(md=12, children=[
+                            dcc.Graph(id="vote-weight-comparison-by-state-group-line-1")
+                        ])
+                    ]),
+                    html.Br(),
+                    dbc.Row([
+                        ### input + panel
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="vote-weight-comparison-by-state-group-map-1"),
+                            html.Br(),
+                            dcc.Graph(id="vote-weight-comparison-by-state-group-box-1")
+                        ]),
+                        ### map
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-1"),
+                            html.Br(),
+                            dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-2")
+                        ])
+                    ])
+                ]),
             ])
         ])
     ])
 ])
 
 
-# page 2
-layout_page_2 = html.Div([
+# layout 2
+layout_2 = html.Div([
     ## Top
     navbar,
     html.Br(),html.Br(),
@@ -139,126 +175,6 @@ layout_page_2 = html.Div([
 ])
 
 
-# page 3
-layout_page_3 = html.Div([
-    ## Top
-    navbar,
-    html.Br(),html.Br(),
-
-    dbc.Row([
-        ### input + panel
-        dbc.Col(md=3, children=[
-            year_dropdown, 
-            html.Br(),html.Br(),html.Br(),
-            html.Div(id="year-info")
-        ]),
-        ### figures
-        dbc.Col(md=9, children=[
-            dbc.Col(html.H4("Individual voter impact by state group"), width={"size": 6, "offset": 3}), 
-            dcc.Graph(id="voter-impact-by-state-group-box")
-        ])
-    ])
-])
-
-
-# page 4
-layout_page_4 = html.Div([
-    ## Top
-    navbar,
-    html.Br(),html.Br(),
-
-    dbc.Row([
-        ### input + panel
-        dbc.Col(md=3, children=[
-            year_dropdown, 
-            html.Br(),html.Br(),html.Br(),
-            html.Div(id="year-details")
-        ]),
-        ### figures
-        dbc.Col(md=9, children=[
-            dbc.Col(html.H4("Maps of state groupings and influence"), width={"size": 6, "offset": 3}), 
-            dbc.Tabs(className="nav nav-pills", children=[
-                dbc.Tab(dcc.Graph(id="voter-impact-by-state-map"), label="Voter impact by state"),
-                dbc.Tab(dcc.Graph(id="state-groups-map"), label="State groupings"),
-            ])
-        ])
-    ])
-])
-
-
-# page 5
-layout_page_5 = html.Div([
-    ## Top
-    navbar,
-    html.Br(),html.Br(),
-
-    dbc.Row([
-        ### input + panel
-        dbc.Col(md=3, children=[
-            year_dropdown, 
-            html.Br(),html.Br(),html.Br(),
-            html.Div(id="year-stuff")
-        ]),
-        ### figures
-        dbc.Col(md=9, children=[
-            dbc.Col(html.H4("Scatter plots of voter impact by state"), width={"size": 6, "offset": 3}), 
-            dbc.Tabs(className="nav nav-pills", children=[
-                dbc.Tab(dcc.Graph(id="voter-impact-by-state-scatter-1"), label="State scatter 1"),
-                dbc.Tab(dcc.Graph(id="voter-impact-by-state-scatter-2"), label="State scatter 2"),
-                dbc.Tab(dcc.Graph(id="voter-impact-by-state-scatter-3"), label="State scatter 3"),
-            ])
-        ])
-    ])
-])
-
-
-# page 6
-layout_page_6 = html.Div([
-    ## Top
-    navbar,
-    html.Br(),html.Br(),
-
-    dbc.Row([
-        ### input + panel
-        dbc.Col(md=3, children=[
-            year_dropdown, 
-            html.Br(),html.Br(),html.Br(),
-            html.Div(id="year-stuff")
-        ]),
-        ### figures
-        dbc.Col(md=9, children=[
-            dbc.Col(html.H4("Scatter plots of voter impact by state group"), width={"size": 6, "offset": 3}), 
-            dbc.Tabs(className="nav nav-pills", children=[
-                dbc.Tab(dcc.Graph(id="voter-impact-by-state-group-scatter-1"), label="State group scatter 1"),
-                dbc.Tab(dcc.Graph(id="voter-impact-by-state-group-scatter-2"), label="State group scatter 2"),
-            ])
-        ])
-    ])
-])
-
-
-# page 7
-layout_page_7 = html.Div([
-    ## Top
-    navbar,
-    html.Br(),html.Br(),
-
-    dbc.Row([
-        ### input + panel
-        dbc.Col(md=3, children=[
-            year_dropdown, 
-            html.Br(),html.Br(),html.Br(),
-            html.Div(id="year-fluffle")
-        ]),
-        ### figures
-        dbc.Col(md=9, children=[
-            dbc.Col(html.H4("Line chart of voter impact by state group"), width={"size": 6, "offset": 3}), 
-            dcc.Graph(id="voter-impact-by-state-group-line")
-        ])
-    ])
-])
-
-
 empty_layout = html.Div([
     navbar,
 ])
@@ -275,13 +191,8 @@ app.validation_layout = dbc.Container(fluid=True, children=[
     url_bar_and_content_div,
 
     ## Body
-    layout_page_1,
-    layout_page_2,
-    layout_page_3,
-    layout_page_4,
-    layout_page_5,
-    layout_page_6,
-    layout_page_7,
+    layout_1,
+    layout_2,
     empty_layout,
 ])
 
@@ -291,55 +202,66 @@ app.validation_layout = dbc.Container(fluid=True, children=[
 @app.callback(Output('page-content', 'children'),
               Input('url', 'pathname'))
 def display_page(pathname):
-    if pathname == "/page-1":
-        return layout_page_1
-    elif pathname == "/page-2":
-        return layout_page_2
-    elif pathname == "/page-3":
-        return layout_page_3
-    elif pathname == "/page-4":
-        return layout_page_4
-    elif pathname == "/page-5":
-        return layout_page_5
-    elif pathname == "/page-6":
-        return layout_page_6
-    elif pathname == "/page-7":
-        return layout_page_7
+    if pathname == "/vote-weight-comparison":
+        return layout_1
+    elif pathname == "/swallowed-vote-sampler":
+        return layout_2
     else:
         return empty_layout
 
 
-# Page 1 callbacks
+
+# Layout 1 callbacks
 @app.callback(
-    Output('voter-impact-per-state', 'figure'),
+    Output('vote-weight-comparison-by-state-map-1', 'figure'),
+    Output('vote-weight-comparison-by-state-bar-1', 'figure'),
+    Output('vote-weight-comparison-by-state-bar-2', 'figure'),
+    Output('vote-weight-comparison-by-state-scatter-1', 'figure'),
+    Output('vote-weight-comparison-by-state-scatter-2', 'figure'),
+    Output('vote-weight-comparison-by-state-scatter-3', 'figure'),
     Input('year-input', 'value'),
     Input('groupings-input', 'value'),
     Input('small-group-input', 'value'),
 )
 def update_figure(year_input, groupings_input, small_group_input):
+    # process input
     year = int(year_input)
     subdir = map_to_subdir(groupings_input, small_group_input)
-    print(f"subdir for groupings_input={groupings_input} and small_group_input={small_group_input} => {subdir}")
     data_obj.load_dfs_for_subdir(subdir)
-    fig = fig_builder.build_fig_for_year(data_obj, year, subdir=subdir)
-    return fig
+    # generate figs
+    fig_map_1 = fig_builder.build_ivw_by_state_map(data_obj, year, subdir=subdir)
+    fig_bar_1 = fig_builder.build_fig_for_year(data_obj, year, subdir=subdir)
+    fig_bar_2 = fig_builder.build_actual_vs_adjusted_ec_fig(data_obj, year, subdir=subdir)
+    fig_scatter_1 = fig_builder.build_ivw_by_state_scatter_1(data_obj, year, subdir=subdir)
+    fig_scatter_2 = fig_builder.build_ivw_by_state_scatter_2(data_obj, year, subdir=subdir)
+    fig_scatter_3 = fig_builder.build_ivw_by_state_scatter_3(data_obj, year, subdir=subdir)
+    return fig_map_1, fig_bar_1, fig_bar_2, fig_scatter_1, fig_scatter_2, fig_scatter_3
 
 @app.callback(
-    Output('adjusted-ec-votes-per-state', 'figure'),
+    Output('vote-weight-comparison-by-state-group-map-1', 'figure'),
+    Output('vote-weight-comparison-by-state-group-line-1', 'figure'),
+    Output('vote-weight-comparison-by-state-group-box-1', 'figure'),
+    Output('vote-weight-comparison-by-state-group-scatter-1', 'figure'),
+    Output('vote-weight-comparison-by-state-group-scatter-2', 'figure'),
     Input('year-input', 'value'),
     Input('groupings-input', 'value'),
     Input('small-group-input', 'value'),
 )
 def update_overlay_figure(year_input, groupings_input, small_group_input):
+    # process input
     year = int(year_input)
     subdir = map_to_subdir(groupings_input, small_group_input)
-    print(f"subdir for groupings_input={groupings_input} and small_group_input={small_group_input} => {subdir}")
     data_obj.load_dfs_for_subdir(subdir)
-    fig = fig_builder.build_actual_vs_adjusted_ec_fig(data_obj, year, subdir=subdir)
-    return fig
+    # generate figs
+    fig_map_1 = fig_builder.build_state_groups_map(data_obj, year, subdir=subdir)
+    fig_line_1 = fig_builder.build_ivw_by_state_group_line_chart(data_obj, year, subdir=subdir)
+    fig_box_1 = fig_builder.build_ivw_by_state_group_box_plot(data_obj, year, subdir=subdir)
+    fig_scatter_1 = fig_builder.build_ivw_by_state_group_scatter_1(data_obj, year, subdir=subdir)
+    fig_scatter_2 = fig_builder.build_ivw_by_state_group_scatter_2(data_obj, year, subdir=subdir)
+    return fig_map_1, fig_line_1, fig_box_1, fig_scatter_1, fig_scatter_2
 
 
-# Page 2 callbacks
+# Layout 2 callbacks
 @app.callback(
     Output('swallowed-vote-sampler-1', 'figure'),
     Input('display-type', 'value'),
@@ -370,134 +292,6 @@ def display_swallowed_vote_fig_3(display_type):
 )
 def display_swallowed_vote_fig_4(display_type):
     fig = fig_builder.build_swallowed_vote_fig_4(data_obj)
-    return fig
-
-
-# Page 3 callbacks
-@app.callback(
-    Output('voter-impact-by-state-group-box', 'figure'),
-    Input('year-input', 'value'),
-    Input('groupings-input', 'value'),
-    Input('small-group-input', 'value'),
-)
-def display_voter_impact_by_state_group_box(year_input, groupings_input, small_group_input):
-    year = int(year_input)
-    subdir = map_to_subdir(groupings_input, small_group_input)
-    print(f"subdir for groupings_input={groupings_input} and small_group_input={small_group_input} => {subdir}")
-    data_obj.load_dfs_for_subdir(subdir)
-    fig = fig_builder.build_ivw_by_state_group_box_plot(data_obj, year, subdir=subdir)
-    return fig
-
-
-# Page 4 callbacks
-@app.callback(
-    Output('voter-impact-by-state-map', 'figure'),
-    Input('year-input', 'value'),
-    Input('groupings-input', 'value'),
-    Input('small-group-input', 'value'),
-)
-def display_voter_impact_by_state_map(year_input, groupings_input, small_group_input):
-    year = int(year_input)
-    subdir = map_to_subdir(groupings_input, small_group_input)
-    data_obj.load_dfs_for_subdir(subdir)
-    fig = fig_builder.build_ivw_by_state_map(data_obj, year, subdir=subdir)
-    return fig
-
-@app.callback(
-    Output('state-groups-map', 'figure'),
-    Input('year-input', 'value'),
-    Input('groupings-input', 'value'),
-    Input('small-group-input', 'value'),
-)
-def display_state_groups_map(year_input, groupings_input, small_group_input):
-    year = int(year_input)
-    subdir = map_to_subdir(groupings_input, small_group_input)
-    data_obj.load_dfs_for_subdir(subdir)
-    fig = fig_builder.build_state_groups_map(data_obj, year, subdir=subdir)
-    return fig
-
-
-# Page 5 callbacks
-@app.callback(
-    Output('voter-impact-by-state-scatter-1', 'figure'),
-    Input('year-input', 'value'),
-    Input('groupings-input', 'value'),
-    Input('small-group-input', 'value'),
-)
-def display_voter_impact_by_state_scatter_1(year_input, groupings_input, small_group_input):
-    year = int(year_input)
-    subdir = map_to_subdir(groupings_input, small_group_input)
-    data_obj.load_dfs_for_subdir(subdir)
-    fig = fig_builder.build_ivw_by_state_scatter_1(data_obj, year, subdir=subdir)
-    return fig
-
-@app.callback(
-    Output('voter-impact-by-state-scatter-2', 'figure'),
-    Input('year-input', 'value'),
-    Input('groupings-input', 'value'),
-    Input('small-group-input', 'value'),
-)
-def display_voter_impact_by_state_scatter_2(year_input, groupings_input, small_group_input):
-    year = int(year_input)
-    subdir = map_to_subdir(groupings_input, small_group_input)
-    data_obj.load_dfs_for_subdir(subdir)
-    fig = fig_builder.build_ivw_by_state_scatter_2(data_obj, year, subdir=subdir)
-    return fig
-
-@app.callback(
-    Output('voter-impact-by-state-scatter-3', 'figure'),
-    Input('year-input', 'value'),
-    Input('groupings-input', 'value'),
-    Input('small-group-input', 'value'),
-)
-def display_voter_impact_by_state_scatter_3(year_input, groupings_input, small_group_input):
-    year = int(year_input)
-    subdir = map_to_subdir(groupings_input, small_group_input)
-    data_obj.load_dfs_for_subdir(subdir)
-    fig = fig_builder.build_ivw_by_state_scatter_3(data_obj, year, subdir=subdir)
-    return fig
-
-
-# Page 6 callbacks
-@app.callback(
-    Output('voter-impact-by-state-group-scatter-1', 'figure'),
-    Input('year-input', 'value'),
-    Input('groupings-input', 'value'),
-    Input('small-group-input', 'value'),
-)
-def display_voter_impact_by_state_group_scatter_1(year_input, groupings_input, small_group_input):
-    year = int(year_input)
-    subdir = map_to_subdir(groupings_input, small_group_input)
-    data_obj.load_dfs_for_subdir(subdir)
-    fig = fig_builder.build_ivw_by_state_group_scatter_1(data_obj, year, subdir=subdir)
-    return fig
-
-@app.callback(
-    Output('voter-impact-by-state-group-scatter-2', 'figure'),
-    Input('year-input', 'value'),
-    Input('groupings-input', 'value'),
-    Input('small-group-input', 'value'),
-)
-def display_voter_impact_by_state_group_scatter_2(year_input, groupings_input, small_group_input):
-    year = int(year_input)
-    subdir = map_to_subdir(groupings_input, small_group_input)
-    data_obj.load_dfs_for_subdir(subdir)
-    fig = fig_builder.build_ivw_by_state_group_scatter_2(data_obj, year, subdir=subdir)
-    return fig
-
-
-# Page 7 callbacks
-@app.callback(
-    Output('voter-impact-by-state-group-line', 'figure'),
-    Input('year-input', 'value'),
-    Input('groupings-input', 'value'),
-    Input('small-group-input', 'value'),
-)
-def display_voter_impact_by_state_group_line(year_input, groupings_input, small_group_input):
-    year = int(year_input)
-    subdir = map_to_subdir(groupings_input, small_group_input)
-    data_obj.load_dfs_for_subdir(subdir)
-    fig = fig_builder.build_ivw_by_state_group_line_chart(data_obj, year, subdir=subdir)
     return fig
 
 
