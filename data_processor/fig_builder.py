@@ -4,10 +4,10 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-from data_processor.functions import get_era_for_year
+from data_processor.functions import get_era_for_year, apply_animation_settings
 from metadata import (
     GEN_DATA_DIR, GEN_ALT_GROUP_DIR, GEN_NO_SMALL_DIR, GEN_ALT_GROUP_NO_SMALL_DIR, 
-    ACW_GROUPS, CENSUS_GROUPS, GROUP_COLORS, PARTIES, PARTY_COLORS, 
+    ACW_GROUPS, CENSUS_GROUPS, GROUP_COLORS, PARTIES, PARTY_COLORS, FRAME_RATE,
     COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_EC_VOTES_NORM, 
     COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_VOTE_WEIGHT, COL_LOG_VOTE_WEIGHT, COL_AVG_WEIGHT, 
     COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY, COL_STATE_COUNT, COL_STATES_IN_GROUP
@@ -16,16 +16,12 @@ from metadata import (
 
 BAR_WIDTH=800
 BAR_HEIGHT=800
-
 SCATTER_WIDTH=800
 SCATTER_HEIGHT=600
-
 MAP_WIDTH=800
 MAP_HEIGHT=600
-
 BOX_WIDTH=800
 BOX_HEIGHT=600
-
 LINE_WIDTH=1640
 LINE_HEIGHT=500
 
@@ -54,7 +50,7 @@ def build_ivw_by_state_bar(data_obj, year, subdir=None):
     color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
     # fig_title = f'{year} Presidential Election: Comparative Vote Weight Per Ballot Cast Per State'
     era = get_era_for_year(year)
-    fig_title = f'Comparative Vote Weight Per Ballot Cast Per State: {year} ({era})'
+    fig_title = f'Vote Weight Per Ballot Cast Per State: {year} ({era})'
     
     # declare fig
     fig = px.bar(pivot_on_single_year, x=COL_VOTE_WEIGHT, y=COL_STATE, color=COL_GROUP, hover_name=COL_STATE, hover_data=hover_data,
@@ -101,13 +97,14 @@ def build_actual_vs_adjusted_ec_bar(data_obj, year, subdir=None):
     return fig
 
 
-def build_ivw_by_state_map(data_obj, year, subdir=None):
+def build_ivw_by_state_map(data_obj, frame=None, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
 
-    # extract single-year data
-    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
+    # if frame is set, extract single-year data
+    if frame:
+        pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == frame]
 
     # generate COL_LOG_VOTE_WEIGHT column, workaround to manually create log color scale
     # pivot_on_single_year[COL_LOG_VOTE_WEIGHT] = np.log2(pivot_on_single_year[COL_VOTE_WEIGHT])
@@ -124,20 +121,44 @@ def build_ivw_by_state_map(data_obj, year, subdir=None):
                 COL_VOTES_COUNTED: True, COL_EC_VOTES: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True, 
                 COL_EC_VOTES_NORM: True}
     # map_title = f'{year} presidential election: Vote weight per person per state'
-    era = get_era_for_year(year)
-    fig_title = f'Vote Weight Per Person Per State: {year} ({era})'
+    base_fig_title = 'Vote Weight Per Person Per State'
+    if frame:
+        era = get_era_for_year(frame)
+        fig_title = f'{base_fig_title}: {frame} ({era})'
+    else:
+        base_fig_title = 'Voter impact by state'
+        fig_title = f'{base_fig_title}: 1828 - 2020'
 
-    fig = px.choropleth(pivot_on_single_year, locations=COL_ABBREV, color=COL_LOG_VOTE_WEIGHT,
+    fig = px.choropleth(pivot_on_year_df, locations=COL_ABBREV, color=COL_LOG_VOTE_WEIGHT,
                         locationmode='USA-states', scope="usa", hover_name=COL_STATE, hover_data=hover_data, 
-                        color_continuous_scale=px.colors.diverging.BrBG[::-1], 
+                        color_continuous_scale=px.colors.diverging.BrBG[::-1], color_continuous_midpoint=0,
                         # range_color=[-1.0, pivot_on_single_year[COL_LOG_VOTE_WEIGHT].max()],
-                        # range_color=[log_vote_weight_min, log_vote_weight_max],
-                        color_continuous_midpoint=0,
+                        # range_color=[log_vote_weight_min, log_vote_weight_max],  
+                        animation_frame=COL_YEAR,  # this is ignored if dataframe only contains single year
                         title=fig_title, width=MAP_WIDTH, height=MAP_HEIGHT)
 
     fig.update_layout(
         coloraxis_colorbar=dict(tickvals=[-2.303, -1.609, -1.109, -0.693, -0.357, 0, 0.405, 0.916, 1.386, 1.792, 2.197],
                                 ticktext=['0.1', '0.2', '0.33', '0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']))
+
+    # apply_animation_settings(fig, base_fig_title=base_fig_title)
+
+
+    # fig.layout.updatemenus[0].buttons[0].args[1]['frame']['duration'] = FRAME_RATE
+        
+    # for button in fig.layout.updatemenus[0].buttons:
+    #     button["args"][1]["frame"]["redraw"] = True
+        
+    # for step in fig.layout.sliders[0].steps:
+    #     step["args"][1]["frame"]["redraw"] = True
+
+    # for k in range(len(fig.frames)):
+    #     year = 1828 + (k*4)
+    #     era = get_era_for_year(year)
+    #     fig.frames[k]['layout'].update(title_text=f'{base_fig_title}: {year} ({era})')
+
+    # fig.update_layout(transition = {'duration': 3000})
+    # fig.update_layout(transition_duration=3000)
 
     return fig
 
@@ -508,6 +529,42 @@ def build_ivw_by_state_group_line_chart(data_obj, year, subdir=None):
                             mode='lines', name=year, line=dict(color='black', width=1)))
 
     return fig
+
+
+# def build_ivw_by_state_map_anim(data_obj, subdir=None):
+#     if not subdir:
+#         subdir = GEN_DATA_DIR
+#     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
+
+#     # generate COL_LOG_VOTE_WEIGHT column, workaround to manually create log color scale
+#     # pivot_on_single_year[COL_LOG_VOTE_WEIGHT] = np.log2(pivot_on_single_year[COL_VOTE_WEIGHT])
+
+#     # log_vote_weight_ser = pivot_on_year_df[COL_LOG_VOTE_WEIGHT].replace([np.inf, -np.inf], np.nan).dropna()
+#     # log_vote_weight_min = log_vote_weight_ser.min()
+#     # log_vote_weight_max = log_vote_weight_ser.max()
+#     # vote_weight_ser = pivot_on_year_df[COL_VOTE_WEIGHT].replace([np.inf, -np.inf], np.nan).dropna()
+#     # vote_weight_min = vote_weight_ser.min()
+#     # vote_weight_max = vote_weight_ser.max()
+
+#     # display metadata
+#     hover_data = {COL_YEAR: False, COL_ABBREV: False, COL_LOG_VOTE_WEIGHT: False, COL_GROUP: True,
+#                 COL_VOTES_COUNTED: True, COL_EC_VOTES: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True, 
+#                 COL_EC_VOTES_NORM: True}
+#     fig_title = 'Vote Weight Per Person Per State'
+
+#     fig = px.choropleth(pivot_on_year_df, locations=COL_ABBREV, color=COL_LOG_VOTE_WEIGHT,
+#                         locationmode='USA-states', scope="usa", hover_name=COL_STATE, hover_data=hover_data, 
+#                         color_continuous_scale=px.colors.diverging.BrBG[::-1], animation_frame=COL_YEAR,
+#                         # range_color=[-1.0, pivot_on_single_year[COL_LOG_VOTE_WEIGHT].max()],
+#                         # range_color=[log_vote_weight_min, log_vote_weight_max],
+#                         color_continuous_midpoint=0,
+#                         title=fig_title, width=MAP_WIDTH, height=MAP_HEIGHT)
+
+#     fig.update_layout(
+#         coloraxis_colorbar=dict(tickvals=[-2.303, -1.609, -1.109, -0.693, -0.357, 0, 0.405, 0.916, 1.386, 1.792, 2.197],
+#                                 ticktext=['0.1', '0.2', '0.33', '0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']))
+
+#     return fig
 
 
 def build_swallowed_vote_fig_1(data_obj):

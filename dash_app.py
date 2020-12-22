@@ -167,6 +167,16 @@ layout_1 = html.Div([
                         ])
                     ])
                 ]),
+
+                dbc.Tab(label="State-Level Comparisons Animated", tab_style={"font-size": "20px"}, children=[
+                    dbc.Row([
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="vote-weight-comparison-by-state-map-1-anim"),
+                            html.Br()
+                        ])
+                    ])
+                ])
+
             ])
         ])
     ])
@@ -254,7 +264,7 @@ def display_state_level_figs(year_input, groupings_input, small_group_input):
     subdir = map_to_subdir(groupings_input, small_group_input)
     data_obj.load_dfs_for_subdir(subdir)
     # generate figs
-    fig_map_1 = fig_builder.build_ivw_by_state_map(data_obj, year, subdir=subdir)
+    fig_map_1 = fig_builder.build_ivw_by_state_map(data_obj, frame=year, subdir=subdir)
     fig_bar_1 = fig_builder.build_ivw_by_state_bar(data_obj, year, subdir=subdir)
     fig_bar_2 = fig_builder.build_actual_vs_adjusted_ec_bar(data_obj, year, subdir=subdir)
     fig_scatter_dots = fig_builder.build_ivw_by_state_scatter_dots(data_obj, year, subdir=subdir)
@@ -284,6 +294,30 @@ def display_regional_aggregate_figs(year_input, groupings_input, small_group_inp
     fig_scatter_dots = fig_builder.build_ivw_by_state_group_scatter_dots(data_obj, year, subdir=subdir)
     fig_scatter_bubbles = fig_builder.build_ivw_by_state_group_scatter_bubbles(data_obj, year, subdir=subdir)
     return fig_map_1, fig_line_1, fig_box_1, fig_scatter_dots, fig_scatter_bubbles
+
+@app.callback(
+    Output('vote-weight-comparison-by-state-map-1-anim', 'figure'),
+    # Output('vote-weight-comparison-by-state-bar-1-anim', 'figure'),
+    # Output('vote-weight-comparison-by-state-bar-2-anim', 'figure'),
+    # Output('vote-weight-comparison-by-state-scatter-dots-anim', 'figure'),
+    # Output('vote-weight-comparison-by-state-scatter-abbrevs-anim', 'figure'),
+    # Output('vote-weight-comparison-by-state-scatter-bubbles-anim', 'figure'),
+    Input('groupings-input', 'value'),
+    Input('small-group-input', 'value'),
+)
+def display_state_level_anims(groupings_input, small_group_input):
+    # process input
+    subdir = map_to_subdir(groupings_input, small_group_input)
+    data_obj.load_dfs_for_subdir(subdir)
+    # generate figs
+    anim_map_1 = fig_builder.build_ivw_by_state_map(data_obj, subdir=subdir)
+    # anim_bar_1 = fig_builder.build_ivw_by_state_bar(data_obj, year, subdir=subdir)
+    # anim_bar_2 = fig_builder.build_actual_vs_adjusted_ec_bar(data_obj, year, subdir=subdir)
+    # anim_scatter_dots = fig_builder.build_ivw_by_state_scatter_dots(data_obj, year, subdir=subdir)
+    # anim_scatter_abbrevs = fig_builder.build_ivw_by_state_scatter_abbrevs(data_obj, year, subdir=subdir)
+    # anim_scatter_bubbles = fig_builder.build_ivw_by_state_scatter_bubbles(data_obj, year, subdir=subdir)
+    # return anim_map_1, anim_bar_1, anim_bar_2, anim_scatter_dots, anim_scatter_abbrevs, anim_scatter_bubbles
+    return anim_map_1
 
 
 # Layout 2 callbacks

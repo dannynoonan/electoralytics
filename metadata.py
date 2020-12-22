@@ -73,3 +73,7 @@ COL_POP_PER_EC_SHORT = 'Pop per EC vote'
 COL_STATE_COUNT = 'State count'
 COL_MOST_EC_VOTES = 'Most EC votes'
 COL_STATES_IN_GROUP = 'States in group'
+
+
+# animations
+FRAME_RATE = 1000
