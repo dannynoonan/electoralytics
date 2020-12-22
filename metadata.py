@@ -14,16 +14,18 @@ TOTALS_BY_YEAR_CSV = 'totalsByYear.csv'
 GROUP_AGGS_BY_YEAR_CSV = 'groupAggsByYear.csv'
 
 # state groupings
-GROUPS = ['Small', 'Confederate', 'Border', 'Northeast', 'Midwest', 'West']
-ALT_GROUPS = ['Small', 'Confederate', 'Border', 'Union', 'West']
+ACW_GROUPS = ['Union', 'Confederate', 'Border', 'Post-War', 'Small']
+CENSUS_GROUPS = ['Northeast', 'South', 'Midwest', 'West', 'Small']
 GROUP_COLORS = {
-    'Small': 'Gold', 
+    'Union': 'MediumBlue',
     'Confederate': 'Red', 
     'Border': 'DarkSalmon', 
-    'Union': 'MediumBlue',
+    'Post-War': 'Green', 
     'Northeast': 'MediumBlue',
+    'South': 'Maroon', 
     'Midwest': 'Cyan',
-    'West': 'SpringGreen'
+    'West': 'SpringGreen',
+    'Small': 'Gold', 
 }
 
 # parties
@@ -54,8 +56,9 @@ PARTY_COLORS = {
 # columns
 COL_ABBREV = 'Abbrev'
 COL_STATE = 'State'
+COL_ACW_GROUP = 'Civil War Grouping'
+COL_CENSUS_GROUP = 'Census Grouping'
 COL_GROUP = 'Group'
-COL_ALT_GROUP = 'Alt Group'
 COL_YEAR = 'Year'
 COL_EC_VOTES = 'EC votes'
 COL_EC_VOTES_NORM = 'EC votes normalized'

@@ -7,8 +7,8 @@ import plotly.graph_objects as go
 from data_processor.functions import get_era_for_year
 from metadata import (
     GEN_DATA_DIR, GEN_ALT_GROUP_DIR, GEN_NO_SMALL_DIR, GEN_ALT_GROUP_NO_SMALL_DIR, 
-    GROUPS, ALT_GROUPS, GROUP_COLORS, PARTIES, PARTY_COLORS, 
-    COL_ABBREV, COL_STATE, COL_GROUP, COL_ALT_GROUP, COL_YEAR, COL_EC_VOTES, COL_EC_VOTES_NORM, 
+    ACW_GROUPS, CENSUS_GROUPS, GROUP_COLORS, PARTIES, PARTY_COLORS, 
+    COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_EC_VOTES_NORM, 
     COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_VOTE_WEIGHT, COL_LOG_VOTE_WEIGHT, COL_AVG_WEIGHT, 
     COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY, COL_STATE_COUNT, COL_STATES_IN_GROUP
 )
@@ -36,9 +36,9 @@ def build_ivw_by_state_bar(data_obj, year, subdir=None):
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
 
     # shift to altGroup if specified by subdir 
-    groups = GROUPS
+    groups = ACW_GROUPS
     if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
-        groups = ALT_GROUPS
+        groups = CENSUS_GROUPS
 
     # extract single-year data
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
@@ -148,9 +148,9 @@ def build_ivw_by_state_scatter_dots(data_obj, year, subdir=None):
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
 
     # shift to altGroup if specified by subdir 
-    groups = GROUPS
+    groups = ACW_GROUPS
     if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
-        groups = ALT_GROUPS
+        groups = CENSUS_GROUPS
 
     # extract single-year data
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
@@ -198,9 +198,9 @@ def build_ivw_by_state_scatter_abbrevs(data_obj, year, subdir=None):
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
 
     # shift to altGroup if specified by subdir 
-    groups = GROUPS
+    groups = ACW_GROUPS
     if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
-        groups = ALT_GROUPS
+        groups = CENSUS_GROUPS
 
     # extract single-year data
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
@@ -254,9 +254,9 @@ def build_ivw_by_state_scatter_bubbles(data_obj, year, subdir=None):
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
 
     # shift to altGroup if specified by subdir 
-    groups = GROUPS
+    groups = ACW_GROUPS
     if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
-        groups = ALT_GROUPS
+        groups = CENSUS_GROUPS
 
     # extract single-year data
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
@@ -307,9 +307,9 @@ def build_ivw_by_state_group_box_plot(data_obj, year, subdir=None):
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
 
     # shift to altGroup if specified by subdir 
-    groups = GROUPS
+    groups = ACW_GROUPS
     if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
-        groups = ALT_GROUPS
+        groups = CENSUS_GROUPS
 
     # extract single-year data
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year].sort_values(COL_PARTY, ascending=True)
@@ -344,9 +344,9 @@ def build_state_groups_map(data_obj, year, subdir=None):
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
 
     # shift to altGroup if specified by subdir 
-    groups = GROUPS
+    groups = ACW_GROUPS
     if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
-        groups = ALT_GROUPS
+        groups = CENSUS_GROUPS
 
     # extract single-year data
     pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
@@ -376,9 +376,9 @@ def build_ivw_by_state_group_scatter_dots(data_obj, year, subdir=None):
     group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
 
     # shift to altGroup if specified by subdir 
-    groups = GROUPS
+    groups = ACW_GROUPS
     if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
-        groups = ALT_GROUPS
+        groups = CENSUS_GROUPS
 
     # extract single-year data
     group_aggs_by_single_year = group_aggs_by_year_df[group_aggs_by_year_df[COL_YEAR] == year]
@@ -431,9 +431,9 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, year, subdir=None):
     group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
 
     # shift to altGroup if specified by subdir 
-    groups = GROUPS
+    groups = ACW_GROUPS
     if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
-        groups = ALT_GROUPS
+        groups = CENSUS_GROUPS
 
     # extract single-year data
     group_aggs_by_single_year = group_aggs_by_year_df[group_aggs_by_year_df[COL_YEAR] == year]
@@ -480,9 +480,9 @@ def build_ivw_by_state_group_line_chart(data_obj, year, subdir=None):
     group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
 
     # shift to altGroup if specified by subdir 
-    groups = GROUPS
+    groups = ACW_GROUPS
     if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
-        groups = ALT_GROUPS
+        groups = CENSUS_GROUPS
 
     # display metadata
     hover_data = {COL_STATES_IN_GROUP: True, COL_EC_VOTES: True}

@@ -7,14 +7,19 @@ import numpy as np
 
 from metadata import (
     THE_ONE_RING_CSV, AVG_WEIGHT_BY_YEAR_CSV, GROUP_AGGS_BY_YEAR_CSV, GROUPS_BY_YEAR_CSV, PIVOT_ON_YEAR_CSV, TOTALS_BY_YEAR_CSV, 
-    BASE_DATA_DIR, GEN_DATA_DIR, GEN_ALT_GROUP_DIR, GEN_NO_SMALL_DIR, GEN_ALT_GROUP_NO_SMALL_DIR, GROUPS, ALT_GROUPS, 
-    COL_ABBREV, COL_AVG_WEIGHT, COL_EC_VOTES, COL_EC_VOTES_NORM, COL_GROUP, COL_ALT_GROUP, COL_MOST_EC_VOTES, COL_PARTY, COL_POP_PER_EC, 
-    COL_STATE, COL_STATE_COUNT, COL_STATES_IN_GROUP, COL_VOTE_WEIGHT, COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_YEAR
+    BASE_DATA_DIR, GEN_DATA_DIR, GEN_ALT_GROUP_DIR, GEN_NO_SMALL_DIR, GEN_ALT_GROUP_NO_SMALL_DIR, ACW_GROUPS, CENSUS_GROUPS,  
+    COL_ABBREV, COL_STATE, COL_GROUP, COL_ACW_GROUP, COL_CENSUS_GROUP, COL_EC_VOTES, COL_EC_VOTES_NORM, COL_MOST_EC_VOTES, 
+    COL_PARTY, COL_POP_PER_EC, COL_STATE_COUNT, COL_STATES_IN_GROUP, COL_VOTE_WEIGHT, COL_AVG_WEIGHT, 
+    COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_YEAR
 )
 
 # disable unhelpful 'SettingWithCopyWarnings'
 pd.options.mode.chained_assignment = None
 
+
+# default to ACW Groups
+GROUPS = ACW_GROUPS
+COL_GROUP_SRC = COL_ACW_GROUP
 
 print(f"Starting the electoralytics 'multi_ring_filebuilder' script. This process will:")
 print(f"(1) load the superset of electoralytics data from {THE_ONE_RING_CSV} into a pandas dataframe")
@@ -68,10 +73,9 @@ if args.write:
 # adjust settings based on params
 subdir = GEN_DATA_DIR
 # Group: Northeast+Midwest+West, AltGroup: Union+West
-groups_source_col = COL_GROUP
 if USE_ALT_GROUP:
-    GROUPS = ALT_GROUPS  # TODO this feels like something to avoid
-    groups_source_col = COL_ALT_GROUP
+    GROUPS = CENSUS_GROUPS
+    COL_GROUP_SRC = COL_CENSUS_GROUP
     subdir = GEN_ALT_GROUP_DIR
 # Small or No Small
 if NO_SMALL:
@@ -81,9 +85,6 @@ if NO_SMALL:
         subdir = GEN_ALT_GROUP_NO_SMALL_DIR
 
 GROUPS_SER = pd.Series(np.array(GROUPS + ['Total']))
-
-
-# TODO modify csv file names based on input params
 
 
 # load electoral college data
@@ -126,9 +127,9 @@ while year <= 2020:
 
     # extract electoral college data for year
     year_data = the_one_ring[
-        [COL_ABBREV, COL_STATE, groups_source_col, ec_votes_col, votes_counted_col, vote_weight_col, party_col]]
+        [COL_ABBREV, COL_STATE, COL_GROUP_SRC, ec_votes_col, votes_counted_col, vote_weight_col, party_col]]
     # rename columns and set row keys/index
-    year_data.rename(columns={groups_source_col: COL_GROUP, ec_votes_col: COL_EC_VOTES, votes_counted_col: COL_VOTES_COUNTED,
+    year_data.rename(columns={COL_GROUP_SRC: COL_GROUP, ec_votes_col: COL_EC_VOTES, votes_counted_col: COL_VOTES_COUNTED,
                               vote_weight_col: COL_VOTE_WEIGHT, party_col: COL_PARTY},
                     inplace=True)
     year_data.set_index(COL_ABBREV, inplace=True)

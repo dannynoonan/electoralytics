@@ -78,10 +78,10 @@ year_slider = dbc.FormGroup([
             dcc.Dropdown(
                 id="groupings-input", 
                 options=[
-                    {'label': 'Original', 'value': 'Original'},
-                    {'label': 'Alternate', 'value': 'Alternate'}
+                    {'label': 'Civil War', 'value': 'Civil War'},
+                    {'label': 'Regional Census', 'value': 'Regional Census'}
                 ], 
-                value="Original"
+                value="Civil War"
             )
         ]),
         dbc.Col(md=1, children=[
