@@ -1,5 +1,6 @@
 import math
 import numpy as np
+import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
@@ -40,7 +41,9 @@ def build_ivw_by_state_bar(data_obj, year, subdir=None):
         groups = ALT_GROUPS
 
     # extract single-year data
-    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year].sort_values(COL_PARTY, ascending=True)
+    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
+    # remove placeholder rows for state groups that lack actual state data
+    pivot_on_single_year = pivot_on_single_year[pd.notnull(pivot_on_single_year[COL_STATE])]
 
     # display metadata
     hover_data = {COL_PARTY: False, COL_VOTES_COUNTED: True, COL_EC_VOTES: True, COL_POP_PER_EC_SHORT: True, COL_EC_VOTES_NORM: True,
@@ -74,6 +77,8 @@ def build_actual_vs_adjusted_ec_bar(data_obj, year, subdir=None):
 
     # extract single-year data
     melted_pivot_on_single_year = melted_pivot_on_year_df[melted_pivot_on_year_df[COL_YEAR] == year]
+    # remove placeholder rows for state groups that lack actual state data
+    melted_pivot_on_single_year = melted_pivot_on_single_year[pd.notnull(melted_pivot_on_single_year[COL_STATE])]
 
     # display metadata
     hover_data = {COL_PARTY: False, 'Actual vs Adjusted EC votes^': False, COL_VOTES_COUNTED: True, COL_POP_PER_EC_SHORT: True,
