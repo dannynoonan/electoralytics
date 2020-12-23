@@ -348,7 +348,7 @@ def build_ivw_by_state_scatter_bubbles(data_obj, frame=None, subdir=None):
     return fig
 
 
-def build_ivw_by_state_group_box_plot(data_obj, frame=None, subdir=None):
+def build_ivw_by_state_group_box_plot(data_obj, frame, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
@@ -358,27 +358,22 @@ def build_ivw_by_state_group_box_plot(data_obj, frame=None, subdir=None):
     if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
         groups = CENSUS_GROUPS
 
-    # if frame is set, extract single-year data
-    if frame:
-        pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == frame]
+    # extract single-year data
+    pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == frame]
 
     # display metadata
     category_orders = {COL_GROUP: groups}
     color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
     # box_title = f'{year} presidential election: voter impact by state grouping'
     base_fig_title = 'Range of Vote Weight Per Person Per Region'
-    if frame:
-        era = get_era_for_year(frame)
-        fig_title = f'{base_fig_title}: {frame} ({era})'
-    else:
-        fig_title = f'{base_fig_title}: 1828 - 2020'
+    era = get_era_for_year(frame)
+    fig_title = f'{base_fig_title}: {frame} ({era})'
 
     # box plot
     box_data = pivot_on_year_df[[COL_GROUP, COL_VOTE_WEIGHT]]
     pivot = box_data.pivot(columns=COL_GROUP, values=COL_VOTE_WEIGHT)
 
     fig = px.box(pivot, color=COL_GROUP, 
-                # animation_frame=COL_YEAR, animation_group=COL_GROUP, # ignored if df is for single year
                 # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
                 width=BOX_WIDTH, height=BOX_HEIGHT, log_y=True, title=fig_title)
 
@@ -560,7 +555,6 @@ def build_ivw_by_state_group_line_chart(data_obj, frame, subdir=None):
     avg_weight_min = group_aggs_by_year_df[group_aggs_by_year_df[COL_AVG_WEIGHT] > 0][COL_AVG_WEIGHT].min() * 0.8
     avg_weight_max = group_aggs_by_year_df[group_aggs_by_year_df[COL_AVG_WEIGHT] > 0][COL_AVG_WEIGHT].max() * 1.05
     base_fig_title = 'Average Vote Weight Per Ballot Cast For Each Election, Grouped By Region'
-    era = get_era_for_year(frame)
     fig_title = f'{base_fig_title}: (Highlighting {frame})'
 
     fig = px.line(group_aggs_by_year_df, x=COL_YEAR, y=COL_AVG_WEIGHT, color=COL_GROUP, hover_data=hover_data, 
