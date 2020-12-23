@@ -26,7 +26,7 @@ LINE_WIDTH=1640
 LINE_HEIGHT=500
 
 
-def build_ivw_by_state_bar(data_obj, year, subdir=None):
+def build_ivw_by_state_bar(data_obj, frame=None, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
@@ -36,10 +36,12 @@ def build_ivw_by_state_bar(data_obj, year, subdir=None):
     if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
         groups = CENSUS_GROUPS
 
-    # extract single-year data
-    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
+    # if frame is set, extract single-year data
+    if frame:
+        pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == frame]
+
     # remove placeholder rows for state groups that lack actual state data
-    pivot_on_single_year = pivot_on_single_year[pd.notnull(pivot_on_single_year[COL_STATE])]
+    pivot_on_year_df = pivot_on_year_df[pd.notnull(pivot_on_year_df[COL_STATE])]
 
     # display metadata
     hover_data = {COL_PARTY: False, COL_VOTES_COUNTED: True, COL_EC_VOTES: True, COL_POP_PER_EC_SHORT: True, COL_EC_VOTES_NORM: True,
@@ -49,12 +51,18 @@ def build_ivw_by_state_bar(data_obj, year, subdir=None):
     category_orders = {COL_GROUP: groups}
     color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
     # fig_title = f'{year} Presidential Election: Comparative Vote Weight Per Ballot Cast Per State'
-    era = get_era_for_year(year)
-    fig_title = f'Vote Weight Per Ballot Cast Per State: {year} ({era})'
+    base_fig_title = 'Vote Weight Per Ballot Cast Per State'
+    if frame:
+        era = get_era_for_year(frame)
+        fig_title = f'{base_fig_title}: {frame} ({era})'
+    else:
+        base_fig_title = 'Voter impact by state'
+        fig_title = f'{base_fig_title}: 1828 - 2020'
     
     # declare fig
-    fig = px.bar(pivot_on_single_year, x=COL_VOTE_WEIGHT, y=COL_STATE, color=COL_GROUP, hover_name=COL_STATE, hover_data=hover_data,
+    fig = px.bar(pivot_on_year_df, x=COL_VOTE_WEIGHT, y=COL_STATE, color=COL_GROUP, hover_name=COL_STATE, hover_data=hover_data,
                 # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                animation_frame=COL_YEAR, # ignored if df is for single year
                 labels={COL_VOTE_WEIGHT: 'Relative impact per voter'}, width=BAR_WIDTH, height=BAR_HEIGHT, title=fig_title)
 
     fig.update_layout(
@@ -66,26 +74,33 @@ def build_ivw_by_state_bar(data_obj, year, subdir=None):
 
 
 # ref: https://towardsdatascience.com/how-to-create-a-grouped-bar-chart-with-plotly-express-in-python-e2b64ed4abd7
-def build_actual_vs_adjusted_ec_bar(data_obj, year, subdir=None):
+def build_actual_vs_adjusted_ec_bar(data_obj, frame=None, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
     melted_pivot_on_year_df = data_obj.melted_pivot_on_year_dfs[subdir]
 
-    # extract single-year data
-    melted_pivot_on_single_year = melted_pivot_on_year_df[melted_pivot_on_year_df[COL_YEAR] == year]
+    # if frame is set, extract single-year data
+    if frame:
+        melted_pivot_on_year_df = melted_pivot_on_year_df[melted_pivot_on_year_df[COL_YEAR] == frame]
+
     # remove placeholder rows for state groups that lack actual state data
-    melted_pivot_on_single_year = melted_pivot_on_single_year[pd.notnull(melted_pivot_on_single_year[COL_STATE])]
+    melted_pivot_on_year_df = melted_pivot_on_year_df[pd.notnull(melted_pivot_on_year_df[COL_STATE])]
 
     # display metadata
     hover_data = {COL_PARTY: False, 'Actual vs Adjusted EC votes^': False, COL_VOTES_COUNTED: True, COL_POP_PER_EC_SHORT: True,
                 COL_STATE: False}
     color_discrete_sequence = ['LimeGreen','DarkGreen']
-    # fig_title = f'{year} Presidential Election: Actual EC Votes vs EC Votes Adjusted For Turnout'
-    era = get_era_for_year(year)
-    fig_title = f'Actual EC Votes vs EC Votes Adjusted For Turnout: {year} ({era})'
+    base_fig_title = 'Actual EC Votes vs EC Votes Adjusted For Turnout'
+    if frame:
+        era = get_era_for_year(frame)
+        fig_title = f'{base_fig_title}: {frame} ({era})'
+    else:
+        base_fig_title = 'Voter impact by state'
+        fig_title = f'{base_fig_title}: 1828 - 2020'
 
-    fig = px.bar(melted_pivot_on_single_year, x='EC votes^', y=COL_STATE,  
+    fig = px.bar(melted_pivot_on_year_df, x='EC votes^', y=COL_STATE,  
                 color='Actual vs Adjusted EC votes^', barmode='group', hover_name=COL_STATE, hover_data=hover_data,
+                animation_frame=COL_YEAR, # ignored if df is for single year
                 color_discrete_sequence=color_discrete_sequence, width=BAR_WIDTH, height=BAR_HEIGHT, title=fig_title)
 
     fig.update_layout(
@@ -134,36 +149,36 @@ def build_ivw_by_state_map(data_obj, frame=None, subdir=None):
                         color_continuous_scale=px.colors.diverging.BrBG[::-1], color_continuous_midpoint=0,
                         # range_color=[-1.0, pivot_on_single_year[COL_LOG_VOTE_WEIGHT].max()],
                         # range_color=[log_vote_weight_min, log_vote_weight_max],  
-                        animation_frame=COL_YEAR,  # this is ignored if dataframe only contains single year
+                        animation_frame=COL_YEAR, # ignored if df is for single year
                         title=fig_title, width=MAP_WIDTH, height=MAP_HEIGHT)
 
     fig.update_layout(
         coloraxis_colorbar=dict(tickvals=[-2.303, -1.609, -1.109, -0.693, -0.357, 0, 0.405, 0.916, 1.386, 1.792, 2.197],
                                 ticktext=['0.1', '0.2', '0.33', '0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']))
 
-    # apply_animation_settings(fig, base_fig_title=base_fig_title)
+    # if write_html:
+    #     # apply_animation_settings(fig, base_fig_title=base_fig_title)
 
+    #     fig.layout.updatemenus[0].buttons[0].args[1]['frame']['duration'] = FRAME_RATE
+    #     fig.layout.updatemenus[0].buttons[0].args[1]['transition']['duration'] = 500
+            
+    #     for button in fig.layout.updatemenus[0].buttons:
+    #         button["args"][1]["frame"]["redraw"] = True
+            
+    #     for step in fig.layout.sliders[0].steps:
+    #         step["args"][1]["frame"]["redraw"] = True
 
-    # fig.layout.updatemenus[0].buttons[0].args[1]['frame']['duration'] = FRAME_RATE
-        
-    # for button in fig.layout.updatemenus[0].buttons:
-    #     button["args"][1]["frame"]["redraw"] = True
-        
-    # for step in fig.layout.sliders[0].steps:
-    #     step["args"][1]["frame"]["redraw"] = True
+    #     for k in range(len(fig.frames)):
+    #         year = 1828 + (k*4)
+    #         era = get_era_for_year(year)
+    #         fig.frames[k]['layout'].update(title_text=f'{base_fig_title}: {year} ({era})')
 
-    # for k in range(len(fig.frames)):
-    #     year = 1828 + (k*4)
-    #     era = get_era_for_year(year)
-    #     fig.frames[k]['layout'].update(title_text=f'{base_fig_title}: {year} ({era})')
-
-    # fig.update_layout(transition = {'duration': 3000})
-    # fig.update_layout(transition_duration=3000)
+    #     fig.write_html('ivw_by_state_map_anim.html')
 
     return fig
 
 
-def build_ivw_by_state_scatter_dots(data_obj, year, subdir=None):
+def build_ivw_by_state_scatter_dots(data_obj, frame=None, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
@@ -173,8 +188,9 @@ def build_ivw_by_state_scatter_dots(data_obj, year, subdir=None):
     if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
         groups = CENSUS_GROUPS
 
-    # extract single-year data
-    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
+    # if frame is set, extract single-year data
+    if frame:
+        pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == frame]
     
     # calculate axis range boundaries 
     ec_max = round(pivot_on_year_df[COL_EC_VOTES].max() * 1.05)
@@ -184,12 +200,17 @@ def build_ivw_by_state_scatter_dots(data_obj, year, subdir=None):
     hover_data = {COL_VOTES_COUNTED: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True}
     category_orders = {COL_GROUP: groups}
     color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
-    era = get_era_for_year(year)
-    fig_title = f'Vote Weight Per Person Per State: {year} ({era})'
+    base_fig_title = 'Vote Weight Per Person Per State'
+    if frame:
+        era = get_era_for_year(frame)
+        fig_title = f'{base_fig_title}: {frame} ({era})'
+    else:
+        base_fig_title = 'Voter impact by state'
+        fig_title = f'{base_fig_title}: 1828 - 2020'
 
     # init figure with core properties
-    fig = px.scatter(pivot_on_single_year, x=COL_EC_VOTES_NORM, y=COL_EC_VOTES, 
-                    # animation_group=COL_STATE, 
+    fig = px.scatter(pivot_on_year_df, x=COL_EC_VOTES_NORM, y=COL_EC_VOTES, 
+                    animation_frame=COL_YEAR, # ignored if df is for single year
                     color=COL_GROUP, title=fig_title, 
                     hover_name=COL_STATE, hover_data=hover_data,
                     # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
@@ -213,7 +234,7 @@ def build_ivw_by_state_scatter_dots(data_obj, year, subdir=None):
     return fig
 
 
-def build_ivw_by_state_scatter_abbrevs(data_obj, year, subdir=None):
+def build_ivw_by_state_scatter_abbrevs(data_obj, frame=None, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
@@ -223,8 +244,9 @@ def build_ivw_by_state_scatter_abbrevs(data_obj, year, subdir=None):
     if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
         groups = CENSUS_GROUPS
 
-    # extract single-year data
-    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
+    # if frame is set, extract single-year data
+    if frame:
+        pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == frame]
 
     # calculate axis range boundaries 
     ec_max = round(pivot_on_year_df[COL_EC_VOTES].max() * 1.05)
@@ -234,12 +256,18 @@ def build_ivw_by_state_scatter_abbrevs(data_obj, year, subdir=None):
     hover_data = {COL_VOTES_COUNTED: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True}
     category_orders = {COL_GROUP: groups}
     color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
-    era = get_era_for_year(year)
-    fig_title = f'Vote Weight Per Person Per State: {year} ({era})'
+    base_fig_title = 'Vote Weight Per Person Per State'
+    if frame:
+        era = get_era_for_year(frame)
+        fig_title = f'{base_fig_title}: {frame} ({era})'
+    else:
+        base_fig_title = 'Voter impact by state'
+        fig_title = f'{base_fig_title}: 1828 - 2020'
 
     # init figure with core properties
-    fig = px.scatter(pivot_on_single_year, x=COL_EC_VOTES_NORM, y=COL_EC_VOTES, 
+    fig = px.scatter(pivot_on_year_df, x=COL_EC_VOTES_NORM, y=COL_EC_VOTES, 
                     color=COL_GROUP, title=fig_title, 
+                    animation_frame=COL_YEAR, # ignored if df is for single year
                     hover_name=COL_STATE, hover_data=hover_data, text=COL_ABBREV,
                     # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
                     log_x=True, log_y=True, range_x=[.4,norm_max], range_y=[2.5,ec_max],
@@ -269,7 +297,7 @@ def build_ivw_by_state_scatter_abbrevs(data_obj, year, subdir=None):
     return fig
 
 
-def build_ivw_by_state_scatter_bubbles(data_obj, year, subdir=None):
+def build_ivw_by_state_scatter_bubbles(data_obj, frame=None, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
@@ -279,8 +307,9 @@ def build_ivw_by_state_scatter_bubbles(data_obj, year, subdir=None):
     if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
         groups = CENSUS_GROUPS
 
-    # extract single-year data
-    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
+    # if frame is set, extract single-year data
+    if frame:
+        pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == frame]
 
     # calculate axis range boundaries 
     ec_max = round(pivot_on_year_df[COL_EC_VOTES].max())
@@ -291,12 +320,18 @@ def build_ivw_by_state_scatter_bubbles(data_obj, year, subdir=None):
     hover_data = {COL_VOTES_COUNTED: True, COL_POP_PER_EC_SHORT: True}
     category_orders = {COL_GROUP: groups}
     color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
-    era = get_era_for_year(year)
-    fig_title = f'Vote Weight Per Person Per State: {year} ({era})'
+    base_fig_title = 'Vote Weight Per Person Per State'
+    if frame:
+        era = get_era_for_year(frame)
+        fig_title = f'{base_fig_title}: {frame} ({era})'
+    else:
+        base_fig_title = 'Voter impact by state'
+        fig_title = f'{base_fig_title}: 1828 - 2020'
 
     # init figure with core properties
-    fig = px.scatter(pivot_on_single_year, x=COL_EC_VOTES, y=COL_VOTE_WEIGHT, 
+    fig = px.scatter(pivot_on_year_df, x=COL_EC_VOTES, y=COL_VOTE_WEIGHT, 
                     size=COL_VOTES_COUNTED_PCT, color=COL_GROUP, hover_name=COL_STATE, hover_data=hover_data, 
+                    animation_frame=COL_YEAR, # ignored if df is for single year
                     # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
                     title=fig_title, width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.5,
                     log_y=True, size_max=80, range_x=[0,ec_max], range_y=[weight_min,weight_max])
