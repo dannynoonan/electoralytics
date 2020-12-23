@@ -56,7 +56,6 @@ def build_ivw_by_state_bar(data_obj, frame=None, subdir=None):
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
-        base_fig_title = 'Voter impact by state'
         fig_title = f'{base_fig_title}: 1828 - 2020'
     
     # declare fig
@@ -95,7 +94,6 @@ def build_actual_vs_adjusted_ec_bar(data_obj, frame=None, subdir=None):
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
-        base_fig_title = 'Voter impact by state'
         fig_title = f'{base_fig_title}: 1828 - 2020'
 
     fig = px.bar(melted_pivot_on_year_df, x='EC votes^', y=COL_STATE,  
@@ -121,9 +119,6 @@ def build_ivw_by_state_map(data_obj, frame=None, subdir=None):
     if frame:
         pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == frame]
 
-    # generate COL_LOG_VOTE_WEIGHT column, workaround to manually create log color scale
-    # pivot_on_single_year[COL_LOG_VOTE_WEIGHT] = np.log2(pivot_on_single_year[COL_VOTE_WEIGHT])
-
     # log_vote_weight_ser = pivot_on_year_df[COL_LOG_VOTE_WEIGHT].replace([np.inf, -np.inf], np.nan).dropna()
     # log_vote_weight_min = log_vote_weight_ser.min()
     # log_vote_weight_max = log_vote_weight_ser.max()
@@ -141,7 +136,6 @@ def build_ivw_by_state_map(data_obj, frame=None, subdir=None):
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
-        base_fig_title = 'Voter impact by state'
         fig_title = f'{base_fig_title}: 1828 - 2020'
 
     fig = px.choropleth(pivot_on_year_df, locations=COL_ABBREV, color=COL_LOG_VOTE_WEIGHT,
@@ -205,7 +199,6 @@ def build_ivw_by_state_scatter_dots(data_obj, frame=None, subdir=None):
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
-        base_fig_title = 'Voter impact by state'
         fig_title = f'{base_fig_title}: 1828 - 2020'
 
     # init figure with core properties
@@ -261,7 +254,6 @@ def build_ivw_by_state_scatter_abbrevs(data_obj, frame=None, subdir=None):
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
-        base_fig_title = 'Voter impact by state'
         fig_title = f'{base_fig_title}: 1828 - 2020'
 
     # init figure with core properties
@@ -325,7 +317,6 @@ def build_ivw_by_state_scatter_bubbles(data_obj, frame=None, subdir=None):
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
-        base_fig_title = 'Voter impact by state'
         fig_title = f'{base_fig_title}: 1828 - 2020'
 
     # init figure with core properties
@@ -357,7 +348,7 @@ def build_ivw_by_state_scatter_bubbles(data_obj, frame=None, subdir=None):
     return fig
 
 
-def build_ivw_by_state_group_box_plot(data_obj, year, subdir=None):
+def build_ivw_by_state_group_box_plot(data_obj, frame=None, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
@@ -367,21 +358,27 @@ def build_ivw_by_state_group_box_plot(data_obj, year, subdir=None):
     if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
         groups = CENSUS_GROUPS
 
-    # extract single-year data
-    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year].sort_values(COL_PARTY, ascending=True)
+    # if frame is set, extract single-year data
+    if frame:
+        pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == frame]
 
     # display metadata
     category_orders = {COL_GROUP: groups}
     color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
     # box_title = f'{year} presidential election: voter impact by state grouping'
-    era = get_era_for_year(year)
-    fig_title = f'Ranges of Vote Weight Per Person Per Regional Grouping: {year} ({era})'
+    base_fig_title = 'Range of Vote Weight Per Person Per Region'
+    if frame:
+        era = get_era_for_year(frame)
+        fig_title = f'{base_fig_title}: {frame} ({era})'
+    else:
+        fig_title = f'{base_fig_title}: 1828 - 2020'
 
     # box plot
-    box_data = pivot_on_single_year[[COL_GROUP, COL_VOTE_WEIGHT]]
+    box_data = pivot_on_year_df[[COL_GROUP, COL_VOTE_WEIGHT]]
     pivot = box_data.pivot(columns=COL_GROUP, values=COL_VOTE_WEIGHT)
 
     fig = px.box(pivot, color=COL_GROUP, 
+                # animation_frame=COL_YEAR, animation_group=COL_GROUP, # ignored if df is for single year
                 # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
                 width=BOX_WIDTH, height=BOX_HEIGHT, log_y=True, title=fig_title)
 
@@ -394,7 +391,7 @@ def build_ivw_by_state_group_box_plot(data_obj, year, subdir=None):
     return fig
 
 
-def build_state_groups_map(data_obj, year, subdir=None):
+def build_state_groups_map(data_obj, frame=None, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
@@ -404,8 +401,9 @@ def build_state_groups_map(data_obj, year, subdir=None):
     if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
         groups = CENSUS_GROUPS
 
-    # extract single-year data
-    pivot_on_single_year = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == year]
+    # if frame is set, extract single-year data
+    if frame:
+        pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == frame]
 
     # generate COL_LOG_VOTE_WEIGHT column, workaround to manually create log color scale
     # pivot_on_single_year[COL_LOG_VOTE_WEIGHT] = np.log2(pivot_on_single_year[COL_VOTE_WEIGHT])
@@ -415,10 +413,15 @@ def build_state_groups_map(data_obj, year, subdir=None):
               COL_EC_VOTES: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True, COL_EC_VOTES_NORM: True}
     category_orders = {COL_GROUP: groups}
     color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
-    era = get_era_for_year(year)
-    fig_title = f'Regional Groupings During {year} Presidential Election ({era})'
+    base_fig_title = 'Regional Groupings'
+    if frame:
+        era = get_era_for_year(frame)
+        fig_title = f'{base_fig_title}: {frame} ({era})'
+    else:
+        fig_title = f'{base_fig_title}: 1828 - 2020'
 
-    fig = px.choropleth(pivot_on_single_year, locations=COL_ABBREV, color=COL_GROUP, 
+    fig = px.choropleth(pivot_on_year_df, locations=COL_ABBREV, color=COL_GROUP, 
+                        animation_frame=COL_YEAR, animation_group=COL_GROUP, # ignored if df is for single year
                         locationmode='USA-states', scope="usa", hover_name=COL_STATE, hover_data=hover_data, 
                         # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
                         title=fig_title, width=MAP_WIDTH, height=MAP_HEIGHT)
@@ -426,7 +429,7 @@ def build_state_groups_map(data_obj, year, subdir=None):
     return fig
 
 
-def build_ivw_by_state_group_scatter_dots(data_obj, year, subdir=None):
+def build_ivw_by_state_group_scatter_dots(data_obj, frame=None, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
     group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
@@ -436,25 +439,30 @@ def build_ivw_by_state_group_scatter_dots(data_obj, year, subdir=None):
     if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
         groups = CENSUS_GROUPS
 
-    # extract single-year data
-    group_aggs_by_single_year = group_aggs_by_year_df[group_aggs_by_year_df[COL_YEAR] == year]
+    # if frame is set, extract single-year data
+    if frame:
+        group_aggs_by_year_df = group_aggs_by_year_df[group_aggs_by_year_df[COL_YEAR] == frame]
 
     # calculate axis range boundaries
-    ec_max = round(group_aggs_by_single_year[COL_EC_VOTES].max() * 1.05)
+    ec_max = round(group_aggs_by_year_df[COL_EC_VOTES].max() * 1.05)
     #pop_max = round(group_aggs_by_year[COL_VOTES_COUNTED].max() * 1.05)
-    norm_max = round(group_aggs_by_single_year[COL_EC_VOTES_NORM].max() * 1.05)
+    norm_max = round(group_aggs_by_year_df[COL_EC_VOTES_NORM].max() * 1.05)
 
     # display metadata
     hover_data = {COL_VOTES_COUNTED: True, COL_AVG_WEIGHT: True, COL_POP_PER_EC_SHORT: True,
                 COL_STATE_COUNT: True, COL_STATES_IN_GROUP: True}
     category_orders = {COL_GROUP: groups}
     color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
-    era = get_era_for_year(year)
-    fig_title = f'Average Vote Weight Per Person Per Regional Grouping: {year} ({era})'
+    base_fig_title = 'Average Vote Weight Per Person Per Region'
+    if frame:
+        era = get_era_for_year(frame)
+        fig_title = f'{base_fig_title}: {frame} ({era})'
+    else:
+        fig_title = f'{base_fig_title}: 1828 - 2020'
 
     # init figure with core properties
-    fig = px.scatter(group_aggs_by_single_year, x=COL_EC_VOTES_NORM, y=COL_EC_VOTES, 
-                    # animation_frame=COL_YEAR, animation_group=COL_GROUP, 
+    fig = px.scatter(group_aggs_by_year_df, x=COL_EC_VOTES_NORM, y=COL_EC_VOTES, 
+                    animation_frame=COL_YEAR, animation_group=COL_GROUP, # ignored if df is for single year
                     color=COL_GROUP, title=fig_title, hover_name=COL_GROUP, hover_data=hover_data,
                     # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
     #                  log_x=True, log_y=True, range_x=[.4,norm_max], range_y=[2,ec_max],
@@ -481,7 +489,7 @@ def build_ivw_by_state_group_scatter_dots(data_obj, year, subdir=None):
     return fig
 
 
-def build_ivw_by_state_group_scatter_bubbles(data_obj, year, subdir=None):
+def build_ivw_by_state_group_scatter_bubbles(data_obj, frame=None, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
     group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
@@ -491,24 +499,29 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, year, subdir=None):
     if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
         groups = CENSUS_GROUPS
 
-    # extract single-year data
-    group_aggs_by_single_year = group_aggs_by_year_df[group_aggs_by_year_df[COL_YEAR] == year]
+    # if frame is set, extract single-year data
+    if frame:
+        group_aggs_by_year_df = group_aggs_by_year_df[group_aggs_by_year_df[COL_YEAR] == frame]
 
     # calculate axis range boundaries
-    ec_max = round(group_aggs_by_single_year[COL_EC_VOTES].max() * 1.1)
-    weight_min = group_aggs_by_single_year[group_aggs_by_single_year[COL_AVG_WEIGHT] > 0][COL_AVG_WEIGHT].min() * 0.9
-    weight_max = group_aggs_by_single_year[COL_AVG_WEIGHT].max() * 1.1
+    ec_max = round(group_aggs_by_year_df[COL_EC_VOTES].max() * 1.1)
+    weight_min = group_aggs_by_year_df[group_aggs_by_year_df[COL_AVG_WEIGHT] > 0][COL_AVG_WEIGHT].min() * 0.9
+    weight_max = group_aggs_by_year_df[COL_AVG_WEIGHT].max() * 1.1
 
     # display metadata
     hover_data = {COL_VOTES_COUNTED: True, COL_STATE_COUNT: True, COL_STATES_IN_GROUP: True, COL_POP_PER_EC_SHORT: True}
     category_orders = {COL_GROUP: groups}
     color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
-    era = get_era_for_year(year)
-    fig_title = f'Average Vote Weight Per Person Per Regional Grouping: {year} ({era})'
+    base_fig_title = 'Average Vote Weight Per Person Per Region'
+    if frame:
+        era = get_era_for_year(frame)
+        fig_title = f'{base_fig_title}: {frame} ({era})'
+    else:
+        fig_title = f'{base_fig_title}: 1828 - 2020'
 
     # init figure with core properties
-    fig = px.scatter(group_aggs_by_single_year, x=COL_EC_VOTES, y=COL_AVG_WEIGHT, 
-                    # animation_frame=COL_YEAR, animation_group=COL_GROUP, 
+    fig = px.scatter(group_aggs_by_year_df, x=COL_EC_VOTES, y=COL_AVG_WEIGHT, 
+                    animation_frame=COL_YEAR, animation_group=COL_GROUP, # ignored if df is for single year
                     size=COL_VOTES_COUNTED_PCT, color=COL_GROUP, hover_name=COL_GROUP, hover_data=hover_data, 
                     # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
                     title=fig_title, width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.5,
@@ -530,7 +543,7 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, year, subdir=None):
     return fig
 
 
-def build_ivw_by_state_group_line_chart(data_obj, year, subdir=None):
+def build_ivw_by_state_group_line_chart(data_obj, frame, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
     group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
@@ -546,7 +559,9 @@ def build_ivw_by_state_group_line_chart(data_obj, year, subdir=None):
     color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
     avg_weight_min = group_aggs_by_year_df[group_aggs_by_year_df[COL_AVG_WEIGHT] > 0][COL_AVG_WEIGHT].min() * 0.8
     avg_weight_max = group_aggs_by_year_df[group_aggs_by_year_df[COL_AVG_WEIGHT] > 0][COL_AVG_WEIGHT].max() * 1.05
-    fig_title = f'Average Vote Weight Per Ballot Cast For Each Election, Grouped By Region (Highlighting {year})'
+    base_fig_title = 'Average Vote Weight Per Ballot Cast For Each Election, Grouped By Region'
+    era = get_era_for_year(frame)
+    fig_title = f'{base_fig_title}: (Highlighting {frame})'
 
     fig = px.line(group_aggs_by_year_df, x=COL_YEAR, y=COL_AVG_WEIGHT, color=COL_GROUP, hover_data=hover_data, 
                     width=LINE_WIDTH, height=LINE_HEIGHT, title=fig_title, 
@@ -559,47 +574,11 @@ def build_ivw_by_state_group_line_chart(data_obj, year, subdir=None):
     fig.update_xaxes(title_text='Election Year')
     fig.update_yaxes(title_text='Average Vote Weight Per Ballot Cast')
 
-    fig.add_trace(go.Scatter(x=[year, year], y=[avg_weight_min, avg_weight_max], 
+    fig.add_trace(go.Scatter(x=[frame, frame], y=[avg_weight_min, avg_weight_max], 
                             # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence, 
-                            mode='lines', name=year, line=dict(color='black', width=1)))
+                            mode='lines', name=frame, line=dict(color='black', width=1)))
 
     return fig
-
-
-# def build_ivw_by_state_map_anim(data_obj, subdir=None):
-#     if not subdir:
-#         subdir = GEN_DATA_DIR
-#     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
-
-#     # generate COL_LOG_VOTE_WEIGHT column, workaround to manually create log color scale
-#     # pivot_on_single_year[COL_LOG_VOTE_WEIGHT] = np.log2(pivot_on_single_year[COL_VOTE_WEIGHT])
-
-#     # log_vote_weight_ser = pivot_on_year_df[COL_LOG_VOTE_WEIGHT].replace([np.inf, -np.inf], np.nan).dropna()
-#     # log_vote_weight_min = log_vote_weight_ser.min()
-#     # log_vote_weight_max = log_vote_weight_ser.max()
-#     # vote_weight_ser = pivot_on_year_df[COL_VOTE_WEIGHT].replace([np.inf, -np.inf], np.nan).dropna()
-#     # vote_weight_min = vote_weight_ser.min()
-#     # vote_weight_max = vote_weight_ser.max()
-
-#     # display metadata
-#     hover_data = {COL_YEAR: False, COL_ABBREV: False, COL_LOG_VOTE_WEIGHT: False, COL_GROUP: True,
-#                 COL_VOTES_COUNTED: True, COL_EC_VOTES: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True, 
-#                 COL_EC_VOTES_NORM: True}
-#     fig_title = 'Vote Weight Per Person Per State'
-
-#     fig = px.choropleth(pivot_on_year_df, locations=COL_ABBREV, color=COL_LOG_VOTE_WEIGHT,
-#                         locationmode='USA-states', scope="usa", hover_name=COL_STATE, hover_data=hover_data, 
-#                         color_continuous_scale=px.colors.diverging.BrBG[::-1], animation_frame=COL_YEAR,
-#                         # range_color=[-1.0, pivot_on_single_year[COL_LOG_VOTE_WEIGHT].max()],
-#                         # range_color=[log_vote_weight_min, log_vote_weight_max],
-#                         color_continuous_midpoint=0,
-#                         title=fig_title, width=MAP_WIDTH, height=MAP_HEIGHT)
-
-#     fig.update_layout(
-#         coloraxis_colorbar=dict(tickvals=[-2.303, -1.609, -1.109, -0.693, -0.357, 0, 0.405, 0.916, 1.386, 1.792, 2.197],
-#                                 ticktext=['0.1', '0.2', '0.33', '0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']))
-
-#     return fig
 
 
 def build_swallowed_vote_fig_1(data_obj):

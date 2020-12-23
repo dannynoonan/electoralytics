@@ -151,14 +151,12 @@ layout_1 = html.Div([
                     ]),
                     html.Br(),
                     dbc.Row([
-                        ### input + panel
                         dbc.Col(md=6, children=[
                             dcc.Graph(id="vote-weight-comparison-by-state-group-box-1"),
                             html.Br(),
                             dcc.Graph(id="vote-weight-comparison-by-state-group-map-1"),
                             html.Br(),
                         ]),
-                        ### map
                         dbc.Col(md=6, children=[
                             dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-bubbles"),
                             html.Br(),
@@ -168,7 +166,7 @@ layout_1 = html.Div([
                     ])
                 ]),
 
-                dbc.Tab(label="State-Level Comparisons Animated", tab_style={"font-size": "20px"}, children=[
+                dbc.Tab(label="State-Level Comparisons - Animated", tab_style={"font-size": "20px"}, children=[
                     dbc.Row([
                         dbc.Col(md=6, children=[
                             dcc.Graph(id="vote-weight-comparison-by-state-map-1-anim"),
@@ -187,7 +185,24 @@ layout_1 = html.Div([
                             html.Br(),
                         ])
                     ])
-                ])
+                ]),
+
+                dbc.Tab(label="Regional Aggregate Comparisons - Animated", tab_style={"font-size": "20px"}, children=[
+                    dbc.Row([
+                        dbc.Col(md=6, children=[
+                            # dcc.Graph(id="vote-weight-comparison-by-state-group-box-1-anim"),
+                            # html.Br(),
+                            dcc.Graph(id="vote-weight-comparison-by-state-group-map-1-anim"),
+                            html.Br(),
+                        ]),
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-bubbles-anim"),
+                            html.Br(),
+                            dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-dots-anim"),
+                            html.Br(),
+                        ])
+                    ])
+                ]),
 
             ])
         ])
@@ -300,11 +315,11 @@ def display_regional_aggregate_figs(year_input, groupings_input, small_group_inp
     subdir = map_to_subdir(groupings_input, small_group_input)
     data_obj.load_dfs_for_subdir(subdir)
     # generate figs
-    fig_map_1 = fig_builder.build_state_groups_map(data_obj, year, subdir=subdir)
-    fig_line_1 = fig_builder.build_ivw_by_state_group_line_chart(data_obj, year, subdir=subdir)
-    fig_box_1 = fig_builder.build_ivw_by_state_group_box_plot(data_obj, year, subdir=subdir)
-    fig_scatter_dots = fig_builder.build_ivw_by_state_group_scatter_dots(data_obj, year, subdir=subdir)
-    fig_scatter_bubbles = fig_builder.build_ivw_by_state_group_scatter_bubbles(data_obj, year, subdir=subdir)
+    fig_map_1 = fig_builder.build_state_groups_map(data_obj, frame=year, subdir=subdir)
+    fig_line_1 = fig_builder.build_ivw_by_state_group_line_chart(data_obj, frame=year, subdir=subdir)
+    fig_box_1 = fig_builder.build_ivw_by_state_group_box_plot(data_obj, frame=year, subdir=subdir)
+    fig_scatter_dots = fig_builder.build_ivw_by_state_group_scatter_dots(data_obj, frame=year, subdir=subdir)
+    fig_scatter_bubbles = fig_builder.build_ivw_by_state_group_scatter_bubbles(data_obj, frame=year, subdir=subdir)
     return fig_map_1, fig_line_1, fig_box_1, fig_scatter_dots, fig_scatter_bubbles
 
 @app.callback(
@@ -329,6 +344,26 @@ def display_state_level_anims(groupings_input, small_group_input):
     anim_scatter_abbrevs = fig_builder.build_ivw_by_state_scatter_abbrevs(data_obj, subdir=subdir)
     anim_scatter_bubbles = fig_builder.build_ivw_by_state_scatter_bubbles(data_obj, subdir=subdir)
     return anim_map_1, anim_bar_1, anim_bar_2, anim_scatter_dots, anim_scatter_abbrevs, anim_scatter_bubbles
+
+
+@app.callback(
+    Output('vote-weight-comparison-by-state-group-map-1-anim', 'figure'),
+    # Output('vote-weight-comparison-by-state-group-box-1-anim', 'figure'),
+    Output('vote-weight-comparison-by-state-group-scatter-dots-anim', 'figure'),
+    Output('vote-weight-comparison-by-state-group-scatter-bubbles-anim', 'figure'),
+    Input('groupings-input', 'value'),
+    Input('small-group-input', 'value'),
+)
+def display_regional_aggregate_anims(groupings_input, small_group_input):
+    # process input
+    subdir = map_to_subdir(groupings_input, small_group_input)
+    data_obj.load_dfs_for_subdir(subdir)
+    # generate figs
+    anim_map_1 = fig_builder.build_state_groups_map(data_obj, subdir=subdir)
+    # anim_box_1 = fig_builder.build_ivw_by_state_group_box_plot(data_obj, subdir=subdir)
+    anim_scatter_dots = fig_builder.build_ivw_by_state_group_scatter_dots(data_obj, subdir=subdir)
+    anim_scatter_bubbles = fig_builder.build_ivw_by_state_group_scatter_bubbles(data_obj, subdir=subdir)
+    return anim_map_1, anim_scatter_dots, anim_scatter_bubbles
 
 
 
