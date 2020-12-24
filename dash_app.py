@@ -126,23 +126,43 @@ layout_1 = html.Div([
                 dbc.Tab(label="State-Level Comparisons", tab_style={"font-size": "20px"}, children=[
                     dbc.Row([
                         dbc.Col(md=6, children=[
-                            dcc.Graph(id="vote-weight-comparison-by-state-map-1"),
+                            dcc.Graph(id="fig-map-color-by-state-vw"),
                             html.Br(),
+                        ]),
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-bar-state-vw-color-by-vw"),
+                            html.Br(),
+                        ])
+                    ]),
+                    dbc.Row([
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-color-by-group"),
+                            html.Br(),
+                        ]),
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-bar-state-vw-color-by-group"),
+                            html.Br(),
+                        ])
+                    ]),
+                    dbc.Row([
+                        dbc.Col(md=6, children=[
                             dcc.Graph(id="vote-weight-comparison-by-state-scatter-dots"),
                             html.Br(),
-                            dcc.Graph(id="fig-bar-actual-vs-adj-ec"),
-                            html.Br(),
-                            dcc.Graph(id="fig-bar-state-vw-color-by-group"),
+                            dcc.Graph(id="vote-weight-comparison-by-state-scatter-abbrevs"),
                             html.Br(),
                         ]),
                         dbc.Col(md=6, children=[
                             dcc.Graph(id="vote-weight-comparison-by-state-scatter-bubbles"),
                             html.Br(), 
-                            dcc.Graph(id="vote-weight-comparison-by-state-scatter-abbrevs"),
+                        ])
+                    ]),
+                    dbc.Row([
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-bar-actual-vs-adj-ec"),
                             html.Br(),
+                        ]),
+                        dbc.Col(md=6, children=[
                             dcc.Graph(id="fig-bar-actual-vs-adj-vw"),
-                            html.Br(),
-                            dcc.Graph(id="fig-bar-state-vw-color-by-vw"),
                             html.Br(),
                         ])
                     ])
@@ -157,15 +177,13 @@ layout_1 = html.Div([
                     html.Br(),
                     dbc.Row([
                         dbc.Col(md=6, children=[
-                            dcc.Graph(id="vote-weight-comparison-by-state-group-box-1"),
+                            dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-dots"),
                             html.Br(),
-                            dcc.Graph(id="vote-weight-comparison-by-state-group-map-1"),
+                            dcc.Graph(id="vote-weight-comparison-by-state-group-box-1"),
                             html.Br(),
                         ]),
                         dbc.Col(md=6, children=[
                             dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-bubbles"),
-                            html.Br(),
-                            dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-dots"),
                             html.Br(),
                         ])
                     ])
@@ -295,7 +313,8 @@ def display_page(pathname):
 
 # Layout 1 callbacks
 @app.callback(
-    Output('vote-weight-comparison-by-state-map-1', 'figure'),
+    Output('fig-map-color-by-state-vw', 'figure'),
+    Output('fig-map-color-by-group', 'figure'),
     Output('fig-bar-state-vw-color-by-group', 'figure'),
     Output('fig-bar-state-vw-color-by-vw', 'figure'),
     Output('fig-bar-actual-vs-adj-ec', 'figure'),
@@ -313,7 +332,8 @@ def display_state_level_figs(year_input, groupings_input, small_group_input):
     subdir = map_to_subdir(groupings_input, small_group_input)
     data_obj.load_dfs_for_subdir(subdir)
     # generate figs
-    fig_map_1 = fig_builder.build_ivw_by_state_map(data_obj, frame=year, subdir=subdir)
+    fig_map_color_by_state_vw = fig_builder.build_ivw_by_state_map(data_obj, frame=year, subdir=subdir)
+    fig_map_color_by_group = fig_builder.build_state_groups_map(data_obj, frame=year, subdir=subdir)
     fig_bar_state_vw_color_by_group = fig_builder.build_ivw_by_state_bar(data_obj, frame=year, subdir=subdir)
     fig_bar_state_vw_color_by_vw = fig_builder.build_ivw_by_state_bar(data_obj, frame=year, subdir=subdir, color=COL_LOG_VOTE_WEIGHT)
     fig_bar_actual_vs_adj_ec = fig_builder.build_actual_vs_adjusted_ec_bar(data_obj, frame=year, subdir=subdir)
@@ -321,11 +341,11 @@ def display_state_level_figs(year_input, groupings_input, small_group_input):
     fig_scatter_dots = fig_builder.build_ivw_by_state_scatter_dots(data_obj, frame=year, subdir=subdir)
     fig_scatter_abbrevs = fig_builder.build_ivw_by_state_scatter_abbrevs(data_obj, frame=year, subdir=subdir)
     fig_scatter_bubbles = fig_builder.build_ivw_by_state_scatter_bubbles(data_obj, frame=year, subdir=subdir)
-    return (fig_map_1, fig_bar_state_vw_color_by_group, fig_bar_state_vw_color_by_vw, fig_bar_actual_vs_adj_ec, fig_bar_actual_vs_adj_vw, 
-        fig_scatter_dots, fig_scatter_abbrevs, fig_scatter_bubbles)
+    return (fig_map_color_by_state_vw, fig_map_color_by_group, fig_bar_state_vw_color_by_group, fig_bar_state_vw_color_by_vw, 
+        fig_bar_actual_vs_adj_ec, fig_bar_actual_vs_adj_vw, fig_scatter_dots, fig_scatter_abbrevs, fig_scatter_bubbles)
 
 @app.callback(
-    Output('vote-weight-comparison-by-state-group-map-1', 'figure'),
+    # Output('vote-weight-comparison-by-state-group-map-1', 'figure'),
     Output('vote-weight-comparison-by-state-group-line-1', 'figure'),
     Output('vote-weight-comparison-by-state-group-box-1', 'figure'),
     Output('vote-weight-comparison-by-state-group-scatter-dots', 'figure'),
@@ -340,12 +360,12 @@ def display_regional_aggregate_figs(year_input, groupings_input, small_group_inp
     subdir = map_to_subdir(groupings_input, small_group_input)
     data_obj.load_dfs_for_subdir(subdir)
     # generate figs
-    fig_map_1 = fig_builder.build_state_groups_map(data_obj, frame=year, subdir=subdir)
+    # fig_map_1 = fig_builder.build_state_groups_map(data_obj, frame=year, subdir=subdir)
     fig_line_1 = fig_builder.build_ivw_by_state_group_line_chart(data_obj, frame=year, subdir=subdir)
     fig_box_1 = fig_builder.build_ivw_by_state_group_box_plot(data_obj, frame=year, subdir=subdir)
     fig_scatter_dots = fig_builder.build_ivw_by_state_group_scatter_dots(data_obj, frame=year, subdir=subdir)
     fig_scatter_bubbles = fig_builder.build_ivw_by_state_group_scatter_bubbles(data_obj, frame=year, subdir=subdir)
-    return fig_map_1, fig_line_1, fig_box_1, fig_scatter_dots, fig_scatter_bubbles
+    return fig_line_1, fig_box_1, fig_scatter_dots, fig_scatter_bubbles
 
 @app.callback(
     Output('state-groupings-anim-civil-war', 'figure'),
