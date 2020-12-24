@@ -11,7 +11,7 @@ import plotly.express as px
 from data_processor.data_objects import DataObject
 from data_processor import fig_builder 
 from data_processor.functions import validate_input, map_to_subdir
-from metadata import GEN_DATA_DIR, GEN_ALT_GROUP_DIR, GEN_NO_SMALL_DIR, GEN_ALT_GROUP_NO_SMALL_DIR
+from metadata import GEN_DATA_DIR, GEN_ALT_GROUP_DIR, GEN_NO_SMALL_DIR, GEN_ALT_GROUP_NO_SMALL_DIR, COL_LOG_VOTE_WEIGHT
 
 
 # base config
@@ -130,9 +130,9 @@ layout_1 = html.Div([
                             html.Br(),
                             dcc.Graph(id="vote-weight-comparison-by-state-scatter-dots"),
                             html.Br(),
-                            dcc.Graph(id="vote-weight-comparison-by-state-bar-2"),
+                            dcc.Graph(id="fig-bar-actual-vs-adj-ec"),
                             html.Br(),
-                            dcc.Graph(id="vote-weight-comparison-by-state-bar-1"),
+                            dcc.Graph(id="fig-bar-state-vw-color-by-group"),
                             html.Br(),
                         ]),
                         dbc.Col(md=6, children=[
@@ -140,7 +140,9 @@ layout_1 = html.Div([
                             html.Br(), 
                             dcc.Graph(id="vote-weight-comparison-by-state-scatter-abbrevs"),
                             html.Br(),
-                            dcc.Graph(id="vote-weight-comparison-by-state-bar-3"),
+                            dcc.Graph(id="fig-bar-actual-vs-adj-vw"),
+                            html.Br(),
+                            dcc.Graph(id="fig-bar-state-vw-color-by-vw"),
                             html.Br(),
                         ])
                     ])
@@ -294,9 +296,10 @@ def display_page(pathname):
 # Layout 1 callbacks
 @app.callback(
     Output('vote-weight-comparison-by-state-map-1', 'figure'),
-    Output('vote-weight-comparison-by-state-bar-1', 'figure'),
-    Output('vote-weight-comparison-by-state-bar-2', 'figure'),
-    Output('vote-weight-comparison-by-state-bar-3', 'figure'),
+    Output('fig-bar-state-vw-color-by-group', 'figure'),
+    Output('fig-bar-state-vw-color-by-vw', 'figure'),
+    Output('fig-bar-actual-vs-adj-ec', 'figure'),
+    Output('fig-bar-actual-vs-adj-vw', 'figure'),
     Output('vote-weight-comparison-by-state-scatter-dots', 'figure'),
     Output('vote-weight-comparison-by-state-scatter-abbrevs', 'figure'),
     Output('vote-weight-comparison-by-state-scatter-bubbles', 'figure'),
@@ -311,13 +314,15 @@ def display_state_level_figs(year_input, groupings_input, small_group_input):
     data_obj.load_dfs_for_subdir(subdir)
     # generate figs
     fig_map_1 = fig_builder.build_ivw_by_state_map(data_obj, frame=year, subdir=subdir)
-    fig_bar_1 = fig_builder.build_ivw_by_state_bar(data_obj, frame=year, subdir=subdir)
-    fig_bar_2 = fig_builder.build_actual_vs_adjusted_ec_bar(data_obj, frame=year, subdir=subdir)
-    fig_bar_3 = fig_builder.build_actual_vs_adjusted_vw_bar(data_obj, frame=year, subdir=subdir)
+    fig_bar_state_vw_color_by_group = fig_builder.build_ivw_by_state_bar(data_obj, frame=year, subdir=subdir)
+    fig_bar_state_vw_color_by_vw = fig_builder.build_ivw_by_state_bar(data_obj, frame=year, subdir=subdir, color=COL_LOG_VOTE_WEIGHT)
+    fig_bar_actual_vs_adj_ec = fig_builder.build_actual_vs_adjusted_ec_bar(data_obj, frame=year, subdir=subdir)
+    fig_bar_actual_vs_adj_vw = fig_builder.build_actual_vs_adjusted_vw_bar(data_obj, frame=year, subdir=subdir)
     fig_scatter_dots = fig_builder.build_ivw_by_state_scatter_dots(data_obj, frame=year, subdir=subdir)
     fig_scatter_abbrevs = fig_builder.build_ivw_by_state_scatter_abbrevs(data_obj, frame=year, subdir=subdir)
     fig_scatter_bubbles = fig_builder.build_ivw_by_state_scatter_bubbles(data_obj, frame=year, subdir=subdir)
-    return fig_map_1, fig_bar_1, fig_bar_2, fig_bar_3, fig_scatter_dots, fig_scatter_abbrevs, fig_scatter_bubbles
+    return (fig_map_1, fig_bar_state_vw_color_by_group, fig_bar_state_vw_color_by_vw, fig_bar_actual_vs_adj_ec, fig_bar_actual_vs_adj_vw, 
+        fig_scatter_dots, fig_scatter_abbrevs, fig_scatter_bubbles)
 
 @app.callback(
     Output('vote-weight-comparison-by-state-group-map-1', 'figure'),

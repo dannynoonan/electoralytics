@@ -27,10 +27,14 @@ LINE_WIDTH=1640
 LINE_HEIGHT=500
 
 
-def build_ivw_by_state_bar(data_obj, frame=None, subdir=None):
+def build_ivw_by_state_bar(data_obj, frame=None, subdir=None, color=None):
+    # set defaults
     if not subdir:
         subdir = GEN_DATA_DIR
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
+
+    if not color:
+        color = COL_GROUP
 
     # shift to altGroup if specified by subdir 
     groups = ACW_GROUPS
@@ -47,10 +51,25 @@ def build_ivw_by_state_bar(data_obj, frame=None, subdir=None):
     # display metadata
     hover_data = {COL_PARTY: False, COL_VOTES_COUNTED: True, COL_EC_VOTES: True, COL_POP_PER_EC_SHORT: True, 
                 COL_VOTES_COUNTED_NORM: True, COL_EC_VOTES_NORM: True, COL_STATE: False}
-    # category_orders = {COL_PARTY: PARTIES}
-    # color_discrete_sequence = [PARTY_COLORS[p] for p in PARTIES]
+
+    # set color sequence
+    # category_orders = []
+    # color_discrete_sequence = []
     category_orders = {COL_GROUP: groups}
     color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
+    color_continuous_scale = []
+    color_continuous_midpoint = None
+    if color == COL_PARTY:
+        category_orders = {COL_PARTY: PARTIES}
+        color_discrete_sequence = [PARTY_COLORS[p] for p in PARTIES]
+    elif color == COL_LOG_VOTE_WEIGHT:
+        color_continuous_scale = px.colors.diverging.BrBG[::-1]
+        color_continuous_midpoint = 0
+    # elif color == COL_GROUP:
+    #     category_orders = {COL_GROUP: groups}
+    #     color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
+    
+    
     # fig_title = f'{year} Presidential Election: Comparative Vote Weight Per Ballot Cast Per State'
     base_fig_title = 'Vote Weight Per Ballot Cast Per State'
     if frame:
@@ -60,8 +79,9 @@ def build_ivw_by_state_bar(data_obj, frame=None, subdir=None):
         fig_title = f'{base_fig_title}: 1828 - 2020'
     
     # declare fig
-    fig = px.bar(pivot_on_year_df, x=COL_VOTE_WEIGHT, y=COL_STATE, color=COL_GROUP, hover_name=COL_STATE, hover_data=hover_data,
+    fig = px.bar(pivot_on_year_df, x=COL_VOTE_WEIGHT, y=COL_STATE, color=color, hover_name=COL_STATE, hover_data=hover_data,
                 # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                color_continuous_scale=color_continuous_scale, color_continuous_midpoint=color_continuous_midpoint,
                 animation_frame=COL_YEAR, # ignored if df is for single year
                 labels={COL_VOTE_WEIGHT: 'Relative impact per voter'}, width=BAR_WIDTH, height=BAR_HEIGHT, title=fig_title)
 
