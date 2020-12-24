@@ -11,6 +11,7 @@ import plotly.express as px
 from data_processor.data_objects import DataObject
 from data_processor import fig_builder 
 from data_processor.functions import validate_input, map_to_subdir
+from metadata import GEN_DATA_DIR, GEN_ALT_GROUP_DIR, GEN_NO_SMALL_DIR, GEN_ALT_GROUP_NO_SMALL_DIR
 
 
 # base config
@@ -38,7 +39,7 @@ navbar = html.Div([
     html.H1('Electoralytics', id="nav-pills"),
     dbc.Nav(className="nav nav-pills", children=[
         dbc.DropdownMenu(label="Pages / Graphs", nav=True, children=[
-            dbc.DropdownMenuItem([html.I(className="fa"), "Inter-State Voter Impact Comparison"], href='/vote-weight-comparison', target="_blank"), 
+            dbc.DropdownMenuItem([html.I(className="fa"), "Vote Weight Comparison Between States"], href='/vote-weight-comparison', target="_blank"), 
             dbc.DropdownMenuItem([html.I(className="fa"), "Sampler of Swallowed Votes"], href='/swallowed-vote-sampler', target="_blank"),
         ]),
         dbc.DropdownMenu(label="References / Resources", nav=True, children=[
@@ -168,7 +169,24 @@ layout_1 = html.Div([
                     ])
                 ]),
 
-                dbc.Tab(label="State-Level Comparisons - Slider/Animations", tab_style={"font-size": "20px"}, children=[
+                dbc.Tab(label="Maps of State Groupings", tab_style={"font-size": "20px"}, children=[
+                    dbc.Row([
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="state-groupings-anim-civil-war-no-small"),
+                            html.Br(),
+                            dcc.Graph(id="state-groupings-anim-regional-census-no-small"),
+                            html.Br(),
+                        ]),
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="state-groupings-anim-civil-war"),
+                            html.Br(),
+                            dcc.Graph(id="state-groupings-anim-regional-census"),
+                            html.Br(),
+                        ])
+                    ])
+                ]),
+
+                dbc.Tab(label="State-Level Comparison Animations", tab_style={"font-size": "20px"}, children=[
                     dbc.Row([
                         dbc.Col(md=6, children=[
                             dcc.Graph(id="vote-weight-comparison-by-state-map-1-anim"),
@@ -189,7 +207,7 @@ layout_1 = html.Div([
                     ])
                 ]),
 
-                dbc.Tab(label="Regional Aggregate Comparisons - Slider/Animations", tab_style={"font-size": "20px"}, children=[
+                dbc.Tab(label="Regional Aggregate Comparison Animations", tab_style={"font-size": "20px"}, children=[
                     dbc.Row([
                         dbc.Col(md=6, children=[
                             dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-bubbles-anim"),
@@ -323,6 +341,26 @@ def display_regional_aggregate_figs(year_input, groupings_input, small_group_inp
     fig_scatter_dots = fig_builder.build_ivw_by_state_group_scatter_dots(data_obj, frame=year, subdir=subdir)
     fig_scatter_bubbles = fig_builder.build_ivw_by_state_group_scatter_bubbles(data_obj, frame=year, subdir=subdir)
     return fig_map_1, fig_line_1, fig_box_1, fig_scatter_dots, fig_scatter_bubbles
+
+@app.callback(
+    Output('state-groupings-anim-civil-war', 'figure'),
+    Output('state-groupings-anim-regional-census', 'figure'),
+    Output('state-groupings-anim-civil-war-no-small', 'figure'),
+    Output('state-groupings-anim-regional-census-no-small', 'figure'),
+    Input('year-input', 'value'),
+)
+def display_all_state_grouping_map_anims(year_input):
+    # process input
+    year = int(year_input) # TODO probably access different small variants here, EC=3 vs EC=4 vs EC=5
+    subdirs = [GEN_DATA_DIR, GEN_ALT_GROUP_DIR, GEN_NO_SMALL_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]
+    for subdir in subdirs:
+        data_obj.load_dfs_for_subdir(subdir)
+    # generate figs
+    anim_map_acw = fig_builder.build_state_groups_map(data_obj, subdir=GEN_DATA_DIR)
+    anim_map_census = fig_builder.build_state_groups_map(data_obj, subdir=GEN_ALT_GROUP_DIR)
+    anim_map_acw_no_small = fig_builder.build_state_groups_map(data_obj, subdir=GEN_NO_SMALL_DIR)
+    anim_map_census_no_small = fig_builder.build_state_groups_map(data_obj, subdir=GEN_ALT_GROUP_NO_SMALL_DIR)
+    return anim_map_acw, anim_map_census, anim_map_acw_no_small, anim_map_census_no_small
 
 @app.callback(
     Output('vote-weight-comparison-by-state-map-1-anim', 'figure'),

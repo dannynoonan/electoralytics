@@ -13,6 +13,14 @@ PIVOT_ON_YEAR_CSV = 'pivotOnYear.csv'
 TOTALS_BY_YEAR_CSV = 'totalsByYear.csv'
 GROUP_AGGS_BY_YEAR_CSV = 'groupAggsByYear.csv'
 
+# data dir descriptions
+DATA_DIR_DESCRIPTIONS = {
+    GEN_DATA_DIR: 'Civil War Groupings, With \'Small\' States Extracted',
+    GEN_ALT_GROUP_DIR: 'Regional Census Groupings, With \'Small\' States Extracted',
+    GEN_NO_SMALL_DIR: 'Civil War Groupings',
+    GEN_ALT_GROUP_NO_SMALL_DIR: 'Regional Census Groupings'
+}
+
 # state groupings
 ACW_GROUPS = ['Union', 'Confederate', 'Border', 'Post-War', 'Small']
 CENSUS_GROUPS = ['Northeast', 'South', 'Midwest', 'West', 'Small']

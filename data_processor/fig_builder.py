@@ -11,7 +11,7 @@ from metadata import (
     COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_EC_VOTES_NORM, 
     COL_VOTES_COUNTED, COL_VOTES_COUNTED_NORM, COL_VOTES_COUNTED_PCT, COL_VOTE_WEIGHT, 
     COL_LOG_VOTE_WEIGHT, COL_AVG_WEIGHT, COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY, 
-    COL_STATE_COUNT, COL_STATES_IN_GROUP
+    COL_STATE_COUNT, COL_STATES_IN_GROUP, DATA_DIR_DESCRIPTIONS
 )
 
 
@@ -446,7 +446,7 @@ def build_state_groups_map(data_obj, frame=None, subdir=None):
               COL_EC_VOTES: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True, COL_EC_VOTES_NORM: True}
     category_orders = {COL_GROUP: groups}
     color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
-    base_fig_title = 'Regional Groupings'
+    base_fig_title = DATA_DIR_DESCRIPTIONS[subdir]
     if frame:
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
