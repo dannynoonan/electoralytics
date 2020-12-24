@@ -9,8 +9,9 @@ from metadata import (
     GEN_DATA_DIR, GEN_ALT_GROUP_DIR, GEN_NO_SMALL_DIR, GEN_ALT_GROUP_NO_SMALL_DIR, 
     ACW_GROUPS, CENSUS_GROUPS, GROUP_COLORS, PARTIES, PARTY_COLORS, FRAME_RATE,
     COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_EC_VOTES_NORM, 
-    COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_VOTE_WEIGHT, COL_LOG_VOTE_WEIGHT, COL_AVG_WEIGHT, 
-    COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY, COL_STATE_COUNT, COL_STATES_IN_GROUP
+    COL_VOTES_COUNTED, COL_VOTES_COUNTED_NORM, COL_VOTES_COUNTED_PCT, COL_VOTE_WEIGHT, 
+    COL_LOG_VOTE_WEIGHT, COL_AVG_WEIGHT, COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY, 
+    COL_STATE_COUNT, COL_STATES_IN_GROUP
 )
 
 
@@ -44,8 +45,8 @@ def build_ivw_by_state_bar(data_obj, frame=None, subdir=None):
     pivot_on_year_df = pivot_on_year_df[pd.notnull(pivot_on_year_df[COL_STATE])]
 
     # display metadata
-    hover_data = {COL_PARTY: False, COL_VOTES_COUNTED: True, COL_EC_VOTES: True, COL_POP_PER_EC_SHORT: True, COL_EC_VOTES_NORM: True,
-                COL_STATE: False}
+    hover_data = {COL_PARTY: False, COL_VOTES_COUNTED: True, COL_EC_VOTES: True, COL_POP_PER_EC_SHORT: True, 
+                COL_VOTES_COUNTED_NORM: True, COL_EC_VOTES_NORM: True, COL_STATE: False}
     # category_orders = {COL_PARTY: PARTIES}
     # color_discrete_sequence = [PARTY_COLORS[p] for p in PARTIES]
     category_orders = {COL_GROUP: groups}
@@ -76,19 +77,19 @@ def build_ivw_by_state_bar(data_obj, frame=None, subdir=None):
 def build_actual_vs_adjusted_ec_bar(data_obj, frame=None, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
-    melted_pivot_on_year_df = data_obj.melted_pivot_on_year_dfs[subdir]
+    melted_ec_votes_pivot_df = data_obj.melted_ec_votes_pivot_dfs[subdir].sort_values('EC votes^', ascending=True)
 
     # if frame is set, extract single-year data
     if frame:
-        melted_pivot_on_year_df = melted_pivot_on_year_df[melted_pivot_on_year_df[COL_YEAR] == frame]
+        melted_ec_votes_pivot_df = melted_ec_votes_pivot_df[melted_ec_votes_pivot_df[COL_YEAR] == frame]
 
     # remove placeholder rows for state groups that lack actual state data
-    melted_pivot_on_year_df = melted_pivot_on_year_df[pd.notnull(melted_pivot_on_year_df[COL_STATE])]
+    melted_ec_votes_pivot_df = melted_ec_votes_pivot_df[pd.notnull(melted_ec_votes_pivot_df[COL_STATE])]
 
     # display metadata
-    hover_data = {COL_PARTY: False, 'Actual vs Adjusted EC votes^': False, COL_VOTES_COUNTED: True, COL_POP_PER_EC_SHORT: True,
-                COL_STATE: False}
-    color_discrete_sequence = ['LimeGreen','DarkGreen']
+    hover_data = {COL_PARTY: False, 'Actual vs Adjusted EC votes^': False, COL_VOTE_WEIGHT: True, COL_VOTES_COUNTED: True, 
+                COL_VOTES_COUNTED_NORM: True, COL_POP_PER_EC_SHORT: True, COL_STATE: False}
+    color_discrete_sequence = ['DarkGreen', 'LimeGreen']
     base_fig_title = 'Actual EC Votes vs EC Votes Adjusted For Turnout'
     if frame:
         era = get_era_for_year(frame)
@@ -96,7 +97,7 @@ def build_actual_vs_adjusted_ec_bar(data_obj, frame=None, subdir=None):
     else:
         fig_title = f'{base_fig_title}: 1828 - 2020'
 
-    fig = px.bar(melted_pivot_on_year_df, x='EC votes^', y=COL_STATE,  
+    fig = px.bar(melted_ec_votes_pivot_df, x='EC votes^', y=COL_STATE,  
                 color='Actual vs Adjusted EC votes^', barmode='group', hover_name=COL_STATE, hover_data=hover_data,
                 animation_frame=COL_YEAR, # ignored if df is for single year
                 color_discrete_sequence=color_discrete_sequence, width=BAR_WIDTH, height=BAR_HEIGHT, title=fig_title)
@@ -106,6 +107,43 @@ def build_actual_vs_adjusted_ec_bar(data_obj, frame=None, subdir=None):
         yaxis_categoryorder='total descending'
     )
     fig.update_xaxes(title_text='Actual EC votes / EC Votes If Adjusted For Popular Vote Turnout')
+
+    return fig
+
+
+def build_actual_vs_adjusted_vw_bar(data_obj, frame=None, subdir=None):
+    if not subdir:
+        subdir = GEN_DATA_DIR
+    melted_vote_count_pivot_df = data_obj.melted_vote_count_pivot_dfs[subdir].sort_values('Vote count^', ascending=True)
+
+    # if frame is set, extract single-year data
+    if frame:
+        melted_vote_count_pivot_df = melted_vote_count_pivot_df[melted_vote_count_pivot_df[COL_YEAR] == frame]
+
+    # remove placeholder rows for state groups that lack actual state data
+    melted_vote_count_pivot_df = melted_vote_count_pivot_df[pd.notnull(melted_vote_count_pivot_df[COL_STATE])]
+
+    # display metadata
+    hover_data = {COL_PARTY: False, 'Actual vs Adjusted Vote count^': False, COL_VOTE_WEIGHT: True, COL_EC_VOTES: True,
+                COL_EC_VOTES_NORM: True, COL_POP_PER_EC_SHORT: True, COL_STATE: False}
+    color_discrete_sequence = ['DarkBlue', 'DodgerBlue']
+    base_fig_title = 'Actual Vote Count vs Vote Count Adjusted For Turnout'
+    if frame:
+        era = get_era_for_year(frame)
+        fig_title = f'{base_fig_title}: {frame} ({era})'
+    else:
+        fig_title = f'{base_fig_title}: 1828 - 2020'
+
+    fig = px.bar(melted_vote_count_pivot_df, x='Vote count^', y=COL_STATE,  
+                color='Actual vs Adjusted Vote count^', barmode='group', hover_name=COL_STATE, hover_data=hover_data,
+                animation_frame=COL_YEAR, # ignored if df is for single year
+                color_discrete_sequence=color_discrete_sequence, width=BAR_WIDTH, height=BAR_HEIGHT, title=fig_title)
+
+    fig.update_layout(
+        yaxis={'tickangle': 35, 'showticklabels': True, 'type': 'category', 'tickfont_size': 8},
+        yaxis_categoryorder='total descending'
+    )
+    fig.update_xaxes(title_text='Actual Vote Count / Vote Count If Adjusted For Popular Vote Turnout')
 
     return fig
 

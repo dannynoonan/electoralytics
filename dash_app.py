@@ -129,6 +129,8 @@ layout_1 = html.Div([
                             html.Br(),
                             dcc.Graph(id="vote-weight-comparison-by-state-scatter-dots"),
                             html.Br(),
+                            dcc.Graph(id="vote-weight-comparison-by-state-bar-2"),
+                            html.Br(),
                             dcc.Graph(id="vote-weight-comparison-by-state-bar-1"),
                             html.Br(),
                         ]),
@@ -137,7 +139,7 @@ layout_1 = html.Div([
                             html.Br(), 
                             dcc.Graph(id="vote-weight-comparison-by-state-scatter-abbrevs"),
                             html.Br(),
-                            dcc.Graph(id="vote-weight-comparison-by-state-bar-2"),
+                            dcc.Graph(id="vote-weight-comparison-by-state-bar-3"),
                             html.Br(),
                         ])
                     ])
@@ -276,6 +278,7 @@ def display_page(pathname):
     Output('vote-weight-comparison-by-state-map-1', 'figure'),
     Output('vote-weight-comparison-by-state-bar-1', 'figure'),
     Output('vote-weight-comparison-by-state-bar-2', 'figure'),
+    Output('vote-weight-comparison-by-state-bar-3', 'figure'),
     Output('vote-weight-comparison-by-state-scatter-dots', 'figure'),
     Output('vote-weight-comparison-by-state-scatter-abbrevs', 'figure'),
     Output('vote-weight-comparison-by-state-scatter-bubbles', 'figure'),
@@ -292,10 +295,11 @@ def display_state_level_figs(year_input, groupings_input, small_group_input):
     fig_map_1 = fig_builder.build_ivw_by_state_map(data_obj, frame=year, subdir=subdir)
     fig_bar_1 = fig_builder.build_ivw_by_state_bar(data_obj, frame=year, subdir=subdir)
     fig_bar_2 = fig_builder.build_actual_vs_adjusted_ec_bar(data_obj, frame=year, subdir=subdir)
+    fig_bar_3 = fig_builder.build_actual_vs_adjusted_vw_bar(data_obj, frame=year, subdir=subdir)
     fig_scatter_dots = fig_builder.build_ivw_by_state_scatter_dots(data_obj, frame=year, subdir=subdir)
     fig_scatter_abbrevs = fig_builder.build_ivw_by_state_scatter_abbrevs(data_obj, frame=year, subdir=subdir)
     fig_scatter_bubbles = fig_builder.build_ivw_by_state_scatter_bubbles(data_obj, frame=year, subdir=subdir)
-    return fig_map_1, fig_bar_1, fig_bar_2, fig_scatter_dots, fig_scatter_abbrevs, fig_scatter_bubbles
+    return fig_map_1, fig_bar_1, fig_bar_2, fig_bar_3, fig_scatter_dots, fig_scatter_abbrevs, fig_scatter_bubbles
 
 @app.callback(
     Output('vote-weight-comparison-by-state-group-map-1', 'figure'),

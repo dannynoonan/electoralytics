@@ -29,7 +29,7 @@ def get_era_for_year(year):
         return 'Civil War'
     elif year <= 1876:
         return 'Reconstruction'
-    elif year <= 1900:
+    elif year <= 1892:
         return 'Redemption / Early Jim Crow'
     elif year <= 1948:
         return 'Jim Crow Era'

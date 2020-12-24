@@ -5,8 +5,8 @@ from metadata import (
     BASE_DATA_DIR, GEN_DATA_DIR, GEN_ALT_GROUP_DIR, GEN_NO_SMALL_DIR, GEN_ALT_GROUP_NO_SMALL_DIR,
     PIVOT_ON_YEAR_CSV, SWALLOWED_VOTE_2020_CSV, GROUP_AGGS_BY_YEAR_CSV,
     COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_EC_VOTES_NORM, 
-    COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_VOTE_WEIGHT, COL_LOG_VOTE_WEIGHT, COL_POP_PER_EC, 
-    COL_POP_PER_EC_SHORT, COL_PARTY
+    COL_VOTES_COUNTED, COL_VOTES_COUNTED_NORM, COL_VOTES_COUNTED_PCT, COL_VOTE_WEIGHT, COL_LOG_VOTE_WEIGHT, 
+    COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY
 )
 
 
@@ -15,7 +15,8 @@ class DataObject():
     def __init__(self):
         self.subdirs_loaded = []
         self.pivot_on_year_dfs = {}
-        self.melted_pivot_on_year_dfs = {}
+        self.melted_ec_votes_pivot_dfs = {}
+        self.melted_vote_count_pivot_dfs = {}
         self.group_aggs_by_year_dfs = {}
         self.all_years = None
         self.swallowed_vote_df = None
@@ -61,7 +62,7 @@ class DataObject():
             subdir = GEN_DATA_DIR
 
         # if df for subdir is already loaded and we're not updating, then we're done
-        if subdir in self.melted_pivot_on_year_dfs and not update:
+        if subdir in self.melted_ec_votes_pivot_dfs and not update:
             return
 
         # if source pivot_on_year_df is empty, we don't have a df to melt 
@@ -69,20 +70,41 @@ class DataObject():
             print(f"failure to melt pivot_on_year_df for subdir '{subdir}', source df self.pivot_on_year_dfs[{subdir}] is empty")
             return
 
-        print(f"melting self.pivot_on_year_dfs[{subdir}]")
+        print(f"melting self.pivot_on_year_dfs[{subdir}] into melted_ec_votes_pivot_dfs and melted_vote_count_pivot_dfs")
+
+        # melt EC votes and EC votes normalized into the same column to create melted_ec_votes_pivot_dfs
+        cols = self.pivot_on_year_dfs[subdir].columns.values
+        cols = cols[cols != COL_EC_VOTES]
+        cols = cols[cols != COL_EC_VOTES_NORM]
         mod_pivot_on_year_df = self.pivot_on_year_dfs[subdir].rename(
             columns={COL_EC_VOTES: 'EC votes: Actual', COL_EC_VOTES_NORM: 'ECV: Adjusted for turnout'})
-        # TODO id_vars is all cols not being melted, should be automatic not enumerated
-        melted_pivot_on_year_df = pd.melt(
+        
+        melted_ec_votes_pivot_df = pd.melt(
             mod_pivot_on_year_df, 
-            id_vars=[COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_VOTES_COUNTED, COL_VOTES_COUNTED_PCT, COL_POP_PER_EC_SHORT,
-                    COL_VOTE_WEIGHT, COL_LOG_VOTE_WEIGHT, COL_PARTY],
+            id_vars=cols,
             var_name='Actual vs Adjusted EC votes^',
             value_name='EC votes^'
         )
 
-        # assign df to pivot_on_year_dfs at subdir 
-        self.melted_pivot_on_year_dfs[subdir] = melted_pivot_on_year_df
+        # assign df to melted_ec_votes_pivot_dfs at subdir 
+        self.melted_ec_votes_pivot_dfs[subdir] = melted_ec_votes_pivot_df
+
+        # melt Vote count and Vote count normalized into the same column to create melted_vote_count_pivot_dfs
+        cols = self.pivot_on_year_dfs[subdir].columns.values
+        cols = cols[cols != COL_VOTES_COUNTED]
+        cols = cols[cols != COL_VOTES_COUNTED_NORM]
+        mod_pivot_on_year_df = self.pivot_on_year_dfs[subdir].rename(
+            columns={COL_VOTES_COUNTED: 'Votes counted: Actual', COL_VOTES_COUNTED_NORM: 'Votes counted: Adjusted for weight'})
+
+        melted_vote_count_pivot_df = pd.melt(
+            mod_pivot_on_year_df, 
+            id_vars=cols,
+            var_name='Actual vs Adjusted Vote count^',
+            value_name='Vote count^'
+        )
+
+        # assign df to melted_vote_count_pivot_dfs at subdir 
+        self.melted_vote_count_pivot_dfs[subdir] = melted_vote_count_pivot_df
 
 
     def load_group_aggs_by_year(self, subdir=None, update=False):
