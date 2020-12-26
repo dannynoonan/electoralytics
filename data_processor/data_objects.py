@@ -26,10 +26,12 @@ class DataObject():
         if not subdir:
             subdir = GEN_DATA_DIR
         if not subdir in self.subdirs_loaded:
+            print(f"subdirs_loaded: '{self.subdirs_loaded}' does not include requested sudbdir '{subdir}', loading it now...")
             self.load_pivot_on_year(subdir=subdir)
             self.melt_pivot_on_year(subdir=subdir)
             self.load_group_aggs_by_year(subdir=subdir)
             self.subdirs_loaded.append(subdir)
+            print(f"finished loading sudbdir '{subdir}'")
 
 
     # load pivot_on_year data from csv

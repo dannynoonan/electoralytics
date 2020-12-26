@@ -40,6 +40,7 @@ navbar = html.Div([
     dbc.Nav(className="nav nav-pills", children=[
         dbc.DropdownMenu(label="Pages / Graphs", nav=True, children=[
             dbc.DropdownMenuItem([html.I(className="fa"), "Vote Weight Comparison Between States"], href='/vote-weight-comparison', target="_blank"), 
+            dbc.DropdownMenuItem([html.I(className="fa"), "Explanation of Regional State Groupings"], href='/explanation-of-groupings', target="_blank"), 
             dbc.DropdownMenuItem([html.I(className="fa"), "Sampler of Swallowed Votes"], href='/swallowed-vote-sampler', target="_blank"),
         ]),
         dbc.DropdownMenu(label="References / Resources", nav=True, children=[
@@ -101,6 +102,12 @@ year_slider = dbc.FormGroup([
 swallowed_vote_view_dropdown = dbc.FormGroup([
     html.H4("Swallowed vote view"),
     dcc.Dropdown(id="display-type", options=[{"label": "2020", "value": "2020"}], value="2020")
+])
+
+
+groupings_explanation_dropdown = dbc.FormGroup([
+    html.H4("Groupings explanation"),
+    dcc.Dropdown(id="year-input", options=[{"label": "2020", "value": "2020"}], value="2020")
 ])
 
 
@@ -189,23 +196,6 @@ layout_1 = html.Div([
                     ])
                 ]),
 
-                dbc.Tab(label="Maps of State Groupings", tab_style={"font-size": "20px"}, children=[
-                    dbc.Row([
-                        dbc.Col(md=6, children=[
-                            dcc.Graph(id="state-groupings-anim-civil-war-no-small"),
-                            html.Br(),
-                            dcc.Graph(id="state-groupings-anim-regional-census-no-small"),
-                            html.Br(),
-                        ]),
-                        dbc.Col(md=6, children=[
-                            dcc.Graph(id="state-groupings-anim-civil-war"),
-                            html.Br(),
-                            dcc.Graph(id="state-groupings-anim-regional-census"),
-                            html.Br(),
-                        ])
-                    ])
-                ]),
-
                 dbc.Tab(label="State-Level Comparison Animations", tab_style={"font-size": "20px"}, children=[
                     dbc.Row([
                         dbc.Col(md=6, children=[
@@ -248,8 +238,70 @@ layout_1 = html.Div([
 ])
 
 
-# layout 2
 layout_2 = html.Div([
+    ## Top
+    navbar,
+    html.Br(),html.Br(),
+
+    dbc.Row([
+        html.H3("Explanation of Regional State Groupings"),
+    ], justify="center", align="center"),
+
+    dbc.Row([
+        dbc.Col(md=3, children=[
+            groupings_explanation_dropdown,
+            html.Br(),
+        ])
+    ]),
+
+    dbc.Row([
+        dbc.Col(md=6, children=[
+            dcc.Graph(id="state-groupings-anim-civil-war-no-small"),
+            html.Br(),
+            dcc.Graph(id="state-groupings-anim-regional-census-no-small"),
+            html.Br(),
+        ]),
+        dbc.Col(md=6, children=[
+            dcc.Graph(id="state-groupings-anim-civil-war"),
+            html.Br(),
+            dcc.Graph(id="state-groupings-anim-regional-census"),
+            html.Br(),
+        ])
+    ])
+            
+    #         dbc.Tabs(className="nav nav-pills", children=[
+    #             dbc.Tab(label="Blah de blah", tab_style={"font-size": "20px"}, children=[
+    #                 dbc.Row([
+    #                     dbc.Col(md=6, children=[
+    #                         dcc.Graph(id="state-groupings-anim-civil-war-no-small"),
+    #                         html.Br(),
+    #                     ]),
+    #                     dbc.Col(md=6, children=[
+    #                         html.Br(),
+    #                     ])
+    #                 ]),
+    #             ]),
+    #             dbc.Tab(label="Ho di ho", tab_style={"font-size": "20px"}, children=[
+    #                 dbc.Row([
+    #                     dbc.Col(md=6, children=[
+    #                         dcc.Graph(id="state-groupings-anim-civil-war"),
+    #                         html.Br(),
+    #                     ]),
+    #                     dbc.Col(md=6, children=[
+    #                         html.Br(),
+    #                     ])
+    #                 ]),
+    #             ]),
+    #         ]),
+    #     ]),
+    # ])
+
+    
+])
+
+
+# layout 3
+layout_3 = html.Div([
     ## Top
     navbar,
     html.Br(),html.Br(),
@@ -293,6 +345,7 @@ app.validation_layout = dbc.Container(fluid=True, children=[
     ## Body
     layout_1,
     layout_2,
+    layout_3,
     empty_layout,
 ])
 
@@ -304,8 +357,10 @@ app.validation_layout = dbc.Container(fluid=True, children=[
 def display_page(pathname):
     if pathname == "/vote-weight-comparison":
         return layout_1
-    elif pathname == "/swallowed-vote-sampler":
+    elif pathname == "/explanation-of-groupings":
         return layout_2
+    elif pathname == "/swallowed-vote-sampler":
+        return layout_3
     else:
         return empty_layout
 
@@ -327,6 +382,7 @@ def display_page(pathname):
     Input('small-group-input', 'value'),
 )
 def display_state_level_figs(year_input, groupings_input, small_group_input):
+    print(f"#### in display_state_level_figs")
     # process input
     year = int(year_input)
     subdir = map_to_subdir(groupings_input, small_group_input)
@@ -355,6 +411,7 @@ def display_state_level_figs(year_input, groupings_input, small_group_input):
     Input('small-group-input', 'value'),
 )
 def display_regional_aggregate_figs(year_input, groupings_input, small_group_input):
+    print(f"#### in display_regional_aggregate_figs")
     # process input
     year = int(year_input)
     subdir = map_to_subdir(groupings_input, small_group_input)
@@ -368,26 +425,6 @@ def display_regional_aggregate_figs(year_input, groupings_input, small_group_inp
     return fig_line_1, fig_box_1, fig_scatter_dots, fig_scatter_bubbles
 
 @app.callback(
-    Output('state-groupings-anim-civil-war', 'figure'),
-    Output('state-groupings-anim-regional-census', 'figure'),
-    Output('state-groupings-anim-civil-war-no-small', 'figure'),
-    Output('state-groupings-anim-regional-census-no-small', 'figure'),
-    Input('year-input', 'value'),
-)
-def display_all_state_grouping_map_anims(year_input):
-    # process input
-    year = int(year_input) # TODO probably access different small variants here, EC=3 vs EC=4 vs EC=5
-    subdirs = [GEN_DATA_DIR, GEN_ALT_GROUP_DIR, GEN_NO_SMALL_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]
-    for subdir in subdirs:
-        data_obj.load_dfs_for_subdir(subdir)
-    # generate figs
-    anim_map_acw = fig_builder.build_state_groups_map(data_obj, subdir=GEN_DATA_DIR)
-    anim_map_census = fig_builder.build_state_groups_map(data_obj, subdir=GEN_ALT_GROUP_DIR)
-    anim_map_acw_no_small = fig_builder.build_state_groups_map(data_obj, subdir=GEN_NO_SMALL_DIR)
-    anim_map_census_no_small = fig_builder.build_state_groups_map(data_obj, subdir=GEN_ALT_GROUP_NO_SMALL_DIR)
-    return anim_map_acw, anim_map_census, anim_map_acw_no_small, anim_map_census_no_small
-
-@app.callback(
     Output('vote-weight-comparison-by-state-map-1-anim', 'figure'),
     # Output('vote-weight-comparison-by-state-bar-1-anim', 'figure'),
     # Output('vote-weight-comparison-by-state-bar-2-anim', 'figure'),
@@ -398,6 +435,7 @@ def display_all_state_grouping_map_anims(year_input):
     Input('small-group-input', 'value'),
 )
 def display_state_level_anims(groupings_input, small_group_input):
+    print(f"#### in display_state_level_anims")
     # process input
     subdir = map_to_subdir(groupings_input, small_group_input)
     data_obj.load_dfs_for_subdir(subdir)
@@ -410,7 +448,6 @@ def display_state_level_anims(groupings_input, small_group_input):
     anim_scatter_bubbles = fig_builder.build_ivw_by_state_scatter_bubbles(data_obj, subdir=subdir)
     return anim_map_1, anim_scatter_dots, anim_scatter_abbrevs, anim_scatter_bubbles
 
-
 @app.callback(
     Output('vote-weight-comparison-by-state-group-map-1-anim', 'figure'),
     Output('vote-weight-comparison-by-state-group-scatter-dots-anim', 'figure'),
@@ -419,6 +456,7 @@ def display_state_level_anims(groupings_input, small_group_input):
     Input('small-group-input', 'value'),
 )
 def display_regional_aggregate_anims(groupings_input, small_group_input):
+    print(f"#### in display_regional_aggregate_anims")
     # process input
     subdir = map_to_subdir(groupings_input, small_group_input)
     data_obj.load_dfs_for_subdir(subdir)
@@ -429,13 +467,36 @@ def display_regional_aggregate_anims(groupings_input, small_group_input):
     return anim_map_1, anim_scatter_dots, anim_scatter_bubbles
 
 
-
 # Layout 2 callbacks
+@app.callback(
+    Output('state-groupings-anim-civil-war', 'figure'),
+    Output('state-groupings-anim-regional-census', 'figure'),
+    Output('state-groupings-anim-civil-war-no-small', 'figure'),
+    Output('state-groupings-anim-regional-census-no-small', 'figure'),
+    Input('year-input', 'value'),
+)
+def display_all_state_grouping_map_anims(year_input):
+    print(f"#### in display_all_state_grouping_map_anims")
+    # process input
+    year = int(year_input) # TODO probably access different small variants here, EC=3 vs EC=4 vs EC=5
+    subdirs = [GEN_DATA_DIR, GEN_ALT_GROUP_DIR, GEN_NO_SMALL_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]
+    for subdir in subdirs:
+        data_obj.load_dfs_for_subdir(subdir)
+    # generate figs
+    anim_map_acw = fig_builder.build_state_groups_map(data_obj, subdir=GEN_DATA_DIR)
+    anim_map_census = fig_builder.build_state_groups_map(data_obj, subdir=GEN_ALT_GROUP_DIR)
+    anim_map_acw_no_small = fig_builder.build_state_groups_map(data_obj, subdir=GEN_NO_SMALL_DIR)
+    anim_map_census_no_small = fig_builder.build_state_groups_map(data_obj, subdir=GEN_ALT_GROUP_NO_SMALL_DIR)
+    return anim_map_acw, anim_map_census, anim_map_acw_no_small, anim_map_census_no_small
+
+
+# Layout 3 callbacks
 @app.callback(
     Output('swallowed-vote-sampler-1', 'figure'),
     Input('display-type', 'value'),
 )
 def display_swallowed_vote_fig_1(display_type):
+    print(f"#### in display_swallowed_vote_fig_1")
     fig = fig_builder.build_swallowed_vote_fig_1(data_obj)
     return fig
 
@@ -444,6 +505,7 @@ def display_swallowed_vote_fig_1(display_type):
     Input('display-type', 'value'),
 )
 def display_swallowed_vote_fig_2(display_type):
+    print(f"#### in display_swallowed_vote_fig_2")
     fig = fig_builder.build_swallowed_vote_fig_2(data_obj)
     return fig
 
@@ -452,6 +514,7 @@ def display_swallowed_vote_fig_2(display_type):
     Input('display-type', 'value'),
 )
 def display_swallowed_vote_fig_3(display_type):
+    print(f"#### in display_swallowed_vote_fig_3")
     fig = fig_builder.build_swallowed_vote_fig_3(data_obj)
     return fig
 
@@ -460,6 +523,7 @@ def display_swallowed_vote_fig_3(display_type):
     Input('display-type', 'value'),
 )
 def display_swallowed_vote_fig_4(display_type):
+    print(f"#### in display_swallowed_vote_fig_4")
     fig = fig_builder.build_swallowed_vote_fig_4(data_obj)
     return fig
 

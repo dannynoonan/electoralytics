@@ -31,6 +31,7 @@ def build_ivw_by_state_bar(data_obj, frame=None, subdir=None, color=None):
     # set defaults
     if not subdir:
         subdir = GEN_DATA_DIR
+    data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
 
     if not color:
@@ -90,6 +91,11 @@ def build_ivw_by_state_bar(data_obj, frame=None, subdir=None, color=None):
         yaxis_categoryorder='total ascending',
     )
 
+    if color == COL_LOG_VOTE_WEIGHT:
+        fig.update_layout(
+            coloraxis_colorbar=dict(tickvals=[-0.693, -0.357, 0, 0.405, 0.916, 1.386, 1.792, 2.197],
+                                    ticktext=['0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']))
+
     return fig
 
 
@@ -97,6 +103,7 @@ def build_ivw_by_state_bar(data_obj, frame=None, subdir=None, color=None):
 def build_actual_vs_adjusted_ec_bar(data_obj, frame=None, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
+    data_obj.load_dfs_for_subdir(subdir)
     melted_ec_votes_pivot_df = data_obj.melted_ec_votes_pivot_dfs[subdir].sort_values('EC votes^', ascending=True)
 
     # if frame is set, extract single-year data
@@ -134,6 +141,7 @@ def build_actual_vs_adjusted_ec_bar(data_obj, frame=None, subdir=None):
 def build_actual_vs_adjusted_vw_bar(data_obj, frame=None, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
+    data_obj.load_dfs_for_subdir(subdir)
     melted_vote_count_pivot_df = data_obj.melted_vote_count_pivot_dfs[subdir].sort_values('Vote count^', ascending=True)
 
     # if frame is set, extract single-year data
@@ -171,6 +179,7 @@ def build_actual_vs_adjusted_vw_bar(data_obj, frame=None, subdir=None):
 def build_ivw_by_state_map(data_obj, frame=None, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
+    data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
 
     # if frame is set, extract single-year data
@@ -233,6 +242,7 @@ def build_ivw_by_state_map(data_obj, frame=None, subdir=None):
 def build_ivw_by_state_scatter_dots(data_obj, frame=None, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
+    data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
 
     # shift to altGroup if specified by subdir 
@@ -288,6 +298,7 @@ def build_ivw_by_state_scatter_dots(data_obj, frame=None, subdir=None):
 def build_ivw_by_state_scatter_abbrevs(data_obj, frame=None, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
+    data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
 
     # shift to altGroup if specified by subdir 
@@ -350,6 +361,7 @@ def build_ivw_by_state_scatter_abbrevs(data_obj, frame=None, subdir=None):
 def build_ivw_by_state_scatter_bubbles(data_obj, frame=None, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
+    data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
 
     # shift to altGroup if specified by subdir 
@@ -409,6 +421,7 @@ def build_ivw_by_state_scatter_bubbles(data_obj, frame=None, subdir=None):
 def build_ivw_by_state_group_box_plot(data_obj, frame, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
+    data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
 
     # shift to altGroup if specified by subdir 
@@ -447,6 +460,8 @@ def build_ivw_by_state_group_box_plot(data_obj, frame, subdir=None):
 def build_state_groups_map(data_obj, frame=None, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
+    print(f"In build_state_groups_map for subdir '{subdir}'")
+    data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
 
     # shift to altGroup if specified by subdir 
@@ -485,6 +500,7 @@ def build_state_groups_map(data_obj, frame=None, subdir=None):
 def build_ivw_by_state_group_scatter_dots(data_obj, frame=None, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
+    data_obj.load_dfs_for_subdir(subdir)
     group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
 
     # shift to altGroup if specified by subdir 
@@ -545,6 +561,7 @@ def build_ivw_by_state_group_scatter_dots(data_obj, frame=None, subdir=None):
 def build_ivw_by_state_group_scatter_bubbles(data_obj, frame=None, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
+    data_obj.load_dfs_for_subdir(subdir)
     group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
 
     # shift to altGroup if specified by subdir 
@@ -599,6 +616,7 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, frame=None, subdir=None):
 def build_ivw_by_state_group_line_chart(data_obj, frame, subdir=None):
     if not subdir:
         subdir = GEN_DATA_DIR
+    data_obj.load_dfs_for_subdir(subdir)
     group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
 
     # shift to altGroup if specified by subdir 
