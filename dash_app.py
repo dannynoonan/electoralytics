@@ -11,7 +11,7 @@ import plotly.express as px
 from data_processor.data_objects import DataObject
 from data_processor import fig_builder 
 from data_processor.functions import validate_input, map_to_subdir
-from metadata import GEN_DATA_DIR, GEN_ALT_GROUP_DIR, GEN_NO_SMALL_DIR, GEN_ALT_GROUP_NO_SMALL_DIR, COL_LOG_VOTE_WEIGHT
+from metadata import GEN_DATA_DIR, COL_LOG_VOTE_WEIGHT, GEN_DATA_ACW_DIR, GEN_DATA_CENSUS_DIR
 
 
 # base config
@@ -56,15 +56,18 @@ navbar = html.Div([
 # inputs
 year_slider = dbc.FormGroup([
     dbc.Row([
-        dbc.Col(md=9, children=[
+        dbc.Col(md=8, children=[
             html.H4("Election Year")
         ]),
-        dbc.Col(md=3, children=[
-            html.H4("Grouping Options")
+        dbc.Col(md=2, children=[
+            html.H4("State Grouping")
+        ]),
+        dbc.Col(md=2, children=[
+            html.H4("Extract Small Group?")
         ])
     ]),
     dbc.Row([
-        dbc.Col(md=9, children=[
+        dbc.Col(md=8, children=[
             dcc.Slider(
                 id="year-input",
                 min=1828,
@@ -80,19 +83,22 @@ year_slider = dbc.FormGroup([
             dcc.Dropdown(
                 id="groupings-input", 
                 options=[
-                    {'label': 'Civil War', 'value': 'Civil War'},
-                    {'label': 'Regional Census', 'value': 'Regional Census'}
+                    {'label': 'Civil War', 'value': GEN_DATA_ACW_DIR},
+                    {'label': 'Regional Census', 'value': GEN_DATA_CENSUS_DIR}
                 ], 
-                value="Civil War"
+                value=GEN_DATA_ACW_DIR
             )
         ]),
-        dbc.Col(md=1, children=[
-            dcc.Checklist(
-                id="small-group-input", 
+        dbc.Col(md=2, children=[
+            dcc.Dropdown(
+                id="max-small-input", 
                 options=[
-                    {'label': ' Extract Small', 'value': 'Extract Small'},
-                ],
-                value=['Extract Small']
+                    {'label': 'No Small Group', 'value': '0'},
+                    {'label': '3 EC Votes', 'value': '3'},
+                    {'label': '3 or 4 EC Votes', 'value': '4'},
+                    {'label': '3 - 5 EC Votes', 'value': '5'},
+                ], 
+                value="4"
             )
         ])
     ])
@@ -258,45 +264,24 @@ layout_2 = html.Div([
         dbc.Col(md=6, children=[
             dcc.Graph(id="state-groupings-anim-civil-war-no-small"),
             html.Br(),
-            dcc.Graph(id="state-groupings-anim-regional-census-no-small"),
+            dcc.Graph(id="state-groupings-anim-civil-war-small-3"),
+            html.Br(),
+            dcc.Graph(id="state-groupings-anim-civil-war-small-4"),
+            html.Br(),
+            dcc.Graph(id="state-groupings-anim-civil-war-small-5"),
             html.Br(),
         ]),
         dbc.Col(md=6, children=[
-            dcc.Graph(id="state-groupings-anim-civil-war"),
+            dcc.Graph(id="state-groupings-anim-regional-census-no-small"),
             html.Br(),
-            dcc.Graph(id="state-groupings-anim-regional-census"),
+            dcc.Graph(id="state-groupings-anim-regional-census-small-3"),
+            html.Br(),
+            dcc.Graph(id="state-groupings-anim-regional-census-small-4"),
+            html.Br(),
+            dcc.Graph(id="state-groupings-anim-regional-census-small-5"),
             html.Br(),
         ])
-    ])
-            
-    #         dbc.Tabs(className="nav nav-pills", children=[
-    #             dbc.Tab(label="Blah de blah", tab_style={"font-size": "20px"}, children=[
-    #                 dbc.Row([
-    #                     dbc.Col(md=6, children=[
-    #                         dcc.Graph(id="state-groupings-anim-civil-war-no-small"),
-    #                         html.Br(),
-    #                     ]),
-    #                     dbc.Col(md=6, children=[
-    #                         html.Br(),
-    #                     ])
-    #                 ]),
-    #             ]),
-    #             dbc.Tab(label="Ho di ho", tab_style={"font-size": "20px"}, children=[
-    #                 dbc.Row([
-    #                     dbc.Col(md=6, children=[
-    #                         dcc.Graph(id="state-groupings-anim-civil-war"),
-    #                         html.Br(),
-    #                     ]),
-    #                     dbc.Col(md=6, children=[
-    #                         html.Br(),
-    #                     ])
-    #                 ]),
-    #             ]),
-    #         ]),
-    #     ]),
-    # ])
-
-    
+    ])    
 ])
 
 
@@ -379,24 +364,23 @@ def display_page(pathname):
     Output('vote-weight-comparison-by-state-scatter-bubbles', 'figure'),
     Input('year-input', 'value'),
     Input('groupings-input', 'value'),
-    Input('small-group-input', 'value'),
+    Input('max-small-input', 'value'),
 )
-def display_state_level_figs(year_input, groupings_input, small_group_input):
+def display_state_level_figs(year_input, groupings_input, max_small_input):
     print(f"#### in display_state_level_figs")
     # process input
     year = int(year_input)
-    subdir = map_to_subdir(groupings_input, small_group_input)
-    data_obj.load_dfs_for_subdir(subdir)
+    max_small = int(max_small_input)
     # generate figs
-    fig_map_color_by_state_vw = fig_builder.build_ivw_by_state_map(data_obj, frame=year, subdir=subdir)
-    fig_map_color_by_group = fig_builder.build_state_groups_map(data_obj, frame=year, subdir=subdir)
-    fig_bar_state_vw_color_by_group = fig_builder.build_ivw_by_state_bar(data_obj, frame=year, subdir=subdir)
-    fig_bar_state_vw_color_by_vw = fig_builder.build_ivw_by_state_bar(data_obj, frame=year, subdir=subdir, color=COL_LOG_VOTE_WEIGHT)
-    fig_bar_actual_vs_adj_ec = fig_builder.build_actual_vs_adjusted_ec_bar(data_obj, frame=year, subdir=subdir)
-    fig_bar_actual_vs_adj_vw = fig_builder.build_actual_vs_adjusted_vw_bar(data_obj, frame=year, subdir=subdir)
-    fig_scatter_dots = fig_builder.build_ivw_by_state_scatter_dots(data_obj, frame=year, subdir=subdir)
-    fig_scatter_abbrevs = fig_builder.build_ivw_by_state_scatter_abbrevs(data_obj, frame=year, subdir=subdir)
-    fig_scatter_bubbles = fig_builder.build_ivw_by_state_scatter_bubbles(data_obj, frame=year, subdir=subdir)
+    fig_map_color_by_state_vw = fig_builder.build_ivw_by_state_map(data_obj, groupings_input, max_small, frame=year)
+    fig_map_color_by_group = fig_builder.build_state_groups_map(data_obj, groupings_input, max_small, frame=year)
+    fig_bar_state_vw_color_by_group = fig_builder.build_ivw_by_state_bar(data_obj, groupings_input, max_small, frame=year)
+    fig_bar_state_vw_color_by_vw = fig_builder.build_ivw_by_state_bar(data_obj, groupings_input, max_small, frame=year, color_col=COL_LOG_VOTE_WEIGHT)
+    fig_bar_actual_vs_adj_ec = fig_builder.build_actual_vs_adjusted_ec_bar(data_obj, groupings_input, max_small, frame=year)
+    fig_bar_actual_vs_adj_vw = fig_builder.build_actual_vs_adjusted_vw_bar(data_obj, groupings_input, max_small, frame=year)
+    fig_scatter_dots = fig_builder.build_ivw_by_state_scatter_dots(data_obj, groupings_input, max_small, frame=year)
+    fig_scatter_abbrevs = fig_builder.build_ivw_by_state_scatter_abbrevs(data_obj, groupings_input, max_small, frame=year)
+    fig_scatter_bubbles = fig_builder.build_ivw_by_state_scatter_bubbles(data_obj, groupings_input, max_small, frame=year)
     return (fig_map_color_by_state_vw, fig_map_color_by_group, fig_bar_state_vw_color_by_group, fig_bar_state_vw_color_by_vw, 
         fig_bar_actual_vs_adj_ec, fig_bar_actual_vs_adj_vw, fig_scatter_dots, fig_scatter_abbrevs, fig_scatter_bubbles)
 
@@ -408,20 +392,19 @@ def display_state_level_figs(year_input, groupings_input, small_group_input):
     Output('vote-weight-comparison-by-state-group-scatter-bubbles', 'figure'),
     Input('year-input', 'value'),
     Input('groupings-input', 'value'),
-    Input('small-group-input', 'value'),
+    Input('max-small-input', 'value'),
 )
-def display_regional_aggregate_figs(year_input, groupings_input, small_group_input):
+def display_regional_aggregate_figs(year_input, groupings_input, max_small_input):
     print(f"#### in display_regional_aggregate_figs")
     # process input
     year = int(year_input)
-    subdir = map_to_subdir(groupings_input, small_group_input)
-    data_obj.load_dfs_for_subdir(subdir)
+    max_small = int(max_small_input)
     # generate figs
-    # fig_map_1 = fig_builder.build_state_groups_map(data_obj, frame=year, subdir=subdir)
-    fig_line_1 = fig_builder.build_ivw_by_state_group_line_chart(data_obj, frame=year, subdir=subdir)
-    fig_box_1 = fig_builder.build_ivw_by_state_group_box_plot(data_obj, frame=year, subdir=subdir)
-    fig_scatter_dots = fig_builder.build_ivw_by_state_group_scatter_dots(data_obj, frame=year, subdir=subdir)
-    fig_scatter_bubbles = fig_builder.build_ivw_by_state_group_scatter_bubbles(data_obj, frame=year, subdir=subdir)
+    # fig_map_1 = fig_builder.build_state_groups_map(data_obj, groupings_input, max_small_input, frame=year)
+    fig_line_1 = fig_builder.build_ivw_by_state_group_line_chart(data_obj, groupings_input, max_small, frame=year)
+    fig_box_1 = fig_builder.build_ivw_by_state_group_box_plot(data_obj, groupings_input, max_small, frame=year)
+    fig_scatter_dots = fig_builder.build_ivw_by_state_group_scatter_dots(data_obj, groupings_input, max_small, frame=year)
+    fig_scatter_bubbles = fig_builder.build_ivw_by_state_group_scatter_bubbles(data_obj, groupings_input, max_small, frame=year)
     return fig_line_1, fig_box_1, fig_scatter_dots, fig_scatter_bubbles
 
 @app.callback(
@@ -432,20 +415,19 @@ def display_regional_aggregate_figs(year_input, groupings_input, small_group_inp
     Output('vote-weight-comparison-by-state-scatter-abbrevs-anim', 'figure'),
     Output('vote-weight-comparison-by-state-scatter-bubbles-anim', 'figure'),
     Input('groupings-input', 'value'),
-    Input('small-group-input', 'value'),
+    Input('max-small-input', 'value'),
 )
-def display_state_level_anims(groupings_input, small_group_input):
+def display_state_level_anims(groupings_input, max_small_input):
     print(f"#### in display_state_level_anims")
     # process input
-    subdir = map_to_subdir(groupings_input, small_group_input)
-    data_obj.load_dfs_for_subdir(subdir)
+    max_small = int(max_small_input)
     # generate figs
-    anim_map_1 = fig_builder.build_ivw_by_state_map(data_obj, subdir=subdir)
-    # anim_bar_1 = fig_builder.build_ivw_by_state_bar(data_obj, subdir=subdir)
-    # anim_bar_2 = fig_builder.build_actual_vs_adjusted_ec_bar(data_obj, subdir=subdir)
-    anim_scatter_dots = fig_builder.build_ivw_by_state_scatter_dots(data_obj, subdir=subdir)
-    anim_scatter_abbrevs = fig_builder.build_ivw_by_state_scatter_abbrevs(data_obj, subdir=subdir)
-    anim_scatter_bubbles = fig_builder.build_ivw_by_state_scatter_bubbles(data_obj, subdir=subdir)
+    anim_map_1 = fig_builder.build_ivw_by_state_map(data_obj, groupings_input, max_small)
+    # anim_bar_1 = fig_builder.build_ivw_by_state_bar(data_obj, groupings_input, max_small_input)
+    # anim_bar_2 = fig_builder.build_actual_vs_adjusted_ec_bar(data_obj, groupings_input, max_small_input)
+    anim_scatter_dots = fig_builder.build_ivw_by_state_scatter_dots(data_obj, groupings_input, max_small)
+    anim_scatter_abbrevs = fig_builder.build_ivw_by_state_scatter_abbrevs(data_obj, groupings_input, max_small)
+    anim_scatter_bubbles = fig_builder.build_ivw_by_state_scatter_bubbles(data_obj, groupings_input, max_small)
     return anim_map_1, anim_scatter_dots, anim_scatter_abbrevs, anim_scatter_bubbles
 
 @app.callback(
@@ -453,41 +435,46 @@ def display_state_level_anims(groupings_input, small_group_input):
     Output('vote-weight-comparison-by-state-group-scatter-dots-anim', 'figure'),
     Output('vote-weight-comparison-by-state-group-scatter-bubbles-anim', 'figure'),
     Input('groupings-input', 'value'),
-    Input('small-group-input', 'value'),
+    Input('max-small-input', 'value'),
 )
-def display_regional_aggregate_anims(groupings_input, small_group_input):
+def display_regional_aggregate_anims(groupings_input, max_small_input):
     print(f"#### in display_regional_aggregate_anims")
     # process input
-    subdir = map_to_subdir(groupings_input, small_group_input)
-    data_obj.load_dfs_for_subdir(subdir)
+    max_small = int(max_small_input)
     # generate figs
-    anim_map_1 = fig_builder.build_state_groups_map(data_obj, subdir=subdir)
-    anim_scatter_dots = fig_builder.build_ivw_by_state_group_scatter_dots(data_obj, subdir=subdir)
-    anim_scatter_bubbles = fig_builder.build_ivw_by_state_group_scatter_bubbles(data_obj, subdir=subdir)
+    anim_map_1 = fig_builder.build_state_groups_map(data_obj, groupings_input, max_small)
+    anim_scatter_dots = fig_builder.build_ivw_by_state_group_scatter_dots(data_obj, groupings_input, max_small)
+    anim_scatter_bubbles = fig_builder.build_ivw_by_state_group_scatter_bubbles(data_obj, groupings_input, max_small)
     return anim_map_1, anim_scatter_dots, anim_scatter_bubbles
 
 
 # Layout 2 callbacks
 @app.callback(
-    Output('state-groupings-anim-civil-war', 'figure'),
-    Output('state-groupings-anim-regional-census', 'figure'),
     Output('state-groupings-anim-civil-war-no-small', 'figure'),
     Output('state-groupings-anim-regional-census-no-small', 'figure'),
+    Output('state-groupings-anim-civil-war-small-3', 'figure'),
+    Output('state-groupings-anim-regional-census-small-3', 'figure'),
+    Output('state-groupings-anim-civil-war-small-4', 'figure'),
+    Output('state-groupings-anim-regional-census-small-4', 'figure'),
+    Output('state-groupings-anim-civil-war-small-5', 'figure'),
+    Output('state-groupings-anim-regional-census-small-5', 'figure'),
     Input('year-input', 'value'),
 )
 def display_all_state_grouping_map_anims(year_input):
     print(f"#### in display_all_state_grouping_map_anims")
     # process input
     year = int(year_input) # TODO probably access different small variants here, EC=3 vs EC=4 vs EC=5
-    subdirs = [GEN_DATA_DIR, GEN_ALT_GROUP_DIR, GEN_NO_SMALL_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]
-    for subdir in subdirs:
-        data_obj.load_dfs_for_subdir(subdir)
     # generate figs
-    anim_map_acw = fig_builder.build_state_groups_map(data_obj, subdir=GEN_DATA_DIR)
-    anim_map_census = fig_builder.build_state_groups_map(data_obj, subdir=GEN_ALT_GROUP_DIR)
-    anim_map_acw_no_small = fig_builder.build_state_groups_map(data_obj, subdir=GEN_NO_SMALL_DIR)
-    anim_map_census_no_small = fig_builder.build_state_groups_map(data_obj, subdir=GEN_ALT_GROUP_NO_SMALL_DIR)
-    return anim_map_acw, anim_map_census, anim_map_acw_no_small, anim_map_census_no_small
+    anim_map_acw_no_small = fig_builder.build_state_groups_map(data_obj, GEN_DATA_ACW_DIR, 0)
+    anim_map_census_no_small = fig_builder.build_state_groups_map(data_obj, GEN_DATA_CENSUS_DIR, 0)
+    anim_map_acw_small_3 = fig_builder.build_state_groups_map(data_obj, GEN_DATA_ACW_DIR, 3)
+    anim_map_census_small_3 = fig_builder.build_state_groups_map(data_obj, GEN_DATA_CENSUS_DIR, 3)
+    anim_map_acw_small_4 = fig_builder.build_state_groups_map(data_obj, GEN_DATA_ACW_DIR, 4)
+    anim_map_census_small_4 = fig_builder.build_state_groups_map(data_obj, GEN_DATA_CENSUS_DIR, 4)
+    anim_map_acw_small_5 = fig_builder.build_state_groups_map(data_obj, GEN_DATA_ACW_DIR, 5)
+    anim_map_census_small_5 = fig_builder.build_state_groups_map(data_obj, GEN_DATA_CENSUS_DIR, 5)
+    return (anim_map_acw_no_small, anim_map_census_no_small, anim_map_acw_small_3, anim_map_census_small_3,
+        anim_map_acw_small_4, anim_map_census_small_4, anim_map_acw_small_5, anim_map_census_small_5)
 
 
 # Layout 3 callbacks

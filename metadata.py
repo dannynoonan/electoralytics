@@ -1,9 +1,12 @@
 # data dirs
 BASE_DATA_DIR = 'data'
 GEN_DATA_DIR = 'gen'
-GEN_ALT_GROUP_DIR = 'gen_altGroup'
-GEN_NO_SMALL_DIR = 'gen_noSmall'
-GEN_ALT_GROUP_NO_SMALL_DIR = 'gen_altGroupNoSmall'
+GEN_DATA_ACW_DIR = 'acw'
+GEN_DATA_CENSUS_DIR = 'census' 
+GEN_DATA_NO_SMALL_DIR = 'noSmall'
+GEN_DATA_SMALL_3_DIR = 'small3'
+GEN_DATA_SMALL_4_DIR = 'small4'
+GEN_DATA_SMALL_5_DIR = 'small5'
 # data files
 THE_ONE_RING_CSV = f'{BASE_DATA_DIR}/theOneRing.csv'
 SWALLOWED_VOTE_2020_CSV = f'{BASE_DATA_DIR}/swallowedVoteSampler2020.csv'
@@ -13,22 +16,18 @@ PIVOT_ON_YEAR_CSV = 'pivotOnYear.csv'
 TOTALS_BY_YEAR_CSV = 'totalsByYear.csv'
 GROUP_AGGS_BY_YEAR_CSV = 'groupAggsByYear.csv'
 
-# data dir descriptions
-DATA_DIR_DESCRIPTIONS = {
-    GEN_DATA_DIR: 'Civil War Groupings, With \'Small\' States Extracted',
-    GEN_ALT_GROUP_DIR: 'Regional Census Groupings, With \'Small\' States Extracted',
-    GEN_NO_SMALL_DIR: 'Civil War Groupings',
-    GEN_ALT_GROUP_NO_SMALL_DIR: 'Regional Census Groupings'
-}
-
 # state groupings
-ACW_GROUPS = ['Union', 'Confederate', 'Border', 'Post-War', 'Small']
+ACW_GROUPS = ['Union', 'Confederate', 'Border', 'Postbellum', 'Small']
 CENSUS_GROUPS = ['Northeast', 'South', 'Midwest', 'West', 'Small']
+GROUPS_FOR_DIR = {
+    GEN_DATA_ACW_DIR: ACW_GROUPS,
+    GEN_DATA_CENSUS_DIR: CENSUS_GROUPS
+}
 GROUP_COLORS = {
     'Union': 'MediumBlue',
     'Confederate': 'Red', 
     'Border': 'DarkSalmon', 
-    'Post-War': 'Green', 
+    'Postbellum': 'Green', 
     'Northeast': 'MediumBlue',
     'South': 'Maroon', 
     'Midwest': 'Cyan',

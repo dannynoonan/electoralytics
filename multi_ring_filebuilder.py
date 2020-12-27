@@ -7,7 +7,8 @@ import numpy as np
 
 from metadata import (
     THE_ONE_RING_CSV, AVG_WEIGHT_BY_YEAR_CSV, GROUP_AGGS_BY_YEAR_CSV, GROUPS_BY_YEAR_CSV, PIVOT_ON_YEAR_CSV, TOTALS_BY_YEAR_CSV, 
-    BASE_DATA_DIR, GEN_DATA_DIR, GEN_ALT_GROUP_DIR, GEN_NO_SMALL_DIR, GEN_ALT_GROUP_NO_SMALL_DIR, ACW_GROUPS, CENSUS_GROUPS,  
+    BASE_DATA_DIR, GEN_DATA_DIR, GEN_DATA_ACW_DIR, GEN_DATA_CENSUS_DIR, GEN_DATA_NO_SMALL_DIR, GEN_DATA_SMALL_3_DIR,
+    GEN_DATA_SMALL_4_DIR, GEN_DATA_SMALL_5_DIR, ACW_GROUPS, CENSUS_GROUPS,
     COL_ABBREV, COL_STATE, COL_GROUP, COL_ACW_GROUP, COL_CENSUS_GROUP, COL_EC_VOTES, COL_EC_VOTES_NORM, COL_MOST_EC_VOTES, 
     COL_PARTY, COL_POP_PER_EC, COL_STATE_COUNT, COL_STATES_IN_GROUP, COL_VOTE_WEIGHT, COL_AVG_WEIGHT, 
     COL_VOTES_COUNTED, COL_VOTES_COUNTED_NORM, COL_VOTES_COUNTED_PCT, COL_YEAR
@@ -16,11 +17,6 @@ from metadata import (
 # disable unhelpful 'SettingWithCopyWarnings'
 pd.options.mode.chained_assignment = None
 
-
-# default to ACW Groups
-GROUPS = ACW_GROUPS
-COL_GROUP_SRC = COL_ACW_GROUP
-
 print(f"Starting the electoralytics 'multi_ring_filebuilder' script. This process will:")
 print(f"(1) load the superset of electoralytics data from {THE_ONE_RING_CSV} into a pandas dataframe")
 print(f"(2) transform the source data into multiple formats optimized for plotly figure-building")
@@ -28,13 +24,13 @@ print(f"(3) output a truncated view of the data in the response, or if '--write=
 
 # init default params
 WRITE_TO_CSV = False
-NO_SMALL = False
-USE_ALT_GROUP = False
+MAX_EC_FOR_SMALL = 0
+GROUPS_DIR = GEN_DATA_ACW_DIR
 
 # init parser and recognized args
 parser = argparse.ArgumentParser()
-parser.add_argument("--small", "-s", help="True (default) or False: extract 'Small states' (4 EC votes or fewer) into their own Group")
-parser.add_argument("--groups", "-g", help="Orig (default) or Alt: Orig=Northeast,Border,Confederate,Midwest,West. Alt=Union,Border,Confederate,West")
+parser.add_argument("--small", "-s", help="0 (default), 3, 4, or 5: set max EC votes for 'Small states' Group")
+parser.add_argument("--groups", "-g", help="ACW (default) or Census: ACW=Union,Confederate,Border,Postbellum; Census=Northeast,South,Midwest,West.")
 parser.add_argument("--write", "-w", help="True or False (default): write output to csv files")
 
 # read cmd-line args
@@ -43,46 +39,52 @@ args = parser.parse_args()
 # map args to params
 if args.small:
     print(f"Argument 'small' was input as: {args.small}")
-    if args.small in ['False','false']:
-        NO_SMALL = True
-        print(f"Setting NO_SMALL param to: {NO_SMALL}")
-    elif args.small in ['True','true']:
-        print(f"Keeping NO_SMALL param as: {NO_SMALL}")
+    if args.small in ['3', '4', '5']:
+        MAX_EC_FOR_SMALL = int(args.small)
+        print(f"Setting MAX_EC_FOR_SMALL param to: {MAX_EC_FOR_SMALL}")
+    elif args.small in ['0', 0]:
+        print(f"Keeping MAX_EC_FOR_SMALL param as: {MAX_EC_FOR_SMALL}")
     else:
-        print(f"A 'small' value of {args.small} isn't recognized. Recognized values are: ['True','False']. Keeping NO_SMALL param as: {NO_SMALL}")
+        print(f"A 'small' value of {args.small} isn't recognized. Recognized values are: [0, 3, 4, 5]. Keeping MAX_EC_FOR_SMALL param as: {MAX_EC_FOR_SMALL}")
 if args.groups:
     print(f"Argument 'groups' was input as: {args.groups}")
-    if args.groups in ['Alt','alt','ALT']:
-        USE_ALT_GROUP = True
-        print(f"Setting USE_ALT_GROUP param to: {USE_ALT_GROUP}")
-    elif args.groups in ['Default','default']:
-        print(f"Keeping USE_ALT_GROUP param as: {USE_ALT_GROUP}")
+    if args.groups in ['Census', 'census']:
+        GROUPS_DIR = GEN_DATA_CENSUS_DIR
+        print(f"Setting GROUPS_DIR param to: {GROUPS_DIR}")
+    elif args.groups in ['ACW', 'acw']:
+        print(f"Keeping GROUPS_DIR param as: {GROUPS_DIR}")
     else:
-        print(f"A 'groups' value of {args.groups} isn't recognized. Recognized values are: ['Alt','Default']. Keeping USE_ALT_GROUP param as: {USE_ALT_GROUP}")
+        print(f"A 'groups' value of {args.groups} isn't recognized. Recognized values are: ['acw', 'census']. Keeping GROUPS_DIR param as: {GROUPS_DIR}")
 if args.write:
     print(f"Argument 'write' was input as: {args.write}")
-    if args.write in ['True','true']:
+    if args.write in ['True', 'true']:
         WRITE_TO_CSV = True
         print(f"Setting WRITE_TO_CSV param to: {WRITE_TO_CSV}")
-    elif args.write in ['False','false']:
+    elif args.write in ['False', 'false']:
         print(f"Keeping WRITE_TO_CSV param as: {WRITE_TO_CSV}")
     else:
-        print(f"A 'write' value of {args.write} isn't recognized. Recognized values are: ['True','False']. Keeping WRITE_TO_CSV param as: {WRITE_TO_CSV}")
+        print(f"A 'write' value of {args.write} isn't recognized. Recognized values are: ['True', 'False']. Keeping WRITE_TO_CSV param as: {WRITE_TO_CSV}")
 
 
 # adjust settings based on params
-subdir = GEN_DATA_DIR
-# Group: Northeast+Midwest+West, AltGroup: Union+West
-if USE_ALT_GROUP:
+subdir = f"{GEN_DATA_DIR}/{GROUPS_DIR}"
+# Groups sourcing metadata
+if GROUPS_DIR == GEN_DATA_CENSUS_DIR:
     GROUPS = CENSUS_GROUPS
     COL_GROUP_SRC = COL_CENSUS_GROUP
-    subdir = GEN_ALT_GROUP_DIR
-# Small or No Small
-if NO_SMALL:
+else:
+    GROUPS = ACW_GROUPS
+    COL_GROUP_SRC = COL_ACW_GROUP
+# Small Group extraction metadata
+if MAX_EC_FOR_SMALL == 3:
+    subdir = f"{subdir}/{GEN_DATA_SMALL_3_DIR}"
+elif MAX_EC_FOR_SMALL == 4:
+    subdir = f"{subdir}/{GEN_DATA_SMALL_4_DIR}"
+elif MAX_EC_FOR_SMALL == 5:
+    subdir = f"{subdir}/{GEN_DATA_SMALL_5_DIR}"
+else:
     GROUPS.remove('Small')
-    subdir = GEN_NO_SMALL_DIR
-    if USE_ALT_GROUP:
-        subdir = GEN_ALT_GROUP_NO_SMALL_DIR
+    subdir = f"{subdir}/{GEN_DATA_NO_SMALL_DIR}"
 
 GROUPS_SER = pd.Series(np.array(GROUPS + ['Total']))
 
@@ -92,9 +94,10 @@ the_one_ring = pd.read_csv(THE_ONE_RING_CSV)
 
 ### TRANSFORM CSV DATA ###
 # files to output: 
-# * groups_by_year 
+# * pivot_on_year 
+# * group_aggs_by_year 
+# * totals_by_year
 # * avg_weight_by_year 
-# * silder_pivot 
 
 
 # initialize new data frames
@@ -106,12 +109,9 @@ group_aggs_by_year = pd.DataFrame(
             COL_EC_VOTES_NORM, COL_POP_PER_EC, COL_AVG_WEIGHT, COL_STATE_COUNT, COL_STATES_IN_GROUP])
 totals_by_year = pd.DataFrame(columns=[COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_POP_PER_EC, COL_MOST_EC_VOTES])
 
-
-### LEGACY ###
+### LEGACY, but still haven't transitioned off of ###
 avg_weight_by_year = pd.DataFrame({COL_GROUP: GROUPS_SER}) 
 avg_weight_by_year.set_index(COL_GROUP, inplace=True)
-# groups_by_year = pd.DataFrame({COL_GROUP: groups}) 
-# groups_by_year.set_index(COL_GROUP, inplace=True)
 
 
 # begin iterating through years in the_one_ring
@@ -151,9 +151,9 @@ while year <= 2020:
     # remove US column from year_data
     year_data = year_data.drop('US')
 
-    # map states having 4 or fewer electoral college votes to 'Small' Group
-    if not NO_SMALL:
-        year_data.loc[year_data[COL_EC_VOTES] <= 4, COL_GROUP] = 'Small'
+    # map states having MAX_EC_FOR_SMALL or fewer electoral college votes to 'Small' Group
+    if MAX_EC_FOR_SMALL > 0:
+        year_data.loc[year_data[COL_EC_VOTES] <= MAX_EC_FOR_SMALL, COL_GROUP] = 'Small'
 
 
     # DF 1: assemble year_pivot to append to pivot_on_year
@@ -224,11 +224,6 @@ while year <= 2020:
     total_row = total_row.set_index(COL_GROUP)
     year_agg = year_agg.append(total_row)
 
-    # combine year_agg into groups_by_year
-    #pd.concat([groups_by_year, year_agg], axis=1)
-    #pd.merge(groups_by_year, year_agg, left_index=True, right_index=True, how='outer')
-    #groups_by_year = groups_by_year.join(year_agg, how='outer')
-
     # extract avg_weight column into its own dataframe, rename column to be simply the year
     avg_weight_df = year_agg.drop([COL_EC_VOTES, COL_VOTES_COUNTED], axis=1)
     avg_weight_by_year = avg_weight_by_year.join(avg_weight_df, how='outer')
@@ -264,9 +259,6 @@ if WRITE_TO_CSV:
 
 
     ### LEGACY ###
-    # write groups_by_year to file
-    #groups_by_year.to_csv(GROUPS_BY_YEAR_CSV)
-
     # rename Total column and write avg_weight_by_year to file
     avg_weight_by_year.rename(index={'Total': 'Nat\'l Average'}, inplace=True)
     avg_weight_by_year.to_csv(AVG_WEIGHT_BY_YEAR_CSV)

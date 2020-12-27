@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 from metadata import (
-    BASE_DATA_DIR, GEN_DATA_DIR, GEN_ALT_GROUP_DIR, GEN_NO_SMALL_DIR, GEN_ALT_GROUP_NO_SMALL_DIR,
+    BASE_DATA_DIR, GEN_DATA_DIR, GEN_DATA_ACW_DIR, GEN_DATA_SMALL_4_DIR,
     PIVOT_ON_YEAR_CSV, SWALLOWED_VOTE_2020_CSV, GROUP_AGGS_BY_YEAR_CSV,
     COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_EC_VOTES_NORM, 
     COL_VOTES_COUNTED, COL_VOTES_COUNTED_NORM, COL_VOTES_COUNTED_PCT, COL_VOTE_WEIGHT, COL_LOG_VOTE_WEIGHT, 
@@ -24,7 +24,7 @@ class DataObject():
 
     def load_dfs_for_subdir(self, subdir=None):
         if not subdir:
-            subdir = GEN_DATA_DIR
+            subdir = f"{GEN_DATA_DIR}/{GEN_DATA_ACW_DIR}/{GEN_DATA_SMALL_4_DIR}"
         if not subdir in self.subdirs_loaded:
             print(f"subdirs_loaded: '{self.subdirs_loaded}' does not include requested sudbdir '{subdir}', loading it now...")
             self.load_pivot_on_year(subdir=subdir)
@@ -37,7 +37,7 @@ class DataObject():
     # load pivot_on_year data from csv
     def load_pivot_on_year(self, subdir=None, update=False):
         if not subdir:
-            subdir = GEN_DATA_DIR
+            subdir = f"{GEN_DATA_DIR}/{GEN_DATA_ACW_DIR}/{GEN_DATA_SMALL_4_DIR}"
         pivot_on_year_csv_path = f"{BASE_DATA_DIR}/{subdir}/{PIVOT_ON_YEAR_CSV}"
 
         # if df for subdir is already loaded and we're not updating, then we're done
@@ -61,7 +61,7 @@ class DataObject():
 
     def melt_pivot_on_year(self, subdir=None, update=False):
         if not subdir:
-            subdir = GEN_DATA_DIR
+            subdir = f"{GEN_DATA_DIR}/{GEN_DATA_ACW_DIR}/{GEN_DATA_SMALL_4_DIR}"
 
         # if df for subdir is already loaded and we're not updating, then we're done
         if subdir in self.melted_ec_votes_pivot_dfs and not update:
@@ -111,7 +111,7 @@ class DataObject():
 
     def load_group_aggs_by_year(self, subdir=None, update=False):
         if not subdir:
-            subdir = GEN_DATA_DIR
+            subdir = f"{GEN_DATA_DIR}/{GEN_DATA_ACW_DIR}/{GEN_DATA_SMALL_4_DIR}"
         group_aggs_by_year_csv_path = f"{BASE_DATA_DIR}/{subdir}/{GROUP_AGGS_BY_YEAR_CSV}"
 
         # if df for subdir is already loaded and we're not updating, then we're done

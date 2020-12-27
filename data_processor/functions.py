@@ -1,4 +1,7 @@
-from metadata import FRAME_RATE
+from metadata import (
+    FRAME_RATE, GEN_DATA_DIR, GEN_DATA_ACW_DIR, GEN_DATA_CENSUS_DIR, GEN_DATA_NO_SMALL_DIR, GEN_DATA_SMALL_3_DIR, 
+    GEN_DATA_SMALL_4_DIR, GEN_DATA_SMALL_5_DIR
+)
 
 
 def validate_input(year_input, all_years):
@@ -9,17 +12,33 @@ def validate_input(year_input, all_years):
         return -1
 
 
-def map_to_subdir(groupings_input, small_group_input):
-    if groupings_input == 'Civil War':
-        if small_group_input == 'Extract Small' or 'Extract Small' in small_group_input:
-            return 'gen'
-        else:
-            return 'gen_noSmall'
+def map_to_subdir(groups_dir, max_small):
+    subdir = f"{GEN_DATA_DIR}/{groups_dir}"
+    if max_small == 3:
+        subdir = f"{subdir}/{GEN_DATA_SMALL_3_DIR}"
+    elif max_small == 4:
+        subdir = f"{subdir}/{GEN_DATA_SMALL_4_DIR}"
+    elif max_small == 5:
+        subdir = f"{subdir}/{GEN_DATA_SMALL_5_DIR}"
     else:
-        if small_group_input == 'Extract Small' or 'Extract Small' in small_group_input:
-            return 'gen_altGroup'
-        else:
-            return 'gen_altGroupNoSmall'
+        # max_small should be explicitly set to 0, but catch-all just in case
+        subdir = f"{subdir}/{GEN_DATA_NO_SMALL_DIR}"
+    return subdir
+
+
+def get_description_for_group_key(group_key):
+    if group_key == GEN_DATA_ACW_DIR:
+        return 'Civil War Groupings'
+    if group_key == GEN_DATA_CENSUS_DIR:
+        return 'Regional Census Groupings'
+    if group_key in [GEN_DATA_NO_SMALL_DIR, 0]:
+        return 'No \'Small\' Group Extracted'
+    if group_key in [GEN_DATA_SMALL_3_DIR, 3]:
+        return '\'Small\' is States with 3 EC Votes'
+    if group_key in [GEN_DATA_SMALL_4_DIR, 4]:
+        return '\'Small\' is States with 3 or 4 EC Votes'
+    if group_key in [GEN_DATA_SMALL_5_DIR, 5]:
+        return '\'Small\' is States with 3 - 5 EC Votes'
 
 
 def get_era_for_year(year):

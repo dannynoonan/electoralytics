@@ -4,14 +4,13 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-from data_processor.functions import get_era_for_year, apply_animation_settings
+from data_processor.functions import get_era_for_year, apply_animation_settings, map_to_subdir, get_description_for_group_key
 from metadata import (
-    GEN_DATA_DIR, GEN_ALT_GROUP_DIR, GEN_NO_SMALL_DIR, GEN_ALT_GROUP_NO_SMALL_DIR, 
-    ACW_GROUPS, CENSUS_GROUPS, GROUP_COLORS, PARTIES, PARTY_COLORS, FRAME_RATE,
+    GEN_DATA_DIR, ACW_GROUPS, CENSUS_GROUPS, GROUPS_FOR_DIR, GROUP_COLORS, PARTIES, PARTY_COLORS, 
     COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_EC_VOTES_NORM, 
     COL_VOTES_COUNTED, COL_VOTES_COUNTED_NORM, COL_VOTES_COUNTED_PCT, COL_VOTE_WEIGHT, 
     COL_LOG_VOTE_WEIGHT, COL_AVG_WEIGHT, COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY, 
-    COL_STATE_COUNT, COL_STATES_IN_GROUP, DATA_DIR_DESCRIPTIONS
+    COL_STATE_COUNT, COL_STATES_IN_GROUP, FRAME_RATE
 )
 
 
@@ -27,20 +26,14 @@ LINE_WIDTH=1640
 LINE_HEIGHT=500
 
 
-def build_ivw_by_state_bar(data_obj, frame=None, subdir=None, color=None):
-    # set defaults
-    if not subdir:
-        subdir = GEN_DATA_DIR
+def build_ivw_by_state_bar(data_obj, groups_dir, max_small, frame=None, color_col=None):
+    subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
+    groups = GROUPS_FOR_DIR[groups_dir]
 
-    if not color:
-        color = COL_GROUP
-
-    # shift to altGroup if specified by subdir 
-    groups = ACW_GROUPS
-    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
-        groups = CENSUS_GROUPS
+    if not color_col:
+        color_col = COL_GROUP
 
     # if frame is set, extract single-year data
     if frame:
@@ -60,10 +53,10 @@ def build_ivw_by_state_bar(data_obj, frame=None, subdir=None, color=None):
     color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
     color_continuous_scale = []
     color_continuous_midpoint = None
-    if color == COL_PARTY:
+    if color_col == COL_PARTY:
         category_orders = {COL_PARTY: PARTIES}
         color_discrete_sequence = [PARTY_COLORS[p] for p in PARTIES]
-    elif color == COL_LOG_VOTE_WEIGHT:
+    elif color_col == COL_LOG_VOTE_WEIGHT:
         color_continuous_scale = px.colors.diverging.BrBG[::-1]
         color_continuous_midpoint = 0
     # elif color == COL_GROUP:
@@ -80,7 +73,7 @@ def build_ivw_by_state_bar(data_obj, frame=None, subdir=None, color=None):
         fig_title = f'{base_fig_title}: 1828 - 2020'
     
     # declare fig
-    fig = px.bar(pivot_on_year_df, x=COL_VOTE_WEIGHT, y=COL_STATE, color=color, hover_name=COL_STATE, hover_data=hover_data,
+    fig = px.bar(pivot_on_year_df, x=COL_VOTE_WEIGHT, y=COL_STATE, color=color_col, hover_name=COL_STATE, hover_data=hover_data,
                 # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
                 color_continuous_scale=color_continuous_scale, color_continuous_midpoint=color_continuous_midpoint,
                 animation_frame=COL_YEAR, # ignored if df is for single year
@@ -91,7 +84,7 @@ def build_ivw_by_state_bar(data_obj, frame=None, subdir=None, color=None):
         yaxis_categoryorder='total ascending',
     )
 
-    if color == COL_LOG_VOTE_WEIGHT:
+    if color_col == COL_LOG_VOTE_WEIGHT:
         fig.update_layout(
             coloraxis_colorbar=dict(tickvals=[-0.693, -0.357, 0, 0.405, 0.916, 1.386, 1.792, 2.197],
                                     ticktext=['0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']))
@@ -100,9 +93,8 @@ def build_ivw_by_state_bar(data_obj, frame=None, subdir=None, color=None):
 
 
 # ref: https://towardsdatascience.com/how-to-create-a-grouped-bar-chart-with-plotly-express-in-python-e2b64ed4abd7
-def build_actual_vs_adjusted_ec_bar(data_obj, frame=None, subdir=None):
-    if not subdir:
-        subdir = GEN_DATA_DIR
+def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, frame=None):
+    subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     melted_ec_votes_pivot_df = data_obj.melted_ec_votes_pivot_dfs[subdir].sort_values('EC votes^', ascending=True)
 
@@ -138,9 +130,8 @@ def build_actual_vs_adjusted_ec_bar(data_obj, frame=None, subdir=None):
     return fig
 
 
-def build_actual_vs_adjusted_vw_bar(data_obj, frame=None, subdir=None):
-    if not subdir:
-        subdir = GEN_DATA_DIR
+def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, frame=None):
+    subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     melted_vote_count_pivot_df = data_obj.melted_vote_count_pivot_dfs[subdir].sort_values('Vote count^', ascending=True)
 
@@ -176,9 +167,8 @@ def build_actual_vs_adjusted_vw_bar(data_obj, frame=None, subdir=None):
     return fig
 
 
-def build_ivw_by_state_map(data_obj, frame=None, subdir=None):
-    if not subdir:
-        subdir = GEN_DATA_DIR
+def build_ivw_by_state_map(data_obj, groups_dir, max_small, frame=None):
+    subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
 
@@ -239,16 +229,11 @@ def build_ivw_by_state_map(data_obj, frame=None, subdir=None):
     return fig
 
 
-def build_ivw_by_state_scatter_dots(data_obj, frame=None, subdir=None):
-    if not subdir:
-        subdir = GEN_DATA_DIR
+def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, frame=None):
+    subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
-
-    # shift to altGroup if specified by subdir 
-    groups = ACW_GROUPS
-    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
-        groups = CENSUS_GROUPS
+    groups = GROUPS_FOR_DIR[groups_dir]
 
     # if frame is set, extract single-year data
     if frame:
@@ -295,16 +280,11 @@ def build_ivw_by_state_scatter_dots(data_obj, frame=None, subdir=None):
     return fig
 
 
-def build_ivw_by_state_scatter_abbrevs(data_obj, frame=None, subdir=None):
-    if not subdir:
-        subdir = GEN_DATA_DIR
+def build_ivw_by_state_scatter_abbrevs(data_obj, groups_dir, max_small, frame=None):
+    subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
-
-    # shift to altGroup if specified by subdir 
-    groups = ACW_GROUPS
-    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
-        groups = CENSUS_GROUPS
+    groups = GROUPS_FOR_DIR[groups_dir]
 
     # if frame is set, extract single-year data
     if frame:
@@ -358,16 +338,11 @@ def build_ivw_by_state_scatter_abbrevs(data_obj, frame=None, subdir=None):
     return fig
 
 
-def build_ivw_by_state_scatter_bubbles(data_obj, frame=None, subdir=None):
-    if not subdir:
-        subdir = GEN_DATA_DIR
+def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, frame=None):
+    subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
-
-    # shift to altGroup if specified by subdir 
-    groups = ACW_GROUPS
-    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
-        groups = CENSUS_GROUPS
+    groups = GROUPS_FOR_DIR[groups_dir]
 
     # if frame is set, extract single-year data
     if frame:
@@ -418,16 +393,11 @@ def build_ivw_by_state_scatter_bubbles(data_obj, frame=None, subdir=None):
     return fig
 
 
-def build_ivw_by_state_group_box_plot(data_obj, frame, subdir=None):
-    if not subdir:
-        subdir = GEN_DATA_DIR
+def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame):
+    subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
-
-    # shift to altGroup if specified by subdir 
-    groups = ACW_GROUPS
-    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
-        groups = CENSUS_GROUPS
+    groups = GROUPS_FOR_DIR[groups_dir]
 
     # extract single-year data
     pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == frame]
@@ -457,17 +427,11 @@ def build_ivw_by_state_group_box_plot(data_obj, frame, subdir=None):
     return fig
 
 
-def build_state_groups_map(data_obj, frame=None, subdir=None):
-    if not subdir:
-        subdir = GEN_DATA_DIR
-    print(f"In build_state_groups_map for subdir '{subdir}'")
+def build_state_groups_map(data_obj, groups_dir, max_small, frame=None):
+    subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
-
-    # shift to altGroup if specified by subdir 
-    groups = ACW_GROUPS
-    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
-        groups = CENSUS_GROUPS
+    groups = GROUPS_FOR_DIR[groups_dir]
 
     # if frame is set, extract single-year data
     if frame:
@@ -481,7 +445,7 @@ def build_state_groups_map(data_obj, frame=None, subdir=None):
               COL_EC_VOTES: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True, COL_EC_VOTES_NORM: True}
     category_orders = {COL_GROUP: groups}
     color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
-    base_fig_title = DATA_DIR_DESCRIPTIONS[subdir]
+    base_fig_title = f"{get_description_for_group_key(groups_dir)} | {get_description_for_group_key(max_small)}"
     if frame:
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
@@ -497,16 +461,11 @@ def build_state_groups_map(data_obj, frame=None, subdir=None):
     return fig
 
 
-def build_ivw_by_state_group_scatter_dots(data_obj, frame=None, subdir=None):
-    if not subdir:
-        subdir = GEN_DATA_DIR
+def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, frame=None):
+    subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
-
-    # shift to altGroup if specified by subdir 
-    groups = ACW_GROUPS
-    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
-        groups = CENSUS_GROUPS
+    groups = GROUPS_FOR_DIR[groups_dir]
 
     # if frame is set, extract single-year data
     if frame:
@@ -558,16 +517,11 @@ def build_ivw_by_state_group_scatter_dots(data_obj, frame=None, subdir=None):
     return fig
 
 
-def build_ivw_by_state_group_scatter_bubbles(data_obj, frame=None, subdir=None):
-    if not subdir:
-        subdir = GEN_DATA_DIR
+def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, frame=None):
+    subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
-
-    # shift to altGroup if specified by subdir 
-    groups = ACW_GROUPS
-    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
-        groups = CENSUS_GROUPS
+    groups = GROUPS_FOR_DIR[groups_dir]
 
     # if frame is set, extract single-year data
     if frame:
@@ -613,16 +567,11 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, frame=None, subdir=None):
     return fig
 
 
-def build_ivw_by_state_group_line_chart(data_obj, frame, subdir=None):
-    if not subdir:
-        subdir = GEN_DATA_DIR
+def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, frame):
+    subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
-
-    # shift to altGroup if specified by subdir 
-    groups = ACW_GROUPS
-    if subdir in [GEN_ALT_GROUP_DIR, GEN_ALT_GROUP_NO_SMALL_DIR]:
-        groups = CENSUS_GROUPS
+    groups = GROUPS_FOR_DIR[groups_dir]
 
     # display metadata
     hover_data = {COL_STATES_IN_GROUP: True, COL_EC_VOTES: True}
