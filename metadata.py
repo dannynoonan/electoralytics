@@ -23,16 +23,28 @@ GROUPS_FOR_DIR = {
     GEN_DATA_ACW_DIR: ACW_GROUPS,
     GEN_DATA_CENSUS_DIR: CENSUS_GROUPS
 }
+GROUP_COLORS_2 = {
+    'Union': '#F2C792',
+    'Confederate': '#8C2F3F', 
+    'Border': '#DC5A48', 
+    'Postbellum': '#165D61', 
+    'Northeast': '#F2C792',
+    'South': '#8C2F3F', 
+    'Midwest': '#C0C484',
+    'West': '#165D61',
+    'Small': '#CCCCCC', 
+}
 GROUP_COLORS = {
-    'Union': 'MediumBlue',
-    'Confederate': 'Red', 
-    'Border': 'DarkSalmon', 
-    'Postbellum': 'Green', 
-    'Northeast': 'MediumBlue',
-    'South': 'Maroon', 
-    'Midwest': 'Cyan',
-    'West': 'SpringGreen',
-    'Small': 'Gold', 
+    'Union': '#1f77b4',  # muted blue
+    'Confederate': '#ff7f0e',  # safety orange
+    'Border': '#2ca02c',  # cooked asparagus green
+    'Postbellum': '#d62728',  # brick red
+    'Northeast': '#9467bd',  # muted purple
+    'South': '#8c564b',  # chestnut brown
+    'Midwest': '#e377c2',  # raspberry yogurt pink
+    'West': '#bcbd22',  # curry yellow-green
+    'Extra': '#17becf',   # blue-teal
+    'Small': '#7f7f7f'  # middle gray
 }
 
 # parties

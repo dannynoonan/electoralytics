@@ -10,7 +10,7 @@ from metadata import (
     COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_EC_VOTES_NORM, 
     COL_VOTES_COUNTED, COL_VOTES_COUNTED_NORM, COL_VOTES_COUNTED_PCT, COL_VOTE_WEIGHT, 
     COL_LOG_VOTE_WEIGHT, COL_AVG_WEIGHT, COL_POP_PER_EC, COL_POP_PER_EC_SHORT, COL_PARTY, 
-    COL_STATE_COUNT, COL_STATES_IN_GROUP, FRAME_RATE
+    COL_STATE_COUNT, COL_STATES_IN_GROUP, FRAME_RATE, GROUP_COLORS, GROUP_COLORS_2
 )
 
 
@@ -47,21 +47,19 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, frame=None, color_co
                 COL_VOTES_COUNTED_NORM: True, COL_EC_VOTES_NORM: True, COL_STATE: False}
 
     # set color sequence
-    # category_orders = []
-    # color_discrete_sequence = []
-    category_orders = {COL_GROUP: groups}
-    color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
+    category_orders = {}
+    color_discrete_map = []
     color_continuous_scale = []
     color_continuous_midpoint = None
     if color_col == COL_PARTY:
         category_orders = {COL_PARTY: PARTIES}
-        color_discrete_sequence = [PARTY_COLORS[p] for p in PARTIES]
+        color_discrete_map = PARTY_COLORS
     elif color_col == COL_LOG_VOTE_WEIGHT:
         color_continuous_scale = px.colors.diverging.BrBG[::-1]
         color_continuous_midpoint = 0
-    # elif color == COL_GROUP:
-    #     category_orders = {COL_GROUP: groups}
-    #     color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
+    elif color_col == COL_GROUP:
+        category_orders = {COL_GROUP: groups}
+        color_discrete_map = GROUP_COLORS
     
     
     # fig_title = f'{year} Presidential Election: Comparative Vote Weight Per Ballot Cast Per State'
@@ -74,8 +72,8 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, frame=None, color_co
     
     # declare fig
     fig = px.bar(pivot_on_year_df, x=COL_VOTE_WEIGHT, y=COL_STATE, color=color_col, hover_name=COL_STATE, hover_data=hover_data,
-                # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
                 color_continuous_scale=color_continuous_scale, color_continuous_midpoint=color_continuous_midpoint,
+                color_discrete_map=color_discrete_map, category_orders=category_orders,
                 animation_frame=COL_YEAR, # ignored if df is for single year
                 labels={COL_VOTE_WEIGHT: 'Relative impact per voter'}, width=BAR_WIDTH, height=BAR_HEIGHT, title=fig_title)
 
@@ -237,7 +235,7 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, frame=None)
 
     # if frame is set, extract single-year data
     if frame:
-        pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == frame]
+        pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == frame].sort_values(COL_GROUP, ascending=True)
     
     # calculate axis range boundaries 
     ec_max = round(pivot_on_year_df[COL_EC_VOTES].max() * 1.05)
@@ -245,8 +243,6 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, frame=None)
 
     # display metadata
     hover_data = {COL_VOTES_COUNTED: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True}
-    category_orders = {COL_GROUP: groups}
-    color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
     base_fig_title = 'Vote Weight Per Person Per State'
     if frame:
         era = get_era_for_year(frame)
@@ -259,7 +255,7 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, frame=None)
                     animation_frame=COL_YEAR, # ignored if df is for single year
                     color=COL_GROUP, title=fig_title, 
                     hover_name=COL_STATE, hover_data=hover_data,
-                    # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                    color_discrete_map=GROUP_COLORS, category_orders={COL_GROUP: groups},
     #                  log_x=True, log_y=True, range_x=[.4,norm_max], range_y=[2,ec_max],
                     width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.7, range_x=[0,norm_max], range_y=[0,ec_max])
     
@@ -296,8 +292,6 @@ def build_ivw_by_state_scatter_abbrevs(data_obj, groups_dir, max_small, frame=No
 
     # display metadata
     hover_data = {COL_VOTES_COUNTED: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True}
-    category_orders = {COL_GROUP: groups}
-    color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
     base_fig_title = 'Vote Weight Per Person Per State'
     if frame:
         era = get_era_for_year(frame)
@@ -310,7 +304,7 @@ def build_ivw_by_state_scatter_abbrevs(data_obj, groups_dir, max_small, frame=No
                     color=COL_GROUP, title=fig_title, 
                     animation_frame=COL_YEAR, # ignored if df is for single year
                     hover_name=COL_STATE, hover_data=hover_data, text=COL_ABBREV,
-                    # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                    color_discrete_map=GROUP_COLORS, category_orders={COL_GROUP: groups},
                     log_x=True, log_y=True, range_x=[.4,norm_max], range_y=[2.5,ec_max],
                     width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.7)
         
@@ -355,8 +349,6 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, frame=No
 
     # display metadata
     hover_data = {COL_VOTES_COUNTED: True, COL_POP_PER_EC_SHORT: True}
-    category_orders = {COL_GROUP: groups}
-    color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
     base_fig_title = 'Vote Weight Per Person Per State'
     if frame:
         era = get_era_for_year(frame)
@@ -368,7 +360,7 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, frame=No
     fig = px.scatter(pivot_on_year_df, x=COL_EC_VOTES, y=COL_VOTE_WEIGHT, 
                     size=COL_VOTES_COUNTED_PCT, color=COL_GROUP, hover_name=COL_STATE, hover_data=hover_data, 
                     animation_frame=COL_YEAR, # ignored if df is for single year
-                    # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                    color_discrete_map=GROUP_COLORS, category_orders={COL_GROUP: groups},
                     title=fig_title, width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.5,
                     log_y=True, size_max=80, range_x=[0,ec_max], range_y=[weight_min,weight_max])
 
@@ -403,9 +395,6 @@ def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame):
     pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[COL_YEAR] == frame]
 
     # display metadata
-    category_orders = {COL_GROUP: groups}
-    color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
-    # box_title = f'{year} presidential election: voter impact by state grouping'
     base_fig_title = 'Range of Vote Weight Per Person Per Region'
     era = get_era_for_year(frame)
     fig_title = f'{base_fig_title}: {frame} ({era})'
@@ -415,7 +404,7 @@ def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame):
     pivot = box_data.pivot(columns=COL_GROUP, values=COL_VOTE_WEIGHT)
 
     fig = px.box(pivot, color=COL_GROUP, 
-                # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                color_discrete_map=GROUP_COLORS, category_orders={COL_GROUP: groups},
                 width=BOX_WIDTH, height=BOX_HEIGHT, log_y=True, title=fig_title)
 
     # fig.add_trace(go.Scatter(x=flat_data['EC votes'], y=flat_data['Mean vote weight'], 
@@ -443,8 +432,6 @@ def build_state_groups_map(data_obj, groups_dir, max_small, frame=None):
     # display metadata
     hover_data = {COL_YEAR: False, COL_ABBREV: False, COL_GROUP: True, COL_VOTES_COUNTED: True, 
               COL_EC_VOTES: True, COL_VOTE_WEIGHT: True, COL_POP_PER_EC_SHORT: True, COL_EC_VOTES_NORM: True}
-    category_orders = {COL_GROUP: groups}
-    color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
     base_fig_title = f"{get_description_for_group_key(groups_dir)} | {get_description_for_group_key(max_small)}"
     if frame:
         era = get_era_for_year(frame)
@@ -455,7 +442,7 @@ def build_state_groups_map(data_obj, groups_dir, max_small, frame=None):
     fig = px.choropleth(pivot_on_year_df, locations=COL_ABBREV, color=COL_GROUP, 
                         animation_frame=COL_YEAR, animation_group=COL_GROUP, # ignored if df is for single year
                         locationmode='USA-states', scope="usa", hover_name=COL_STATE, hover_data=hover_data, 
-                        # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                        color_discrete_map=GROUP_COLORS, category_orders={COL_GROUP: groups},
                         title=fig_title, width=MAP_WIDTH, height=MAP_HEIGHT)
 
     return fig
@@ -479,8 +466,6 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, frame
     # display metadata
     hover_data = {COL_VOTES_COUNTED: True, COL_AVG_WEIGHT: True, COL_POP_PER_EC_SHORT: True,
                 COL_STATE_COUNT: True, COL_STATES_IN_GROUP: True}
-    category_orders = {COL_GROUP: groups}
-    color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
     base_fig_title = 'Average Vote Weight Per Person Per Region'
     if frame:
         era = get_era_for_year(frame)
@@ -492,7 +477,7 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, frame
     fig = px.scatter(group_aggs_by_year_df, x=COL_EC_VOTES_NORM, y=COL_EC_VOTES, 
                     animation_frame=COL_YEAR, animation_group=COL_GROUP, # ignored if df is for single year
                     color=COL_GROUP, title=fig_title, hover_name=COL_GROUP, hover_data=hover_data,
-                    # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                    color_discrete_map=GROUP_COLORS, category_orders={COL_GROUP: groups},
     #                  log_x=True, log_y=True, range_x=[.4,norm_max], range_y=[2,ec_max],
                     width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.7, range_x=[0, norm_max], range_y=[0, ec_max])
         
@@ -534,8 +519,6 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fr
 
     # display metadata
     hover_data = {COL_VOTES_COUNTED: True, COL_STATE_COUNT: True, COL_STATES_IN_GROUP: True, COL_POP_PER_EC_SHORT: True}
-    category_orders = {COL_GROUP: groups}
-    color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
     base_fig_title = 'Average Vote Weight Per Person Per Region'
     if frame:
         era = get_era_for_year(frame)
@@ -547,7 +530,7 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fr
     fig = px.scatter(group_aggs_by_year_df, x=COL_EC_VOTES, y=COL_AVG_WEIGHT, 
                     animation_frame=COL_YEAR, animation_group=COL_GROUP, # ignored if df is for single year
                     size=COL_VOTES_COUNTED_PCT, color=COL_GROUP, hover_name=COL_GROUP, hover_data=hover_data, 
-                    # category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                    color_discrete_map=GROUP_COLORS, category_orders={COL_GROUP: groups},
                     title=fig_title, width=SCATTER_WIDTH, height=SCATTER_HEIGHT, opacity=0.5,
                     log_y=True, size_max=80, range_x=[0, ec_max], range_y=[weight_min, weight_max])
 
@@ -575,14 +558,13 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, frame):
 
     # display metadata
     hover_data = {COL_STATES_IN_GROUP: True, COL_EC_VOTES: True}
-    category_orders = {COL_GROUP: groups}
-    color_discrete_sequence = [GROUP_COLORS[g] for g in groups]
     avg_weight_min = group_aggs_by_year_df[group_aggs_by_year_df[COL_AVG_WEIGHT] > 0][COL_AVG_WEIGHT].min() * 0.8
     avg_weight_max = group_aggs_by_year_df[group_aggs_by_year_df[COL_AVG_WEIGHT] > 0][COL_AVG_WEIGHT].max() * 1.05
     base_fig_title = 'Average Vote Weight Per Ballot Cast For Each Election, Grouped By Region'
     fig_title = f'{base_fig_title}: (Highlighting {frame})'
 
     fig = px.line(group_aggs_by_year_df, x=COL_YEAR, y=COL_AVG_WEIGHT, color=COL_GROUP, hover_data=hover_data, 
+                    color_discrete_map=GROUP_COLORS, category_orders={COL_GROUP: groups},
                     width=LINE_WIDTH, height=LINE_HEIGHT, title=fig_title, 
     #               log_y=True
                 )
