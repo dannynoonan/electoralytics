@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 
 from data_processor.functions import get_era_for_year, apply_animation_settings, map_to_subdir, get_description_for_group_key
 from metadata import (
-    ACW_GROUPS, CENSUS_GROUPS, GROUPS_FOR_DIR, GROUP_COLORS, PARTIES, PARTY_COLORS, FRAME_RATE, Columns, DataDirs
+    ACW_GROUPS, CENSUS_GROUPS, GROUPS_FOR_DIR, GROUP_COLORS, PARTIES, PARTY_COLORS, FRAME_RATE, Columns, DataDirs, FigDimensions
 )
 
 
@@ -17,9 +17,10 @@ HEIGHT_HALF_PAGE_CRT = WIDTH_HALF_PAGE * .75
 
 cols = Columns()
 ddirs = DataDirs()
+fig_dims = FigDimensions()
 
 
-def build_ivw_by_state_bar(data_obj, groups_dir, max_small, frame=None, color_col=None):
+def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, frame=None, color_col=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
@@ -31,6 +32,10 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, frame=None, color_co
     # if frame is set, extract single-year data
     if frame:
         pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame]
+
+    if not fig_width:
+        fig_width = fig_dims.MD6
+    fig_height = fig_dims.fat_door(fig_width)
 
     # remove placeholder rows for state groups that lack actual state data
     pivot_on_year_df = pivot_on_year_df[pd.notnull(pivot_on_year_df[cols.STATE])]
@@ -64,12 +69,13 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, frame=None, color_co
         fig_title = f'{base_fig_title}: 1828 - 2020'
     
     # declare fig
-    fig = px.bar(pivot_on_year_df, x=cols.VOTE_WEIGHT, y=cols.STATE, color=color_col, hover_name=cols.STATE, hover_data=hover_data,
+    fig = px.bar(pivot_on_year_df, x=cols.VOTE_WEIGHT, y=cols.STATE, color=color_col, 
+                hover_name=cols.STATE, hover_data=hover_data,
+                animation_frame=cols.YEAR, # ignored if df is for single year
                 color_continuous_scale=color_continuous_scale, color_continuous_midpoint=color_continuous_midpoint,
                 color_discrete_map=color_discrete_map, category_orders=category_orders,
-                animation_frame=cols.YEAR, # ignored if df is for single year
-                labels={cols.VOTE_WEIGHT: 'Relative impact per voter'}, title=fig_title,
-                width=WIDTH_HALF_PAGE, height=HEIGHT_HALF_PAGE_SQUARE)
+                labels={cols.VOTE_WEIGHT: 'Relative impact per voter'}, 
+                title=fig_title, width=fig_width, height=fig_height)
 
     fig.update_layout(
         yaxis={'tickangle': 35, 'showticklabels': True, 'type': 'category', 'tickfont_size': 8},
@@ -85,7 +91,7 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, frame=None, color_co
 
 
 # ref: https://towardsdatascience.com/how-to-create-a-grouped-bar-chart-with-plotly-express-in-python-e2b64ed4abd7
-def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, frame=None):
+def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=None, frame=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     melted_ec_votes_pivot_df = data_obj.melted_ec_votes_pivot_dfs[subdir].sort_values('EC votes^', ascending=True)
@@ -93,6 +99,10 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, frame=None)
     # if frame is set, extract single-year data
     if frame:
         melted_ec_votes_pivot_df = melted_ec_votes_pivot_df[melted_ec_votes_pivot_df[cols.YEAR] == frame]
+
+    if not fig_width:
+        fig_width = fig_dims.MD6
+    fig_height = fig_dims.square(fig_width)
 
     # remove placeholder rows for state groups that lack actual state data
     melted_ec_votes_pivot_df = melted_ec_votes_pivot_df[pd.notnull(melted_ec_votes_pivot_df[cols.STATE])]
@@ -108,11 +118,11 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, frame=None)
     else:
         fig_title = f'{base_fig_title}: 1828 - 2020'
 
-    fig = px.bar(melted_ec_votes_pivot_df, x='EC votes^', y=cols.STATE,  
-                color='Actual vs Adjusted EC votes^', barmode='group', hover_name=cols.STATE, hover_data=hover_data,
+    fig = px.bar(melted_ec_votes_pivot_df, x='EC votes^', y=cols.STATE, color='Actual vs Adjusted EC votes^', 
+                barmode='group', hover_name=cols.STATE, hover_data=hover_data,
                 animation_frame=cols.YEAR, # ignored if df is for single year
                 color_discrete_sequence=color_discrete_sequence, 
-                title=fig_title, width=WIDTH_HALF_PAGE, height=HEIGHT_HALF_PAGE_SQUARE)
+                title=fig_title, width=fig_width, height=fig_height)
 
     fig.update_layout(
         yaxis={'tickangle': 35, 'showticklabels': True, 'type': 'category', 'tickfont_size': 8},
@@ -123,7 +133,7 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, frame=None)
     return fig
 
 
-def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, frame=None):
+def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, fig_width=None, frame=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     melted_vote_count_pivot_df = data_obj.melted_vote_count_pivot_dfs[subdir].sort_values('Vote count^', ascending=True)
@@ -131,6 +141,10 @@ def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, frame=None)
     # if frame is set, extract single-year data
     if frame:
         melted_vote_count_pivot_df = melted_vote_count_pivot_df[melted_vote_count_pivot_df[cols.YEAR] == frame]
+
+    if not fig_width:
+        fig_width = fig_dims.MD6
+    fig_height = fig_dims.square(fig_width)
 
     # remove placeholder rows for state groups that lack actual state data
     melted_vote_count_pivot_df = melted_vote_count_pivot_df[pd.notnull(melted_vote_count_pivot_df[cols.STATE])]
@@ -146,11 +160,11 @@ def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, frame=None)
     else:
         fig_title = f'{base_fig_title}: 1828 - 2020'
 
-    fig = px.bar(melted_vote_count_pivot_df, x='Vote count^', y=cols.STATE,  
-                color='Actual vs Adjusted Vote count^', barmode='group', hover_name=cols.STATE, hover_data=hover_data,
+    fig = px.bar(melted_vote_count_pivot_df, x='Vote count^', y=cols.STATE, color='Actual vs Adjusted Vote count^', 
+                barmode='group', hover_name=cols.STATE, hover_data=hover_data,
                 animation_frame=cols.YEAR, # ignored if df is for single year
                 color_discrete_sequence=color_discrete_sequence, 
-                title=fig_title, width=WIDTH_HALF_PAGE, height=HEIGHT_HALF_PAGE_SQUARE)
+                title=fig_title, width=fig_width, height=fig_height)
 
     fig.update_layout(
         yaxis={'tickangle': 35, 'showticklabels': True, 'type': 'category', 'tickfont_size': 8},
@@ -161,7 +175,7 @@ def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, frame=None)
     return fig
 
 
-def build_ivw_by_state_map(data_obj, groups_dir, max_small, frame=None):
+def build_ivw_by_state_map(data_obj, groups_dir, max_small, fig_width=None, frame=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
@@ -169,6 +183,10 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, frame=None):
     # if frame is set, extract single-year data
     if frame:
         pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame]
+
+    if not fig_width:
+        fig_width = fig_dims.MD6
+    fig_height = fig_dims.crt(fig_width)
 
     # log_vote_weight_ser = pivot_on_year_df[cols.LOG_VOTE_WEIGHT].replace([np.inf, -np.inf], np.nan).dropna()
     # log_vote_weight_min = log_vote_weight_ser.min()
@@ -191,11 +209,11 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, frame=None):
 
     fig = px.choropleth(pivot_on_year_df, locations=cols.ABBREV, color=cols.LOG_VOTE_WEIGHT,
                         locationmode='USA-states', scope="usa", hover_name=cols.STATE, hover_data=hover_data, 
+                        animation_frame=cols.YEAR, # ignored if df is for single year
                         color_continuous_scale=px.colors.diverging.BrBG[::-1], color_continuous_midpoint=0,
                         # range_color=[-1.0, pivot_on_single_year[cols.LOG_VOTE_WEIGHT].max()],
                         # range_color=[log_vote_weight_min, log_vote_weight_max],  
-                        animation_frame=cols.YEAR, # ignored if df is for single year
-                        title=fig_title, width=WIDTH_HALF_PAGE, height=HEIGHT_HALF_PAGE_CRT)
+                        title=fig_title, width=fig_width, height=fig_height)
 
     fig.update_layout(
         coloraxis_colorbar=dict(tickvals=[-2.303, -1.609, -1.109, -0.693, -0.357, 0, 0.405, 0.916, 1.386, 1.792, 2.197],
@@ -223,7 +241,7 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, frame=None):
     return fig
 
 
-def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, frame=None):
+def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, fig_width=None, frame=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
@@ -232,6 +250,10 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, frame=None)
     # if frame is set, extract single-year data
     if frame:
         pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame].sort_values(cols.GROUP, ascending=True)
+
+    if not fig_width:
+        fig_width = fig_dims.MD6
+    fig_height = fig_dims.crt(fig_width)
     
     # calculate axis range boundaries 
     ec_max = round(pivot_on_year_df[cols.EC_VOTES].max() * 1.05)
@@ -251,7 +273,7 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, frame=None)
                     animation_frame=cols.YEAR, # ignored if df is for single year
                     hover_name=cols.STATE, hover_data=hover_data,
                     color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                    title=fig_title, width=WIDTH_HALF_PAGE, height=HEIGHT_HALF_PAGE_CRT, 
+                    title=fig_title, width=fig_width, height=fig_height, 
     #                  log_x=True, log_y=True, range_x=[.4,norm_max], range_y=[2,ec_max],
                     opacity=0.7, range_x=[0,norm_max], range_y=[0,ec_max])
     
@@ -272,7 +294,7 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, frame=None)
     return fig
 
 
-def build_ivw_by_state_scatter_abbrevs(data_obj, groups_dir, max_small, frame=None):
+def build_ivw_by_state_scatter_abbrevs(data_obj, groups_dir, max_small, fig_width=None, frame=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
@@ -281,6 +303,10 @@ def build_ivw_by_state_scatter_abbrevs(data_obj, groups_dir, max_small, frame=No
     # if frame is set, extract single-year data
     if frame:
         pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame]
+
+    if not fig_width:
+        fig_width = fig_dims.MD6
+    fig_height = fig_dims.crt(fig_width)
 
     # calculate axis range boundaries 
     ec_max = round(pivot_on_year_df[cols.EC_VOTES].max() * 1.05)
@@ -300,7 +326,7 @@ def build_ivw_by_state_scatter_abbrevs(data_obj, groups_dir, max_small, frame=No
                     animation_frame=cols.YEAR, # ignored if df is for single year
                     hover_name=cols.STATE, hover_data=hover_data, text=cols.ABBREV,
                     color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                    title=fig_title, width=WIDTH_HALF_PAGE, height=HEIGHT_HALF_PAGE_CRT,
+                    title=fig_title, width=fig_width, height=fig_height,
                     opacity=0.7, log_x=True, log_y=True, range_x=[.4,norm_max], range_y=[2.5,ec_max])
         
     # scatterplot dot formatting
@@ -327,7 +353,7 @@ def build_ivw_by_state_scatter_abbrevs(data_obj, groups_dir, max_small, frame=No
     return fig
 
 
-def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, frame=None):
+def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_width=None, frame=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
@@ -336,6 +362,10 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, frame=No
     # if frame is set, extract single-year data
     if frame:
         pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame]
+
+    if not fig_width:
+        fig_width = fig_dims.MD6
+    fig_height = fig_dims.crt(fig_width)
 
     # calculate axis range boundaries 
     ec_max = round(pivot_on_year_df[cols.EC_VOTES].max())
@@ -356,7 +386,7 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, frame=No
                     hover_name=cols.STATE, hover_data=hover_data, size=cols.VOTES_COUNTED_PCT, size_max=80, 
                     animation_frame=cols.YEAR, # ignored if df is for single year
                     color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                    title=fig_title, width=WIDTH_HALF_PAGE, height=HEIGHT_HALF_PAGE_CRT,
+                    title=fig_title, width=fig_width, height=fig_height,
                     opacity=0.5, log_y=True, range_x=[0,ec_max], range_y=[weight_min,weight_max])
 
     # scatterplot dot formatting
@@ -380,7 +410,7 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, frame=No
     return fig
 
 
-def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame):
+def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame, fig_width=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
@@ -388,6 +418,10 @@ def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame):
 
     # extract single-year data
     pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame]
+
+    if not fig_width:
+        fig_width = fig_dims.MD6
+    fig_height = fig_dims.crt(fig_width)
 
     # display metadata
     base_fig_title = 'Range of Vote Weight Per Person Per Region'
@@ -400,7 +434,7 @@ def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame):
 
     fig = px.box(pivot, color=cols.GROUP, 
                 color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                title=fig_title, width=WIDTH_HALF_PAGE, height=HEIGHT_HALF_PAGE_CRT, 
+                title=fig_title, width=fig_width, height=fig_height, 
                 log_y=True)
 
     # fig.add_trace(go.Scatter(x=flat_data['EC votes'], y=flat_data['Mean vote weight'], 
@@ -412,7 +446,7 @@ def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame):
     return fig
 
 
-def build_state_groups_map(data_obj, groups_dir, max_small, frame=None):
+def build_state_groups_map(data_obj, groups_dir, max_small, fig_width=None, frame=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
@@ -421,6 +455,10 @@ def build_state_groups_map(data_obj, groups_dir, max_small, frame=None):
     # if frame is set, extract single-year data
     if frame:
         pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame]
+
+    if not fig_width:
+        fig_width = fig_dims.MD6
+    fig_height = fig_dims.crt(fig_width)
 
     # generate cols.LOG_VOTE_WEIGHT column, workaround to manually create log color scale
     # pivot_on_single_year[cols.LOG_VOTE_WEIGHT] = np.log2(pivot_on_single_year[cols.VOTE_WEIGHT])
@@ -439,12 +477,12 @@ def build_state_groups_map(data_obj, groups_dir, max_small, frame=None):
                         locationmode='USA-states', scope="usa", hover_name=cols.STATE, hover_data=hover_data, 
                         animation_frame=cols.YEAR, animation_group=cols.GROUP, # ignored if df is for single year
                         color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                        title=fig_title, width=WIDTH_HALF_PAGE, height=HEIGHT_HALF_PAGE_CRT)
+                        title=fig_title, width=fig_width, height=fig_height)
 
     return fig
 
 
-def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, frame=None):
+def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_width=None, frame=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
@@ -453,6 +491,10 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, frame
     # if frame is set, extract single-year data
     if frame:
         group_aggs_by_year_df = group_aggs_by_year_df[group_aggs_by_year_df[cols.YEAR] == frame]
+
+    if not fig_width:
+        fig_width = fig_dims.MD6
+    fig_height = fig_dims.crt(fig_width)
 
     # calculate axis range boundaries
     ec_max = round(group_aggs_by_year_df[cols.EC_VOTES].max() * 1.05)
@@ -474,7 +516,7 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, frame
                     hover_name=cols.GROUP, hover_data=hover_data,
                     animation_frame=cols.YEAR, animation_group=cols.GROUP, # ignored if df is for single year
                     color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                    title=fig_title, width=WIDTH_HALF_PAGE, height=HEIGHT_HALF_PAGE_CRT, 
+                    title=fig_title, width=fig_width, height=fig_height, 
     #                  log_x=True, log_y=True, range_x=[.4,norm_max], range_y=[2,ec_max],
                     opacity=0.7, range_x=[0, norm_max], range_y=[0, ec_max])
         
@@ -499,7 +541,7 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, frame
     return fig
 
 
-def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, frame=None):
+def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fig_width=None, frame=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
@@ -508,6 +550,10 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fr
     # if frame is set, extract single-year data
     if frame:
         group_aggs_by_year_df = group_aggs_by_year_df[group_aggs_by_year_df[cols.YEAR] == frame]
+
+    if not fig_width:
+        fig_width = fig_dims.MD6
+    fig_height = fig_dims.crt(fig_width)
 
     # calculate axis range boundaries
     ec_max = round(group_aggs_by_year_df[cols.EC_VOTES].max() * 1.1)
@@ -524,12 +570,12 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fr
         fig_title = f'{base_fig_title}: 1828 - 2020'
 
     # init figure with core properties
-    fig = px.scatter(group_aggs_by_year_df, x=cols.EC_VOTES, y=cols.AVG_WEIGHT, 
-                    size=cols.VOTES_COUNTED_PCT, color=cols.GROUP, hover_name=cols.GROUP, hover_data=hover_data, 
+    fig = px.scatter(group_aggs_by_year_df, x=cols.EC_VOTES, y=cols.AVG_WEIGHT, color=cols.GROUP, 
+                    size=cols.VOTES_COUNTED_PCT, size_max=80, hover_name=cols.GROUP, hover_data=hover_data, 
                     animation_frame=cols.YEAR, animation_group=cols.GROUP, # ignored if df is for single year
                     color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                    title=fig_title, width=WIDTH_HALF_PAGE, height=HEIGHT_HALF_PAGE_CRT, opacity=0.5,
-                    log_y=True, size_max=80, range_x=[0, ec_max], range_y=[weight_min, weight_max])
+                    title=fig_title, width=fig_width, height=fig_height, 
+                    opacity=0.5, log_y=True, range_x=[0, ec_max], range_y=[weight_min, weight_max])
 
     # scatterplot dot formatting
     fig.update_traces(marker=dict(line=dict(width=1, color='white')),
@@ -547,11 +593,15 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fr
     return fig
 
 
-def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, frame):
+def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, frame, fig_width=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     group_aggs_by_year_df = data_obj.group_aggs_by_year_dfs[subdir]
     groups = GROUPS_FOR_DIR[groups_dir]
+
+    if not fig_width:
+        fig_width = fig_dims.MD6
+    fig_height = 500
 
     # display metadata
     hover_data = {cols.STATES_IN_GROUP: True, cols.EC_VOTES: True}
@@ -560,9 +610,10 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, frame):
     base_fig_title = 'Average Vote Weight Per Ballot Cast For Each Election, Grouped By Region'
     fig_title = f'{base_fig_title}: (Highlighting {frame})'
 
-    fig = px.line(group_aggs_by_year_df, x=cols.YEAR, y=cols.AVG_WEIGHT, color=cols.GROUP, hover_data=hover_data, 
+    fig = px.line(group_aggs_by_year_df, x=cols.YEAR, y=cols.AVG_WEIGHT, color=cols.GROUP, 
+                    hover_name=cols.GROUP, hover_data=hover_data, 
                     color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                    width=WIDTH_FULL_PAGE, height=500, title=fig_title, 
+                    title=fig_title, width=fig_width, height=fig_height,
     #               log_y=True
                 )
 

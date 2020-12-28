@@ -132,3 +132,21 @@ class Columns():
 
 # animations
 FRAME_RATE = 1000
+
+# figure dimensions
+class FigDimensions():
+    def __init__(self):
+        self.MD5 = 660
+        self.MD6 = 800
+        self.MD7 = 940
+        self.MD8 = 1080
+        self.MD12 = 1640
+
+    def square(self, width):
+        return width
+
+    def crt(self, width):
+        return width * .75
+
+    def fat_door(self, width):
+        return width * 1.25

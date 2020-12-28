@@ -11,7 +11,7 @@ import plotly.express as px
 from data_processor.data_objects import DataObject
 from data_processor import fig_builder 
 from data_processor.functions import validate_input, map_to_subdir
-from metadata import Columns, DataDirs
+from metadata import Columns, DataDirs, FigDimensions
 
 
 # base config
@@ -27,6 +27,7 @@ data_obj.load_swallowed_vote_sampler()
 
 cols = Columns()
 ddirs = DataDirs()
+fig_dims = FigDimensions()
 
 
 ### LAYOUT COMPONENTS ###
@@ -140,21 +141,21 @@ layout_1 = html.Div([
             dbc.Tabs(className="nav nav-pills", children=[
                 dbc.Tab(label="State-Level Comparisons", tab_style={"font-size": "20px"}, children=[
                     dbc.Row([
-                        dbc.Col(md=6, children=[
+                        dbc.Col(md=7, children=[
                             dcc.Graph(id="fig-map-color-by-state-vw"),
                             html.Br(),
                         ]),
-                        dbc.Col(md=6, children=[
+                        dbc.Col(md=5, children=[
                             dcc.Graph(id="fig-bar-state-vw-color-by-vw"),
                             html.Br(),
                         ])
                     ]),
                     dbc.Row([
-                        dbc.Col(md=6, children=[
+                        dbc.Col(md=7, children=[
                             dcc.Graph(id="fig-map-color-by-group"),
                             html.Br(),
                         ]),
-                        dbc.Col(md=6, children=[
+                        dbc.Col(md=5, children=[
                             dcc.Graph(id="fig-bar-state-vw-color-by-group"),
                             html.Br(),
                         ])
@@ -357,8 +358,8 @@ def display_page(pathname):
 @app.callback(
     Output('fig-map-color-by-state-vw', 'figure'),
     Output('fig-map-color-by-group', 'figure'),
-    Output('fig-bar-state-vw-color-by-group', 'figure'),
     Output('fig-bar-state-vw-color-by-vw', 'figure'),
+    Output('fig-bar-state-vw-color-by-group', 'figure'),
     Output('fig-bar-actual-vs-adj-ec', 'figure'),
     Output('fig-bar-actual-vs-adj-vw', 'figure'),
     Output('vote-weight-comparison-by-state-scatter-dots', 'figure'),
@@ -374,16 +375,16 @@ def display_state_level_figs(year_input, groupings_input, max_small_input):
     year = int(year_input)
     max_small = int(max_small_input)
     # generate figs
-    fig_map_color_by_state_vw = fig_builder.build_ivw_by_state_map(data_obj, groupings_input, max_small, frame=year)
-    fig_map_color_by_group = fig_builder.build_state_groups_map(data_obj, groupings_input, max_small, frame=year)
-    fig_bar_state_vw_color_by_group = fig_builder.build_ivw_by_state_bar(data_obj, groupings_input, max_small, frame=year)
-    fig_bar_state_vw_color_by_vw = fig_builder.build_ivw_by_state_bar(data_obj, groupings_input, max_small, frame=year, color_col=cols.LOG_VOTE_WEIGHT)
+    fig_map_color_by_state_vw = fig_builder.build_ivw_by_state_map(data_obj, groupings_input, max_small, fig_width=fig_dims.MD7, frame=year)
+    fig_map_color_by_group = fig_builder.build_state_groups_map(data_obj, groupings_input, max_small, fig_width=fig_dims.MD7, frame=year)
+    fig_bar_state_vw_color_by_vw = fig_builder.build_ivw_by_state_bar(data_obj, groupings_input, max_small, fig_width=fig_dims.MD5, frame=year, color_col=cols.LOG_VOTE_WEIGHT)
+    fig_bar_state_vw_color_by_group = fig_builder.build_ivw_by_state_bar(data_obj, groupings_input, max_small, fig_width=fig_dims.MD5, frame=year)
     fig_bar_actual_vs_adj_ec = fig_builder.build_actual_vs_adjusted_ec_bar(data_obj, groupings_input, max_small, frame=year)
     fig_bar_actual_vs_adj_vw = fig_builder.build_actual_vs_adjusted_vw_bar(data_obj, groupings_input, max_small, frame=year)
     fig_scatter_dots = fig_builder.build_ivw_by_state_scatter_dots(data_obj, groupings_input, max_small, frame=year)
     fig_scatter_abbrevs = fig_builder.build_ivw_by_state_scatter_abbrevs(data_obj, groupings_input, max_small, frame=year)
     fig_scatter_bubbles = fig_builder.build_ivw_by_state_scatter_bubbles(data_obj, groupings_input, max_small, frame=year)
-    return (fig_map_color_by_state_vw, fig_map_color_by_group, fig_bar_state_vw_color_by_group, fig_bar_state_vw_color_by_vw, 
+    return (fig_map_color_by_state_vw, fig_map_color_by_group, fig_bar_state_vw_color_by_vw, fig_bar_state_vw_color_by_group,
         fig_bar_actual_vs_adj_ec, fig_bar_actual_vs_adj_vw, fig_scatter_dots, fig_scatter_abbrevs, fig_scatter_bubbles)
 
 @app.callback(
@@ -403,7 +404,7 @@ def display_regional_aggregate_figs(year_input, groupings_input, max_small_input
     max_small = int(max_small_input)
     # generate figs
     # fig_map_1 = fig_builder.build_state_groups_map(data_obj, groupings_input, max_small_input, frame=year)
-    fig_line_1 = fig_builder.build_ivw_by_state_group_line_chart(data_obj, groupings_input, max_small, frame=year)
+    fig_line_1 = fig_builder.build_ivw_by_state_group_line_chart(data_obj, groupings_input, max_small, fig_width=fig_dims.MD12, frame=year)
     fig_box_1 = fig_builder.build_ivw_by_state_group_box_plot(data_obj, groupings_input, max_small, frame=year)
     fig_scatter_dots = fig_builder.build_ivw_by_state_group_scatter_dots(data_obj, groupings_input, max_small, frame=year)
     fig_scatter_bubbles = fig_builder.build_ivw_by_state_group_scatter_bubbles(data_obj, groupings_input, max_small, frame=year)
