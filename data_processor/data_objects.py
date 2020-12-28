@@ -1,13 +1,12 @@
 import numpy as np
 import pandas as pd
 
-from metadata import (
-    DATA_DIR_TO_SMALL_GROUP_LABELS, PIVOT_ON_YEAR_CSV, SWALLOWED_VOTE_2020_CSV, GROUP_AGGS_BY_YEAR_CSV, Columns, DataDirs
-)
+from metadata import Columns, DataDirs, DataFiles, DATA_DIR_TO_SMALL_GROUP_LABELS
 
 
 cols = Columns()
 ddirs = DataDirs()
+dfiles = DataFiles()
 
 
 class DataObject():
@@ -38,7 +37,7 @@ class DataObject():
     def load_pivot_on_year(self, subdir=None, update=False):
         if not subdir:
             subdir = f"{ddirs.GEN}/{ddirs.ACW}/{ddirs.SMALL_4}"
-        pivot_on_year_csv_path = f"{ddirs.BASE}/{subdir}/{PIVOT_ON_YEAR_CSV}"
+        pivot_on_year_csv_path = f"{ddirs.BASE}/{subdir}/{dfiles.PIVOT_ON_YEAR}"
         small_subdir = subdir.split('/')[-1]
 
         # if df for subdir is already loaded and we're not updating, then we're done
@@ -116,7 +115,7 @@ class DataObject():
     def load_group_aggs_by_year(self, subdir=None, update=False):
         if not subdir:
             subdir = f"{ddirs.GEN}/{ddirs.ACW}/{ddirs.SMALL_4}"
-        group_aggs_by_year_csv_path = f"{ddirs.BASE}/{subdir}/{GROUP_AGGS_BY_YEAR_CSV}"
+        group_aggs_by_year_csv_path = f"{ddirs.BASE}/{subdir}/{dfiles.GROUP_AGGS_BY_YEAR}"
         small_subdir = subdir.split('/')[-1]
 
         # if df for subdir is already loaded and we're not updating, then we're done
@@ -138,5 +137,5 @@ class DataObject():
 
 
     def load_swallowed_vote_sampler(self):
-        print(f'loading {SWALLOWED_VOTE_2020_CSV}')
-        self.swallowed_vote_df = pd.read_csv(SWALLOWED_VOTE_2020_CSV)
+        print(f'loading {dfiles.SWALLOWED_VOTE_2020}')
+        self.swallowed_vote_df = pd.read_csv(dfiles.SWALLOWED_VOTE_2020)

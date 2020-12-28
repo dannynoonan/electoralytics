@@ -13,17 +13,9 @@ class DataDirs():
 data_dirs = DataDirs()
 
 # data files
-THE_ONE_RING_CSV = f'{data_dirs.BASE}/theOneRing.csv'
-SWALLOWED_VOTE_2020_CSV = f'{data_dirs.BASE}/swallowedVoteSampler2020.csv'
-GROUPS_BY_YEAR_CSV = 'groupsByYear.csv'
-AVG_WEIGHT_BY_YEAR_CSV = 'avgWeightByYear.csv'
-PIVOT_ON_YEAR_CSV = 'pivotOnYear.csv'
-TOTALS_BY_YEAR_CSV = 'totalsByYear.csv'
-GROUP_AGGS_BY_YEAR_CSV = 'groupAggsByYear.csv'
-
 class DataFiles():
-    data_dirs = DataDirs()
-    def __init__(self, data_dirs):
+    def __init__(self):
+        data_dirs = DataDirs()
         self.THE_ONE_RING = f'{data_dirs.BASE}/theOneRing.csv'
         self.SWALLOWED_VOTE_2020 = f'{data_dirs.BASE}/swallowedVoteSampler2020.csv'
         self.GROUPS_BY_YEAR = 'groupsByYear.csv'
@@ -31,6 +23,30 @@ class DataFiles():
         self.PIVOT_ON_YEAR = 'pivotOnYear.csv'
         self.TOTALS_BY_YEAR = 'totalsByYear.csv'
         self.GROUP_AGGS_BY_YEAR = 'groupAggsByYear.csv'
+
+# columns in data files
+class Columns():
+    def __init__(self):
+        self.ABBREV = 'Abbrev'
+        self.STATE = 'State'
+        self.ACW_GROUP = 'Civil War Grouping'
+        self.CENSUS_GROUP = 'Census Grouping'
+        self.GROUP = 'Group'
+        self.YEAR = 'Year'
+        self.EC_VOTES = 'EC votes'
+        self.EC_VOTES_NORM = 'EC votes normalized'
+        self.VOTES_COUNTED = 'Votes counted'
+        self.VOTES_COUNTED_NORM = 'Votes counted normalized'
+        self.VOTES_COUNTED_PCT = 'Votes counted %'
+        self.VOTE_WEIGHT = 'Vote weight'
+        self.LOG_VOTE_WEIGHT = 'Vote weight (log)'
+        self.AVG_WEIGHT = 'Average weight'
+        self.PARTY = 'Party'
+        self.POP_PER_EC = 'Population per EC vote'
+        self.POP_PER_EC_SHORT = 'Pop per EC vote'
+        self.STATE_COUNT = 'State count'
+        self.MOST_EC_VOTES = 'Most EC votes'
+        self.STATES_IN_GROUP = 'States in group'
 
 # state groupings
 ACW_GROUPS = ['Union', 'Confederate', 'Border', 'Postbellum']
@@ -106,30 +122,6 @@ PARTY_COLORS = {
     'American Independent': 'LightSkyBlue',
 }
 
-# columns in csv files
-class Columns():
-    def __init__(self):
-        self.ABBREV = 'Abbrev'
-        self.STATE = 'State'
-        self.ACW_GROUP = 'Civil War Grouping'
-        self.CENSUS_GROUP = 'Census Grouping'
-        self.GROUP = 'Group'
-        self.YEAR = 'Year'
-        self.EC_VOTES = 'EC votes'
-        self.EC_VOTES_NORM = 'EC votes normalized'
-        self.VOTES_COUNTED = 'Votes counted'
-        self.VOTES_COUNTED_NORM = 'Votes counted normalized'
-        self.VOTES_COUNTED_PCT = 'Votes counted %'
-        self.VOTE_WEIGHT = 'Vote weight'
-        self.LOG_VOTE_WEIGHT = 'Vote weight (log)'
-        self.AVG_WEIGHT = 'Average weight'
-        self.PARTY = 'Party'
-        self.POP_PER_EC = 'Population per EC vote'
-        self.POP_PER_EC_SHORT = 'Pop per EC vote'
-        self.STATE_COUNT = 'State count'
-        self.MOST_EC_VOTES = 'Most EC votes'
-        self.STATES_IN_GROUP = 'States in group'
-
 # animations
 FRAME_RATE = 1000
 
@@ -148,5 +140,5 @@ class FigDimensions():
     def crt(self, width):
         return width * .75
 
-    def fat_door(self, width):
+    def wide_door(self, width):
         return width * 1.25

@@ -5,19 +5,19 @@ import os
 import pandas as pd
 import numpy as np
 
-from metadata import (
-    THE_ONE_RING_CSV, AVG_WEIGHT_BY_YEAR_CSV, GROUP_AGGS_BY_YEAR_CSV, GROUPS_BY_YEAR_CSV, PIVOT_ON_YEAR_CSV, TOTALS_BY_YEAR_CSV, 
-    ACW_GROUPS, CENSUS_GROUPS, Columns, DataDirs
-)
+from metadata import Columns, DataDirs, DataFiles, ACW_GROUPS, CENSUS_GROUPS
+
 
 cols = Columns()
 ddirs = DataDirs()
+dfiles = DataFiles()
+
 
 # disable unhelpful 'SettingWithCopyWarnings'
 pd.options.mode.chained_assignment = None
 
 print(f"Starting the electoralytics 'multi_ring_filebuilder' script. This process will:")
-print(f"(1) load the superset of electoralytics data from {THE_ONE_RING_CSV} into a pandas dataframe")
+print(f"(1) load the superset of electoralytics data from {dfiles.THE_ONE_RING} into a pandas dataframe")
 print(f"(2) transform the source data into multiple formats optimized for plotly figure-building")
 print(f"(3) output a truncated view of the data in the response, or if '--write=True' output the data to csv files")
 
@@ -91,7 +91,7 @@ GROUPS_SER = pd.Series(np.array(GROUPS + ['Total']))
 
 
 # load electoral college data
-the_one_ring = pd.read_csv(THE_ONE_RING_CSV)
+the_one_ring = pd.read_csv(dfiles.THE_ONE_RING)
 
 ### TRANSFORM CSV DATA ###
 # files to output: 
@@ -234,10 +234,10 @@ while year <= 2020:
     year = year + 4
 
 
-PIVOT_ON_YEAR_CSV = f"{ddirs.BASE}/{subdir}/{PIVOT_ON_YEAR_CSV}"
-TOTALS_BY_YEAR_CSV = f"{ddirs.BASE}/{ddirs.GEN}/{TOTALS_BY_YEAR_CSV}"
-GROUP_AGGS_BY_YEAR_CSV = f"{ddirs.BASE}/{subdir}/{GROUP_AGGS_BY_YEAR_CSV}"
-AVG_WEIGHT_BY_YEAR_CSV = f"{ddirs.BASE}/{subdir}/{AVG_WEIGHT_BY_YEAR_CSV}"
+PIVOT_ON_YEAR_CSV = f"{ddirs.BASE}/{subdir}/{dfiles.PIVOT_ON_YEAR}"
+TOTALS_BY_YEAR_CSV = f"{ddirs.BASE}/{ddirs.GEN}/{dfiles.TOTALS_BY_YEAR}"
+GROUP_AGGS_BY_YEAR_CSV = f"{ddirs.BASE}/{subdir}/{dfiles.GROUP_AGGS_BY_YEAR}"
+AVG_WEIGHT_BY_YEAR_CSV = f"{ddirs.BASE}/{subdir}/{dfiles.AVG_WEIGHT_BY_YEAR}"
 
 print(f"Rows in {PIVOT_ON_YEAR_CSV}: {len(pivot_on_year)}")
 print(f"{pivot_on_year}")
