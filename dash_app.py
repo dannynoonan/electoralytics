@@ -9,7 +9,7 @@ import pandas as pd
 import plotly.express as px
 
 from data_processor.data_objects import DataObject
-from data_processor import fig_builder 
+from fig_builder import bar_plots, box_plots, choropleths, line_charts, scatter_plots
 from data_processor.functions import validate_input, map_to_subdir
 from metadata import Columns, DataDirs, FigDimensions
 
@@ -375,15 +375,15 @@ def display_state_level_figs(year_input, groupings_input, max_small_input):
     year = int(year_input)
     max_small = int(max_small_input)
     # generate figs
-    fig_map_color_by_state_vw = fig_builder.build_ivw_by_state_map(data_obj, groupings_input, max_small, fig_width=fig_dims.MD7, frame=year)
-    fig_map_color_by_group = fig_builder.build_state_groups_map(data_obj, groupings_input, max_small, fig_width=fig_dims.MD7, frame=year)
-    fig_bar_state_vw_color_by_vw = fig_builder.build_ivw_by_state_bar(data_obj, groupings_input, max_small, fig_width=fig_dims.MD5, frame=year, color_col=cols.LOG_VOTE_WEIGHT)
-    fig_bar_state_vw_color_by_group = fig_builder.build_ivw_by_state_bar(data_obj, groupings_input, max_small, fig_width=fig_dims.MD5, frame=year)
-    fig_bar_actual_vs_adj_ec = fig_builder.build_actual_vs_adjusted_ec_bar(data_obj, groupings_input, max_small, frame=year)
-    fig_bar_actual_vs_adj_vw = fig_builder.build_actual_vs_adjusted_vw_bar(data_obj, groupings_input, max_small, frame=year)
-    fig_scatter_dots = fig_builder.build_ivw_by_state_scatter_dots(data_obj, groupings_input, max_small, frame=year)
-    fig_scatter_abbrevs = fig_builder.build_ivw_by_state_scatter_abbrevs(data_obj, groupings_input, max_small, frame=year)
-    fig_scatter_bubbles = fig_builder.build_ivw_by_state_scatter_bubbles(data_obj, groupings_input, max_small, frame=year)
+    fig_map_color_by_state_vw = choropleths.build_ivw_by_state_map(data_obj, groupings_input, max_small, fig_width=fig_dims.MD7, frame=year)
+    fig_map_color_by_group = choropleths.build_state_groups_map(data_obj, groupings_input, max_small, fig_width=fig_dims.MD7, frame=year)
+    fig_bar_state_vw_color_by_vw = bar_plots.build_ivw_by_state_bar(data_obj, groupings_input, max_small, fig_width=fig_dims.MD5, frame=year, color_col=cols.LOG_VOTE_WEIGHT)
+    fig_bar_state_vw_color_by_group = bar_plots.build_ivw_by_state_bar(data_obj, groupings_input, max_small, fig_width=fig_dims.MD5, frame=year)
+    fig_bar_actual_vs_adj_ec = bar_plots.build_actual_vs_adjusted_ec_bar(data_obj, groupings_input, max_small, frame=year)
+    fig_bar_actual_vs_adj_vw = bar_plots.build_actual_vs_adjusted_vw_bar(data_obj, groupings_input, max_small, frame=year)
+    fig_scatter_dots = scatter_plots.build_ivw_by_state_scatter_dots(data_obj, groupings_input, max_small, frame=year)
+    fig_scatter_abbrevs = scatter_plots.build_ivw_by_state_scatter_abbrevs(data_obj, groupings_input, max_small, frame=year)
+    fig_scatter_bubbles = scatter_plots.build_ivw_by_state_scatter_bubbles(data_obj, groupings_input, max_small, frame=year)
     return (fig_map_color_by_state_vw, fig_map_color_by_group, fig_bar_state_vw_color_by_vw, fig_bar_state_vw_color_by_group,
         fig_bar_actual_vs_adj_ec, fig_bar_actual_vs_adj_vw, fig_scatter_dots, fig_scatter_abbrevs, fig_scatter_bubbles)
 
@@ -404,10 +404,10 @@ def display_regional_aggregate_figs(year_input, groupings_input, max_small_input
     max_small = int(max_small_input)
     # generate figs
     # fig_map_1 = fig_builder.build_state_groups_map(data_obj, groupings_input, max_small_input, frame=year)
-    fig_line_1 = fig_builder.build_ivw_by_state_group_line_chart(data_obj, groupings_input, max_small, fig_width=fig_dims.MD12, frame=year)
-    fig_box_1 = fig_builder.build_ivw_by_state_group_box_plot(data_obj, groupings_input, max_small, frame=year)
-    fig_scatter_dots = fig_builder.build_ivw_by_state_group_scatter_dots(data_obj, groupings_input, max_small, frame=year)
-    fig_scatter_bubbles = fig_builder.build_ivw_by_state_group_scatter_bubbles(data_obj, groupings_input, max_small, frame=year)
+    fig_line_1 = line_charts.build_ivw_by_state_group_line_chart(data_obj, groupings_input, max_small, fig_width=fig_dims.MD12, frame=year)
+    fig_box_1 = box_plots.build_ivw_by_state_group_box_plot(data_obj, groupings_input, max_small, frame=year)
+    fig_scatter_dots = scatter_plots.build_ivw_by_state_group_scatter_dots(data_obj, groupings_input, max_small, frame=year)
+    fig_scatter_bubbles = scatter_plots.build_ivw_by_state_group_scatter_bubbles(data_obj, groupings_input, max_small, frame=year)
     return fig_line_1, fig_box_1, fig_scatter_dots, fig_scatter_bubbles
 
 @app.callback(
@@ -425,12 +425,12 @@ def display_state_level_anims(groupings_input, max_small_input):
     # process input
     max_small = int(max_small_input)
     # generate figs
-    anim_map_1 = fig_builder.build_ivw_by_state_map(data_obj, groupings_input, max_small)
+    anim_map_1 = choropleths.build_ivw_by_state_map(data_obj, groupings_input, max_small)
     # anim_bar_1 = fig_builder.build_ivw_by_state_bar(data_obj, groupings_input, max_small_input)
     # anim_bar_2 = fig_builder.build_actual_vs_adjusted_ec_bar(data_obj, groupings_input, max_small_input)
-    anim_scatter_dots = fig_builder.build_ivw_by_state_scatter_dots(data_obj, groupings_input, max_small)
-    anim_scatter_abbrevs = fig_builder.build_ivw_by_state_scatter_abbrevs(data_obj, groupings_input, max_small)
-    anim_scatter_bubbles = fig_builder.build_ivw_by_state_scatter_bubbles(data_obj, groupings_input, max_small)
+    anim_scatter_dots = scatter_plots.build_ivw_by_state_scatter_dots(data_obj, groupings_input, max_small)
+    anim_scatter_abbrevs = scatter_plots.build_ivw_by_state_scatter_abbrevs(data_obj, groupings_input, max_small)
+    anim_scatter_bubbles = scatter_plots.build_ivw_by_state_scatter_bubbles(data_obj, groupings_input, max_small)
     return anim_map_1, anim_scatter_dots, anim_scatter_abbrevs, anim_scatter_bubbles
 
 @app.callback(
@@ -445,9 +445,9 @@ def display_regional_aggregate_anims(groupings_input, max_small_input):
     # process input
     max_small = int(max_small_input)
     # generate figs
-    anim_map_1 = fig_builder.build_state_groups_map(data_obj, groupings_input, max_small)
-    anim_scatter_dots = fig_builder.build_ivw_by_state_group_scatter_dots(data_obj, groupings_input, max_small)
-    anim_scatter_bubbles = fig_builder.build_ivw_by_state_group_scatter_bubbles(data_obj, groupings_input, max_small)
+    anim_map_1 = choropleths.build_state_groups_map(data_obj, groupings_input, max_small)
+    anim_scatter_dots = scatter_plots.build_ivw_by_state_group_scatter_dots(data_obj, groupings_input, max_small)
+    anim_scatter_bubbles = scatter_plots.build_ivw_by_state_group_scatter_bubbles(data_obj, groupings_input, max_small)
     return anim_map_1, anim_scatter_dots, anim_scatter_bubbles
 
 
@@ -468,14 +468,14 @@ def display_all_state_grouping_map_anims(year_input):
     # process input
     year = int(year_input) # TODO probably access different small variants here, EC=3 vs EC=4 vs EC=5
     # generate figs
-    anim_map_acw_no_small = fig_builder.build_state_groups_map(data_obj, ddirs.ACW, 0)
-    anim_map_census_no_small = fig_builder.build_state_groups_map(data_obj, ddirs.CENSUS, 0)
-    anim_map_acw_small_3 = fig_builder.build_state_groups_map(data_obj, ddirs.ACW, 3)
-    anim_map_census_small_3 = fig_builder.build_state_groups_map(data_obj, ddirs.CENSUS, 3)
-    anim_map_acw_small_4 = fig_builder.build_state_groups_map(data_obj, ddirs.ACW, 4)
-    anim_map_census_small_4 = fig_builder.build_state_groups_map(data_obj, ddirs.CENSUS, 4)
-    anim_map_acw_small_5 = fig_builder.build_state_groups_map(data_obj, ddirs.ACW, 5)
-    anim_map_census_small_5 = fig_builder.build_state_groups_map(data_obj, ddirs.CENSUS, 5)
+    anim_map_acw_no_small = choropleths.build_state_groups_map(data_obj, ddirs.ACW, 0)
+    anim_map_census_no_small = choropleths.build_state_groups_map(data_obj, ddirs.CENSUS, 0)
+    anim_map_acw_small_3 = choropleths.build_state_groups_map(data_obj, ddirs.ACW, 3)
+    anim_map_census_small_3 = choropleths.build_state_groups_map(data_obj, ddirs.CENSUS, 3)
+    anim_map_acw_small_4 = choropleths.build_state_groups_map(data_obj, ddirs.ACW, 4)
+    anim_map_census_small_4 = choropleths.build_state_groups_map(data_obj, ddirs.CENSUS, 4)
+    anim_map_acw_small_5 = choropleths.build_state_groups_map(data_obj, ddirs.ACW, 5)
+    anim_map_census_small_5 = choropleths.build_state_groups_map(data_obj, ddirs.CENSUS, 5)
     return (anim_map_acw_no_small, anim_map_census_no_small, anim_map_acw_small_3, anim_map_census_small_3,
         anim_map_acw_small_4, anim_map_census_small_4, anim_map_acw_small_5, anim_map_census_small_5)
 
@@ -487,7 +487,7 @@ def display_all_state_grouping_map_anims(year_input):
 )
 def display_swallowed_vote_fig_1(display_type):
     print(f"#### in display_swallowed_vote_fig_1")
-    fig = fig_builder.build_swallowed_vote_fig_1(data_obj)
+    fig = bar_plots.build_swallowed_vote_fig_1(data_obj)
     return fig
 
 @app.callback(
@@ -496,7 +496,7 @@ def display_swallowed_vote_fig_1(display_type):
 )
 def display_swallowed_vote_fig_2(display_type):
     print(f"#### in display_swallowed_vote_fig_2")
-    fig = fig_builder.build_swallowed_vote_fig_2(data_obj)
+    fig = bar_plots.build_swallowed_vote_fig_2(data_obj)
     return fig
 
 @app.callback(
@@ -505,7 +505,7 @@ def display_swallowed_vote_fig_2(display_type):
 )
 def display_swallowed_vote_fig_3(display_type):
     print(f"#### in display_swallowed_vote_fig_3")
-    fig = fig_builder.build_swallowed_vote_fig_3(data_obj)
+    fig = bar_plots.build_swallowed_vote_fig_3(data_obj)
     return fig
 
 @app.callback(
@@ -514,9 +514,10 @@ def display_swallowed_vote_fig_3(display_type):
 )
 def display_swallowed_vote_fig_4(display_type):
     print(f"#### in display_swallowed_vote_fig_4")
-    fig = fig_builder.build_swallowed_vote_fig_4(data_obj)
+    fig = bar_plots.build_swallowed_vote_fig_4(data_obj)
     return fig
 
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+    
