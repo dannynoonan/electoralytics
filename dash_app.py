@@ -11,7 +11,7 @@ import plotly.express as px
 from data_processor.data_objects import DataObject
 from data_processor import fig_builder 
 from data_processor.functions import validate_input, map_to_subdir
-from metadata import GEN_DATA_DIR, COL_LOG_VOTE_WEIGHT, GEN_DATA_ACW_DIR, GEN_DATA_CENSUS_DIR
+from metadata import Columns, DataDirs
 
 
 # base config
@@ -25,18 +25,20 @@ data_obj = DataObject()
 data_obj.load_dfs_for_subdir()
 data_obj.load_swallowed_vote_sampler()
 
+cols = Columns()
+ddirs = DataDirs()
 
-### BOOTSTRAP COMPONENTS ###
-# url / page  
+
+### LAYOUT COMPONENTS ###
 url_bar_and_content_div = html.Div([
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content')
 ])
 
-# navbar
+
 navbar = html.Div([
     html.Br(),
-    html.H1('Electoralytics', id="nav-pills"),
+    html.H1('Electoralytics - Visualizing Historical Presidential Election Data', id="nav-pills"),
     dbc.Nav(className="nav nav-pills", children=[
         dbc.DropdownMenu(label="Pages / Graphs", nav=True, children=[
             dbc.DropdownMenuItem([html.I(className="fa"), "Vote Weight Comparison Between States"], href='/vote-weight-comparison', target="_blank"), 
@@ -53,7 +55,6 @@ navbar = html.Div([
 ])
 
 
-# inputs
 year_slider = dbc.FormGroup([
     dbc.Row([
         dbc.Col(md=8, children=[
@@ -83,10 +84,10 @@ year_slider = dbc.FormGroup([
             dcc.Dropdown(
                 id="groupings-input", 
                 options=[
-                    {'label': 'Civil War', 'value': GEN_DATA_ACW_DIR},
-                    {'label': 'Regional Census', 'value': GEN_DATA_CENSUS_DIR}
+                    {'label': 'Civil War', 'value': ddirs.ACW},
+                    {'label': 'Regional Census', 'value': ddirs.CENSUS}
                 ], 
-                value=GEN_DATA_ACW_DIR
+                value=ddirs.ACW
             )
         ]),
         dbc.Col(md=2, children=[
@@ -117,6 +118,7 @@ groupings_explanation_dropdown = dbc.FormGroup([
 ])
 
 
+### LAYOUTS ###
 layout_1 = html.Div([
     navbar,
     html.Br(),
@@ -375,7 +377,7 @@ def display_state_level_figs(year_input, groupings_input, max_small_input):
     fig_map_color_by_state_vw = fig_builder.build_ivw_by_state_map(data_obj, groupings_input, max_small, frame=year)
     fig_map_color_by_group = fig_builder.build_state_groups_map(data_obj, groupings_input, max_small, frame=year)
     fig_bar_state_vw_color_by_group = fig_builder.build_ivw_by_state_bar(data_obj, groupings_input, max_small, frame=year)
-    fig_bar_state_vw_color_by_vw = fig_builder.build_ivw_by_state_bar(data_obj, groupings_input, max_small, frame=year, color_col=COL_LOG_VOTE_WEIGHT)
+    fig_bar_state_vw_color_by_vw = fig_builder.build_ivw_by_state_bar(data_obj, groupings_input, max_small, frame=year, color_col=cols.LOG_VOTE_WEIGHT)
     fig_bar_actual_vs_adj_ec = fig_builder.build_actual_vs_adjusted_ec_bar(data_obj, groupings_input, max_small, frame=year)
     fig_bar_actual_vs_adj_vw = fig_builder.build_actual_vs_adjusted_vw_bar(data_obj, groupings_input, max_small, frame=year)
     fig_scatter_dots = fig_builder.build_ivw_by_state_scatter_dots(data_obj, groupings_input, max_small, frame=year)
@@ -465,14 +467,14 @@ def display_all_state_grouping_map_anims(year_input):
     # process input
     year = int(year_input) # TODO probably access different small variants here, EC=3 vs EC=4 vs EC=5
     # generate figs
-    anim_map_acw_no_small = fig_builder.build_state_groups_map(data_obj, GEN_DATA_ACW_DIR, 0)
-    anim_map_census_no_small = fig_builder.build_state_groups_map(data_obj, GEN_DATA_CENSUS_DIR, 0)
-    anim_map_acw_small_3 = fig_builder.build_state_groups_map(data_obj, GEN_DATA_ACW_DIR, 3)
-    anim_map_census_small_3 = fig_builder.build_state_groups_map(data_obj, GEN_DATA_CENSUS_DIR, 3)
-    anim_map_acw_small_4 = fig_builder.build_state_groups_map(data_obj, GEN_DATA_ACW_DIR, 4)
-    anim_map_census_small_4 = fig_builder.build_state_groups_map(data_obj, GEN_DATA_CENSUS_DIR, 4)
-    anim_map_acw_small_5 = fig_builder.build_state_groups_map(data_obj, GEN_DATA_ACW_DIR, 5)
-    anim_map_census_small_5 = fig_builder.build_state_groups_map(data_obj, GEN_DATA_CENSUS_DIR, 5)
+    anim_map_acw_no_small = fig_builder.build_state_groups_map(data_obj, ddirs.ACW, 0)
+    anim_map_census_no_small = fig_builder.build_state_groups_map(data_obj, ddirs.CENSUS, 0)
+    anim_map_acw_small_3 = fig_builder.build_state_groups_map(data_obj, ddirs.ACW, 3)
+    anim_map_census_small_3 = fig_builder.build_state_groups_map(data_obj, ddirs.CENSUS, 3)
+    anim_map_acw_small_4 = fig_builder.build_state_groups_map(data_obj, ddirs.ACW, 4)
+    anim_map_census_small_4 = fig_builder.build_state_groups_map(data_obj, ddirs.CENSUS, 4)
+    anim_map_acw_small_5 = fig_builder.build_state_groups_map(data_obj, ddirs.ACW, 5)
+    anim_map_census_small_5 = fig_builder.build_state_groups_map(data_obj, ddirs.CENSUS, 5)
     return (anim_map_acw_no_small, anim_map_census_no_small, anim_map_acw_small_3, anim_map_census_small_3,
         anim_map_acw_small_4, anim_map_census_small_4, anim_map_acw_small_5, anim_map_census_small_5)
 

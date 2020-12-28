@@ -7,12 +7,11 @@ import numpy as np
 
 from metadata import (
     THE_ONE_RING_CSV, AVG_WEIGHT_BY_YEAR_CSV, GROUP_AGGS_BY_YEAR_CSV, GROUPS_BY_YEAR_CSV, PIVOT_ON_YEAR_CSV, TOTALS_BY_YEAR_CSV, 
-    BASE_DATA_DIR, GEN_DATA_DIR, GEN_DATA_ACW_DIR, GEN_DATA_CENSUS_DIR, GEN_DATA_NO_SMALL_DIR, GEN_DATA_SMALL_3_DIR,
-    GEN_DATA_SMALL_4_DIR, GEN_DATA_SMALL_5_DIR, ACW_GROUPS, CENSUS_GROUPS,
-    COL_ABBREV, COL_STATE, COL_GROUP, COL_ACW_GROUP, COL_CENSUS_GROUP, COL_EC_VOTES, COL_EC_VOTES_NORM, COL_MOST_EC_VOTES, 
-    COL_PARTY, COL_POP_PER_EC, COL_STATE_COUNT, COL_STATES_IN_GROUP, COL_VOTE_WEIGHT, COL_AVG_WEIGHT, 
-    COL_VOTES_COUNTED, COL_VOTES_COUNTED_NORM, COL_VOTES_COUNTED_PCT, COL_YEAR
+    ACW_GROUPS, CENSUS_GROUPS, Columns, DataDirs
 )
+
+cols = Columns()
+ddirs = DataDirs()
 
 # disable unhelpful 'SettingWithCopyWarnings'
 pd.options.mode.chained_assignment = None
@@ -25,7 +24,7 @@ print(f"(3) output a truncated view of the data in the response, or if '--write=
 # init default params
 WRITE_TO_CSV = False
 MAX_EC_FOR_SMALL = 0
-GROUPS_DIR = GEN_DATA_ACW_DIR
+GROUPS_DIR = ddirs.ACW
 
 # init parser and recognized args
 parser = argparse.ArgumentParser()
@@ -49,7 +48,7 @@ if args.small:
 if args.groups:
     print(f"Argument 'groups' was input as: {args.groups}")
     if args.groups in ['Census', 'census']:
-        GROUPS_DIR = GEN_DATA_CENSUS_DIR
+        GROUPS_DIR = ddirs.CENSUS
         print(f"Setting GROUPS_DIR param to: {GROUPS_DIR}")
     elif args.groups in ['ACW', 'acw']:
         print(f"Keeping GROUPS_DIR param as: {GROUPS_DIR}")
@@ -67,24 +66,26 @@ if args.write:
 
 
 # adjust settings based on params
-subdir = f"{GEN_DATA_DIR}/{GROUPS_DIR}"
+subdir = f"{ddirs.GEN}/{GROUPS_DIR}"
 # Groups sourcing metadata
-if GROUPS_DIR == GEN_DATA_CENSUS_DIR:
+if GROUPS_DIR == ddirs.CENSUS:
     GROUPS = CENSUS_GROUPS
-    COL_GROUP_SRC = COL_CENSUS_GROUP
+    COL_GROUP_SRC = cols.CENSUS_GROUP
 else:
     GROUPS = ACW_GROUPS
-    COL_GROUP_SRC = COL_ACW_GROUP
+    COL_GROUP_SRC = cols.ACW_GROUP
 # Small Group extraction metadata
 if MAX_EC_FOR_SMALL == 3:
-    subdir = f"{subdir}/{GEN_DATA_SMALL_3_DIR}"
+    GROUPS.append('Small')
+    subdir = f"{subdir}/{ddirs.SMALL_3}"
 elif MAX_EC_FOR_SMALL == 4:
-    subdir = f"{subdir}/{GEN_DATA_SMALL_4_DIR}"
+    GROUPS.append('Small')
+    subdir = f"{subdir}/{ddirs.SMALL_4}"
 elif MAX_EC_FOR_SMALL == 5:
-    subdir = f"{subdir}/{GEN_DATA_SMALL_5_DIR}"
+    GROUPS.append('Small')
+    subdir = f"{subdir}/{ddirs.SMALL_5}"
 else:
-    GROUPS.remove('Small')
-    subdir = f"{subdir}/{GEN_DATA_NO_SMALL_DIR}"
+    subdir = f"{subdir}/{ddirs.NO_SMALL}"
 
 GROUPS_SER = pd.Series(np.array(GROUPS + ['Total']))
 
@@ -102,16 +103,16 @@ the_one_ring = pd.read_csv(THE_ONE_RING_CSV)
 
 # initialize new data frames
 pivot_on_year = pd.DataFrame(
-    columns=[COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_VOTES_COUNTED_NORM,
-            COL_VOTES_COUNTED_PCT, COL_EC_VOTES_NORM, COL_POP_PER_EC, COL_VOTE_WEIGHT, COL_PARTY])
+    columns=[cols.ABBREV, cols.STATE, cols.GROUP, cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTES_COUNTED_NORM,
+            cols.VOTES_COUNTED_PCT, cols.EC_VOTES_NORM, cols.POP_PER_EC, cols.VOTE_WEIGHT, cols.PARTY])
 group_aggs_by_year = pd.DataFrame(
-    columns=[COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_VOTES_COUNTED_NORM, COL_VOTES_COUNTED_PCT, 
-            COL_EC_VOTES_NORM, COL_POP_PER_EC, COL_AVG_WEIGHT, COL_STATE_COUNT, COL_STATES_IN_GROUP])
-totals_by_year = pd.DataFrame(columns=[COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_POP_PER_EC, COL_MOST_EC_VOTES])
+    columns=[cols.GROUP, cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTES_COUNTED_NORM, cols.VOTES_COUNTED_PCT, 
+            cols.EC_VOTES_NORM, cols.POP_PER_EC, cols.AVG_WEIGHT, cols.STATE_COUNT, cols.STATES_IN_GROUP])
+totals_by_year = pd.DataFrame(columns=[cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.POP_PER_EC, cols.MOST_EC_VOTES])
 
 ### LEGACY, but still haven't transitioned off of ###
-avg_weight_by_year = pd.DataFrame({COL_GROUP: GROUPS_SER}) 
-avg_weight_by_year.set_index(COL_GROUP, inplace=True)
+avg_weight_by_year = pd.DataFrame({cols.GROUP: GROUPS_SER}) 
+avg_weight_by_year.set_index(cols.GROUP, inplace=True)
 
 
 # begin iterating through years in the_one_ring
@@ -119,32 +120,32 @@ year = 1828
 while year <= 2020:
 
     # column names for current year
-    ec_votes_col = f'{year} {COL_EC_VOTES}'
-    votes_counted_col = f'{year} {COL_VOTES_COUNTED}'
-    vote_weight_col = f'{year} {COL_VOTE_WEIGHT}'
-    avg_weight_col = f'{year} {COL_AVG_WEIGHT}'
-    party_col = f'{year} {COL_PARTY}'
+    ec_votes_col = f'{year} {cols.EC_VOTES}'
+    votes_counted_col = f'{year} {cols.VOTES_COUNTED}'
+    vote_weight_col = f'{year} {cols.VOTE_WEIGHT}'
+    avg_weight_col = f'{year} {cols.AVG_WEIGHT}'
+    party_col = f'{year} {cols.PARTY}'
 
     # extract electoral college data for year
     year_data = the_one_ring[
-        [COL_ABBREV, COL_STATE, COL_GROUP_SRC, ec_votes_col, votes_counted_col, vote_weight_col, party_col]]
+        [cols.ABBREV, cols.STATE, COL_GROUP_SRC, ec_votes_col, votes_counted_col, vote_weight_col, party_col]]
     # rename columns and set row keys/index
-    year_data.rename(columns={COL_GROUP_SRC: COL_GROUP, ec_votes_col: COL_EC_VOTES, votes_counted_col: COL_VOTES_COUNTED,
-                              vote_weight_col: COL_VOTE_WEIGHT, party_col: COL_PARTY},
+    year_data.rename(columns={COL_GROUP_SRC: cols.GROUP, ec_votes_col: cols.EC_VOTES, votes_counted_col: cols.VOTES_COUNTED, 
+                            vote_weight_col: cols.VOTE_WEIGHT, party_col: cols.PARTY},
                     inplace=True)
-    year_data.set_index(COL_ABBREV, inplace=True)
+    year_data.set_index(cols.ABBREV, inplace=True)
 
     
     # DATA CLEANSING
     # remove states lacking vote weight for this year 
-    year_data = year_data[pd.notnull(year_data[COL_VOTE_WEIGHT])]
+    year_data = year_data[pd.notnull(year_data[cols.VOTE_WEIGHT])]
     
     # explicitly set type of votes counted data to int (not sure why this isn't automatic)
-    year_data[[COL_VOTES_COUNTED]] = year_data[[COL_VOTES_COUNTED]].astype(int)
+    year_data[[cols.VOTES_COUNTED]] = year_data[[cols.VOTES_COUNTED]].astype(int)
 
     # extract US totals data 
-    ec_total = year_data.loc['US'][COL_EC_VOTES]
-    pop_total = year_data.loc['US'][COL_VOTES_COUNTED]
+    ec_total = year_data.loc['US'][cols.EC_VOTES]
+    pop_total = year_data.loc['US'][cols.VOTES_COUNTED]
     # calculate average popular vote per EC vote
     pop_per_ec = round(pop_total / ec_total)
     
@@ -153,26 +154,26 @@ while year <= 2020:
 
     # map states having MAX_EC_FOR_SMALL or fewer electoral college votes to 'Small' Group
     if MAX_EC_FOR_SMALL > 0:
-        year_data.loc[year_data[COL_EC_VOTES] <= MAX_EC_FOR_SMALL, COL_GROUP] = 'Small'
+        year_data.loc[year_data[cols.EC_VOTES] <= MAX_EC_FOR_SMALL, cols.GROUP] = 'Small'
 
 
     # DF 1: assemble year_pivot to append to pivot_on_year
     year_pivot = year_data
     # add/derive/populate additional columns based on source data
-    year_pivot[COL_YEAR] = [year] * len(year_pivot.index)
-    year_pivot[COL_VOTES_COUNTED_NORM] = round(year_pivot[COL_VOTES_COUNTED] * year_pivot[COL_VOTE_WEIGHT])
-    year_pivot[COL_VOTES_COUNTED_PCT] = (100 * year_pivot[COL_VOTES_COUNTED] / pop_total).round(decimals=2)
-    year_pivot[COL_EC_VOTES_NORM] = (year_pivot[COL_VOTES_COUNTED] / pop_per_ec).round(decimals=2)
-    year_pivot[COL_POP_PER_EC] = round(year_pivot[COL_VOTES_COUNTED] / year_pivot[COL_EC_VOTES])
+    year_pivot[cols.YEAR] = [year] * len(year_pivot.index)
+    year_pivot[cols.VOTES_COUNTED_NORM] = round(year_pivot[cols.VOTES_COUNTED] * year_pivot[cols.VOTE_WEIGHT])
+    year_pivot[cols.VOTES_COUNTED_PCT] = (100 * year_pivot[cols.VOTES_COUNTED] / pop_total).round(decimals=2)
+    year_pivot[cols.EC_VOTES_NORM] = (year_pivot[cols.VOTES_COUNTED] / pop_per_ec).round(decimals=2)
+    year_pivot[cols.POP_PER_EC] = round(year_pivot[cols.VOTES_COUNTED] / year_pivot[cols.EC_VOTES])
 
     # unset index so we can append 
     year_pivot.reset_index(inplace=True)
     # add placeholder row for any Group that isn't represented 
     for group in GROUPS:
-        if len(year_pivot.loc[year_pivot[COL_GROUP] == group]) == 0:
+        if len(year_pivot.loc[year_pivot[cols.GROUP] == group]) == 0:
             year_pivot_bonus = pd.DataFrame([['', '', group, year, 0, 0, 0, 0, 0, 0, 0, '']],
-                columns=[COL_ABBREV, COL_STATE, COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_VOTES_COUNTED_NORM,
-                         COL_VOTES_COUNTED_PCT, COL_EC_VOTES_NORM, COL_POP_PER_EC, COL_VOTE_WEIGHT, COL_PARTY])
+                columns=[cols.ABBREV, cols.STATE, cols.GROUP, cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTES_COUNTED_NORM,
+                         cols.VOTES_COUNTED_PCT, cols.EC_VOTES_NORM, cols.POP_PER_EC, cols.VOTE_WEIGHT, cols.PARTY])
                 # columns=list(year_pivot.columns.values))
             year_pivot = pd.concat([year_pivot, year_pivot_bonus], ignore_index=True, sort=False)
     # append year_pivot to pivot_on_year
@@ -180,33 +181,33 @@ while year <= 2020:
         
         
     # DF 2: init year_totals to append to totals_by_year
-    year_totals = pd.DataFrame([[year, ec_total, pop_total, pop_per_ec, year_data[COL_EC_VOTES].max()]],
-                               columns=[COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_POP_PER_EC, COL_MOST_EC_VOTES])
+    year_totals = pd.DataFrame([[year, ec_total, pop_total, pop_per_ec, year_data[cols.EC_VOTES].max()]],
+                               columns=[cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.POP_PER_EC, cols.MOST_EC_VOTES])
     totals_by_year = pd.concat([totals_by_year, year_totals], ignore_index=True, sort=False)  
 
     
     # DF 3: aggregate EC votes, popular votes, and states for each Group, assign summed values to new year_group_aggs dataframe
-    year_group_aggs = year_data.groupby(COL_GROUP).agg(
-        {COL_EC_VOTES: 'sum', COL_VOTES_COUNTED: 'sum', COL_STATE: 'count'})
-    year_group_aggs_2 = year_data.groupby(COL_GROUP).agg({COL_ABBREV: ','.join})
-    year_group_aggs_2.rename(columns={COL_ABBREV: COL_STATES_IN_GROUP}, inplace=True)
+    year_group_aggs = year_data.groupby(cols.GROUP).agg(
+        {cols.EC_VOTES: 'sum', cols.VOTES_COUNTED: 'sum', cols.STATE: 'count'})
+    year_group_aggs_2 = year_data.groupby(cols.GROUP).agg({cols.ABBREV: ','.join})
+    year_group_aggs_2.rename(columns={cols.ABBREV: cols.STATES_IN_GROUP}, inplace=True)
     year_group_aggs = year_group_aggs.join(year_group_aggs_2, how='outer')
     # add/derive/populate additional columns
-    year_group_aggs[COL_AVG_WEIGHT] = (pop_per_ec * year_group_aggs[COL_EC_VOTES] / year_group_aggs[COL_VOTES_COUNTED]).round(decimals=2)
-    year_group_aggs[COL_YEAR] = [year] * len(year_group_aggs)
-    year_group_aggs[COL_VOTES_COUNTED_NORM] = round(year_group_aggs[COL_VOTES_COUNTED] * year_group_aggs[COL_AVG_WEIGHT])
-    year_group_aggs[COL_VOTES_COUNTED_PCT] = (100 * year_group_aggs[COL_VOTES_COUNTED] / pop_total).round(decimals=2)
-    year_group_aggs[COL_EC_VOTES_NORM] = (year_group_aggs[COL_VOTES_COUNTED] / pop_per_ec).round(decimals=2)
-    year_group_aggs[COL_POP_PER_EC] = round(year_group_aggs[COL_VOTES_COUNTED] / year_group_aggs[COL_EC_VOTES])
+    year_group_aggs[cols.AVG_WEIGHT] = (pop_per_ec * year_group_aggs[cols.EC_VOTES] / year_group_aggs[cols.VOTES_COUNTED]).round(decimals=2)
+    year_group_aggs[cols.YEAR] = [year] * len(year_group_aggs)
+    year_group_aggs[cols.VOTES_COUNTED_NORM] = round(year_group_aggs[cols.VOTES_COUNTED] * year_group_aggs[cols.AVG_WEIGHT])
+    year_group_aggs[cols.VOTES_COUNTED_PCT] = (100 * year_group_aggs[cols.VOTES_COUNTED] / pop_total).round(decimals=2)
+    year_group_aggs[cols.EC_VOTES_NORM] = (year_group_aggs[cols.VOTES_COUNTED] / pop_per_ec).round(decimals=2)
+    year_group_aggs[cols.POP_PER_EC] = round(year_group_aggs[cols.VOTES_COUNTED] / year_group_aggs[cols.EC_VOTES])
     # unset index, rename columns, add year column
     year_group_aggs.reset_index(inplace=True)
-    year_group_aggs.rename(columns={COL_STATE: COL_STATE_COUNT}, inplace=True)
+    year_group_aggs.rename(columns={cols.STATE: cols.STATE_COUNT}, inplace=True)
     # add placeholder row for any Group that isn't represented 
     for group in GROUPS:
-        if len(year_group_aggs.loc[year_group_aggs[COL_GROUP] == group]) == 0:
+        if len(year_group_aggs.loc[year_group_aggs[cols.GROUP] == group]) == 0:
             year_group_aggs_bonus = pd.DataFrame([[group, year, 0, 0, 0, 0, 0, 0, 0, 0, '']],
-                columns=[COL_GROUP, COL_YEAR, COL_EC_VOTES, COL_VOTES_COUNTED, COL_VOTES_COUNTED_NORM, COL_VOTES_COUNTED_PCT, 
-                        COL_EC_VOTES_NORM, COL_POP_PER_EC, COL_AVG_WEIGHT, COL_STATE_COUNT, COL_STATES_IN_GROUP])
+                columns=[cols.GROUP, cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTES_COUNTED_NORM, cols.VOTES_COUNTED_PCT, 
+                        cols.EC_VOTES_NORM, cols.POP_PER_EC, cols.AVG_WEIGHT, cols.STATE_COUNT, cols.STATES_IN_GROUP])
             year_group_aggs = pd.concat([year_group_aggs, year_group_aggs_bonus], ignore_index=True, sort=False)
     # append year_group_aggs to group_aggs_by_year
     group_aggs_by_year = pd.concat([group_aggs_by_year, year_group_aggs], ignore_index=True, sort=False)
@@ -214,18 +215,18 @@ while year <= 2020:
     
     ### LEGACY ###
     # aggregate EC votes and popular votes for each Group, assign summed values to new year_agg dataframe
-    year_agg = year_data.groupby(COL_GROUP).agg({COL_EC_VOTES: 'sum', COL_VOTES_COUNTED: 'sum'})
+    year_agg = year_data.groupby(cols.GROUP).agg({cols.EC_VOTES: 'sum', cols.VOTES_COUNTED: 'sum'})
     # add Average weight column by dividing EC votes by popular votes and multiplying by national pop-per-EC factor
-    year_agg[year] = pop_per_ec * year_agg[COL_EC_VOTES] / year_agg[COL_VOTES_COUNTED]
+    year_agg[year] = pop_per_ec * year_agg[cols.EC_VOTES] / year_agg[cols.VOTES_COUNTED]
 
     # add Total row to end of of year_agg
     total_row = pd.DataFrame([['Total', ec_total, pop_total, 1.0]], 
-                             columns=[COL_GROUP, COL_EC_VOTES, COL_VOTES_COUNTED, year])
-    total_row = total_row.set_index(COL_GROUP)
+                             columns=[cols.GROUP, cols.EC_VOTES, cols.VOTES_COUNTED, year])
+    total_row = total_row.set_index(cols.GROUP)
     year_agg = year_agg.append(total_row)
 
     # extract avg_weight column into its own dataframe, rename column to be simply the year
-    avg_weight_df = year_agg.drop([COL_EC_VOTES, COL_VOTES_COUNTED], axis=1)
+    avg_weight_df = year_agg.drop([cols.EC_VOTES, cols.VOTES_COUNTED], axis=1)
     avg_weight_by_year = avg_weight_by_year.join(avg_weight_df, how='outer')
     
     
@@ -233,10 +234,10 @@ while year <= 2020:
     year = year + 4
 
 
-PIVOT_ON_YEAR_CSV = f"{BASE_DATA_DIR}/{subdir}/{PIVOT_ON_YEAR_CSV}"
-TOTALS_BY_YEAR_CSV = f"{BASE_DATA_DIR}/{subdir}/{TOTALS_BY_YEAR_CSV}"
-GROUP_AGGS_BY_YEAR_CSV = f"{BASE_DATA_DIR}/{subdir}/{GROUP_AGGS_BY_YEAR_CSV}"
-AVG_WEIGHT_BY_YEAR_CSV = f"{BASE_DATA_DIR}/{subdir}/{AVG_WEIGHT_BY_YEAR_CSV}"
+PIVOT_ON_YEAR_CSV = f"{ddirs.BASE}/{subdir}/{PIVOT_ON_YEAR_CSV}"
+TOTALS_BY_YEAR_CSV = f"{ddirs.BASE}/{ddirs.GEN}/{TOTALS_BY_YEAR_CSV}"
+GROUP_AGGS_BY_YEAR_CSV = f"{ddirs.BASE}/{subdir}/{GROUP_AGGS_BY_YEAR_CSV}"
+AVG_WEIGHT_BY_YEAR_CSV = f"{ddirs.BASE}/{subdir}/{AVG_WEIGHT_BY_YEAR_CSV}"
 
 print(f"Rows in {PIVOT_ON_YEAR_CSV}: {len(pivot_on_year)}")
 print(f"{pivot_on_year}")
@@ -249,8 +250,8 @@ print(f"{avg_weight_by_year}")
 
 
 if WRITE_TO_CSV:
-    if not os.path.exists(f"{BASE_DATA_DIR}/{subdir}"):
-        os.makedirs(f"{BASE_DATA_DIR}/{subdir}")
+    if not os.path.exists(f"{ddirs.BASE}/{subdir}"):
+        os.makedirs(f"{ddirs.BASE}/{subdir}")
 
     # write pivot_on_year, totals_by_year, group_aggs_by_year to file
     pivot_on_year.to_csv(PIVOT_ON_YEAR_CSV)
