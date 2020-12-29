@@ -63,18 +63,18 @@ GROUPS_FOR_DIR = {
     data_dirs.ACW: ACW_GROUPS,
     data_dirs.CENSUS: CENSUS_GROUPS
 }
-GROUP_COLORS_PLOTLY = {
-    'Union': '#636EFA',
-    'Confederate': '#FECB52',
-    'Border': '#00CC96',
-    'Postbellum': '#AB63FA',
-    'Northeast': '#FFA15A',
-    'South': '#19D3F3',
-    'Midwest': '#FF6692',
-    'West': '#B6E880',
-    'Extra': '#FF97FF',
-    'Small': '#EF553B'
-}
+COLORS_PLOTLY = [
+    '#636EFA',
+    '#FECB52',
+    '#00CC96',
+    '#AB63FA',
+    '#FFA15A',
+    '#19D3F3',
+    '#FF6692',
+    '#B6E880',
+    '#FF97FF',
+    '#EF553B'
+]
 GROUP_COLORS = {
     # ACW
     'Union': '#5378BE',
