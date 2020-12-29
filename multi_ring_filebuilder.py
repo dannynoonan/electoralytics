@@ -137,8 +137,12 @@ while year <= 2020:
 
     
     # DATA CLEANSING
-    # remove states lacking vote weight for this year 
-    year_data = year_data[pd.notnull(year_data[cols.VOTE_WEIGHT])]
+    # remove states lacking votes counted for this year 
+    year_data = year_data[pd.notnull(year_data[cols.VOTES_COUNTED])]
+    # remove states where votes counted is 'Rejected'
+    year_data = year_data[year_data[cols.VOTES_COUNTED] != 'Rejected']
+    # set votes counted to 0 where votes counted is 'NoPop'
+    year_data[cols.VOTES_COUNTED][year_data[cols.VOTES_COUNTED] == 'NoPop'] = 0
     
     # explicitly set type of votes counted data to int (not sure why this isn't automatic)
     year_data[[cols.VOTES_COUNTED]] = year_data[[cols.VOTES_COUNTED]].astype(int)
@@ -187,6 +191,9 @@ while year <= 2020:
 
     
     # DF 3: aggregate EC votes, popular votes, and states for each Group, assign summed values to new year_group_aggs dataframe
+    # more data cleansing: drop states whose votes counted == 0
+    year_data = year_data[year_data[cols.VOTES_COUNTED] > 0]
+    # generate aggregate columns
     year_group_aggs = year_data.groupby(cols.GROUP).agg(
         {cols.EC_VOTES: 'sum', cols.VOTES_COUNTED: 'sum', cols.STATE: 'count'})
     year_group_aggs_2 = year_data.groupby(cols.GROUP).agg({cols.ABBREV: ','.join})
