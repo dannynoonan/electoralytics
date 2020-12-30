@@ -1,4 +1,4 @@
-from metadata import FRAME_RATE, DataDirs
+from metadata import DataDirs, YEAR_0, FRAME_RATE
 
 
 ddirs = DataDirs()
@@ -63,7 +63,7 @@ def apply_animation_settings(fig, base_fig_title, frame_rate=None):
         step["args"][1]["frame"]["redraw"] = True
 
     for k in range(len(fig.frames)):
-        year = 1828 + (k*4)
+        year = YEAR_0 + (k*4)
         era = get_era_for_year(year)
         fig.frames[k]['layout'].update(title_text=f'{base_fig_title}: {year} ({era})')
 

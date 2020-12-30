@@ -2,7 +2,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 from data_processor.functions import get_era_for_year, map_to_subdir
-from metadata import Columns, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS
+from metadata import Columns, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, YEAR_0, YEAR_N
 
 
 cols = Columns()
@@ -34,7 +34,7 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, fig_width=N
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
-        fig_title = f'{base_fig_title}: 1828 - 2020'
+        fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
 
     # init figure with core properties
     fig = px.scatter(pivot_on_year_df, x=cols.EC_VOTES_NORM, y=cols.EC_VOTES, color=cols.GROUP,  
@@ -87,7 +87,7 @@ def build_ivw_by_state_scatter_abbrevs(data_obj, groups_dir, max_small, fig_widt
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
-        fig_title = f'{base_fig_title}: 1828 - 2020'
+        fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
 
     # init figure with core properties
     fig = px.scatter(pivot_on_year_df, x=cols.EC_VOTES_NORM, y=cols.EC_VOTES, color=cols.GROUP,  
@@ -147,7 +147,7 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
-        fig_title = f'{base_fig_title}: 1828 - 2020'
+        fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
 
     # init figure with core properties
     fig = px.scatter(pivot_on_year_df, x=cols.EC_VOTES, y=cols.VOTE_WEIGHT, color=cols.GROUP, 
@@ -205,7 +205,7 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
-        fig_title = f'{base_fig_title}: 1828 - 2020'
+        fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
 
     # init figure with core properties
     fig = px.scatter(group_aggs_by_year_df, x=cols.EC_VOTES_NORM, y=cols.EC_VOTES, color=cols.GROUP, 
@@ -263,7 +263,7 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fi
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
-        fig_title = f'{base_fig_title}: 1828 - 2020'
+        fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
 
     # init figure with core properties
     fig = px.scatter(group_aggs_by_year_df, x=cols.EC_VOTES, y=cols.AVG_WEIGHT, color=cols.GROUP, 

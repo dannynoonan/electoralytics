@@ -5,7 +5,7 @@ import os
 import pandas as pd
 import numpy as np
 
-from metadata import Columns, DataDirs, DataFiles, ACW_GROUPS, CENSUS_GROUPS
+from metadata import Columns, DataDirs, DataFiles, ACW_GROUPS, CENSUS_GROUPS, YEAR_0, YEAR_N
 
 
 cols = Columns()
@@ -116,8 +116,8 @@ avg_weight_by_year.set_index(cols.GROUP, inplace=True)
 
 
 # begin iterating through years in the_one_ring
-year = 1828
-while year <= 2020:
+year = YEAR_0
+while year <= YEAR_N:
 
     # column names for current year
     ec_votes_col = f'{year} {cols.EC_VOTES}'

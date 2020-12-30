@@ -10,7 +10,6 @@ class DataDirs():
         self.SMALL_4 = 'small4'
         self.SMALL_5 = 'small5'
 
-data_dirs = DataDirs()
 
 # data files
 class DataFiles():
@@ -23,6 +22,7 @@ class DataFiles():
         self.PIVOT_ON_YEAR = 'pivotOnYear.csv'
         self.TOTALS_BY_YEAR = 'totalsByYear.csv'
         self.GROUP_AGGS_BY_YEAR = 'groupAggsByYear.csv'
+
 
 # columns in data files
 class Columns():
@@ -48,6 +48,29 @@ class Columns():
         self.MOST_EC_VOTES = 'Most EC votes'
         self.STATES_IN_GROUP = 'States in group'
 
+
+# figure dimensions
+class FigDimensions():
+    def __init__(self):
+        self.MD5 = 660
+        self.MD6 = 800
+        self.MD7 = 940
+        self.MD8 = 1080
+        self.MD12 = 1640
+
+    def square(self, width):
+        return width
+
+    def crt(self, width):
+        return width * .75
+
+    def wide_door(self, width):
+        return width * 1.25
+
+
+data_dirs = DataDirs()
+
+
 # state groupings
 ACW_GROUPS = ['Union', 'Confederate', 'Border', 'Postbellum']
 CENSUS_GROUPS = ['Northeast', 'South', 'Midwest', 'West']
@@ -63,18 +86,7 @@ GROUPS_FOR_DIR = {
     data_dirs.ACW: ACW_GROUPS,
     data_dirs.CENSUS: CENSUS_GROUPS
 }
-COLORS_PLOTLY = [
-    '#636EFA',
-    '#FECB52',
-    '#00CC96',
-    '#AB63FA',
-    '#FFA15A',
-    '#19D3F3',
-    '#FF6692',
-    '#B6E880',
-    '#FF97FF',
-    '#EF553B'
-]
+
 GROUP_COLORS = {
     # ACW
     'Union': '#5378BE',
@@ -100,7 +112,7 @@ GROUP_COLORS = {
 # parties
 PARTIES = ['Democrat', 'Republican', 'Whig', 'Whig-Harrison', 'Whig-White', 'Whig-Webster', 'National Republican', 
         'Anti-Masonic', 'Constitutional Union', 'American', 'Democrat-Breckenridge', 'Democrat-Douglas', 
-        'Democrat-Unpledged', 'Populist', 'Progressive', 'Dixiecrat', 'American Independent']
+        'Democrat-Unpledged', 'Populist', 'Progressive', 'Dixiecrat', 'American Independent', 'split']
 
 PARTY_COLORS = {
     'Democrat': 'Blue', 
@@ -120,25 +132,25 @@ PARTY_COLORS = {
     'Progressive': 'DarkGreen',
     'Dixiecrat': 'DarkTurquoise',
     'American Independent': 'LightSkyBlue',
+    'split': 'Gray'
 }
+
+COLORS_PLOTLY = [
+    '#636EFA',
+    '#FECB52',
+    '#00CC96',
+    '#AB63FA',
+    '#FFA15A',
+    '#19D3F3',
+    '#FF6692',
+    '#B6E880',
+    '#FF97FF',
+    '#EF553B'
+]
+
+# years
+YEAR_0 = 1824
+YEAR_N = 2020
 
 # animations
 FRAME_RATE = 1000
-
-# figure dimensions
-class FigDimensions():
-    def __init__(self):
-        self.MD5 = 660
-        self.MD6 = 800
-        self.MD7 = 940
-        self.MD8 = 1080
-        self.MD12 = 1640
-
-    def square(self, width):
-        return width
-
-    def crt(self, width):
-        return width * .75
-
-    def wide_door(self, width):
-        return width * 1.25

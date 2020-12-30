@@ -1,9 +1,10 @@
 import math
 import numpy as np
+import pandas as pd
 import plotly.express as px
 
 from data_processor.functions import get_era_for_year, map_to_subdir, get_description_for_group_key
-from metadata import Columns, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS
+from metadata import Columns, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, YEAR_0, YEAR_N
 
 
 cols = Columns()
@@ -40,7 +41,7 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, fig_width=None, fram
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
-        fig_title = f'{base_fig_title}: 1828 - 2020'
+        fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
 
     fig = px.choropleth(pivot_on_year_df, locations=cols.ABBREV, color=cols.LOG_VOTE_WEIGHT,
                         locationmode='USA-states', scope="usa", hover_name=cols.STATE, hover_data=hover_data, 
@@ -101,7 +102,7 @@ def build_state_groups_map(data_obj, groups_dir, max_small, fig_width=None, fram
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
-        fig_title = f'{base_fig_title}: 1828 - 2020'
+        fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
 
     fig = px.choropleth(pivot_on_year_df, locations=cols.ABBREV, color=cols.GROUP, 
                         locationmode='USA-states', scope="usa", hover_name=cols.STATE, hover_data=hover_data, 

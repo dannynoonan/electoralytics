@@ -2,7 +2,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 from data_processor.functions import map_to_subdir
-from metadata import Columns, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, COLORS_PLOTLY
+from metadata import Columns, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, COLORS_PLOTLY, YEAR_0, YEAR_N
 
 
 cols = Columns()
@@ -21,7 +21,7 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, frame, 
 
     if not fig_width:
         fig_width = fig_dims.MD6
-    fig_height = 500
+    fig_height = 600
 
     # display metadata
     hover_data = {cols.GROUP: False, cols.STATES_IN_GROUP: True, cols.EC_VOTES: True}
@@ -41,7 +41,7 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, frame, 
     for i in range(len(fig.data)):
         fig.data[i].update(mode='markers+lines')
 
-    fig.update_layout(xaxis_range=[1828, 2020])
+    fig.update_layout(xaxis_range=[YEAR_0, YEAR_N])
     fig.update_layout(yaxis_range=[avg_weight_min, avg_weight_max])
 
     # axis labels
@@ -54,6 +54,7 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, frame, 
 
 
     events = [
+        {'year': 1828, 'name': 'Jacksonian democracy'},
         # {'year': 1857, 'name': 'Dred Scott v Sandford'},
         {'year': 1861, 'name': 'Civil War begins'},
         # {'year': 1863, 'name': 'Emancipation Proclamation'},
@@ -68,21 +69,21 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, frame, 
         # {'year': 1932, 'name': 'Tuskegee Syphilis Study'},
         {'year': 1954, 'name': 'Brown v Board of Education'},
         # {'year': 1955, 'name': 'Emmett Till lynching, Montgomery bus boycott'},
-        {'year': 1960, 'name': 'Sit-ins'},
+        # {'year': 1960, 'name': 'Sit-ins'},
         # {'year': 1964, 'name': 'Civil Rights Act, 24th Amendment'}, 
         {'year': 1965, 'name': 'Voting Rights Act'},
         {'year': 1971, 'name': '26th Amendment'},
-        {'year': 2013, 'name': 'Shelby County v. Holder'},
+        {'year': 2013, 'name': 'Shelby County v Holder '},
     ]
 
     eras = [
-        {'begin': 1828, 'end': 1861, 'name': 'Antebellum Period', 'color': '#636EFA'},
+        {'begin': YEAR_0, 'end': 1861, 'name': 'Antebellum Period', 'color': '#636EFA'},
         {'begin': 1861, 'end': 1865, 'name': 'Civil War', 'color': '#FECB52'},
         {'begin': 1865, 'end': 1877, 'name': 'Reconstruction', 'color': '#00CC96'},
         {'begin': 1877, 'end': 1896, 'name': 'Redemption', 'color': '#AB63FA'},
-        {'begin': 1896, 'end': 1954, 'name': 'Jim Crow', 'color': '#FFA15A'},
+        {'begin': 1896, 'end': 1954, 'name': 'Jim Crow Era', 'color': '#FFA15A'},
         {'begin': 1954, 'end': 1965, 'name': 'Civil Rights Era', 'color': '#19D3F3'},
-        {'begin': 1965, 'end': 2020, 'name': 'Post Voting Rights Act', 'color': '#FF6692'},
+        {'begin': 1965, 'end': YEAR_N, 'name': 'Post Voting Rights Act', 'color': '#FF6692'},
     ]
 
     # build markers and labels marking events 

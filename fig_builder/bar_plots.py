@@ -2,7 +2,7 @@ import pandas as pd
 import plotly.express as px
 
 from data_processor.functions import get_era_for_year, map_to_subdir
-from metadata import Columns, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, PARTIES, PARTY_COLORS
+from metadata import Columns, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, PARTIES, PARTY_COLORS, YEAR_0, YEAR_N
 
 
 cols = Columns()
@@ -28,6 +28,8 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
 
     # remove placeholder rows for state groups that lack actual state data
     pivot_on_year_df = pivot_on_year_df[pd.notnull(pivot_on_year_df[cols.STATE])]
+    pivot_on_year_df = pivot_on_year_df[pd.notnull(pivot_on_year_df[cols.VOTE_WEIGHT])]
+    # pivot_on_year_df.loc[pd.isnull(pivot_on_year_df[cols.VOTE_WEIGHT]), cols.VOTE_WEIGHT] = -0.1
 
     # display metadata
     hover_data = {cols.PARTY: False, cols.VOTES_COUNTED: True, cols.EC_VOTES: True, cols.POP_PER_EC_SHORT: True, 
@@ -55,7 +57,7 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
-        fig_title = f'{base_fig_title}: 1828 - 2020'
+        fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
     
     # declare fig
     fig = px.bar(pivot_on_year_df, x=cols.VOTE_WEIGHT, y=cols.STATE, color=color_col, 
@@ -105,7 +107,7 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=N
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
-        fig_title = f'{base_fig_title}: 1828 - 2020'
+        fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
 
     fig = px.bar(melted_ec_votes_pivot_df, x='EC votes^', y=cols.STATE, color='Actual vs Adjusted EC votes^', 
                 barmode='group', hover_name=cols.STATE, hover_data=hover_data,
@@ -147,7 +149,7 @@ def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, fig_width=N
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
-        fig_title = f'{base_fig_title}: 1828 - 2020'
+        fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
 
     fig = px.bar(melted_vote_count_pivot_df, x='Vote count^', y=cols.STATE, color='Actual vs Adjusted Vote count^', 
                 barmode='group', hover_name=cols.STATE, hover_data=hover_data,

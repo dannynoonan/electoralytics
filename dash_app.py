@@ -11,7 +11,7 @@ import plotly.express as px
 from data_processor.data_objects import DataObject
 from fig_builder import bar_plots, box_plots, choropleths, line_charts, scatter_plots
 from data_processor.functions import validate_input, map_to_subdir
-from metadata import Columns, DataDirs, FigDimensions
+from metadata import Columns, DataDirs, FigDimensions, YEAR_0, YEAR_N
 
 
 # base config
@@ -72,8 +72,8 @@ year_slider = dbc.FormGroup([
         dbc.Col(md=8, children=[
             dcc.Slider(
                 id="year-input",
-                min=1828,
-                max=2020,
+                min=YEAR_0,
+                max=YEAR_N,
                 marks={
                     int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)'}}
                     for y in data_obj.all_years
