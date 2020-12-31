@@ -158,3 +158,45 @@ YEAR_N = 2020
 
 # animations
 FRAME_RATE = 1000
+
+# historical events/eras/descriptions 
+EVENTS = [
+    {'year': 1788, 'name': 'Nation\'s founding', 'desc': 'State legislatures/property-owning white males can vote'},
+    # {'year': 1800, 'name': 'Jeffersonian democracy'},
+    {'year': 1828, 'name': 'Jacksonian democracy begins', 'desc': 'Most tax/property-based voting restrictions eliminated'},
+    # {'year': 1857, 'name': 'Dred Scott v Sandford'},
+    {'year': 1861, 'name': '11 of 15 slave states secede, Civil War begins'},
+    # {'year': 1863, 'name': 'Emancipation Proclamation'},
+    {'year': 1865, 'name': 'Civil War ends, 13th Amendment', 'desc': 'Slavery abolished'},
+    # {'year': 1868, 'name': '14th Amendment'},
+    {'year': 1870, 'name': '15th Amendment', 'desc': 'Black male suffrage'},
+    {'year': 1877, 'name': 'Compromise of 1877', 'desc': 'Reconstruction ends, \'Redeemer\' governments dominate South'},
+    {'year': 1887, 'name': 'Dawes Act', 'desc': 'Suffrage to Native Americans who leave tribes'},
+    {'year': 1896, 'name': 'Plessy v Ferguson:', 'desc': '\'Separate but equal\' segregation in the South'},
+    # {'year': 1915, 'name': 'Second KKK reborn in Georgia'},
+    {'year': 1920, 'name': '19th Amendment', 'desc': 'Women\'s suffrage'},
+    # {'year': 1921, 'name': 'Tulsa race massacre'},
+    {'year': 1924, 'name': 'Indian Citizenship Act', 'desc': 'Suffrage to Native Americans'},
+    # {'year': 1925, 'name': 'KKK peak membership at 4-5 million (15% of eligible population)'},
+    # {'year': 1932, 'name': 'Tuskegee Syphilis Study'},
+    {'year': 1943, 'name': 'Magnuson Act', 'desc': 'Suffrage to Chinese immigrants'},
+    {'year': 1954, 'name': 'Brown v Board of Education'},
+    # {'year': 1955, 'name': 'Emmett Till lynching, Montgomery bus boycott'},
+    # {'year': 1960, 'name': 'Sit-ins'},
+    # {'year': 1961, 'name': '23rd Amendment', 'desc': 'Washington DC citizens can vote for President'}, 
+    # {'year': 1964, 'name': 'Civil Rights Act, 24th Amendment abolishes poll taxes'}, 
+    {'year': 1965, 'name': 'Voting Rights Act', 'desc': 'Voting protections for racial minorities'},
+    {'year': 1971, 'name': '26th Amendment', 'desc': 'Suffrage extended to 18-year-olds'},
+    {'year': 2006, 'name': 'Voting Rights Act extended for last time'},
+    {'year': 2013, 'name': 'Shelby County v Holder', 'desc': 'Voting Rights Act loses oversight power'},
+]
+
+ERAS = [
+    {'begin': 1788, 'end': 1861, 'name': 'Antebellum Period', 'color': '#636EFA'},
+    {'begin': 1861, 'end': 1865, 'name': 'Civil War', 'color': '#FECB52'},
+    {'begin': 1865, 'end': 1877, 'name': 'Reconstruction', 'color': '#00CC96'},
+    {'begin': 1877, 'end': 1896, 'name': 'Redemption', 'color': '#AB63FA'},
+    {'begin': 1896, 'end': 1954, 'name': 'Jim Crow Era', 'color': '#FFA15A'},
+    {'begin': 1954, 'end': 1965, 'name': 'Civil Rights Era', 'color': '#19D3F3'},
+    {'begin': 1965, 'end': YEAR_N, 'name': 'Post Voting Rights Act', 'color': '#FF6692'},
+]

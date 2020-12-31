@@ -2,46 +2,11 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 from data_processor.functions import map_to_subdir
-from metadata import Columns, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, COLORS_PLOTLY, YEAR_0, YEAR_N
+from metadata import Columns, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, COLORS_PLOTLY, YEAR_0, YEAR_N, EVENTS, ERAS
 
 
 cols = Columns()
 fig_dims = FigDimensions()
-
-
-EVENTS = [
-    {'year': 1828, 'name': 'Jacksonian democracy'},
-    # {'year': 1857, 'name': 'Dred Scott v Sandford'},
-    {'year': 1861, 'name': 'Civil War begins'},
-    # {'year': 1863, 'name': 'Emancipation Proclamation'},
-    {'year': 1865, 'name': 'Civil War ends, 13th Amendment'},
-    # {'year': 1868, 'name': '14th Amendment'},
-    {'year': 1870, 'name': '15th Amendment'},
-    {'year': 1877, 'name': 'Compromise of 1877'},
-    {'year': 1896, 'name': 'Plessy v Ferguson'},
-    # {'year': 1915, 'name': 'Second KKK reborn in Georgia'},
-    {'year': 1920, 'name': '19th Amendment'},
-    # {'year': 1921, 'name': 'Tulsa race massacre'},
-    {'year': 1924, 'name': 'KKK peak membership'},
-    # {'year': 1932, 'name': 'Tuskegee Syphilis Study'},
-    {'year': 1954, 'name': 'Brown v Board of Education'},
-    # {'year': 1955, 'name': 'Emmett Till lynching, Montgomery bus boycott'},
-    # {'year': 1960, 'name': 'Sit-ins'},
-    # {'year': 1964, 'name': 'Civil Rights Act, 24th Amendment'}, 
-    {'year': 1965, 'name': 'Voting Rights Act'},
-    {'year': 1971, 'name': '26th Amendment'},
-    {'year': 2013, 'name': 'Shelby County v Holder '},
-]
-
-ERAS = [
-    {'begin': 1788, 'end': 1861, 'name': 'Antebellum Period', 'color': '#636EFA'},
-    {'begin': 1861, 'end': 1865, 'name': 'Civil War', 'color': '#FECB52'},
-    {'begin': 1865, 'end': 1877, 'name': 'Reconstruction', 'color': '#00CC96'},
-    {'begin': 1877, 'end': 1896, 'name': 'Redemption', 'color': '#AB63FA'},
-    {'begin': 1896, 'end': 1954, 'name': 'Jim Crow Era', 'color': '#FFA15A'},
-    {'begin': 1954, 'end': 1965, 'name': 'Civil Rights Era', 'color': '#19D3F3'},
-    {'begin': 1965, 'end': YEAR_N, 'name': 'Post Voting Rights Act', 'color': '#FF6692'},
-]
 
 
 def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, frame, fig_width=None):
@@ -56,7 +21,7 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, frame, 
 
     if not fig_width:
         fig_width = fig_dims.MD6
-    fig_height = 600
+    fig_height = 700
 
     # display metadata
     hover_data = {cols.GROUP: False, cols.STATES_IN_GROUP: True, cols.EC_VOTES: True}
@@ -88,37 +53,10 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, frame, 
     #                         mode='lines', name=frame, line=dict(color='pink', width=1)))
 
     # build markers and labels marking events 
-    event_markers = []
-    for event in EVENTS:
-        # add vertical line for each event date
-        marker = dict(type='line', line_width=1, x0=event['year'], x1=event['year'], y0=avg_weight_min, y1=avg_weight_max)
-        event_markers.append(marker)
-        # add annotation for each event
-        fig.add_annotation(x=event['year']-1, y=avg_weight_max, text=event['name'], showarrow=False, 
-            yshift=-2, xshift=-1, textangle=-90, align='right', yanchor='top')
+    event_markers = build_and_annotate_event_markers(fig, EVENTS, avg_weight_min, avg_weight_max)
 
     # build shaded blocks designating eras
-    era_blocks = []
-    for era in ERAS:
-        # add rectangle for each era date range
-        block = dict(type='rect', line_width=0, x0=era['begin'], x1=era['end'], y0=avg_weight_min, y1=avg_weight_max, 
-                    fillcolor=era['color'], opacity=0.1)
-        era_blocks.append(block) 
-        # add annotation for each era, handle case where era['begin'] predates YEAR_0
-        era_begin = era['begin']
-        if era_begin < YEAR_0:
-            era_begin = YEAR_0
-        era_len = era['end'] - era_begin
-        era_mid = (era['end'] + era_begin) / 2
-        showarrow = False
-        yshift = 7
-        if era_len < 12:
-            showarrow = True
-            yshift = 0
-        
-        fig.add_annotation(x=era_mid, y=avg_weight_max, text=era['name'], showarrow=showarrow, yshift=yshift, 
-            # align='left', textangle=-90, yanchor='top'
-        )
+    era_blocks = build_and_annotate_era_blocks(fig, ERAS, avg_weight_max)
 
     # update layout with era_blocks and event_markers
     fig.update_layout(shapes=era_blocks + event_markers)
@@ -132,11 +70,11 @@ def build_total_vote_line_chart(data_obj, fig_width=None):
 
     if not fig_width:
         fig_width = fig_dims.MD6
-    fig_height = 600
+    fig_height = 700
 
     # display metadata
     hover_data = {cols.YEAR: False, cols.VOTES_COUNTED: True, cols.TOTAL_POP: True, cols.EC_VOTES: True, cols.POP_PER_EC: True}
-    vote_pct_max = totals_by_year_df[cols.VOTES_COUNTED_PCT_TOTAL_POP].max() * 1.05
+    vote_pct_max = totals_by_year_df[cols.VOTES_COUNTED_PCT_TOTAL_POP].max() * 1.1
     fig_title = 'Ballots Cast as a Percentage of Total Population In Each Election'
 
     fig = px.line(totals_by_year_df, x=cols.YEAR, y=cols.VOTES_COUNTED_PCT_TOTAL_POP, 
@@ -149,24 +87,46 @@ def build_total_vote_line_chart(data_obj, fig_width=None):
     for i in range(len(fig.data)):
         fig.data[i].update(mode='markers+lines')
 
-    fig.update_layout(xaxis_range=[1788, YEAR_N])
+    fig.update_layout(xaxis_range=[1785, YEAR_N])
     fig.update_layout(yaxis_range=[0, vote_pct_max])
 
     # build markers and labels marking events 
-    event_markers = []
-    for event in EVENTS:
-        # add vertical line for each event date
-        marker = dict(type='line', line_width=1, x0=event['year'], x1=event['year'], y0=0, y1=vote_pct_max)
-        event_markers.append(marker)
-        # add annotation for each event
-        fig.add_annotation(x=event['year']-1, y=vote_pct_max, text=event['name'], showarrow=False, 
-            yshift=-2, xshift=-1, textangle=-90, align='right', yanchor='top')
+    event_markers = build_and_annotate_event_markers(fig, EVENTS, 0, vote_pct_max)
 
     # build shaded blocks designating eras
+    era_blocks = build_and_annotate_era_blocks(fig, ERAS, vote_pct_max)
+
+    # update layout with era_blocks and event_markers
+    fig.update_layout(shapes=era_blocks + event_markers)
+
+    return fig
+
+
+def build_and_annotate_event_markers(fig, events, y_min, y_max):
+    # build markers and labels marking events 
+    event_markers = []
+    for event in events:
+        # add vertical line for each event date
+        marker = dict(type='line', line_width=1, x0=event['year'], x1=event['year'], y0=0, y1=y_max)
+        event_markers.append(marker)
+        # add annotation for each event name and description
+        event_name = f"{event['name']} ({event['year']})"
+        fig.add_annotation(x=event['year'], y=y_max, text=event_name, showarrow=False, 
+            yshift=-2, xshift=-7, textangle=-90, align='right', yanchor='top')
+        if event.get('desc'):
+            event_desc = f"<i>{event['desc']}</i>"
+            fig.add_annotation(x=event['year'], y=y_min, text=event_desc, showarrow=False, 
+                yshift=2, xshift=6, textangle=-90, align='left', yanchor='bottom')
+
+    return event_markers
+
+
+def build_and_annotate_era_blocks(fig, eras, y_max):
+    # build shaded blocks designating eras
     era_blocks = []
-    for era in ERAS:
+    for era in eras:
         # add rectangle for each era date range
-        block = dict(type='rect', line_width=0, x0=era['begin'], x1=era['end'], y0=0, y1=vote_pct_max, 
+        block = dict(type='rect', line_width=0, x0=era['begin'], x1=era['end'], y0=0, y1=y_max, 
                     fillcolor=era['color'], opacity=0.1)
         era_blocks.append(block) 
         # add annotation for each era
@@ -178,13 +138,8 @@ def build_total_vote_line_chart(data_obj, fig_width=None):
             showarrow = True
             yshift = 0
         
-        fig.add_annotation(x=era_mid, y=vote_pct_max, text=era['name'], showarrow=showarrow, yshift=yshift, 
+        fig.add_annotation(x=era_mid, y=y_max, text=era['name'], showarrow=showarrow, yshift=yshift, 
             # align='left', textangle=-90, yanchor='top'
         )
 
-    # update layout with era_blocks and event_markers
-    fig.update_layout(shapes=era_blocks + event_markers)
-
-
-
-    return fig
+    return era_blocks
