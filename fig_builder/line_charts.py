@@ -56,7 +56,7 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, frame, 
     event_markers = build_and_annotate_event_markers(fig, EVENTS, avg_weight_min, avg_weight_max)
 
     # build shaded blocks designating eras
-    era_blocks = build_and_annotate_era_blocks(fig, ERAS, avg_weight_max)
+    era_blocks = build_and_annotate_era_blocks(fig, ERAS, YEAR_0, avg_weight_max)
 
     # update layout with era_blocks and event_markers
     fig.update_layout(shapes=era_blocks + event_markers)
@@ -75,6 +75,7 @@ def build_total_vote_line_chart(data_obj, fig_width=None):
     # display metadata
     hover_data = {cols.YEAR: False, cols.VOTES_COUNTED: True, cols.TOTAL_POP: True, cols.EC_VOTES: True, cols.POP_PER_EC: True}
     vote_pct_max = totals_by_year_df[cols.VOTES_COUNTED_PCT_TOTAL_POP].max() * 1.1
+    x_min = 1785
     fig_title = 'Ballots Cast as a Percentage of Total Population In Each Election'
 
     fig = px.line(totals_by_year_df, x=cols.YEAR, y=cols.VOTES_COUNTED_PCT_TOTAL_POP, 
@@ -87,14 +88,14 @@ def build_total_vote_line_chart(data_obj, fig_width=None):
     for i in range(len(fig.data)):
         fig.data[i].update(mode='markers+lines')
 
-    fig.update_layout(xaxis_range=[1785, YEAR_N])
+    fig.update_layout(xaxis_range=[x_min, YEAR_N])
     fig.update_layout(yaxis_range=[0, vote_pct_max])
 
     # build markers and labels marking events 
     event_markers = build_and_annotate_event_markers(fig, EVENTS, 0, vote_pct_max)
 
     # build shaded blocks designating eras
-    era_blocks = build_and_annotate_era_blocks(fig, ERAS, vote_pct_max)
+    era_blocks = build_and_annotate_era_blocks(fig, ERAS, x_min, vote_pct_max)
 
     # update layout with era_blocks and event_markers
     fig.update_layout(shapes=era_blocks + event_markers)
@@ -110,7 +111,9 @@ def build_and_annotate_event_markers(fig, events, y_min, y_max):
         marker = dict(type='line', line_width=1, x0=event['year'], x1=event['year'], y0=0, y1=y_max)
         event_markers.append(marker)
         # add annotation for each event name and description
-        event_name = f"{event['name']} ({event['year']})"
+        event_name = event['name']
+        if str(event['year']) not in event['name']: 
+            event_name = f"{event_name} ({event['year']})"
         fig.add_annotation(x=event['year'], y=y_max, text=event_name, showarrow=False, 
             yshift=-2, xshift=-7, textangle=-90, align='right', yanchor='top')
         if event.get('desc'):
@@ -121,7 +124,7 @@ def build_and_annotate_event_markers(fig, events, y_min, y_max):
     return event_markers
 
 
-def build_and_annotate_era_blocks(fig, eras, y_max):
+def build_and_annotate_era_blocks(fig, eras, x_min, y_max):
     # build shaded blocks designating eras
     era_blocks = []
     for era in eras:
@@ -130,8 +133,11 @@ def build_and_annotate_era_blocks(fig, eras, y_max):
                     fillcolor=era['color'], opacity=0.1)
         era_blocks.append(block) 
         # add annotation for each era
-        era_len = era['end'] - era['begin']
-        era_mid = (era['end'] + era['begin']) / 2
+        era_begin = era['begin']
+        if era_begin < x_min:
+            era_begin = x_min
+        era_len = era['end'] - era_begin
+        era_mid = (era['end'] + era_begin) / 2
         showarrow = False
         yshift = 7
         if era_len < 12:
