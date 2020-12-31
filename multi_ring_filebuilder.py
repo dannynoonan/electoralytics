@@ -97,7 +97,6 @@ the_one_ring = pd.read_csv(dfiles.THE_ONE_RING)
 # files to output: 
 # * pivot_on_year 
 # * group_aggs_by_year 
-# * totals_by_year
 # * avg_weight_by_year 
 
 
@@ -108,7 +107,6 @@ pivot_on_year = pd.DataFrame(
 group_aggs_by_year = pd.DataFrame(
     columns=[cols.GROUP, cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTES_COUNTED_NORM, cols.VOTES_COUNTED_PCT, 
             cols.EC_VOTES_NORM, cols.POP_PER_EC, cols.AVG_WEIGHT, cols.STATE_COUNT, cols.STATES_IN_GROUP])
-totals_by_year = pd.DataFrame(columns=[cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.POP_PER_EC, cols.MOST_EC_VOTES])
 
 ### LEGACY, but still haven't transitioned off of ###
 avg_weight_by_year = pd.DataFrame({cols.GROUP: GROUPS_SER}) 
@@ -182,15 +180,9 @@ while year <= YEAR_N:
             year_pivot = pd.concat([year_pivot, year_pivot_bonus], ignore_index=True, sort=False)
     # append year_pivot to pivot_on_year
     pivot_on_year = pd.concat([pivot_on_year, year_pivot], ignore_index=True, sort=False)
-        
-        
-    # DF 2: init year_totals to append to totals_by_year
-    year_totals = pd.DataFrame([[year, ec_total, pop_total, pop_per_ec, year_data[cols.EC_VOTES].max()]],
-                               columns=[cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.POP_PER_EC, cols.MOST_EC_VOTES])
-    totals_by_year = pd.concat([totals_by_year, year_totals], ignore_index=True, sort=False)  
-
     
-    # DF 3: aggregate EC votes, popular votes, and states for each Group, assign summed values to new year_group_aggs dataframe
+
+    # DF 2: aggregate EC votes, popular votes, and states for each Group, assign summed values to new year_group_aggs dataframe
     # more data cleansing: drop states whose votes counted == 0
     year_data = year_data[year_data[cols.VOTES_COUNTED] > 0]
     # generate aggregate columns
@@ -241,15 +233,12 @@ while year <= YEAR_N:
     year = year + 4
 
 
-PIVOT_ON_YEAR_CSV = f"{ddirs.BASE}/{subdir}/{dfiles.PIVOT_ON_YEAR}"
-TOTALS_BY_YEAR_CSV = f"{ddirs.BASE}/{ddirs.GEN}/{dfiles.TOTALS_BY_YEAR}"
-GROUP_AGGS_BY_YEAR_CSV = f"{ddirs.BASE}/{subdir}/{dfiles.GROUP_AGGS_BY_YEAR}"
+PIVOT_ON_YEAR_CSV = f"{ddirs.BASE}/{subdir}/{dfiles.STATE_VOTE_WEIGHTS_PIVOT}"
+GROUP_AGGS_BY_YEAR_CSV = f"{ddirs.BASE}/{subdir}/{dfiles.GROUP_AGG_WEIGHTS_PIVOT}"
 AVG_WEIGHT_BY_YEAR_CSV = f"{ddirs.BASE}/{subdir}/{dfiles.AVG_WEIGHT_BY_YEAR}"
 
 print(f"Rows in {PIVOT_ON_YEAR_CSV}: {len(pivot_on_year)}")
 print(f"{pivot_on_year}")
-print(f"Rows in {TOTALS_BY_YEAR_CSV}: {len(totals_by_year)}")
-print(f"{totals_by_year}")
 print(f"Rows in {GROUP_AGGS_BY_YEAR_CSV}: {len(group_aggs_by_year)}")
 print(f"{group_aggs_by_year}")
 print(f"Rows in {AVG_WEIGHT_BY_YEAR_CSV}: {len(avg_weight_by_year)}")
@@ -260,9 +249,8 @@ if WRITE_TO_CSV:
     if not os.path.exists(f"{ddirs.BASE}/{subdir}"):
         os.makedirs(f"{ddirs.BASE}/{subdir}")
 
-    # write pivot_on_year, totals_by_year, group_aggs_by_year to file
+    # write pivot_on_year and group_aggs_by_year to file
     pivot_on_year.to_csv(PIVOT_ON_YEAR_CSV)
-    totals_by_year.to_csv(TOTALS_BY_YEAR_CSV)
     group_aggs_by_year.to_csv(GROUP_AGGS_BY_YEAR_CSV)
 
 

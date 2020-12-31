@@ -11,7 +11,7 @@ fig_dims = FigDimensions()
 def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame, fig_width=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
-    pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
+    pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir]
     groups = GROUPS_FOR_DIR[groups_dir]
 
     # extract single-year data

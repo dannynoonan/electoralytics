@@ -23,6 +23,7 @@ server = app.server
 # load source data for default subdir
 data_obj = DataObject()
 data_obj.load_dfs_for_subdir()
+data_obj.load_totals_by_year()
 data_obj.load_swallowed_vote_sampler()
 
 cols = Columns()
@@ -187,7 +188,13 @@ layout_1 = html.Div([
                 dbc.Tab(label="Regional Aggregate Comparisons", tab_style={"font-size": "20px"}, children=[
                     dbc.Row([
                         dbc.Col(md=12, children=[
-                            dcc.Graph(id="vote-weight-comparison-by-state-group-line-1")
+                            dcc.Graph(id="fig-line-vote-weight-by-state-group")
+                        ])
+                    ]),
+                    html.Br(),
+                    dbc.Row([
+                        dbc.Col(md=12, children=[
+                            dcc.Graph(id="fig-line-total-vote-over-time")
                         ])
                     ]),
                     html.Br(),
@@ -389,7 +396,8 @@ def display_state_level_figs(year_input, groupings_input, max_small_input):
 
 @app.callback(
     # Output('vote-weight-comparison-by-state-group-map-1', 'figure'),
-    Output('vote-weight-comparison-by-state-group-line-1', 'figure'),
+    Output('fig-line-vote-weight-by-state-group', 'figure'),
+    Output('fig-line-total-vote-over-time', 'figure'),
     Output('vote-weight-comparison-by-state-group-box-1', 'figure'),
     Output('vote-weight-comparison-by-state-group-scatter-dots', 'figure'),
     Output('vote-weight-comparison-by-state-group-scatter-bubbles', 'figure'),
@@ -404,11 +412,12 @@ def display_regional_aggregate_figs(year_input, groupings_input, max_small_input
     max_small = int(max_small_input)
     # generate figs
     # fig_map_1 = fig_builder.build_state_groups_map(data_obj, groupings_input, max_small_input, frame=year)
-    fig_line_1 = line_charts.build_ivw_by_state_group_line_chart(data_obj, groupings_input, max_small, fig_width=fig_dims.MD12, frame=year)
+    fig_line_ivw_by_state_group = line_charts.build_ivw_by_state_group_line_chart(data_obj, groupings_input, max_small, fig_width=fig_dims.MD12, frame=year)
+    fig_line_total_vote_over_time = line_charts.build_total_vote_line_chart(data_obj, fig_width=fig_dims.MD12)
     fig_box_1 = box_plots.build_ivw_by_state_group_box_plot(data_obj, groupings_input, max_small, frame=year)
     fig_scatter_dots = scatter_plots.build_ivw_by_state_group_scatter_dots(data_obj, groupings_input, max_small, frame=year)
     fig_scatter_bubbles = scatter_plots.build_ivw_by_state_group_scatter_bubbles(data_obj, groupings_input, max_small, frame=year)
-    return fig_line_1, fig_box_1, fig_scatter_dots, fig_scatter_bubbles
+    return fig_line_ivw_by_state_group, fig_line_total_vote_over_time, fig_box_1, fig_scatter_dots, fig_scatter_bubbles
 
 @app.callback(
     Output('vote-weight-comparison-by-state-map-1-anim', 'figure'),

@@ -12,7 +12,7 @@ fig_dims = FigDimensions()
 def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, frame=None, color_col=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
-    pivot_on_year_df = data_obj.pivot_on_year_dfs[subdir]
+    pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir]
     groups = GROUPS_FOR_DIR[groups_dir]
 
     if not color_col:

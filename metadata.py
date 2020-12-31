@@ -15,13 +15,15 @@ class DataDirs():
 class DataFiles():
     def __init__(self):
         data_dirs = DataDirs()
+        # source files
         self.THE_ONE_RING = f'{data_dirs.BASE}/theOneRing.csv'
         self.SWALLOWED_VOTE_2020 = f'{data_dirs.BASE}/swallowedVoteSampler2020.csv'
-        self.GROUPS_BY_YEAR = 'groupsByYear.csv'
+        self.TOTALS_BY_YEAR = f'{data_dirs.BASE}/totalsByYear.csv'
+        # generated files
+        self.STATE_VOTE_WEIGHTS_PIVOT = 'stateVoteWeightsPivot.csv'
+        self.STATE_SWING_WEIGHTS_PIVOT = 'stateSwingWeightsPivot.csv'
+        self.GROUP_AGG_WEIGHTS_PIVOT = 'groupAggWeightsPivot.csv'
         self.AVG_WEIGHT_BY_YEAR = 'avgWeightByYear.csv'
-        self.PIVOT_ON_YEAR = 'pivotOnYear.csv'
-        self.TOTALS_BY_YEAR = 'totalsByYear.csv'
-        self.GROUP_AGGS_BY_YEAR = 'groupAggsByYear.csv'
 
 
 # columns in data files
@@ -44,9 +46,11 @@ class Columns():
         self.PARTY = 'Party'
         self.POP_PER_EC = 'Population per EC vote'
         self.POP_PER_EC_SHORT = 'Pop per EC vote'
+        self.VOTES_COUNTED_PCT_TOTAL_POP = 'Votes counted as % of total population'
+        self.TOTAL_POP = 'Total population'
         self.STATE_COUNT = 'State count'
-        self.MOST_EC_VOTES = 'Most EC votes'
         self.STATES_IN_GROUP = 'States in group'
+        self.MOST_EC_VOTES = 'Most EC votes'
 
 
 # figure dimensions
