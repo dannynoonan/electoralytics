@@ -17,8 +17,10 @@ class DataObject():
         self.melted_ec_votes_pivot_dfs = {}
         self.melted_vote_count_pivot_dfs = {}
         self.group_agg_weights_pivot_dfs = {}
-        self.totals_by_year_df = None
         self.all_years = None
+        self.all_states_meta_df = None
+        self.abbrevs_to_states = None
+        self.totals_by_year_df = None
         self.swallowed_vote_df = None
 
 
@@ -61,6 +63,18 @@ class DataObject():
         self.all_years = df[cols.YEAR].unique()
         # assign df to state_vote_weights_pivot_dfs at subdir 
         self.state_vote_weights_pivot_dfs[subdir] = df
+
+
+    def get_single_state_vote_weight_pivot(self, state_abbrev, subdir=None):
+        if not subdir:
+            subdir = f"{ddirs.GEN}/{ddirs.ACW}/{ddirs.SMALL_4}"
+        if not subdir in self.state_vote_weights_pivot_dfs:
+            self.load_state_vote_weights_pivot(subdir=subdir)
+
+        state_vote_weights_pivot_df = self.state_vote_weights_pivot_dfs[subdir]
+        single_state_vw_pivot_df = state_vote_weights_pivot_df.loc[state_vote_weights_pivot_df[cols.ABBREV] == state_abbrev]
+
+        return single_state_vw_pivot_df
 
 
     def melt_state_vote_weights_pivot(self, subdir=None, update=False):
@@ -135,6 +149,19 @@ class DataObject():
 
         # assign df to group_agg_weights_pivot_dfs at subdir 
         self.group_agg_weights_pivot_dfs[subdir] = df
+
+
+    def load_all_states_meta(self):
+        print(f'loading {dfiles.THE_ONE_RING} to extract all_states_meta')
+        the_one_ring = pd.read_csv(dfiles.THE_ONE_RING)
+        self.all_states_meta_df = the_one_ring[[cols.ABBREV, cols.STATE, cols.ACW_GROUP, cols.CENSUS_GROUP]]
+
+
+    def load_abbrevs_to_states(self):
+        if self.all_states_meta_df is None:
+            self.load_all_states_meta()
+        abbrevs_to_states_df = self.all_states_meta_df[[cols.ABBREV, cols.STATE]]
+        self.abbrevs_to_states = {row[0]: row[1] for row in abbrevs_to_states_df.values}
 
 
     def load_totals_by_year(self):

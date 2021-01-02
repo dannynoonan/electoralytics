@@ -1,6 +1,13 @@
-from metadata import DataDirs, YEAR_0, FRAME_RATE
+import pandas as pd
+
+from metadata import Columns, DataDirs, YEAR_0, FRAME_RATE, GROUP_ALT_COLORS
 
 
+# disable unhelpful 'SettingWithCopyWarnings'
+pd.options.mode.chained_assignment = None
+
+
+cols = Columns()
 ddirs = DataDirs()
 
 
@@ -68,3 +75,17 @@ def apply_animation_settings(fig, base_fig_title, frame_rate=None):
         fig.frames[k]['layout'].update(title_text=f'{base_fig_title}: {year} ({era})')
 
     # return fig
+
+
+def append_state_vw_pivot_to_groups_aggs_df(state_vw_pivot_df, group_aggs_by_year_df, group_colors):
+    # drop columns not being merged
+    state_vw_pivot_df.drop([cols.GROUP, cols.PARTY, cols.LOG_VOTE_WEIGHT], axis=1, inplace=True)
+    # rename columns to be consistent with group aggs cols
+    state_vw_pivot_df.rename(columns={cols.ABBREV: cols.STATES_IN_GROUP, cols.STATE: cols.GROUP, cols.VOTE_WEIGHT: cols.AVG_WEIGHT},
+                            inplace=True)
+    state_vw_pivot_df[cols.STATE_COUNT] = 1  
+
+    # concat single-state df to group aggs df
+    group_aggs_by_year_df = pd.concat([group_aggs_by_year_df, state_vw_pivot_df], ignore_index=True, sort=False)
+
+    return group_aggs_by_year_df

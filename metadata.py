@@ -73,6 +73,7 @@ class FigDimensions():
 
 
 data_dirs = DataDirs()
+cols = Columns()
 
 
 # state groupings
@@ -89,6 +90,10 @@ DATA_DIR_TO_SMALL_GROUP_LABELS = {
 GROUPS_FOR_DIR = {
     data_dirs.ACW: ACW_GROUPS,
     data_dirs.CENSUS: CENSUS_GROUPS
+}
+GROUPS_COL_FOR_DIR = {
+    data_dirs.ACW: cols.ACW_GROUP,
+    data_dirs.CENSUS: cols.CENSUS_GROUP
 }
 
 GROUP_COLORS = {
@@ -111,6 +116,22 @@ GROUP_COLORS = {
     GROUP_LABEL_SMALL_4: '#AAAAAA',
     GROUP_LABEL_SMALL_5: '#AAAAAA',
     # 'Small': '#AAAAAA', # '#EF553B'
+}
+
+GROUP_ALT_COLORS = {
+    # ACW
+    'Union': '#13387E',
+    'Confederate': '#A37021',
+    'Border': '#297150', 
+    'Postbellum': '#9C1A08',
+    # Census
+    'Northeast': '#0093B3',
+    'South': '#BF611A',
+    'Midwest': '#008C56',
+    'West': '#AB233A',
+    GROUP_LABEL_SMALL_3: '#6A6A6A',
+    GROUP_LABEL_SMALL_4: '#6A6A6A',
+    GROUP_LABEL_SMALL_5: '#6A6A6A',
 }
 
 # parties
@@ -180,7 +201,7 @@ EVENTS = [
     # {'year': 1925, 'name': 'KKK peak membership at 4-5 million (15% of eligible population)'},
     # {'year': 1932, 'name': 'Tuskegee Syphilis Study'},
     {'year': 1943, 'name': 'Magnuson Act', 'desc': 'Suffrage to Chinese immigrants'},
-    {'year': 1954, 'name': 'Brown v Board of Education'},
+    {'year': 1954, 'name': 'Brown v Board of Education', 'desc': 'Segregated public schools unconstitutional'},
     # {'year': 1955, 'name': 'Emmett Till lynching, Montgomery bus boycott'},
     # {'year': 1960, 'name': 'Sit-ins'},
     # {'year': 1961, 'name': '23rd Amendment', 'desc': 'Washington DC citizens can vote for President'}, 

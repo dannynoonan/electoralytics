@@ -1,19 +1,25 @@
 import plotly.express as px
 import plotly.graph_objects as go
 
-from data_processor.functions import map_to_subdir
-from metadata import Columns, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, COLORS_PLOTLY, YEAR_0, YEAR_N, EVENTS, ERAS
+from data_processor.functions import map_to_subdir, append_state_vw_pivot_to_groups_aggs_df
+from metadata import (
+    Columns, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, COLORS_PLOTLY, GROUP_ALT_COLORS, GROUPS_COL_FOR_DIR,
+    YEAR_0, YEAR_N, EVENTS, ERAS)
 
 
 cols = Columns()
 fig_dims = FigDimensions()
 
 
-def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, frame, fig_width=None):
+def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_width=None, state_abbrevs=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     group_aggs_by_year_df = data_obj.group_agg_weights_pivot_dfs[subdir]
     groups = GROUPS_FOR_DIR[groups_dir]
+    group_col = GROUPS_COL_FOR_DIR[groups_dir]
+
+    # assign GROUP_COLORS to local var so it can be modified if states are added
+    group_colors = GROUP_COLORS
 
     # hackish way to remove years where Average Weight is 0 from Postbellum and West Groups without removing it for Confederate or South Groups
     group_aggs_by_year_df = group_aggs_by_year_df.loc[~((group_aggs_by_year_df[cols.AVG_WEIGHT] == 0) & (group_aggs_by_year_df[cols.GROUP] == 'Postbellum'))]
@@ -23,16 +29,29 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, frame, 
         fig_width = fig_dims.MD6
     fig_height = 700
 
+    # merge selected states into group aggs df
+    if state_abbrevs:
+        all_states_meta = data_obj.all_states_meta_df
+        for state_abbrev in state_abbrevs:
+            # extract state and group info for state_abbrev from all_states_meta df
+            state = all_states_meta.loc[all_states_meta[cols.ABBREV] == state_abbrev][cols.STATE].item()
+            state_group = all_states_meta.loc[all_states_meta[cols.ABBREV] == state_abbrev][group_col].item()
+            # extract single-state data from vote weight pivot df
+            state_vw_pivot_df = data_obj.get_single_state_vote_weight_pivot(state_abbrev, subdir=subdir)
+            # append single-state df to group aggs df after transformation to sync their column names
+            group_aggs_by_year_df = append_state_vw_pivot_to_groups_aggs_df(state_vw_pivot_df, group_aggs_by_year_df, group_colors)
+            # update group_colors with additional color for state for line chart based on state's group mapping
+            group_colors[state] = GROUP_ALT_COLORS[state_group]
+
     # display metadata
     hover_data = {cols.GROUP: False, cols.STATES_IN_GROUP: True, cols.EC_VOTES: True}
     avg_weight_min = group_aggs_by_year_df[group_aggs_by_year_df[cols.AVG_WEIGHT] > 0][cols.AVG_WEIGHT].min() * 0.8
     avg_weight_max = group_aggs_by_year_df[group_aggs_by_year_df[cols.AVG_WEIGHT] > 0][cols.AVG_WEIGHT].max() * 1.05
     fig_title = 'Average Vote Weight Per Ballot Cast For Each Election, Grouped By Region'
-    # fig_title = f'{base_fig_title}: (Highlighting {frame})'
 
     fig = px.line(group_aggs_by_year_df, x=cols.YEAR, y=cols.AVG_WEIGHT, color=cols.GROUP, 
                     hover_name=cols.GROUP, hover_data=hover_data, 
-                    color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
+                    color_discrete_map=group_colors, category_orders={cols.GROUP: groups},
                     title=fig_title, width=fig_width, height=fig_height, 
                     line_shape='spline',
     #               log_y=True
@@ -139,13 +158,12 @@ def build_and_annotate_era_blocks(fig, eras, x_min, y_max):
         era_len = era['end'] - era_begin
         era_mid = (era['end'] + era_begin) / 2
         showarrow = False
-        yshift = 7
-        if era_len < 12:
+        yshift = 8
+        if era_len < 10:
             showarrow = True
             yshift = 0
         
-        fig.add_annotation(x=era_mid, y=y_max, text=era['name'], showarrow=showarrow, yshift=yshift, 
-            # align='left', textangle=-90, yanchor='top'
-        )
+        era_name = f"<b>{era['name']}</b>"
+        fig.add_annotation(x=era_mid, y=y_max, text=era_name, showarrow=showarrow, yshift=yshift)
 
     return era_blocks
