@@ -1,3 +1,4 @@
+import math
 import plotly.express as px
 import plotly.graph_objects as go
 
@@ -11,7 +12,7 @@ cols = Columns()
 fig_dims = FigDimensions()
 
 
-def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_width=None, state_abbrevs=None):
+def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_width=None, state_abbrevs=None, log_y=False):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     group_aggs_by_year_df = data_obj.group_agg_weights_pivot_dfs[subdir]
@@ -47,15 +48,28 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
     hover_data = {cols.GROUP: False, cols.STATES_IN_GROUP: True, cols.EC_VOTES: True}
     avg_weight_min = group_aggs_by_year_df[group_aggs_by_year_df[cols.AVG_WEIGHT] > 0][cols.AVG_WEIGHT].min() * 0.8
     avg_weight_max = group_aggs_by_year_df[group_aggs_by_year_df[cols.AVG_WEIGHT] > 0][cols.AVG_WEIGHT].max() * 1.05
+    print(f"avg_weight_min: {avg_weight_min}, avg_weight_max: {avg_weight_max}")
+    if log_y:
+        # log2_avg_weight_min = math.log(avg_weight_min, 2)
+        # log2_avg_weight_max = math.log(avg_weight_max, 2)
+        # print(f"log2_avg_weight_min: {log2_avg_weight_min}, log2_avg_weight_max: {log2_avg_weight_max}")
+        avg_weight_min = math.log(avg_weight_min, 10)
+        avg_weight_max = math.log(avg_weight_max, 10)
+        print(f"log10 avg_weight_min: {avg_weight_min}, log10 avg_weight_max: {avg_weight_max}")
+        # pow_avg_weight_min = math.pow(2, avg_weight_min)
+        # pow_avg_weight_max = math.pow(2, avg_weight_max)
+        # print(f"pow_avg_weight_min: {pow_avg_weight_min}, pow_avg_weight_max: {pow_avg_weight_max}")
+        # sqrt_avg_weight_min = math.sqrt(avg_weight_min)
+        # sqrt_avg_weight_max = math.sqrt(avg_weight_max)
+        # print(f"sqrt_avg_weight_min: {sqrt_avg_weight_min}, sqrt_avg_weight_max: {sqrt_avg_weight_max}")
+
     fig_title = 'Average Vote Weight Per Ballot Cast For Each Election, Grouped By Region'
 
     fig = px.line(group_aggs_by_year_df, x=cols.YEAR, y=cols.AVG_WEIGHT, color=cols.GROUP, 
                     hover_name=cols.GROUP, hover_data=hover_data, 
                     color_discrete_map=group_colors, category_orders={cols.GROUP: groups},
                     title=fig_title, width=fig_width, height=fig_height, 
-                    line_shape='spline',
-    #               log_y=True
-                )
+                    line_shape='spline', log_y=log_y)
     
     for i in range(len(fig.data)):
         fig.data[i].update(mode='markers+lines')
@@ -63,14 +77,23 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
     fig.update_layout(xaxis_range=[YEAR_0, YEAR_N])
     fig.update_layout(yaxis_range=[avg_weight_min, avg_weight_max])
 
+    # if not log_y:
+    #     fig.update_layout(yaxis_range=[avg_weight_min, avg_weight_max])
+    # else:
+    #     fig.update_layout(yaxis_range=[-.3, .5])
+
     # axis labels
     fig.update_xaxes(title_text='Election Year')
-    fig.update_yaxes(title_text='Average Vote Weight Per Ballot Cast')
+    y_axis_text = 'Average Vote Weight Per Ballot Cast'
+    if log_y:
+        y_axis_text = f"{y_axis_text} (log)"
+    fig.update_yaxes(title_text=y_axis_text)
 
     # add vertical line highlighting selected year (frame)
     # fig.add_trace(go.Scatter(x=[frame, frame], y=[avg_weight_min, avg_weight_max], 
     #                         mode='lines', name=frame, line=dict(color='pink', width=1)))
 
+    # if not log_y:
     # build markers and labels marking events 
     event_markers = build_and_annotate_event_markers(fig, EVENTS, avg_weight_min, avg_weight_max)
 

@@ -111,13 +111,27 @@ year_slider = dbc.FormGroup([
 
 
 multi_state_selector = dbc.FormGroup([
+    html.Br(),
     dbc.Row([
-        dbc.Col(md=3, children=[
+        dbc.Col(md=2, style={'textAlign': 'end'}, children=[html.H5("Display individual states:")]),
+        dbc.Col(md=2, children=[
             dcc.Dropdown(
                 id="multi-state-input",
                 options=[{'label': state, 'value': abbrev} for abbrev, state in data_obj.abbrevs_to_states.items()],
                 multi=True,
                 value=''
+            )
+        ]),
+        dbc.Col(md=1, style={'textAlign': 'end'}, children=[html.H5("Y axis scale:")]),
+        dbc.Col(md=2, children=[
+            dcc.RadioItems(
+                id="y-axis-input",
+                options=[
+                    {'label': 'Linear', 'value': 'linear'},
+                    {'label': 'Log', 'value': 'log'}
+                ],
+                value='linear',
+                inputStyle={"margin-left": "10px", "margin-right": "4px"}
             )
         ])
     ])
@@ -422,16 +436,21 @@ def display_state_level_figs(year_input, groupings_input, max_small_input):
     Input('groupings-input', 'value'),
     Input('max-small-input', 'value'),
     [Input('multi-state-input', 'value')],
+    Input('y-axis-input', 'value')
 )
-def display_regional_aggregate_figs(year_input, groupings_input, max_small_input, state_abbrevs):
+def display_regional_aggregate_figs(year_input, groupings_input, max_small_input, state_abbrevs, y_axis):
     print(f"#### in display_regional_aggregate_figs")
     # process input
     year = int(year_input)
     max_small = int(max_small_input)
-    print(f"state_abbrevs: {state_abbrevs}")
+    if y_axis == 'linear':
+        log_y = False
+    else:
+        log_y = True
     # generate figs
     # fig_map_1 = fig_builder.build_state_groups_map(data_obj, groupings_input, max_small_input, frame=year)
-    fig_line_ivw_by_state_group = line_charts.build_ivw_by_state_group_line_chart(data_obj, groupings_input, max_small, fig_width=fig_dims.MD12, state_abbrevs=state_abbrevs)
+    fig_line_ivw_by_state_group = line_charts.build_ivw_by_state_group_line_chart(
+        data_obj, groupings_input, max_small, fig_width=fig_dims.MD12, state_abbrevs=state_abbrevs, log_y=log_y)
     fig_line_total_vote_over_time = line_charts.build_total_vote_line_chart(data_obj, fig_width=fig_dims.MD12)
     fig_box_1 = box_plots.build_ivw_by_state_group_box_plot(data_obj, groupings_input, max_small, frame=year)
     fig_scatter_dots = scatter_plots.build_ivw_by_state_group_scatter_dots(data_obj, groupings_input, max_small, frame=year)
