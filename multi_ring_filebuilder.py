@@ -92,6 +92,7 @@ GROUPS_SER = pd.Series(np.array(GROUPS + ['Total']))
 
 # load electoral college data
 the_one_ring = pd.read_csv(dfiles.THE_ONE_RING)
+totals_by_year = pd.read_csv(dfiles.TOTALS_BY_YEAR)
 
 ### TRANSFORM CSV DATA ###
 # files to output: 
@@ -210,7 +211,27 @@ while year <= YEAR_N:
             year_group_aggs = pd.concat([year_group_aggs, year_group_aggs_bonus], ignore_index=True, sort=False)
     # append year_group_aggs to group_aggs_by_year
     group_aggs_by_year = pd.concat([group_aggs_by_year, year_group_aggs], ignore_index=True, sort=False)
-    
+
+    # extract national average data from totals_by_year to be added to group_aggs_by_year
+    year_totals = totals_by_year[totals_by_year[cols.YEAR] == year]
+    # init and populate new df for year matching column structure for group_aggs_by_year
+    year_total_aggs = pd.DataFrame(columns=[cols.GROUP, cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTES_COUNTED_NORM, cols.VOTES_COUNTED_PCT, 
+                                cols.EC_VOTES_NORM, cols.POP_PER_EC, cols.AVG_WEIGHT, cols.STATE_COUNT, cols.STATES_IN_GROUP])
+    # TODO only now seeing the inconsistencies in how I'm inserting values into df cells, figure out the best way and use that method consistently
+    year_total_aggs.loc[cols.YEAR] = year
+    year_total_aggs[cols.GROUP] = "Nat'l Average"
+    year_total_aggs[cols.EC_VOTES] = year_totals[cols.EC_VOTES].item()
+    year_total_aggs[cols.VOTES_COUNTED] = year_totals[cols.VOTES_COUNTED].item()
+    year_total_aggs[cols.VOTES_COUNTED_NORM] = year_totals[cols.VOTES_COUNTED].item()
+    year_total_aggs[cols.VOTES_COUNTED_PCT] = 100
+    year_total_aggs[cols.EC_VOTES_NORM] = year_totals[cols.EC_VOTES].item()
+    year_total_aggs[cols.POP_PER_EC] = year_totals[cols.POP_PER_EC].item()
+    year_total_aggs[cols.AVG_WEIGHT] = 1.0 
+    year_total_aggs[cols.STATE_COUNT] = year_totals[cols.STATE_COUNT].item() 
+    year_total_aggs[cols.STATES_IN_GROUP] = f"All {year_totals[cols.STATE_COUNT].item()}"
+    # concat year_total_aggs to group_aggs_by_year_df
+    group_aggs_by_year = pd.concat([group_aggs_by_year, year_total_aggs], ignore_index=True, sort=False)
+
     
     ### LEGACY ###
     # aggregate EC votes and popular votes for each Group, assign summed values to new year_agg dataframe

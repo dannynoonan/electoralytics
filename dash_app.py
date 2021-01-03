@@ -110,7 +110,7 @@ year_slider = dbc.FormGroup([
 ])
 
 
-multi_state_selector = dbc.FormGroup([
+form_input_vw_over_time_line_chart = dbc.FormGroup([
     html.Br(),
     dbc.Row([
         dbc.Col(md=2, style={'textAlign': 'end'}, children=[html.H5("Display individual states:")]),
@@ -131,6 +131,17 @@ multi_state_selector = dbc.FormGroup([
                     {'label': 'Log', 'value': 'log'}
                 ],
                 value='linear',
+                inputStyle={"margin-left": "10px", "margin-right": "4px"}
+            )
+        ]),
+        # dbc.Col(md=1, style={'textAlign': 'end'}, children=[html.H5("Y axis scale:")]),
+        dbc.Col(md=2, children=[
+            dcc.Checklist(
+                id="show-groups-input",
+                options=[
+                    {'label': 'Show State Groups:', 'value': 'show'}
+                ],
+                value=['show'],
                 inputStyle={"margin-left": "10px", "margin-right": "4px"}
             )
         ])
@@ -216,7 +227,7 @@ layout_1 = html.Div([
                 ]),
 
                 dbc.Tab(label="Regional Aggregate Comparisons", tab_style={"font-size": "20px"}, children=[
-                    multi_state_selector,
+                    form_input_vw_over_time_line_chart,
                     dbc.Row([
                         dbc.Col(md=12, children=[
                             dcc.Graph(id="fig-line-vote-weight-by-state-group")
@@ -436,9 +447,10 @@ def display_state_level_figs(year_input, groupings_input, max_small_input):
     Input('groupings-input', 'value'),
     Input('max-small-input', 'value'),
     [Input('multi-state-input', 'value')],
-    Input('y-axis-input', 'value')
+    Input('y-axis-input', 'value'),
+    [Input('show-groups-input', 'value')]
 )
-def display_regional_aggregate_figs(year_input, groupings_input, max_small_input, state_abbrevs, y_axis):
+def display_regional_aggregate_figs(year_input, groupings_input, max_small_input, state_abbrevs, y_axis, show_groups):
     print(f"#### in display_regional_aggregate_figs")
     # process input
     year = int(year_input)
@@ -447,10 +459,16 @@ def display_regional_aggregate_figs(year_input, groupings_input, max_small_input
         log_y = False
     else:
         log_y = True
+    print(f'show_groups: {show_groups}, type(show_groups): {type(show_groups)}')
+    if 'show' in show_groups:
+        hide_groups = False
+    else:
+        hide_groups = True
+    print(f'hide_groups: {hide_groups}')
     # generate figs
     # fig_map_1 = fig_builder.build_state_groups_map(data_obj, groupings_input, max_small_input, frame=year)
     fig_line_ivw_by_state_group = line_charts.build_ivw_by_state_group_line_chart(
-        data_obj, groupings_input, max_small, fig_width=fig_dims.MD12, state_abbrevs=state_abbrevs, log_y=log_y)
+        data_obj, groupings_input, max_small, fig_width=fig_dims.MD12, hide_groups=hide_groups, state_abbrevs=state_abbrevs, log_y=log_y)
     fig_line_total_vote_over_time = line_charts.build_total_vote_line_chart(data_obj, fig_width=fig_dims.MD12)
     fig_box_1 = box_plots.build_ivw_by_state_group_box_plot(data_obj, groupings_input, max_small, frame=year)
     fig_scatter_dots = scatter_plots.build_ivw_by_state_group_scatter_dots(data_obj, groupings_input, max_small, frame=year)

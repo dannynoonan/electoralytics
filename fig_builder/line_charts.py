@@ -3,6 +3,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 from data_processor.functions import map_to_subdir, append_state_vw_pivot_to_groups_aggs_df
+from fig_builder.line_charts_helper import build_and_annotate_event_markers, build_and_annotate_era_blocks
 from metadata import (
     Columns, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, COLORS_PLOTLY, GROUP_ALT_COLORS, GROUPS_COL_FOR_DIR,
     YEAR_0, YEAR_N, EVENTS, ERAS)
@@ -12,19 +13,25 @@ cols = Columns()
 fig_dims = FigDimensions()
 
 
-def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_width=None, state_abbrevs=None, log_y=False):
+def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_width=None, hide_groups=False, state_abbrevs=None, log_y=False):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
+    data_obj.load_totals_by_year
     group_aggs_by_year_df = data_obj.group_agg_weights_pivot_dfs[subdir]
+    # group_aggs_by_year_df = add_national_average_line(group_aggs_by_year_df, data_obj.totals_by_year_df)
     groups = GROUPS_FOR_DIR[groups_dir]
     group_col = GROUPS_COL_FOR_DIR[groups_dir]
 
     # assign GROUP_COLORS to local var so it can be modified if states are added
     group_colors = GROUP_COLORS
 
-    # hackish way to remove years where Average Weight is 0 from Postbellum and West Groups without removing it for Confederate or South Groups
-    group_aggs_by_year_df = group_aggs_by_year_df.loc[~((group_aggs_by_year_df[cols.AVG_WEIGHT] == 0) & (group_aggs_by_year_df[cols.GROUP] == 'Postbellum'))]
-    group_aggs_by_year_df = group_aggs_by_year_df.loc[~((group_aggs_by_year_df[cols.AVG_WEIGHT] == 0) & (group_aggs_by_year_df[cols.GROUP] == 'West'))]
+    # if we're hiding groups, drop everything from df except Nat'l Average data
+    if hide_groups:
+        group_aggs_by_year_df = group_aggs_by_year_df[group_aggs_by_year_df[cols.GROUP] == "Nat'l Average"]
+    else:
+        # hackish way to remove years where Average Weight is 0 from Postbellum and West Groups without removing it for Confederate or South Groups
+        group_aggs_by_year_df = group_aggs_by_year_df.loc[~((group_aggs_by_year_df[cols.AVG_WEIGHT] == 0) & (group_aggs_by_year_df[cols.GROUP] == 'Postbellum'))]
+        group_aggs_by_year_df = group_aggs_by_year_df.loc[~((group_aggs_by_year_df[cols.AVG_WEIGHT] == 0) & (group_aggs_by_year_df[cols.GROUP] == 'West'))]
 
     if not fig_width:
         fig_width = fig_dims.MD6
@@ -46,24 +53,17 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
 
     # display metadata
     hover_data = {cols.GROUP: False, cols.STATES_IN_GROUP: True, cols.EC_VOTES: True}
-    avg_weight_min = group_aggs_by_year_df[group_aggs_by_year_df[cols.AVG_WEIGHT] > 0][cols.AVG_WEIGHT].min() * 0.8
-    avg_weight_max = group_aggs_by_year_df[group_aggs_by_year_df[cols.AVG_WEIGHT] > 0][cols.AVG_WEIGHT].max() * 1.05
-    print(f"avg_weight_min: {avg_weight_min}, avg_weight_max: {avg_weight_max}")
-    if log_y:
-        # log2_avg_weight_min = math.log(avg_weight_min, 2)
-        # log2_avg_weight_max = math.log(avg_weight_max, 2)
-        # print(f"log2_avg_weight_min: {log2_avg_weight_min}, log2_avg_weight_max: {log2_avg_weight_max}")
-        avg_weight_min = math.log(avg_weight_min, 10)
-        avg_weight_max = math.log(avg_weight_max, 10)
-        print(f"log10 avg_weight_min: {avg_weight_min}, log10 avg_weight_max: {avg_weight_max}")
-        # pow_avg_weight_min = math.pow(2, avg_weight_min)
-        # pow_avg_weight_max = math.pow(2, avg_weight_max)
-        # print(f"pow_avg_weight_min: {pow_avg_weight_min}, pow_avg_weight_max: {pow_avg_weight_max}")
-        # sqrt_avg_weight_min = math.sqrt(avg_weight_min)
-        # sqrt_avg_weight_max = math.sqrt(avg_weight_max)
-        # print(f"sqrt_avg_weight_min: {sqrt_avg_weight_min}, sqrt_avg_weight_max: {sqrt_avg_weight_max}")
-
     fig_title = 'Average Vote Weight Per Ballot Cast For Each Election, Grouped By Region'
+    # TODO not sure the best way to organize this. I think it's only necessary because of inconsistencies in how plotly 
+    # translates log values for y0 and y1. When I have time I'll file a bug or post to stackoverflow. 
+    avg_weight_min = group_aggs_by_year_df[group_aggs_by_year_df[cols.AVG_WEIGHT] > 0][cols.AVG_WEIGHT].min() * 0.9
+    avg_weight_max = group_aggs_by_year_df[group_aggs_by_year_df[cols.AVG_WEIGHT] > 0][cols.AVG_WEIGHT].max() * 1.05
+    orig_avg_weight_min = avg_weight_min
+    orig_avg_weight_max = avg_weight_max
+    if log_y:
+        avg_weight_min = math.log(avg_weight_min, 10)
+        avg_weight_max = math.log(avg_weight_max, 10) * 1.05
+        orig_avg_weight_max = orig_avg_weight_max * 1.05 
 
     fig = px.line(group_aggs_by_year_df, x=cols.YEAR, y=cols.AVG_WEIGHT, color=cols.GROUP, 
                     hover_name=cols.GROUP, hover_data=hover_data, 
@@ -74,14 +74,6 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
     for i in range(len(fig.data)):
         fig.data[i].update(mode='markers+lines')
 
-    fig.update_layout(xaxis_range=[YEAR_0, YEAR_N])
-    fig.update_layout(yaxis_range=[avg_weight_min, avg_weight_max])
-
-    # if not log_y:
-    #     fig.update_layout(yaxis_range=[avg_weight_min, avg_weight_max])
-    # else:
-    #     fig.update_layout(yaxis_range=[-.3, .5])
-
     # axis labels
     fig.update_xaxes(title_text='Election Year')
     y_axis_text = 'Average Vote Weight Per Ballot Cast'
@@ -89,19 +81,16 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
         y_axis_text = f"{y_axis_text} (log)"
     fig.update_yaxes(title_text=y_axis_text)
 
-    # add vertical line highlighting selected year (frame)
-    # fig.add_trace(go.Scatter(x=[frame, frame], y=[avg_weight_min, avg_weight_max], 
-    #                         mode='lines', name=frame, line=dict(color='pink', width=1)))
-
-    # if not log_y:
     # build markers and labels marking events 
-    event_markers = build_and_annotate_event_markers(fig, EVENTS, avg_weight_min, avg_weight_max)
-
+    event_markers = build_and_annotate_event_markers(fig, EVENTS, avg_weight_min, avg_weight_max, orig_avg_weight_min, orig_avg_weight_max)
     # build shaded blocks designating eras
-    era_blocks = build_and_annotate_era_blocks(fig, ERAS, YEAR_0, avg_weight_max)
+    era_blocks = build_and_annotate_era_blocks(fig, ERAS, YEAR_0, orig_avg_weight_min, orig_avg_weight_max)
+    shapes = event_markers + era_blocks
 
-    # update layout with era_blocks and event_markers
-    fig.update_layout(shapes=era_blocks + event_markers)
+    # update layout and axes
+    fig.update_layout(xaxis_range=[YEAR_0, YEAR_N], yaxis_range=[avg_weight_min, avg_weight_max], plot_bgcolor='white', shapes=shapes)
+    fig.update_xaxes(gridcolor='#DDDDDD')
+    fig.update_yaxes(gridcolor='#DDDDDD')
 
     return fig
 
@@ -115,7 +104,8 @@ def build_total_vote_line_chart(data_obj, fig_width=None):
     fig_height = 700
 
     # display metadata
-    hover_data = {cols.YEAR: False, cols.VOTES_COUNTED: True, cols.TOTAL_POP: True, cols.EC_VOTES: True, cols.POP_PER_EC: True}
+    hover_data = {cols.YEAR: False, cols.VOTES_COUNTED: True, cols.TOTAL_POP: True, cols.EC_VOTES: True, cols.POP_PER_EC: True, 
+                cols.STATE_COUNT: True, cols.STATES_USING_POP: True}
     vote_pct_max = totals_by_year_df[cols.VOTES_COUNTED_PCT_TOTAL_POP].max() * 1.1
     x_min = 1785
     fig_title = 'Ballots Cast as a Percentage of Total Population In Each Election'
@@ -130,63 +120,15 @@ def build_total_vote_line_chart(data_obj, fig_width=None):
     for i in range(len(fig.data)):
         fig.data[i].update(mode='markers+lines')
 
-    fig.update_layout(xaxis_range=[x_min, YEAR_N])
-    fig.update_layout(yaxis_range=[0, vote_pct_max])
-
     # build markers and labels marking events 
     event_markers = build_and_annotate_event_markers(fig, EVENTS, 0, vote_pct_max)
-
     # build shaded blocks designating eras
-    era_blocks = build_and_annotate_era_blocks(fig, ERAS, x_min, vote_pct_max)
+    era_blocks = build_and_annotate_era_blocks(fig, ERAS, x_min, 0, vote_pct_max)
+    shapes = era_blocks + event_markers
 
-    # update layout with era_blocks and event_markers
-    fig.update_layout(shapes=era_blocks + event_markers)
+    # update layout and axes 
+    fig.update_layout(xaxis_range=[x_min, YEAR_N], yaxis_range=[0, vote_pct_max], plot_bgcolor='white', shapes=shapes)
+    fig.update_xaxes(gridcolor='#DDDDDD')
+    fig.update_yaxes(gridcolor='#DDDDDD')
 
     return fig
-
-
-def build_and_annotate_event_markers(fig, events, y_min, y_max):
-    # build markers and labels marking events 
-    event_markers = []
-    for event in events:
-        # add vertical line for each event date
-        marker = dict(type='line', line_width=1, x0=event['year'], x1=event['year'], y0=0, y1=y_max)
-        event_markers.append(marker)
-        # add annotation for each event name and description
-        event_name = event['name']
-        if str(event['year']) not in event['name']: 
-            event_name = f"{event_name} ({event['year']})"
-        fig.add_annotation(x=event['year'], y=y_max, text=event_name, showarrow=False, 
-            yshift=-2, xshift=-7, textangle=-90, align='right', yanchor='top')
-        if event.get('desc'):
-            event_desc = f"<i>{event['desc']}</i>"
-            fig.add_annotation(x=event['year'], y=y_min, text=event_desc, showarrow=False, 
-                yshift=2, xshift=6, textangle=-90, align='left', yanchor='bottom')
-
-    return event_markers
-
-
-def build_and_annotate_era_blocks(fig, eras, x_min, y_max):
-    # build shaded blocks designating eras
-    era_blocks = []
-    for era in eras:
-        # add rectangle for each era date range
-        block = dict(type='rect', line_width=0, x0=era['begin'], x1=era['end'], y0=0, y1=y_max, 
-                    fillcolor=era['color'], opacity=0.1)
-        era_blocks.append(block) 
-        # add annotation for each era
-        era_begin = era['begin']
-        if era_begin < x_min:
-            era_begin = x_min
-        era_len = era['end'] - era_begin
-        era_mid = (era['end'] + era_begin) / 2
-        showarrow = False
-        yshift = 8
-        if era_len < 10:
-            showarrow = True
-            yshift = 0
-        
-        era_name = f"<b>{era['name']}</b>"
-        fig.add_annotation(x=era_mid, y=y_max, text=era_name, showarrow=showarrow, yshift=yshift)
-
-    return era_blocks

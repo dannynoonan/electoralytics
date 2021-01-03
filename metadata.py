@@ -50,6 +50,7 @@ class Columns():
         self.TOTAL_POP = 'Total population'
         self.STATE_COUNT = 'State count'
         self.STATES_IN_GROUP = 'States in group'
+        self.STATES_USING_POP = 'States using popular vote'
         self.MOST_EC_VOTES = 'Most EC votes'
 
 
@@ -115,7 +116,8 @@ GROUP_COLORS = {
     GROUP_LABEL_SMALL_3: '#AAAAAA',
     GROUP_LABEL_SMALL_4: '#AAAAAA',
     GROUP_LABEL_SMALL_5: '#AAAAAA',
-    # 'Small': '#AAAAAA', # '#EF553B'
+    # 'Small': '#AAAAAA', # '#EF553B',
+    'Nat\'l Average': '#444444',
 }
 
 GROUP_ALT_COLORS = {
@@ -182,7 +184,7 @@ FRAME_RATE = 1000
 
 # historical events/eras/descriptions 
 EVENTS = [
-    {'year': 1788, 'name': 'Nation\'s founding', 'desc': 'State legislatures/property-owning white males can vote'},
+    {'year': 1788, 'name': 'First presidential election', 'desc': 'State legislatures/property-owning white males can vote'},
     # {'year': 1800, 'name': 'Jeffersonian democracy'},
     {'year': 1828, 'name': 'Jacksonian democracy begins', 'desc': 'Most tax/property-based voting restrictions eliminated'},
     # {'year': 1857, 'name': 'Dred Scott v Sandford'},
@@ -213,11 +215,11 @@ EVENTS = [
 ]
 
 ERAS = [
-    {'begin': 1788, 'end': 1861, 'name': 'Antebellum Period', 'color': '#636EFA'},
+    {'begin': 1788, 'end': 1861, 'name': 'Antebellum Period', 'color': '#E9DCD0'},
     {'begin': 1861, 'end': 1865, 'name': 'Civil War', 'color': '#FECB52'},
-    {'begin': 1865, 'end': 1877, 'name': 'Reconstruction', 'color': '#00CC96'},
-    {'begin': 1877, 'end': 1896, 'name': 'Redemption', 'color': '#AB63FA'},
-    {'begin': 1896, 'end': 1954, 'name': 'Jim Crow Era', 'color': '#FFA15A'},
-    {'begin': 1954, 'end': 1965, 'name': 'Civil Rights Era', 'color': '#19D3F3'},
-    {'begin': 1965, 'end': YEAR_N, 'name': 'Post Voting Rights Act', 'color': '#FF6692'},
+    {'begin': 1865, 'end': 1877, 'name': 'Reconstruction', 'color': '#FFA15A'},
+    {'begin': 1877, 'end': 1896, 'name': 'Redemption', 'color': '#EAE7C4'},
+    {'begin': 1896, 'end': 1954, 'name': 'Jim Crow Era', 'color': '#DBD2DA'},
+    {'begin': 1954, 'end': 1965, 'name': 'Civil Rights Era', 'color': '#FECB52'},
+    {'begin': 1965, 'end': YEAR_N, 'name': 'Post Voting Rights Act', 'color': '#FDFCE8'},
 ]
