@@ -214,6 +214,8 @@ while year <= YEAR_N:
 
     # extract national average data from totals_by_year to be added to group_aggs_by_year
     year_totals = totals_by_year[totals_by_year[cols.YEAR] == year]
+    # drop US row
+    
     # init and populate new df for year matching column structure for group_aggs_by_year
     year_total_aggs = pd.DataFrame(columns=[cols.GROUP, cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTES_COUNTED_NORM, cols.VOTES_COUNTED_PCT, 
                                 cols.EC_VOTES_NORM, cols.POP_PER_EC, cols.AVG_WEIGHT, cols.STATE_COUNT, cols.STATES_IN_GROUP])

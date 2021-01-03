@@ -8,38 +8,11 @@ cols = Columns()
 fig_dims = FigDimensions()
 
 
-# def add_national_average_line(group_aggs_by_year_df, totals_by_year_df):
-#     year = YEAR_0
-#     while year <= YEAR_N:
-#         # extract year data from totals_by_year
-#         year_totals = totals_by_year_df[totals_by_year_df[cols.YEAR] == year]
-#         # init and populate new df for year matching column structure for group_aggs_by_year_df
-#         df = pd.DataFrame(columns=[cols.GROUP, cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTES_COUNTED_NORM, cols.VOTES_COUNTED_PCT,
-#                         cols.EC_VOTES_NORM, cols.POP_PER_EC, cols.AVG_WEIGHT, cols.STATE_COUNT, cols.STATES_IN_GROUP])
-#         df[cols.GROUP] = "Nat'l Average"
-#         df[cols.YEAR] = year
-#         df[cols.EC_VOTES] = year_totals[cols.EC_VOTES].item()
-#         df[cols.VOTES_COUNTED] = year_totals[cols.VOTES_COUNTED].item()
-#         df[cols.VOTES_COUNTED_NORM] = year_totals[cols.VOTES_COUNTED].item()
-#         df[cols.VOTES_COUNTED_PCT] = 100
-#         df[cols.EC_VOTES_NORM] = year_totals[cols.EC_VOTES].item()
-#         df[cols.POP_PER_EC] = year_totals[cols.POP_PER_EC].item()
-#         df[cols.AVG_WEIGHT] = 1.0 
-#         df[cols.STATE_COUNT] = year_totals[cols.STATE_COUNT].item() 
-#         df[cols.STATES_IN_GROUP] = f"All {year_totals[cols.STATE_COUNT].item()}"
-#         # concat single year df to group_aggs_by_year_df
-#         group_aggs_by_year_df = pd.concat([group_aggs_by_year_df, df], ignore_index=True, sort=False)
-
-#         year = year + 4
-
-#     return group_aggs_by_year_df
-
-
 def build_and_annotate_event_markers(fig, events, y_min, y_max, y_min2=None, y_max2=None):
     if not y_min2:
         y_min2 = y_min
     if not y_max2:
-        y_max2 = y_max2
+        y_max2 = y_max
 
     # build markers and labels marking events 
     event_markers = []
@@ -61,7 +34,10 @@ def build_and_annotate_event_markers(fig, events, y_min, y_max, y_min2=None, y_m
     return event_markers
 
 
-def build_and_annotate_era_blocks(fig, eras, x_min, y_min, y_max):
+def build_and_annotate_era_blocks(fig, eras, x_min, y_min, y_max, y_max2=None):
+    if not y_max2:
+        y_max2 = y_max
+
     # build shaded blocks designating eras
     era_blocks = []
     for era in eras:
@@ -69,19 +45,24 @@ def build_and_annotate_era_blocks(fig, eras, x_min, y_min, y_max):
         block = dict(type='rect', line_width=0, x0=era['begin'], x1=era['end'], y0=y_min, y1=y_max, 
                     fillcolor=era['color'], opacity=0.1)
         era_blocks.append(block) 
-        # add annotation for each era
+        # add annotation for each era, centering text above rectangle
         era_begin = era['begin']
         if era_begin < x_min:
             era_begin = x_min
-        era_len = era['end'] - era_begin
         era_mid = (era['end'] + era_begin) / 2
-        showarrow = False
-        yshift = 8
-        if era_len < 10:
-            showarrow = True
-            yshift = 0
-        
         era_name = f"<b>{era['name']}</b>"
-        fig.add_annotation(x=era_mid, y=y_max, text=era_name, showarrow=showarrow, yshift=yshift)
+        # special positioning for eras whose text would overlap
+        if era['name'] in ['Civil War', 'Reconstruction']:
+            if era['name'] == 'Civil War':
+                xshift = -2
+                yshift = 0
+            if era['name'] == 'Reconstruction':
+                xshift = 8
+                yshift = -12
+            fig.add_annotation(x=era_mid, y=y_max2, text=era_name, showarrow=True, arrowhead=2, xshift=xshift, yshift=yshift)
+        # standard positioning for other eras
+        else:
+            yshift = 8
+            fig.add_annotation(x=era_mid, y=y_max2, text=era_name, showarrow=False, yshift=yshift)
 
     return era_blocks

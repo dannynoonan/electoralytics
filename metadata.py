@@ -215,11 +215,11 @@ EVENTS = [
 ]
 
 ERAS = [
-    {'begin': 1788, 'end': 1861, 'name': 'Antebellum Period', 'color': '#E9DCD0'},
-    {'begin': 1861, 'end': 1865, 'name': 'Civil War', 'color': '#FECB52'},
-    {'begin': 1865, 'end': 1877, 'name': 'Reconstruction', 'color': '#FFA15A'},
-    {'begin': 1877, 'end': 1896, 'name': 'Redemption', 'color': '#EAE7C4'},
+    {'begin': 1788, 'end': 1861, 'name': 'Antebellum Period', 'color': '#E0E9BB'},
+    {'begin': 1861, 'end': 1865, 'name': 'Civil War', 'color': '#FFA15A'},
+    {'begin': 1865, 'end': 1877, 'name': 'Reconstruction', 'color': '#BFD9D9'},
+    {'begin': 1877, 'end': 1896, 'name': 'Redemption', 'color': '#FECB52'},
     {'begin': 1896, 'end': 1954, 'name': 'Jim Crow Era', 'color': '#DBD2DA'},
-    {'begin': 1954, 'end': 1965, 'name': 'Civil Rights Era', 'color': '#FECB52'},
-    {'begin': 1965, 'end': YEAR_N, 'name': 'Post Voting Rights Act', 'color': '#FDFCE8'},
+    {'begin': 1954, 'end': 1965, 'name': 'Civil Rights Era', 'color': '#F8BCBC'},
+    {'begin': 1965, 'end': YEAR_N, 'name': 'Post Voting Rights Act', 'color': '#BCEFD6'},
 ]

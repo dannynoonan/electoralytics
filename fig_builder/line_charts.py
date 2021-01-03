@@ -18,7 +18,6 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
     data_obj.load_dfs_for_subdir(subdir)
     data_obj.load_totals_by_year
     group_aggs_by_year_df = data_obj.group_agg_weights_pivot_dfs[subdir]
-    # group_aggs_by_year_df = add_national_average_line(group_aggs_by_year_df, data_obj.totals_by_year_df)
     groups = GROUPS_FOR_DIR[groups_dir]
     group_col = GROUPS_COL_FOR_DIR[groups_dir]
 
@@ -82,9 +81,9 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
     fig.update_yaxes(title_text=y_axis_text)
 
     # build markers and labels marking events 
-    event_markers = build_and_annotate_event_markers(fig, EVENTS, avg_weight_min, avg_weight_max, orig_avg_weight_min, orig_avg_weight_max)
+    event_markers = build_and_annotate_event_markers(fig, EVENTS, avg_weight_min, avg_weight_max, y_min2=orig_avg_weight_min, y_max2=orig_avg_weight_max)
     # build shaded blocks designating eras
-    era_blocks = build_and_annotate_era_blocks(fig, ERAS, YEAR_0, orig_avg_weight_min, orig_avg_weight_max)
+    era_blocks = build_and_annotate_era_blocks(fig, ERAS, YEAR_0, orig_avg_weight_min, orig_avg_weight_max, y_max2=avg_weight_max)
     shapes = event_markers + era_blocks
 
     # update layout and axes
@@ -126,8 +125,12 @@ def build_total_vote_line_chart(data_obj, fig_width=None):
     era_blocks = build_and_annotate_era_blocks(fig, ERAS, x_min, 0, vote_pct_max)
     shapes = era_blocks + event_markers
 
+    # have x axis ticks every 20 years from 1800-2020
+    x_axis_ticks = dict(tickmode='array', tickvals=[x*20 for x in range(90, 102)])
+
     # update layout and axes 
-    fig.update_layout(xaxis_range=[x_min, YEAR_N], yaxis_range=[0, vote_pct_max], plot_bgcolor='white', shapes=shapes)
+    fig.update_layout(xaxis_range=[x_min, YEAR_N], yaxis_range=[0, vote_pct_max], xaxis=x_axis_ticks,
+                    plot_bgcolor='white', shapes=shapes)
     fig.update_xaxes(gridcolor='#DDDDDD')
     fig.update_yaxes(gridcolor='#DDDDDD')
 

@@ -188,6 +188,9 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
     if frame:
         group_aggs_by_year_df = group_aggs_by_year_df[group_aggs_by_year_df[cols.YEAR] == frame]
 
+    # remove the Nat'l Average data
+    group_aggs_by_year_df = group_aggs_by_year_df.loc[~(group_aggs_by_year_df[cols.GROUP] == "Nat'l Average")]
+
     if not fig_width:
         fig_width = fig_dims.MD6
     fig_height = fig_dims.crt(fig_width)
@@ -247,6 +250,9 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fi
     if frame:
         group_aggs_by_year_df = group_aggs_by_year_df[group_aggs_by_year_df[cols.YEAR] == frame]
 
+    # remove the Nat'l Average data
+    group_aggs_by_year_df = group_aggs_by_year_df.loc[~(group_aggs_by_year_df[cols.GROUP] == "Nat'l Average")]
+
     if not fig_width:
         fig_width = fig_dims.MD6
     fig_height = fig_dims.crt(fig_width)
@@ -257,7 +263,7 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fi
     weight_max = group_aggs_by_year_df[cols.AVG_WEIGHT].max() * 1.1
 
     # display metadata
-    hover_data = {cols.VOTES_COUNTED: True, cols.STATE_COUNT: True, cols.STATES_IN_GROUP: True, cols.POP_PER_EC_SHORT: True}
+    hover_data = {cols.GROUP: False, cols.VOTES_COUNTED: True, cols.STATE_COUNT: True, cols.STATES_IN_GROUP: True, cols.POP_PER_EC_SHORT: True}
     base_fig_title = 'Average Vote Weight Per Person Per Region'
     if frame:
         era = get_era_for_year(frame)

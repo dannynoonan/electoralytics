@@ -154,7 +154,8 @@ class DataObject():
     def load_all_states_meta(self):
         print(f'loading {dfiles.THE_ONE_RING} to extract all_states_meta')
         the_one_ring = pd.read_csv(dfiles.THE_ONE_RING)
-        self.all_states_meta_df = the_one_ring[[cols.ABBREV, cols.STATE, cols.ACW_GROUP, cols.CENSUS_GROUP]]
+        all_states_meta_df = the_one_ring[[cols.ABBREV, cols.STATE, cols.ACW_GROUP, cols.CENSUS_GROUP]]
+        self.all_states_meta_df = all_states_meta_df.loc[~(all_states_meta_df[cols.STATE] == 'United States')]
 
 
     def load_abbrevs_to_states(self):

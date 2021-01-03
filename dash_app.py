@@ -139,7 +139,7 @@ form_input_vw_over_time_line_chart = dbc.FormGroup([
             dcc.Checklist(
                 id="show-groups-input",
                 options=[
-                    {'label': 'Show State Groups:', 'value': 'show'}
+                    {'label': 'Show State Groups', 'value': 'show'}
                 ],
                 value=['show'],
                 inputStyle={"margin-left": "10px", "margin-right": "4px"}
@@ -459,12 +459,10 @@ def display_regional_aggregate_figs(year_input, groupings_input, max_small_input
         log_y = False
     else:
         log_y = True
-    print(f'show_groups: {show_groups}, type(show_groups): {type(show_groups)}')
     if 'show' in show_groups:
         hide_groups = False
     else:
         hide_groups = True
-    print(f'hide_groups: {hide_groups}')
     # generate figs
     # fig_map_1 = fig_builder.build_state_groups_map(data_obj, groupings_input, max_small_input, frame=year)
     fig_line_ivw_by_state_group = line_charts.build_ivw_by_state_group_line_chart(
