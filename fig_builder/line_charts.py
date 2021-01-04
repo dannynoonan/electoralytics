@@ -13,7 +13,8 @@ cols = Columns()
 fig_dims = FigDimensions()
 
 
-def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_width=None, hide_groups=False, state_abbrevs=None, log_y=False):
+def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_width=None, fig_height=None, hide_groups=False, 
+                                        state_abbrevs=None, log_y=False, display_eras=True):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     data_obj.load_totals_by_year
@@ -34,7 +35,8 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
 
     if not fig_width:
         fig_width = fig_dims.MD6
-    fig_height = 700
+    if not fig_height:
+        fig_height = 700
 
     # merge selected states into group aggs df
     if state_abbrevs:
@@ -51,8 +53,15 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
             group_colors[state] = GROUP_ALT_COLORS[state_group]
 
     # display metadata
-    hover_data = {cols.GROUP: False, cols.STATES_IN_GROUP: True, cols.EC_VOTES: True}
-    fig_title = 'Average Vote Weight Per Ballot Cast For Each Election, Grouped By Region'
+    hover_data = {cols.GROUP: False, cols.YEAR: False, cols.STATES_IN_GROUP: True, cols.EC_VOTES: True}
+    # add hover data if we're only comparing states
+    if hide_groups and len(state_abbrevs) < 5:
+        hover_data[cols.VOTES_COUNTED] = True
+        hover_data[cols.POP_PER_EC_SHORT] = True
+        hover_data[cols.AVG_WEIGHT] = True
+    fig_title = 'Average Vote Weight Per Ballot Cast For Each Election'
+    if not hide_groups:
+        fig_title = f"{fig_title}, Grouped By Region"
     # TODO not sure the best way to organize this. I think it's only necessary because of inconsistencies in how plotly 
     # translates log values for y0 and y1. When I have time I'll file a bug or post to stackoverflow. 
     avg_weight_min = group_aggs_by_year_df[group_aggs_by_year_df[cols.AVG_WEIGHT] > 0][cols.AVG_WEIGHT].min() * 0.9
@@ -80,16 +89,20 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
         y_axis_text = f"{y_axis_text} (log)"
     fig.update_yaxes(title_text=y_axis_text)
 
-    # build markers and labels marking events 
-    event_markers = build_and_annotate_event_markers(fig, EVENTS, avg_weight_min, avg_weight_max, y_min2=orig_avg_weight_min, y_max2=orig_avg_weight_max)
-    # build shaded blocks designating eras
-    era_blocks = build_and_annotate_era_blocks(fig, ERAS, YEAR_0, orig_avg_weight_min, orig_avg_weight_max, y_max2=avg_weight_max)
-    shapes = event_markers + era_blocks
+    # have x axis ticks every 20 years from 1840-2020
+    x_axis_ticks = dict(tickmode='array', tickvals=[x*20 for x in range(92, 102)])
 
     # update layout and axes
-    fig.update_layout(xaxis_range=[YEAR_0, YEAR_N], yaxis_range=[avg_weight_min, avg_weight_max], plot_bgcolor='white', shapes=shapes)
+    fig.update_layout(xaxis_range=[YEAR_0, YEAR_N], yaxis_range=[avg_weight_min, avg_weight_max], plot_bgcolor='white', xaxis=x_axis_ticks,
+                    hovermode="x")
     fig.update_xaxes(gridcolor='#DDDDDD')
     fig.update_yaxes(gridcolor='#DDDDDD')
+
+    # if display_eras, add shaded blocks and labels designating eras, and add markers and labels designating events 
+    if display_eras:
+        era_blocks = build_and_annotate_era_blocks(fig, ERAS, YEAR_0, orig_avg_weight_min, orig_avg_weight_max, y_max2=avg_weight_max)
+        event_markers = build_and_annotate_event_markers(fig, EVENTS, avg_weight_min, avg_weight_max, y_min2=orig_avg_weight_min, y_max2=orig_avg_weight_max)
+        fig.update_layout(shapes=event_markers + era_blocks)
 
     return fig
 

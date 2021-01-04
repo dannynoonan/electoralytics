@@ -43,7 +43,7 @@ def build_and_annotate_era_blocks(fig, eras, x_min, y_min, y_max, y_max2=None):
     for era in eras:
         # add rectangle for each era date range
         block = dict(type='rect', line_width=0, x0=era['begin'], x1=era['end'], y0=y_min, y1=y_max, 
-                    fillcolor=era['color'], opacity=0.1)
+                    fillcolor=era['color'], opacity=0.12)
         era_blocks.append(block) 
         # add annotation for each era, centering text above rectangle
         era_begin = era['begin']

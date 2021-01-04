@@ -214,8 +214,6 @@ while year <= YEAR_N:
 
     # extract national average data from totals_by_year to be added to group_aggs_by_year
     year_totals = totals_by_year[totals_by_year[cols.YEAR] == year]
-    # drop US row
-    
     # init and populate new df for year matching column structure for group_aggs_by_year
     year_total_aggs = pd.DataFrame(columns=[cols.GROUP, cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTES_COUNTED_NORM, cols.VOTES_COUNTED_PCT, 
                                 cols.EC_VOTES_NORM, cols.POP_PER_EC, cols.AVG_WEIGHT, cols.STATE_COUNT, cols.STATES_IN_GROUP])
@@ -229,8 +227,12 @@ while year <= YEAR_N:
     year_total_aggs[cols.EC_VOTES_NORM] = year_totals[cols.EC_VOTES].item()
     year_total_aggs[cols.POP_PER_EC] = year_totals[cols.POP_PER_EC].item()
     year_total_aggs[cols.AVG_WEIGHT] = 1.0 
-    year_total_aggs[cols.STATE_COUNT] = year_totals[cols.STATE_COUNT].item() 
-    year_total_aggs[cols.STATES_IN_GROUP] = f"All {year_totals[cols.STATE_COUNT].item()}"
+    state_count = year_totals[cols.STATE_COUNT].item()
+    states_in_group = f"All {state_count}"
+    if year > 1963:
+        states_in_group = f"All {state_count-1} + DC"
+    year_total_aggs[cols.STATE_COUNT] = state_count 
+    year_total_aggs[cols.STATES_IN_GROUP] = states_in_group
     # concat year_total_aggs to group_aggs_by_year_df
     group_aggs_by_year = pd.concat([group_aggs_by_year, year_total_aggs], ignore_index=True, sort=False)
 

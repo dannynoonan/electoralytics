@@ -1,7 +1,7 @@
 import plotly.express as px
 import plotly.graph_objects as go
 
-from data_processor.functions import get_era_for_year, map_to_subdir
+from data_processor.functions import apply_animation_settings, get_era_for_year, map_to_subdir
 from metadata import Columns, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, YEAR_0, YEAR_N
 
 
@@ -10,6 +10,7 @@ fig_dims = FigDimensions()
 
 
 def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, fig_width=None, frame=None):
+    print("begin build_ivw_by_state_scatter_dots")
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir]
@@ -58,6 +59,11 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, fig_width=N
     fig.update_yaxes(title_text='Electoral college votes per state')
 
     fig.update_layout(title_x=0.45)
+
+    if not frame:
+        apply_animation_settings(fig, base_fig_title)
+
+    print("end build_ivw_by_state_scatter_dots")
 
     return fig
 

@@ -194,6 +194,7 @@ EVENTS = [
     # {'year': 1868, 'name': '14th Amendment'},
     {'year': 1870, 'name': '15th Amendment', 'desc': 'Black male suffrage'},
     {'year': 1877, 'name': 'Compromise of 1877', 'desc': 'Federal troops leave South, \'Redeemer\' govts take power'},
+    {'year': 1883, 'name': 'Civil Rights Act of 1875 overturned', 'desc': 'Federal anti-discrimination laws unconstitutional'},
     {'year': 1887, 'name': 'Dawes Act', 'desc': 'Suffrage to Native Americans who leave tribes'},
     {'year': 1896, 'name': 'Plessy v Ferguson:', 'desc': '\'Separate but equal\' segregation in the South'},
     # {'year': 1915, 'name': 'Second KKK reborn in Georgia'},
@@ -205,21 +206,32 @@ EVENTS = [
     {'year': 1943, 'name': 'Magnuson Act', 'desc': 'Suffrage to Chinese immigrants'},
     {'year': 1954, 'name': 'Brown v Board of Education', 'desc': 'Segregated public schools unconstitutional'},
     # {'year': 1955, 'name': 'Emmett Till lynching, Montgomery bus boycott'},
-    # {'year': 1960, 'name': 'Sit-ins'},
+    # {'year': 1957, 'name': 'Civil Rights Act of 1957'}, 
+    # {'year': 1960, 'name': 'Civil Rights Act of 1960, Sit-ins'},
     # {'year': 1961, 'name': '23rd Amendment', 'desc': 'Washington DC citizens can vote for President'}, 
-    # {'year': 1964, 'name': 'Civil Rights Act, 24th Amendment abolishes poll taxes'}, 
+    # {'year': 1964, 'name': 'Civil Rights Act of 1964, 24th Amendment abolishes poll taxes'}, 
     {'year': 1965, 'name': 'Voting Rights Act', 'desc': 'Voting protections for racial minorities'},
     {'year': 1971, 'name': '26th Amendment', 'desc': 'Suffrage extended to 18-year-olds'},
     {'year': 2006, 'name': 'Voting Rights Act extended for last time'},
     {'year': 2013, 'name': 'Shelby County v Holder', 'desc': 'Voting Rights Act loses oversight power'},
 ]
 
-ERAS = [
+ERAS_BK = [
     {'begin': 1788, 'end': 1861, 'name': 'Antebellum Period', 'color': '#E0E9BB'},
     {'begin': 1861, 'end': 1865, 'name': 'Civil War', 'color': '#FFA15A'},
     {'begin': 1865, 'end': 1877, 'name': 'Reconstruction', 'color': '#BFD9D9'},
     {'begin': 1877, 'end': 1896, 'name': 'Redemption', 'color': '#FECB52'},
     {'begin': 1896, 'end': 1954, 'name': 'Jim Crow Era', 'color': '#DBD2DA'},
-    {'begin': 1954, 'end': 1965, 'name': 'Civil Rights Era', 'color': '#F8BCBC'},
-    {'begin': 1965, 'end': YEAR_N, 'name': 'Post Voting Rights Act', 'color': '#BCEFD6'},
+    {'begin': 1954, 'end': 1968, 'name': 'Civil Rights Era', 'color': '#F8BCBC'},
+    {'begin': 1968, 'end': YEAR_N, 'name': 'Post Civil Rights Era', 'color': '#BCEFD6'},
+]
+
+ERAS = [
+    {'begin': 1788, 'end': 1861, 'name': 'Antebellum Period', 'color': '#4CF3CE'},
+    {'begin': 1861, 'end': 1865, 'name': 'Civil War', 'color': '#FFFF4D'},
+    {'begin': 1865, 'end': 1877, 'name': 'Reconstruction', 'color': '#ADFF2F'},
+    {'begin': 1877, 'end': 1896, 'name': 'Redemption', 'color': '#4CF3CE'},
+    {'begin': 1896, 'end': 1954, 'name': 'Jim Crow Era', 'color': '#FFFF4D'},
+    {'begin': 1954, 'end': 1968, 'name': 'Civil Rights Era', 'color': '#ADFF2F'},
+    {'begin': 1968, 'end': YEAR_N, 'name': 'Post Civil Rights Era', 'color': '#4CF3CE'},
 ]
