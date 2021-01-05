@@ -18,7 +18,7 @@ def build_and_annotate_event_markers(fig, events, y_min, y_max, y_min2=None, y_m
     event_markers = []
     for event in events:
         # add vertical line for each event date
-        marker = dict(type='line', line_width=1, x0=event['year'], x1=event['year'], y0=y_min2, y1=y_max2)
+        marker = dict(type='line', line_width=1, line_color='#888888', x0=event['year'], x1=event['year'], y0=y_min2, y1=y_max2)
         event_markers.append(marker)
         # add annotation for each event name and description
         event_name = event['name']

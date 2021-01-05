@@ -113,8 +113,8 @@ year_slider = dbc.FormGroup([
 form_input_vw_over_time_line_chart = dbc.FormGroup([
     html.Br(),
     dbc.Row([
-        dbc.Col(md=2, style={'textAlign': 'end'}, children=[html.H5("Display individual states:")]),
-        dbc.Col(md=2, children=[
+        dbc.Col(md=2, style={'textAlign': 'right'}, children=[html.H5("Display individual states:")]),
+        dbc.Col(md=2, style={'textAlign': 'left'}, children=[
             dcc.Dropdown(
                 id="multi-state-input",
                 options=[{'label': state, 'value': abbrev} for abbrev, state in data_obj.abbrevs_to_states.items()],
@@ -122,8 +122,8 @@ form_input_vw_over_time_line_chart = dbc.FormGroup([
                 value=''
             )
         ]),
-        dbc.Col(md=1, style={'textAlign': 'end'}, children=[html.H5("Y axis scale:")]),
-        dbc.Col(md=2, children=[
+        dbc.Col(md=1, style={'textAlign': 'right'}, children=[html.H5("Y axis scale:")]),
+        dbc.Col(md=1, style={'textAlign': 'left'}, children=[
             dcc.RadioItems(
                 id="y-axis-input",
                 options=[
@@ -131,18 +131,37 @@ form_input_vw_over_time_line_chart = dbc.FormGroup([
                     {'label': 'Log', 'value': 'log'}
                 ],
                 value='linear',
-                inputStyle={"margin-left": "10px", "margin-right": "4px"}
+                inputStyle={"margin-left": "4px", "margin-right": "4px"}
             )
         ]),
-        # dbc.Col(md=1, style={'textAlign': 'end'}, children=[html.H5("Y axis scale:")]),
-        dbc.Col(md=2, children=[
+        dbc.Col(md=2, style={'textAlign': 'center'}, children=[
             dcc.Checklist(
                 id="show-groups-input",
                 options=[
-                    {'label': 'Show State Groups', 'value': 'show'}
+                    {'label': 'Show State Groups', 'value': 'show_groups'}
                 ],
-                value=['show'],
-                inputStyle={"margin-left": "10px", "margin-right": "4px"}
+                value=['show_groups'],
+                inputStyle={"margin-left": "4px", "margin-right": "4px"}
+            )
+        ]),
+        dbc.Col(md=2, style={'textAlign': 'center'}, children=[
+            dcc.Checklist(
+                id="show-events-input",
+                options=[
+                    {'label': 'Show Events', 'value': 'show_events'}
+                ],
+                value=['show_events'],
+                inputStyle={"margin-left": "4px", "margin-right": "4px"}
+            )
+        ]),
+        dbc.Col(md=2, style={'textAlign': 'center'}, children=[
+            dcc.Checklist(
+                id="show-eras-input",
+                options=[
+                    {'label': 'Show Eras', 'value': 'show_eras'}
+                ],
+                value=['show_eras'],
+                inputStyle={"margin-left": "4px", "margin-right": "4px"}
             )
         ])
     ])
@@ -448,9 +467,11 @@ def display_state_level_figs(year_input, groupings_input, max_small_input):
     Input('max-small-input', 'value'),
     [Input('multi-state-input', 'value')],
     Input('y-axis-input', 'value'),
-    [Input('show-groups-input', 'value')]
+    [Input('show-groups-input', 'value')],
+    [Input('show-events-input', 'value')],
+    [Input('show-eras-input', 'value')]
 )
-def display_regional_aggregate_figs(year_input, groupings_input, max_small_input, state_abbrevs, y_axis, show_groups):
+def display_regional_aggregate_figs(year_input, groupings_input, max_small_input, state_abbrevs, y_axis, show_groups_input, show_events_input, show_eras_input):
     print(f"#### in display_regional_aggregate_figs")
     # process input
     year = int(year_input)
@@ -459,14 +480,23 @@ def display_regional_aggregate_figs(year_input, groupings_input, max_small_input
         log_y = False
     else:
         log_y = True
-    if 'show' in show_groups:
+    if 'show_groups' in show_groups_input:
         hide_groups = False
     else:
         hide_groups = True
+    if 'show_events' in show_events_input:
+        show_events = True
+    else:
+        show_events = False
+    if 'show_eras' in show_eras_input:
+        show_eras = True
+    else:
+        show_eras = False
     # generate figs
     # fig_map_1 = fig_builder.build_state_groups_map(data_obj, groupings_input, max_small_input, frame=year)
     fig_line_ivw_by_state_group = line_charts.build_ivw_by_state_group_line_chart(
-        data_obj, groupings_input, max_small, fig_width=fig_dims.MD12, hide_groups=hide_groups, state_abbrevs=state_abbrevs, log_y=log_y)
+        data_obj, groupings_input, max_small, fig_width=fig_dims.MD12, hide_groups=hide_groups, state_abbrevs=state_abbrevs, log_y=log_y,
+        display_events=show_events, display_eras=show_eras)
     fig_line_total_vote_over_time = line_charts.build_total_vote_line_chart(data_obj, fig_width=fig_dims.MD12)
     fig_box_1 = box_plots.build_ivw_by_state_group_box_plot(data_obj, groupings_input, max_small, frame=year)
     fig_scatter_dots = scatter_plots.build_ivw_by_state_group_scatter_dots(data_obj, groupings_input, max_small, frame=year)

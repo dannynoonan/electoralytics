@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 from data_processor.functions import map_to_subdir, append_state_vw_pivot_to_groups_aggs_df
 from fig_builder.line_charts_helper import build_and_annotate_event_markers, build_and_annotate_era_blocks
 from metadata import (
-    Columns, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, COLORS_PLOTLY, GROUP_ALT_COLORS, GROUPS_COL_FOR_DIR,
+    Columns, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, GROUP_ALT_COLORS, GROUPS_COL_FOR_DIR,
     YEAR_0, YEAR_N, EVENTS, ERAS)
 
 
@@ -13,8 +13,13 @@ cols = Columns()
 fig_dims = FigDimensions()
 
 
+TRACE_MAX_FOR_EXPANDED_HOVERDATA = 5
+TRACE_MAX_FOR_HOVERMODE_X = 7
+MAX_TRACE_COUNT = 22
+
+
 def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_width=None, fig_height=None, hide_groups=False, 
-                                        state_abbrevs=None, log_y=False, display_eras=True):
+                                        state_abbrevs=None, log_y=False, display_eras=True, display_events=True):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     data_obj.load_totals_by_year
@@ -38,9 +43,25 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
     if not fig_height:
         fig_height = 700
 
+    # trace_count
+    trace_count = 1  # 1 for Nat'l Avg
+    if not hide_groups:
+        trace_count = trace_count + 4  # 4 for groups
+        if max_small > 0:
+            trace_count = trace_count + 1  # 1 for small group
+    if state_abbrevs:
+        trace_count = trace_count + len(state_abbrevs)  # 1 for each state
+    # print(f"trace_count: {trace_count}")
+    # secretly throttle trace_count shhhh... TODO handle this on front end
+    while trace_count > MAX_TRACE_COUNT:
+        state_abbrevs.pop()
+        trace_count = trace_count-1
+        # print(f"throttled trace_count: {trace_count}")
+
     # merge selected states into group aggs df
     if state_abbrevs:
         all_states_meta = data_obj.all_states_meta_df
+        group_counters = {}
         for state_abbrev in state_abbrevs:
             # extract state and group info for state_abbrev from all_states_meta df
             state = all_states_meta.loc[all_states_meta[cols.ABBREV] == state_abbrev][cols.STATE].item()
@@ -50,18 +71,30 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
             # append single-state df to group aggs df after transformation to sync their column names
             group_aggs_by_year_df = append_state_vw_pivot_to_groups_aggs_df(state_vw_pivot_df, group_aggs_by_year_df, group_colors)
             # update group_colors with additional color for state for line chart based on state's group mapping
-            group_colors[state] = GROUP_ALT_COLORS[state_group]
+            # funky logic to assign a potentially endless number of states to one of three color variants for any given group
+            if state_group in group_counters:
+                grp_ctr = group_counters[state_group] % 3
+            else:
+                grp_ctr = 0
+            alt_group_label = f"{state_group}{grp_ctr}"
+            group_colors[state] = GROUP_ALT_COLORS[alt_group_label]
+            group_counters[state_group] = grp_ctr+1    
+
+    
+
 
     # display metadata
     hover_data = {cols.GROUP: False, cols.YEAR: False, cols.STATES_IN_GROUP: True, cols.EC_VOTES: True}
-    # add hover data if we're only comparing states
-    if hide_groups and len(state_abbrevs) < 5:
+    # add hover data if trace_count is small enough
+    if trace_count <= TRACE_MAX_FOR_EXPANDED_HOVERDATA or trace_count > TRACE_MAX_FOR_HOVERMODE_X:
         hover_data[cols.VOTES_COUNTED] = True
         hover_data[cols.POP_PER_EC_SHORT] = True
         hover_data[cols.AVG_WEIGHT] = True
     fig_title = 'Average Vote Weight Per Ballot Cast For Each Election'
     if not hide_groups:
         fig_title = f"{fig_title}, Grouped By Region"
+    if trace_count >= MAX_TRACE_COUNT:
+        fig_title = f"{fig_title} [** MAXES OUT AT 22 LINES **]"
     # TODO not sure the best way to organize this. I think it's only necessary because of inconsistencies in how plotly 
     # translates log values for y0 and y1. When I have time I'll file a bug or post to stackoverflow. 
     avg_weight_min = group_aggs_by_year_df[group_aggs_by_year_df[cols.AVG_WEIGHT] > 0][cols.AVG_WEIGHT].min() * 0.9
@@ -69,7 +102,9 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
     orig_avg_weight_min = avg_weight_min
     orig_avg_weight_max = avg_weight_max
     if log_y:
+        print(f"avg_weight_min just before log10ing myself: {avg_weight_min}")
         avg_weight_min = math.log(avg_weight_min, 10)
+        print(f"successfully log10d to: {avg_weight_min}")
         avg_weight_max = math.log(avg_weight_max, 10) * 1.05
         orig_avg_weight_max = orig_avg_weight_max * 1.05 
 
@@ -93,16 +128,21 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
     x_axis_ticks = dict(tickmode='array', tickvals=[x*20 for x in range(92, 102)])
 
     # update layout and axes
-    fig.update_layout(xaxis_range=[YEAR_0, YEAR_N], yaxis_range=[avg_weight_min, avg_weight_max], plot_bgcolor='white', xaxis=x_axis_ticks,
-                    hovermode="x")
+    fig.update_layout(xaxis_range=[YEAR_0, YEAR_N], yaxis_range=[avg_weight_min, avg_weight_max], plot_bgcolor='white', xaxis=x_axis_ticks)
+    if trace_count <= TRACE_MAX_FOR_HOVERMODE_X:
+        fig.update_layout(hovermode="x")
     fig.update_xaxes(gridcolor='#DDDDDD')
     fig.update_yaxes(gridcolor='#DDDDDD')
 
     # if display_eras, add shaded blocks and labels designating eras, and add markers and labels designating events 
+    shapes = []
     if display_eras:
         era_blocks = build_and_annotate_era_blocks(fig, ERAS, YEAR_0, orig_avg_weight_min, orig_avg_weight_max, y_max2=avg_weight_max)
+        shapes.extend(era_blocks)
+    if display_events:
         event_markers = build_and_annotate_event_markers(fig, EVENTS, avg_weight_min, avg_weight_max, y_min2=orig_avg_weight_min, y_max2=orig_avg_weight_max)
-        fig.update_layout(shapes=event_markers + era_blocks)
+        shapes.extend(event_markers)
+    fig.update_layout(shapes=shapes)
 
     return fig
 

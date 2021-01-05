@@ -122,18 +122,35 @@ GROUP_COLORS = {
 
 GROUP_ALT_COLORS = {
     # ACW
-    'Union': '#13387E',
-    'Confederate': '#A37021',
-    'Border': '#297150', 
-    'Postbellum': '#9C1A08',
+    'Union0': '#27408B',
+    'Union1': '#62B1F6',
+    'Union2': '#0276FD',
+    'Confederate0': '#B58517',
+    'Confederate1': '#FCB000',
+    'Confederate2': '#F99B36',
+    'Border0': '#98FB98', 
+    'Border1': '#3CB371', 
+    'Border2': '#ADFF2F', 
+    'Postbellum0': '#FA8072',
+    'Postbellum1': '#8B0000',
+    'Postbellum2': '#DC143C',
     # Census
-    'Northeast': '#0093B3',
-    'South': '#BF611A',
-    'Midwest': '#008C56',
-    'West': '#AB233A',
-    GROUP_LABEL_SMALL_3: '#6A6A6A',
-    GROUP_LABEL_SMALL_4: '#6A6A6A',
-    GROUP_LABEL_SMALL_5: '#6A6A6A',
+    'Northeast0': '#22316C',
+    'Northeast1': '#62B1F6',
+    'Northeast2': '#0276FD',
+    'South0': '#B58517',
+    'South1': '#FCB000',
+    'South2': '#F99B36',
+    'Midwest0': '#98FB98',
+    'Midwest1': '#3CB371', 
+    'Midwest2': '#ADFF2F', 
+    'West0': '#FA8072',
+    'West1': '#8B0000',
+    'West2': '#DC143C',
+    # Small
+    "Small0": '#9C9C9C',
+    "Small1": '#6A6A6A',
+    "Small2": '#888888',
 }
 
 # parties
@@ -162,18 +179,8 @@ PARTY_COLORS = {
     'split': 'Gray'
 }
 
-COLORS_PLOTLY = [
-    '#636EFA',
-    '#FECB52',
-    '#00CC96',
-    '#AB63FA',
-    '#FFA15A',
-    '#19D3F3',
-    '#FF6692',
-    '#B6E880',
-    '#FF97FF',
-    '#EF553B'
-]
+# just here for reference
+COLORS_PLOTLY = ['#636EFA', '#FECB52', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#EF553B']
 
 # years
 YEAR_0 = 1824
@@ -214,16 +221,6 @@ EVENTS = [
     {'year': 1971, 'name': '26th Amendment', 'desc': 'Suffrage extended to 18-year-olds'},
     {'year': 2006, 'name': 'Voting Rights Act extended for last time'},
     {'year': 2013, 'name': 'Shelby County v Holder', 'desc': 'Voting Rights Act loses oversight power'},
-]
-
-ERAS_BK = [
-    {'begin': 1788, 'end': 1861, 'name': 'Antebellum Period', 'color': '#E0E9BB'},
-    {'begin': 1861, 'end': 1865, 'name': 'Civil War', 'color': '#FFA15A'},
-    {'begin': 1865, 'end': 1877, 'name': 'Reconstruction', 'color': '#BFD9D9'},
-    {'begin': 1877, 'end': 1896, 'name': 'Redemption', 'color': '#FECB52'},
-    {'begin': 1896, 'end': 1954, 'name': 'Jim Crow Era', 'color': '#DBD2DA'},
-    {'begin': 1954, 'end': 1968, 'name': 'Civil Rights Era', 'color': '#F8BCBC'},
-    {'begin': 1968, 'end': YEAR_N, 'name': 'Post Civil Rights Era', 'color': '#BCEFD6'},
 ]
 
 ERAS = [
