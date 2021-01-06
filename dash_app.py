@@ -45,8 +45,9 @@ navbar = html.Div([
     html.H1('Electoralytics - Visualizing Historical Presidential Election Data', id="nav-pills"),
     dbc.Nav(className="nav nav-pills", children=[
         dbc.DropdownMenu(label="Pages / Graphs", nav=True, children=[
-            dbc.DropdownMenuItem([html.I(className="fa"), "Vote Weight Comparison Between States"], href='/vote-weight-comparison', target="_blank"), 
-            dbc.DropdownMenuItem([html.I(className="fa"), "Explanation of Regional State Groupings"], href='/explanation-of-groupings', target="_blank"), 
+            dbc.DropdownMenuItem([html.I(className="fa"), "Comparing Voter Impact Per State - Overview"], href='/voter-impact-comparison-overview', target="_blank"), 
+            dbc.DropdownMenuItem([html.I(className="fa"), "Comparing Voter Impact Per State - Details"], href='/voter-impact-comparison-details', target="_blank"), 
+            dbc.DropdownMenuItem([html.I(className="fa"), "Explanation of State Aggregate Groupings"], href='/explanation-of-groupings', target="_blank"), 
             dbc.DropdownMenuItem([html.I(className="fa"), "Sampler of Swallowed Votes"], href='/swallowed-vote-sampler', target="_blank"),
         ]),
         dbc.DropdownMenu(label="References / Resources", nav=True, children=[
@@ -59,7 +60,77 @@ navbar = html.Div([
 ])
 
 
-year_slider = dbc.FormGroup([
+# groups_pulldown = dbc.Col(md=2, children=[
+#     dcc.Dropdown(
+#         id="groupings-input", 
+#         options=[
+#             {'label': 'Civil War', 'value': ddirs.ACW},
+#             {'label': 'Regional Census', 'value': ddirs.CENSUS}
+#         ], 
+#         value=ddirs.ACW
+#     )
+# ]),
+
+# small_pulldown = dbc.Col(md=2, children=[
+#     dcc.Dropdown(
+#         id="max-small-input", 
+#         options=[
+#             {'label': 'No Small Group', 'value': '0'},
+#             {'label': '3 EC Votes', 'value': '3'},
+#             {'label': '3 or 4 EC Votes', 'value': '4'},
+#             {'label': '3 - 5 EC Votes', 'value': '5'},
+#         ], 
+#         value="4"
+#     )
+# ])
+
+
+# year_slider = dbc.Col(md=8, children=[
+#     dcc.Slider(
+#         id="year-input",
+#         min=YEAR_0,
+#         max=YEAR_N,
+#         marks={
+#             int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)'}}
+#             for y in data_obj.all_years
+#         },
+#         value=1960,
+#     )
+# ])
+
+
+# groups_selection = dbc.FormGroup([
+#     dbc.Row([
+#         # groups_pulldown,
+#         dbc.Col(md=2, children=[
+#             dcc.Dropdown(
+#                 id="groupings-input", 
+#                 options=[
+#                     {'label': 'Civil War', 'value': ddirs.ACW},
+#                     {'label': 'Regional Census', 'value': ddirs.CENSUS}
+#                 ], 
+#                 value=ddirs.ACW
+#             )
+#         ]),
+#         # small_pulldown,
+#         dbc.Col(md=2, children=[
+#             dcc.Dropdown(
+#                 id="max-small-input", 
+#                 options=[
+#                     {'label': 'No Small Group', 'value': '0'},
+#                     {'label': '3 EC Votes', 'value': '3'},
+#                     {'label': '3 or 4 EC Votes', 'value': '4'},
+#                     {'label': '3 - 5 EC Votes', 'value': '5'},
+#                 ], 
+#                 value="4"
+#             )
+#         ])
+#     ])
+# ])
+
+
+year_slider_and_groups_selection = dbc.FormGroup([
+    html.Br(),
     dbc.Row([
         dbc.Col(md=8, children=[
             html.H4("Election Year")
@@ -72,6 +143,7 @@ year_slider = dbc.FormGroup([
         ])
     ]),
     dbc.Row([
+        # year_slider,
         dbc.Col(md=8, children=[
             dcc.Slider(
                 id="year-input",
@@ -82,6 +154,78 @@ year_slider = dbc.FormGroup([
                     for y in data_obj.all_years
                 },
                 value=1960,
+            )
+        ]),
+        # groups_pulldown,
+        dbc.Col(md=2, children=[
+            dcc.Dropdown(
+                id="groupings-input", 
+                options=[
+                    {'label': 'Civil War', 'value': ddirs.ACW},
+                    {'label': 'Regional Census', 'value': ddirs.CENSUS}
+                ], 
+                value=ddirs.ACW
+            )
+        ]),
+        # small_pulldown,
+        dbc.Col(md=2, children=[
+            dcc.Dropdown(
+                id="max-small-input", 
+                options=[
+                    {'label': 'No Small Group', 'value': '0'},
+                    {'label': '3 EC Votes', 'value': '3'},
+                    {'label': '3 or 4 EC Votes', 'value': '4'},
+                    {'label': '3 - 5 EC Votes', 'value': '5'},
+                ], 
+                value="4"
+            )
+        ])
+    ])
+])
+
+
+form_input_vw_over_time_line_chart = dbc.FormGroup([
+    html.Br(),
+    dbc.Row([
+        dbc.Col(md=2),
+        dbc.Col(md=2, children=[
+            html.H4("Display individual states")
+        ]),
+        dbc.Col(md=2, children=[
+            html.H4("Show / Hide")
+        ]),
+        dbc.Col(md=2, children=[
+            html.H4("State Grouping")
+        ]),
+        dbc.Col(md=2, children=[
+            html.H4("Extract Small Group?")
+        ]),
+        dbc.Col(md=2, children=[
+            html.H4("Y axis scale")
+        ]),
+    ]),
+    dbc.Row([
+        dbc.Col(md=2, style={'textAlign': 'center'}, children=[
+            dbc.Button("Clear canvas", id="clear-all-input", className="mr-2")
+        ]),
+        dbc.Col(md=2, style={'textAlign': 'left'}, children=[
+            dcc.Dropdown(
+                id="multi-state-input",
+                options=[{'label': state, 'value': abbrev} for abbrev, state in data_obj.abbrevs_to_states.items()],
+                multi=True,
+                value=''
+            )
+        ]),
+        dbc.Col(md=2, style={'textAlign': 'center'}, children=[
+            dcc.Checklist(
+                id="show-hide-input",
+                options=[
+                    {'label': 'State Groups', 'value': 'show_groups'},
+                    {'label': 'Events', 'value': 'show_events'},
+                    {'label': 'Eras', 'value': 'show_eras'}
+                ],
+                value=['show_groups','show_events','show_eras'],
+                inputStyle={"margin-left": "4px", "margin-right": "4px"}
             )
         ]),
         dbc.Col(md=2, children=[
@@ -105,25 +249,8 @@ year_slider = dbc.FormGroup([
                 ], 
                 value="4"
             )
-        ])
-    ])
-])
-
-
-form_input_vw_over_time_line_chart = dbc.FormGroup([
-    html.Br(),
-    dbc.Row([
-        dbc.Col(md=2, style={'textAlign': 'right'}, children=[html.H5("Display individual states:")]),
-        dbc.Col(md=2, style={'textAlign': 'left'}, children=[
-            dcc.Dropdown(
-                id="multi-state-input",
-                options=[{'label': state, 'value': abbrev} for abbrev, state in data_obj.abbrevs_to_states.items()],
-                multi=True,
-                value=''
-            )
         ]),
-        dbc.Col(md=1, style={'textAlign': 'right'}, children=[html.H5("Y axis scale:")]),
-        dbc.Col(md=1, style={'textAlign': 'left'}, children=[
+        dbc.Col(md=2, style={'textAlign': 'left'}, children=[
             dcc.RadioItems(
                 id="y-axis-input",
                 options=[
@@ -134,36 +261,6 @@ form_input_vw_over_time_line_chart = dbc.FormGroup([
                 inputStyle={"margin-left": "4px", "margin-right": "4px"}
             )
         ]),
-        dbc.Col(md=2, style={'textAlign': 'center'}, children=[
-            dcc.Checklist(
-                id="show-groups-input",
-                options=[
-                    {'label': 'Show State Groups', 'value': 'show_groups'}
-                ],
-                value=['show_groups'],
-                inputStyle={"margin-left": "4px", "margin-right": "4px"}
-            )
-        ]),
-        dbc.Col(md=2, style={'textAlign': 'center'}, children=[
-            dcc.Checklist(
-                id="show-events-input",
-                options=[
-                    {'label': 'Show Events', 'value': 'show_events'}
-                ],
-                value=['show_events'],
-                inputStyle={"margin-left": "4px", "margin-right": "4px"}
-            )
-        ]),
-        dbc.Col(md=2, style={'textAlign': 'center'}, children=[
-            dcc.Checklist(
-                id="show-eras-input",
-                options=[
-                    {'label': 'Show Eras', 'value': 'show_eras'}
-                ],
-                value=['show_eras'],
-                inputStyle={"margin-left": "4px", "margin-right": "4px"}
-            )
-        ])
     ])
 ])
 
@@ -180,8 +277,40 @@ groupings_explanation_dropdown = dbc.FormGroup([
 ])
 
 
+
 ### LAYOUTS ###
-layout_1 = html.Div([
+voter_impact_comparison_overview = html.Div([
+    navbar,
+    html.Br(),
+    dbc.Row([
+        html.H3("Voter Impact and Participation Over Time"),
+    ], justify="center", align="center"),
+    dbc.Row([
+        dbc.Col(md=12, children=[
+            dbc.Tabs(className="nav nav-pills", children=[
+                dbc.Tab(label="Impact Per Voter Per State/Group Over Time", tab_style={"font-size": "20px"}, children=[
+                    form_input_vw_over_time_line_chart,
+                    # groups_selection,
+                    dbc.Row([
+                        dbc.Col(md=12, children=[
+                            dcc.Graph(id="fig-line-vote-weight-by-state-group"),
+                        ])
+                    ])
+                ]),
+                dbc.Tab(label="Voter Participation Nationally Over Time", tab_style={"font-size": "20px"}, children=[
+                    dbc.Row([
+                        dbc.Col(md=12, children=[
+                            dcc.Graph(id="fig-line-total-vote-over-time"),
+                        ])
+                    ])
+                ])
+            ])
+        ])
+    ])
+])
+
+
+voter_impact_comparison_details = html.Div([
     navbar,
     html.Br(),
     dbc.Row([
@@ -191,7 +320,7 @@ layout_1 = html.Div([
     ], justify="center", align="center"),
     dbc.Row([
         dbc.Col(md=12, children=[
-            year_slider,
+            year_slider_and_groups_selection,
             # group_select,
         ])
     ]),
@@ -246,19 +375,6 @@ layout_1 = html.Div([
                 ]),
 
                 dbc.Tab(label="Regional Aggregate Comparisons", tab_style={"font-size": "20px"}, children=[
-                    form_input_vw_over_time_line_chart,
-                    dbc.Row([
-                        dbc.Col(md=12, children=[
-                            dcc.Graph(id="fig-line-vote-weight-by-state-group")
-                        ])
-                    ]),
-                    html.Br(),
-                    dbc.Row([
-                        dbc.Col(md=12, children=[
-                            dcc.Graph(id="fig-line-total-vote-over-time")
-                        ])
-                    ]),
-                    html.Br(),
                     dbc.Row([
                         dbc.Col(md=6, children=[
                             dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-dots"),
@@ -315,13 +431,27 @@ layout_1 = html.Div([
 ])
 
 
-layout_2 = html.Div([
+# voter_participation = html.Div([
+#     navbar,
+#     html.Br(),
+#     dbc.Row([
+#         html.H3("Vizualizing Voter Participation Over Time"),
+#     ], justify="center", align="center"),
+#     dbc.Row([
+#         dbc.Col(md=12, children=[
+#             dcc.Graph(id="fig-line-total-vote-over-time")
+#         ])
+#     ])
+# ])
+
+
+explanation_of_groupings = html.Div([
     ## Top
     navbar,
     html.Br(),html.Br(),
 
     dbc.Row([
-        html.H3("Explanation of Regional State Groupings"),
+        html.H3("Explanation of State Aggregate Groupings"),
     ], justify="center", align="center"),
 
     dbc.Row([
@@ -356,8 +486,7 @@ layout_2 = html.Div([
 ])
 
 
-# layout 3
-layout_3 = html.Div([
+swallowed_vote_sampler = html.Div([
     ## Top
     navbar,
     html.Br(),html.Br(),
@@ -399,9 +528,11 @@ app.validation_layout = dbc.Container(fluid=True, children=[
     url_bar_and_content_div,
 
     ## Body
-    layout_1,
-    layout_2,
-    layout_3,
+    voter_impact_comparison_overview,
+    voter_impact_comparison_details,
+    # voter_participation,
+    explanation_of_groupings,
+    swallowed_vote_sampler,
     empty_layout,
 ])
 
@@ -411,18 +542,93 @@ app.validation_layout = dbc.Container(fluid=True, children=[
 @app.callback(Output('page-content', 'children'),
               Input('url', 'pathname'))
 def display_page(pathname):
-    if pathname == "/vote-weight-comparison":
-        return layout_1
+    if pathname == "/voter-impact-comparison-overview":
+        return voter_impact_comparison_overview
+    elif pathname == "/voter-impact-comparison-details":
+        return voter_impact_comparison_details
     elif pathname == "/explanation-of-groupings":
-        return layout_2
+        return explanation_of_groupings
     elif pathname == "/swallowed-vote-sampler":
-        return layout_3
+        return swallowed_vote_sampler
     else:
         return empty_layout
 
 
+# voter-impact-comparison-overview callbacks, tab 1
+@app.callback(
+    Output('fig-line-vote-weight-by-state-group', 'figure'),
+    Input('groupings-input', 'value'),
+    Input('max-small-input', 'value'),
+    [Input('multi-state-input', 'value')],
+    Input('y-axis-input', 'value'),
+    [Input('show-hide-input', 'value')],
+)
+def display_voter_impact_comparison_overview(groupings_input, max_small_input, state_abbrevs, y_axis, show_hide_input):
+    print(f"#### in display_voter_impact_comparison_overview")
+    print(f"groupings_input: {groupings_input}, max_small_input: {max_small_input}, state_abbrevs: {state_abbrevs}, y_axis: {y_axis}, show_hide_input: {show_hide_input}")
+    # process input
+    max_small = int(max_small_input)
+    if not show_hide_input:
+        log_y = False
+        show_groups = False
+        show_events = False
+        show_eras = False
+    else:
+        if y_axis == 'log':
+            log_y = True
+        else:
+            log_y = False
+        if 'show_groups' in show_hide_input:
+            show_groups = True
+        else:
+            show_groups = False
+        if 'show_events' in show_hide_input:
+            show_events = True
+        else:
+            show_events = False
+        if 'show_eras' in show_hide_input:
+            show_eras = True
+        else:
+            show_eras = False
+    # generate figs
+    fig_line_ivw_by_state_group = line_charts.build_ivw_by_state_group_line_chart(
+        data_obj, groupings_input, max_small, fig_width=fig_dims.MD12, state_abbrevs=state_abbrevs, log_y=log_y, 
+        display_groups=show_groups, display_events=show_events, display_eras=show_eras)
+    return fig_line_ivw_by_state_group
 
-# Layout 1 callbacks
+# voter-impact-comparison-overview callbacks, tab 1 cont'd: clear-all-input
+@app.callback(
+    Output('multi-state-input', 'value'),
+    [Input('clear-all-input', 'n_clicks')],
+)
+def update(n_clicks):
+    return []
+
+@app.callback(
+    Output('show-hide-input', 'value'),
+    [Input('clear-all-input', 'n_clicks')],
+)
+def update2(n_clicks):
+    if n_clicks and int(n_clicks) > 0:
+        print(f"n_clicks: {n_clicks}")
+        return []
+    else:
+        return ['show_groups','show_events','show_eras']
+
+
+# voter-impact-comparison-overview callbacks, tab 2
+@app.callback(
+    Output('fig-line-total-vote-over-time', 'figure'),
+    Input('groupings-input', 'value')
+)
+def display_voter_pct_pop_over_time(groupings_input):
+    print(f"#### in display_voter_pct_pop_over_time")
+    # generate figs
+    fig_line_total_vote_over_time = line_charts.build_total_vote_line_chart(data_obj, fig_width=fig_dims.MD12)
+    return fig_line_total_vote_over_time
+
+
+# voter-impact-comparison-details callbacks, tab 1
 @app.callback(
     Output('fig-map-color-by-state-vw', 'figure'),
     Output('fig-map-color-by-group', 'figure'),
@@ -455,58 +661,31 @@ def display_state_level_figs(year_input, groupings_input, max_small_input):
     return (fig_map_color_by_state_vw, fig_map_color_by_group, fig_bar_state_vw_color_by_vw, fig_bar_state_vw_color_by_group,
         fig_bar_actual_vs_adj_ec, fig_bar_actual_vs_adj_vw, fig_scatter_dots, fig_scatter_abbrevs, fig_scatter_bubbles)
 
+
+# voter-impact-comparison-details callbacks, tab 2
 @app.callback(
-    # Output('vote-weight-comparison-by-state-group-map-1', 'figure'),
-    Output('fig-line-vote-weight-by-state-group', 'figure'),
-    Output('fig-line-total-vote-over-time', 'figure'),
     Output('vote-weight-comparison-by-state-group-box-1', 'figure'),
     Output('vote-weight-comparison-by-state-group-scatter-dots', 'figure'),
     Output('vote-weight-comparison-by-state-group-scatter-bubbles', 'figure'),
     Input('year-input', 'value'),
     Input('groupings-input', 'value'),
     Input('max-small-input', 'value'),
-    [Input('multi-state-input', 'value')],
-    Input('y-axis-input', 'value'),
-    [Input('show-groups-input', 'value')],
-    [Input('show-events-input', 'value')],
-    [Input('show-eras-input', 'value')]
 )
-def display_regional_aggregate_figs(year_input, groupings_input, max_small_input, state_abbrevs, y_axis, show_groups_input, show_events_input, show_eras_input):
+def display_regional_aggregate_figs(year_input, groupings_input, max_small_input):
     print(f"#### in display_regional_aggregate_figs")
     # process input
     year = int(year_input)
     max_small = int(max_small_input)
-    if y_axis == 'linear':
-        log_y = False
-    else:
-        log_y = True
-    if 'show_groups' in show_groups_input:
-        hide_groups = False
-    else:
-        hide_groups = True
-    if 'show_events' in show_events_input:
-        show_events = True
-    else:
-        show_events = False
-    if 'show_eras' in show_eras_input:
-        show_eras = True
-    else:
-        show_eras = False
     # generate figs
-    # fig_map_1 = fig_builder.build_state_groups_map(data_obj, groupings_input, max_small_input, frame=year)
-    fig_line_ivw_by_state_group = line_charts.build_ivw_by_state_group_line_chart(
-        data_obj, groupings_input, max_small, fig_width=fig_dims.MD12, hide_groups=hide_groups, state_abbrevs=state_abbrevs, log_y=log_y,
-        display_events=show_events, display_eras=show_eras)
-    fig_line_total_vote_over_time = line_charts.build_total_vote_line_chart(data_obj, fig_width=fig_dims.MD12)
     fig_box_1 = box_plots.build_ivw_by_state_group_box_plot(data_obj, groupings_input, max_small, frame=year)
     fig_scatter_dots = scatter_plots.build_ivw_by_state_group_scatter_dots(data_obj, groupings_input, max_small, frame=year)
     fig_scatter_bubbles = scatter_plots.build_ivw_by_state_group_scatter_bubbles(data_obj, groupings_input, max_small, frame=year)
-    return fig_line_ivw_by_state_group, fig_line_total_vote_over_time, fig_box_1, fig_scatter_dots, fig_scatter_bubbles
+    return fig_box_1, fig_scatter_dots, fig_scatter_bubbles
 
+
+# voter-impact-comparison-details callbacks, tab 3
 @app.callback(
     Output('vote-weight-comparison-by-state-map-1-anim', 'figure'),
-    # Output('vote-weight-comparison-by-state-bar-1-anim', 'figure'),
-    # Output('vote-weight-comparison-by-state-bar-2-anim', 'figure'),
     Output('vote-weight-comparison-by-state-scatter-dots-anim', 'figure'),
     Output('vote-weight-comparison-by-state-scatter-abbrevs-anim', 'figure'),
     Output('vote-weight-comparison-by-state-scatter-bubbles-anim', 'figure'),
@@ -519,13 +698,13 @@ def display_state_level_anims(groupings_input, max_small_input):
     max_small = int(max_small_input)
     # generate figs
     anim_map_1 = choropleths.build_ivw_by_state_map(data_obj, groupings_input, max_small)
-    # anim_bar_1 = fig_builder.build_ivw_by_state_bar(data_obj, groupings_input, max_small_input)
-    # anim_bar_2 = fig_builder.build_actual_vs_adjusted_ec_bar(data_obj, groupings_input, max_small_input)
     anim_scatter_dots = scatter_plots.build_ivw_by_state_scatter_dots(data_obj, groupings_input, max_small)
     anim_scatter_abbrevs = scatter_plots.build_ivw_by_state_scatter_abbrevs(data_obj, groupings_input, max_small)
     anim_scatter_bubbles = scatter_plots.build_ivw_by_state_scatter_bubbles(data_obj, groupings_input, max_small)
     return anim_map_1, anim_scatter_dots, anim_scatter_abbrevs, anim_scatter_bubbles
 
+
+# voter-impact-comparison-details callbacks, tab 4
 @app.callback(
     Output('vote-weight-comparison-by-state-group-map-1-anim', 'figure'),
     Output('vote-weight-comparison-by-state-group-scatter-dots-anim', 'figure'),
@@ -544,7 +723,7 @@ def display_regional_aggregate_anims(groupings_input, max_small_input):
     return anim_map_1, anim_scatter_dots, anim_scatter_bubbles
 
 
-# Layout 2 callbacks
+# explanation-of-groupings callbacks
 @app.callback(
     Output('state-groupings-anim-civil-war-no-small', 'figure'),
     Output('state-groupings-anim-regional-census-no-small', 'figure'),
@@ -573,7 +752,7 @@ def display_all_state_grouping_map_anims(year_input):
         anim_map_acw_small_4, anim_map_census_small_4, anim_map_acw_small_5, anim_map_census_small_5)
 
 
-# Layout 3 callbacks
+# swallowed-vote-sampler callbacks
 @app.callback(
     Output('swallowed-vote-sampler-1', 'figure'),
     Input('display-type', 'value'),

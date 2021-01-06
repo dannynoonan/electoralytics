@@ -16,6 +16,11 @@ def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame, fi
 
     # extract single-year data
     pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame]
+    print(f"pivot_on_year_df before:\n{pivot_on_year_df}")
+
+    # remove any rows added by other processes  TODO can't reproduce issue, only saw this once. aberration?
+    # pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.GROUP].isin(groups)]
+    # print(f"pivot_on_year_df after:\n{pivot_on_year_df}")
 
     if not fig_width:
         fig_width = fig_dims.MD6

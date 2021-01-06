@@ -18,8 +18,8 @@ TRACE_MAX_FOR_HOVERMODE_X = 7
 MAX_TRACE_COUNT = 22
 
 
-def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_width=None, fig_height=None, hide_groups=False, 
-                                        state_abbrevs=None, log_y=False, display_eras=True, display_events=True):
+def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_width=None, fig_height=None, state_abbrevs=None, log_y=False, 
+                                        display_groups=True, display_eras=True, display_events=True):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     data_obj.load_totals_by_year
@@ -31,7 +31,7 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
     group_colors = GROUP_COLORS
 
     # if we're hiding groups, drop everything from df except Nat'l Average data
-    if hide_groups:
+    if not display_groups:
         group_aggs_by_year_df = group_aggs_by_year_df[group_aggs_by_year_df[cols.GROUP] == "Nat'l Average"]
     else:
         # hackish way to remove years where Average Weight is 0 from Postbellum and West Groups without removing it for Confederate or South Groups
@@ -45,7 +45,7 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
 
     # trace_count
     trace_count = 1  # 1 for Nat'l Avg
-    if not hide_groups:
+    if display_groups:
         trace_count = trace_count + 4  # 4 for groups
         if max_small > 0:
             trace_count = trace_count + 1  # 1 for small group
@@ -91,7 +91,7 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
         hover_data[cols.POP_PER_EC_SHORT] = True
         hover_data[cols.AVG_WEIGHT] = True
     fig_title = 'Average Vote Weight Per Ballot Cast For Each Election'
-    if not hide_groups:
+    if display_groups:
         fig_title = f"{fig_title}, Grouped By Region"
     if trace_count >= MAX_TRACE_COUNT:
         fig_title = f"{fig_title} [** MAXES OUT AT 22 LINES **]"
