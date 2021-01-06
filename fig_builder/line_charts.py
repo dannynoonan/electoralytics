@@ -51,12 +51,10 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
             trace_count = trace_count + 1  # 1 for small group
     if state_abbrevs:
         trace_count = trace_count + len(state_abbrevs)  # 1 for each state
-    # print(f"trace_count: {trace_count}")
     # secretly throttle trace_count shhhh... TODO handle this on front end
     while trace_count > MAX_TRACE_COUNT:
         state_abbrevs.pop()
         trace_count = trace_count-1
-        # print(f"throttled trace_count: {trace_count}")
 
     # merge selected states into group aggs df
     if state_abbrevs:
@@ -80,9 +78,6 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
             group_colors[state] = GROUP_ALT_COLORS[alt_group_label]
             group_counters[state_group] = grp_ctr+1    
 
-    
-
-
     # display metadata
     hover_data = {cols.GROUP: False, cols.YEAR: False, cols.STATES_IN_GROUP: True, cols.EC_VOTES: True}
     # add hover data if trace_count is small enough
@@ -102,9 +97,7 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
     orig_avg_weight_min = avg_weight_min
     orig_avg_weight_max = avg_weight_max
     if log_y:
-        print(f"avg_weight_min just before log10ing myself: {avg_weight_min}")
         avg_weight_min = math.log(avg_weight_min, 10)
-        print(f"successfully log10d to: {avg_weight_min}")
         avg_weight_max = math.log(avg_weight_max, 10) * 1.05
         orig_avg_weight_max = orig_avg_weight_max * 1.05 
 
@@ -134,20 +127,21 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
     fig.update_xaxes(gridcolor='#DDDDDD')
     fig.update_yaxes(gridcolor='#DDDDDD')
 
-    # if display_eras, add shaded blocks and labels designating eras, and add markers and labels designating events 
     shapes = []
-    if display_eras:
-        era_blocks = build_and_annotate_era_blocks(fig, ERAS, YEAR_0, orig_avg_weight_min, orig_avg_weight_max, y_max2=avg_weight_max)
-        shapes.extend(era_blocks)
+    # if display_events, add markers and labels designating events 
     if display_events:
         event_markers = build_and_annotate_event_markers(fig, EVENTS, avg_weight_min, avg_weight_max, y_min2=orig_avg_weight_min, y_max2=orig_avg_weight_max)
         shapes.extend(event_markers)
+    # if display_eras, add shaded blocks and labels designating eras
+    if display_eras:
+        era_blocks = build_and_annotate_era_blocks(fig, ERAS, YEAR_0, orig_avg_weight_min, orig_avg_weight_max, y_max2=avg_weight_max)
+        shapes.extend(era_blocks)
     fig.update_layout(shapes=shapes)
 
     return fig
 
 
-def build_total_vote_line_chart(data_obj, fig_width=None):
+def build_total_vote_line_chart(data_obj, fig_width=None, log_y=False,):
     data_obj.load_totals_by_year()
     totals_by_year_df = data_obj.totals_by_year_df
 
@@ -158,31 +152,44 @@ def build_total_vote_line_chart(data_obj, fig_width=None):
     # display metadata
     hover_data = {cols.YEAR: False, cols.VOTES_COUNTED: True, cols.TOTAL_POP: True, cols.EC_VOTES: True, cols.POP_PER_EC: True, 
                 cols.STATE_COUNT: True, cols.STATES_USING_POP: True}
-    vote_pct_max = totals_by_year_df[cols.VOTES_COUNTED_PCT_TOTAL_POP].max() * 1.1
+    fig_title = 'Votes Cast For President as a Percentage of Total Population'
+
     x_min = 1785
-    fig_title = 'Ballots Cast as a Percentage of Total Population In Each Election'
+    vote_pct_min = totals_by_year_df[cols.VOTES_COUNTED_PCT_TOTAL_POP].min() * 0.8
+    vote_pct_max = totals_by_year_df[cols.VOTES_COUNTED_PCT_TOTAL_POP].max() * 1.05
+    orig_vote_pct_max = vote_pct_max
+    orig_vote_pct_min = vote_pct_min
+    if log_y:
+        vote_pct_min = math.log(vote_pct_min, 10) 
+        vote_pct_max = math.log(vote_pct_max, 10) * 1.05
+        orig_vote_pct_max = orig_vote_pct_max * 1.05 
 
     fig = px.line(totals_by_year_df, x=cols.YEAR, y=cols.VOTES_COUNTED_PCT_TOTAL_POP, 
                     hover_name=cols.YEAR, hover_data=hover_data, 
                     title=fig_title, width=fig_width, height=fig_height, 
-                    line_shape='spline', 
-                    # log_y=True
-                    )
+                    line_shape='spline', log_y=log_y)
 
     for i in range(len(fig.data)):
         fig.data[i].update(mode='markers+lines')
 
+    # axis labels
+    fig.update_xaxes(title_text='Election Year')
+    y_axis_text = 'Percentage of National Population Who Voted'
+    if log_y:
+        y_axis_text = f"{y_axis_text} (log)"
+    fig.update_yaxes(title_text=y_axis_text)
+
     # build markers and labels marking events 
-    event_markers = build_and_annotate_event_markers(fig, EVENTS, 0, vote_pct_max)
+    event_markers = build_and_annotate_event_markers(fig, EVENTS, vote_pct_min, vote_pct_max, y_min2=orig_vote_pct_min, y_max2=orig_vote_pct_max)
     # build shaded blocks designating eras
-    era_blocks = build_and_annotate_era_blocks(fig, ERAS, x_min, 0, vote_pct_max)
-    shapes = era_blocks + event_markers
+    era_blocks = build_and_annotate_era_blocks(fig, ERAS, x_min, orig_vote_pct_min, orig_vote_pct_max, y_max2=vote_pct_max)
+    shapes = event_markers + era_blocks
 
     # have x axis ticks every 20 years from 1800-2020
     x_axis_ticks = dict(tickmode='array', tickvals=[x*20 for x in range(90, 102)])
 
     # update layout and axes 
-    fig.update_layout(xaxis_range=[x_min, YEAR_N], yaxis_range=[0, vote_pct_max], xaxis=x_axis_ticks,
+    fig.update_layout(xaxis_range=[x_min, YEAR_N], yaxis_range=[vote_pct_min, vote_pct_max], xaxis=x_axis_ticks,
                     plot_bgcolor='white', shapes=shapes)
     fig.update_xaxes(gridcolor='#DDDDDD')
     fig.update_yaxes(gridcolor='#DDDDDD')

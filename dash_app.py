@@ -47,6 +47,7 @@ navbar = html.Div([
         dbc.DropdownMenu(label="Pages / Graphs", nav=True, children=[
             dbc.DropdownMenuItem([html.I(className="fa"), "Comparing Voter Impact Per State - Overview"], href='/voter-impact-comparison-overview', target="_blank"), 
             dbc.DropdownMenuItem([html.I(className="fa"), "Comparing Voter Impact Per State - Details"], href='/voter-impact-comparison-details', target="_blank"), 
+            dbc.DropdownMenuItem([html.I(className="fa"), "Voter Participation Over Time"], href='/voter-participation', target="_blank"), 
             dbc.DropdownMenuItem([html.I(className="fa"), "Explanation of State Aggregate Groupings"], href='/explanation-of-groupings', target="_blank"), 
             dbc.DropdownMenuItem([html.I(className="fa"), "Sampler of Swallowed Votes"], href='/swallowed-vote-sampler', target="_blank"),
         ]),
@@ -174,7 +175,7 @@ year_slider_and_groups_selection = dbc.FormGroup([
                 options=[
                     {'label': 'No Small Group', 'value': '0'},
                     {'label': '3 EC Votes', 'value': '3'},
-                    {'label': '3 or 4 EC Votes', 'value': '4'},
+                    {'label': '3 - 4 EC Votes', 'value': '4'},
                     {'label': '3 - 5 EC Votes', 'value': '5'},
                 ], 
                 value="4"
@@ -244,7 +245,7 @@ form_input_vw_over_time_line_chart = dbc.FormGroup([
                 options=[
                     {'label': 'No Small Group', 'value': '0'},
                     {'label': '3 EC Votes', 'value': '3'},
-                    {'label': '3 or 4 EC Votes', 'value': '4'},
+                    {'label': '3 - 4 EC Votes', 'value': '4'},
                     {'label': '3 - 5 EC Votes', 'value': '5'},
                 ], 
                 value="4"
@@ -261,6 +262,24 @@ form_input_vw_over_time_line_chart = dbc.FormGroup([
                 inputStyle={"margin-left": "4px", "margin-right": "4px"}
             )
         ]),
+    ])
+])
+
+
+form_input_y_axis = dbc.FormGroup([
+    dbc.Row([
+        dbc.Col(md=2, style={'textAlign': 'left'}, children=[
+            html.H4("Y axis:"),
+            dcc.RadioItems(
+                id="y-axis-input",
+                options=[
+                    {'label': 'Linear', 'value': 'linear'},
+                    {'label': 'Log', 'value': 'log'}
+                ],
+                value='linear',
+                inputStyle={"margin-left": "4px", "margin-right": "4px"}
+            )
+        ])
     ])
 ])
 
@@ -283,30 +302,20 @@ voter_impact_comparison_overview = html.Div([
     navbar,
     html.Br(),
     dbc.Row([
-        html.H3("Voter Impact and Participation Over Time"),
+        html.H3("Impact Per Voter Per State/Group Over Time"),
     ], justify="center", align="center"),
     dbc.Row([
         dbc.Col(md=12, children=[
-            dbc.Tabs(className="nav nav-pills", children=[
-                dbc.Tab(label="Impact Per Voter Per State/Group Over Time", tab_style={"font-size": "20px"}, children=[
-                    form_input_vw_over_time_line_chart,
-                    # groups_selection,
-                    dbc.Row([
-                        dbc.Col(md=12, children=[
-                            dcc.Graph(id="fig-line-vote-weight-by-state-group"),
-                        ])
-                    ])
-                ]),
-                dbc.Tab(label="Voter Participation Nationally Over Time", tab_style={"font-size": "20px"}, children=[
-                    dbc.Row([
-                        dbc.Col(md=12, children=[
-                            dcc.Graph(id="fig-line-total-vote-over-time"),
-                        ])
-                    ])
+            form_input_vw_over_time_line_chart,
+            # groups_selection,
+            dbc.Row([
+                dbc.Col(md=12, children=[
+                    dcc.Graph(id="fig-line-vote-weight-by-state-group"),
                 ])
             ])
         ])
-    ])
+    ]),
+    html.Br(),html.Br(),
 ])
 
 
@@ -431,18 +440,20 @@ voter_impact_comparison_details = html.Div([
 ])
 
 
-# voter_participation = html.Div([
-#     navbar,
-#     html.Br(),
-#     dbc.Row([
-#         html.H3("Vizualizing Voter Participation Over Time"),
-#     ], justify="center", align="center"),
-#     dbc.Row([
-#         dbc.Col(md=12, children=[
-#             dcc.Graph(id="fig-line-total-vote-over-time")
-#         ])
-#     ])
-# ])
+voter_participation = html.Div([
+    navbar,
+    html.Br(),
+    dbc.Row([
+        html.H3("Voter Participation Nationally Over Time"),
+    ], justify="center", align="center"),
+    dbc.Row([
+        dbc.Col(md=12, children=[
+            form_input_y_axis,
+            dcc.Graph(id="fig-line-total-vote-over-time")
+        ])
+    ]),
+    html.Br(),html.Br(),
+])
 
 
 explanation_of_groupings = html.Div([
@@ -530,7 +541,7 @@ app.validation_layout = dbc.Container(fluid=True, children=[
     ## Body
     voter_impact_comparison_overview,
     voter_impact_comparison_details,
-    # voter_participation,
+    voter_participation,
     explanation_of_groupings,
     swallowed_vote_sampler,
     empty_layout,
@@ -546,6 +557,8 @@ def display_page(pathname):
         return voter_impact_comparison_overview
     elif pathname == "/voter-impact-comparison-details":
         return voter_impact_comparison_details
+    elif pathname == "/voter-participation":
+        return voter_participation
     elif pathname == "/explanation-of-groupings":
         return explanation_of_groupings
     elif pathname == "/swallowed-vote-sampler":
@@ -554,7 +567,7 @@ def display_page(pathname):
         return empty_layout
 
 
-# voter-impact-comparison-overview callbacks, tab 1
+# voter-impact-comparison-overview callbacks
 @app.callback(
     Output('fig-line-vote-weight-by-state-group', 'figure'),
     Input('groupings-input', 'value'),
@@ -563,9 +576,8 @@ def display_page(pathname):
     Input('y-axis-input', 'value'),
     [Input('show-hide-input', 'value')],
 )
-def display_voter_impact_comparison_overview(groupings_input, max_small_input, state_abbrevs, y_axis, show_hide_input):
+def display_voter_impact_comparison_overview(groupings_input, max_small_input, state_abbrevs, y_axis_input, show_hide_input):
     print(f"#### in display_voter_impact_comparison_overview")
-    print(f"groupings_input: {groupings_input}, max_small_input: {max_small_input}, state_abbrevs: {state_abbrevs}, y_axis: {y_axis}, show_hide_input: {show_hide_input}")
     # process input
     max_small = int(max_small_input)
     if not show_hide_input:
@@ -574,7 +586,7 @@ def display_voter_impact_comparison_overview(groupings_input, max_small_input, s
         show_events = False
         show_eras = False
     else:
-        if y_axis == 'log':
+        if y_axis_input == 'log':
             log_y = True
         else:
             log_y = False
@@ -614,18 +626,6 @@ def update2(n_clicks):
         return []
     else:
         return ['show_groups','show_events','show_eras']
-
-
-# voter-impact-comparison-overview callbacks, tab 2
-@app.callback(
-    Output('fig-line-total-vote-over-time', 'figure'),
-    Input('groupings-input', 'value')
-)
-def display_voter_pct_pop_over_time(groupings_input):
-    print(f"#### in display_voter_pct_pop_over_time")
-    # generate figs
-    fig_line_total_vote_over_time = line_charts.build_total_vote_line_chart(data_obj, fig_width=fig_dims.MD12)
-    return fig_line_total_vote_over_time
 
 
 # voter-impact-comparison-details callbacks, tab 1
@@ -721,6 +721,23 @@ def display_regional_aggregate_anims(groupings_input, max_small_input):
     anim_scatter_dots = scatter_plots.build_ivw_by_state_group_scatter_dots(data_obj, groupings_input, max_small)
     anim_scatter_bubbles = scatter_plots.build_ivw_by_state_group_scatter_bubbles(data_obj, groupings_input, max_small)
     return anim_map_1, anim_scatter_dots, anim_scatter_bubbles
+
+
+# voter-participation callbacks, tab 2
+@app.callback(
+    Output('fig-line-total-vote-over-time', 'figure'),
+    Input('y-axis-input', 'value'),
+)
+def display_voter_pct_pop_over_time(y_axis_input):
+    print(f"#### in display_voter_pct_pop_over_time")
+    # process input
+    if y_axis_input == 'log':
+        log_y = True
+    else:
+        log_y = False
+    # generate figs
+    fig_line_total_vote_over_time = line_charts.build_total_vote_line_chart(data_obj, fig_width=fig_dims.MD12, log_y=log_y)
+    return fig_line_total_vote_over_time
 
 
 # explanation-of-groupings callbacks
