@@ -190,19 +190,19 @@ form_input_vw_over_time_line_chart = dbc.FormGroup([
     dbc.Row([
         dbc.Col(md=2),
         dbc.Col(md=2, children=[
-            html.H4("Display individual states")
+            html.H5("Display individual states:")
         ]),
         dbc.Col(md=2, children=[
-            html.H4("Show / Hide")
+            html.H5("Show / Hide:")
         ]),
         dbc.Col(md=2, children=[
-            html.H4("State Grouping")
+            html.H5("State Grouping:")
         ]),
         dbc.Col(md=2, children=[
-            html.H4("Extract Small Group?")
+            html.H5("Extract Small Group?")
         ]),
         dbc.Col(md=2, children=[
-            html.H4("Y axis scale")
+            html.H5("Y axis scale:")
         ]),
     ]),
     dbc.Row([
@@ -302,7 +302,7 @@ voter_impact_comparison_overview = html.Div([
     navbar,
     html.Br(),
     dbc.Row([
-        html.H3("Impact Per Voter Per State/Group Over Time"),
+        html.H2("Impact Per Voter Per State/Group Over Time"),
     ], justify="center", align="center"),
     dbc.Row([
         dbc.Col(md=12, children=[
@@ -325,7 +325,7 @@ voter_impact_comparison_details = html.Div([
     dbc.Row([
         # html.H3("Comparing Individual Voter Impact Per State"),
         # html.H3("Comparing Vote Weight Per Ballot Cast Per State"),
-        html.H3("Comparing Vote Weight Per Ballot Cast (Per State/Per Region)"),
+        html.H3("Comparing Vote Weight Per Ballot Cast (Per State/Per Grouping)"),
     ], justify="center", align="center"),
     dbc.Row([
         dbc.Col(md=12, children=[
@@ -338,7 +338,7 @@ voter_impact_comparison_details = html.Div([
             # dbc.Col(html.H4("Inter-State Voter Impact Comparison"), width={"size": 6, "offset": 3}), 
             # html.Br(),
             dbc.Tabs(className="nav nav-pills", children=[
-                dbc.Tab(label="State-Level Comparisons", tab_style={"font-size": "20px"}, children=[
+                dbc.Tab(label="Maps and Bar Charts", tab_style={"font-size": "20px"}, children=[
                     dbc.Row([
                         dbc.Col(md=7, children=[
                             dcc.Graph(id="fig-map-color-by-state-vw"),
@@ -361,78 +361,74 @@ voter_impact_comparison_details = html.Div([
                     ]),
                     dbc.Row([
                         dbc.Col(md=6, children=[
-                            dcc.Graph(id="vote-weight-comparison-by-state-scatter-dots"),
-                            html.Br(),
-                            dcc.Graph(id="vote-weight-comparison-by-state-scatter-abbrevs"),
-                            html.Br(),
-                        ]),
-                        dbc.Col(md=6, children=[
-                            dcc.Graph(id="vote-weight-comparison-by-state-scatter-bubbles"),
-                            html.Br(), 
-                        ])
-                    ]),
-                    dbc.Row([
-                        dbc.Col(md=6, children=[
                             dcc.Graph(id="fig-bar-actual-vs-adj-ec"),
                             html.Br(),
                         ]),
-                        dbc.Col(md=6, children=[
-                            dcc.Graph(id="fig-bar-actual-vs-adj-vw"),
-                            html.Br(),
-                        ])
+                        # dbc.Col(md=6, children=[
+                        #     dcc.Graph(id="fig-bar-actual-vs-adj-vw"),
+                        #     html.Br(),
+                        # ])
                     ])
                 ]),
 
-                dbc.Tab(label="Regional Aggregate Comparisons", tab_style={"font-size": "20px"}, children=[
+                dbc.Tab(label="Scatter Plots", tab_style={"font-size": "20px"}, children=[
                     dbc.Row([
                         dbc.Col(md=6, children=[
-                            dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-dots"),
-                            html.Br(),
-                            dcc.Graph(id="vote-weight-comparison-by-state-group-box-1"),
-                            html.Br(),
-                        ]),
-                        dbc.Col(md=6, children=[
-                            dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-bubbles"),
-                            html.Br(),
-                        ])
-                    ])
-                ]),
-
-                dbc.Tab(label="State-Level Comparison Animations", tab_style={"font-size": "20px"}, children=[
-                    dbc.Row([
-                        dbc.Col(md=6, children=[
-                            dcc.Graph(id="vote-weight-comparison-by-state-map-1-anim"),
-                            html.Br(),
-                            dcc.Graph(id="vote-weight-comparison-by-state-scatter-dots-anim"),
-                            html.Br(),
-                            # dcc.Graph(id="vote-weight-comparison-by-state-bar-1-anim"),
-                            # html.Br(),
-                        ]),
-                        dbc.Col(md=6, children=[
-                            dcc.Graph(id="vote-weight-comparison-by-state-scatter-bubbles-anim"),
+                            dcc.Graph(id="fig-scatter-dots-vw-state"),
+                            html.Br(),                          
+                            dcc.Graph(id="fig-scatter-bubbles-vw-state"),
                             html.Br(), 
-                            dcc.Graph(id="vote-weight-comparison-by-state-scatter-abbrevs-anim"),
+                            dcc.Graph(id="fig-scatter-abbrevs-vw-state"),
                             html.Br(),
-                            # dcc.Graph(id="vote-weight-comparison-by-state-bar-2-anim"),
+                            # dcc.Graph(id="fig-map-color-by-group"),
                             # html.Br(),
-                        ])
+                        ]),
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-scatter-dots-vw-group"),
+                            html.Br(),
+                            dcc.Graph(id="fig-scatter-bubbles-vw-group"),
+                            html.Br(),
+                            dcc.Graph(id="fig-box-vw-group"),
+                            html.Br(),
+                        ]),
                     ])
                 ]),
 
-                dbc.Tab(label="Regional Aggregate Comparison Animations", tab_style={"font-size": "20px"}, children=[
-                    dbc.Row([
-                        dbc.Col(md=6, children=[
-                            dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-bubbles-anim"),
-                            html.Br(),
-                            dcc.Graph(id="vote-weight-comparison-by-state-group-map-1-anim"),
-                            html.Br(),
-                        ]),
-                        dbc.Col(md=6, children=[
-                            dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-dots-anim"),
-                            html.Br(),
-                        ]),
-                    ])
-                ]),
+                # dbc.Tab(label="State-Level Animations - TODO move", tab_style={"font-size": "20px"}, children=[
+                #     dbc.Row([
+                #         dbc.Col(md=6, children=[
+                #             dcc.Graph(id="vote-weight-comparison-by-state-map-1-anim"),
+                #             html.Br(),
+                #             dcc.Graph(id="vote-weight-comparison-by-state-scatter-dots-anim"),
+                #             html.Br(),
+                #             # dcc.Graph(id="vote-weight-comparison-by-state-bar-1-anim"),
+                #             # html.Br(),
+                #         ]),
+                #         dbc.Col(md=6, children=[
+                #             dcc.Graph(id="vote-weight-comparison-by-state-scatter-bubbles-anim"),
+                #             html.Br(), 
+                #             dcc.Graph(id="vote-weight-comparison-by-state-scatter-abbrevs-anim"),
+                #             html.Br(),
+                #             # dcc.Graph(id="vote-weight-comparison-by-state-bar-2-anim"),
+                #             # html.Br(),
+                #         ])
+                #     ])
+                # ]),
+
+                # dbc.Tab(label="Aggregate Group Animations - TODO move", tab_style={"font-size": "20px"}, children=[
+                #     dbc.Row([
+                #         dbc.Col(md=6, children=[
+                #             dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-bubbles-anim"),
+                #             html.Br(),
+                #             dcc.Graph(id="vote-weight-comparison-by-state-group-map-1-anim"),
+                #             html.Br(),
+                #         ]),
+                #         dbc.Col(md=6, children=[
+                #             dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-dots-anim"),
+                #             html.Br(),
+                #         ]),
+                #     ])
+                # ]),
 
             ])
         ])
@@ -444,7 +440,7 @@ voter_participation = html.Div([
     navbar,
     html.Br(),
     dbc.Row([
-        html.H3("Voter Participation Nationally Over Time"),
+        html.H2("Voter Participation Nationally Over Time"),
     ], justify="center", align="center"),
     dbc.Row([
         dbc.Col(md=12, children=[
@@ -580,16 +576,15 @@ def display_voter_impact_comparison_overview(groupings_input, max_small_input, s
     print(f"#### in display_voter_impact_comparison_overview")
     # process input
     max_small = int(max_small_input)
-    if not show_hide_input:
+    if y_axis_input == 'log':
+        log_y = True
+    else:
         log_y = False
+    if not show_hide_input:
         show_groups = False
         show_events = False
         show_eras = False
     else:
-        if y_axis_input == 'log':
-            log_y = True
-        else:
-            log_y = False
         if 'show_groups' in show_hide_input:
             show_groups = True
         else:
@@ -631,14 +626,11 @@ def update2(n_clicks):
 # voter-impact-comparison-details callbacks, tab 1
 @app.callback(
     Output('fig-map-color-by-state-vw', 'figure'),
-    Output('fig-map-color-by-group', 'figure'),
     Output('fig-bar-state-vw-color-by-vw', 'figure'),
+    Output('fig-map-color-by-group', 'figure'),
     Output('fig-bar-state-vw-color-by-group', 'figure'),
     Output('fig-bar-actual-vs-adj-ec', 'figure'),
-    Output('fig-bar-actual-vs-adj-vw', 'figure'),
-    Output('vote-weight-comparison-by-state-scatter-dots', 'figure'),
-    Output('vote-weight-comparison-by-state-scatter-abbrevs', 'figure'),
-    Output('vote-weight-comparison-by-state-scatter-bubbles', 'figure'),
+    # Output('fig-bar-actual-vs-adj-vw', 'figure'),
     Input('year-input', 'value'),
     Input('groupings-input', 'value'),
     Input('max-small-input', 'value'),
@@ -650,23 +642,23 @@ def display_state_level_figs(year_input, groupings_input, max_small_input):
     max_small = int(max_small_input)
     # generate figs
     fig_map_color_by_state_vw = choropleths.build_ivw_by_state_map(data_obj, groupings_input, max_small, fig_width=fig_dims.MD7, frame=year)
-    fig_map_color_by_group = choropleths.build_state_groups_map(data_obj, groupings_input, max_small, fig_width=fig_dims.MD7, frame=year)
     fig_bar_state_vw_color_by_vw = bar_plots.build_ivw_by_state_bar(data_obj, groupings_input, max_small, fig_width=fig_dims.MD5, frame=year, color_col=cols.LOG_VOTE_WEIGHT)
+    fig_map_color_by_group = choropleths.build_state_groups_map(data_obj, groupings_input, max_small, fig_width=fig_dims.MD7, frame=year)
     fig_bar_state_vw_color_by_group = bar_plots.build_ivw_by_state_bar(data_obj, groupings_input, max_small, fig_width=fig_dims.MD5, frame=year)
     fig_bar_actual_vs_adj_ec = bar_plots.build_actual_vs_adjusted_ec_bar(data_obj, groupings_input, max_small, frame=year)
-    fig_bar_actual_vs_adj_vw = bar_plots.build_actual_vs_adjusted_vw_bar(data_obj, groupings_input, max_small, frame=year)
-    fig_scatter_dots = scatter_plots.build_ivw_by_state_scatter_dots(data_obj, groupings_input, max_small, frame=year)
-    fig_scatter_abbrevs = scatter_plots.build_ivw_by_state_scatter_abbrevs(data_obj, groupings_input, max_small, frame=year)
-    fig_scatter_bubbles = scatter_plots.build_ivw_by_state_scatter_bubbles(data_obj, groupings_input, max_small, frame=year)
-    return (fig_map_color_by_state_vw, fig_map_color_by_group, fig_bar_state_vw_color_by_vw, fig_bar_state_vw_color_by_group,
-        fig_bar_actual_vs_adj_ec, fig_bar_actual_vs_adj_vw, fig_scatter_dots, fig_scatter_abbrevs, fig_scatter_bubbles)
+    # fig_bar_actual_vs_adj_vw = bar_plots.build_actual_vs_adjusted_vw_bar(data_obj, groupings_input, max_small, frame=year)
+    return fig_map_color_by_state_vw, fig_bar_state_vw_color_by_vw, fig_map_color_by_group, fig_bar_state_vw_color_by_group, fig_bar_actual_vs_adj_ec
 
 
 # voter-impact-comparison-details callbacks, tab 2
 @app.callback(
-    Output('vote-weight-comparison-by-state-group-box-1', 'figure'),
-    Output('vote-weight-comparison-by-state-group-scatter-dots', 'figure'),
-    Output('vote-weight-comparison-by-state-group-scatter-bubbles', 'figure'),
+    Output('fig-scatter-dots-vw-state', 'figure'),
+    Output('fig-scatter-dots-vw-group', 'figure'),
+    Output('fig-scatter-bubbles-vw-state', 'figure'),
+    Output('fig-scatter-bubbles-vw-group', 'figure'),
+    Output('fig-scatter-abbrevs-vw-state', 'figure'),
+    Output('fig-box-vw-group', 'figure'),    
+    # Output('fig-map-color-by-group', 'figure'),
     Input('year-input', 'value'),
     Input('groupings-input', 'value'),
     Input('max-small-input', 'value'),
@@ -677,53 +669,58 @@ def display_regional_aggregate_figs(year_input, groupings_input, max_small_input
     year = int(year_input)
     max_small = int(max_small_input)
     # generate figs
-    fig_box_1 = box_plots.build_ivw_by_state_group_box_plot(data_obj, groupings_input, max_small, frame=year)
-    fig_scatter_dots = scatter_plots.build_ivw_by_state_group_scatter_dots(data_obj, groupings_input, max_small, frame=year)
-    fig_scatter_bubbles = scatter_plots.build_ivw_by_state_group_scatter_bubbles(data_obj, groupings_input, max_small, frame=year)
-    return fig_box_1, fig_scatter_dots, fig_scatter_bubbles
+    fig_scatter_dots_vw_state = scatter_plots.build_ivw_by_state_scatter_dots(data_obj, groupings_input, max_small, frame=year)
+    fig_scatter_dots_vw_group = scatter_plots.build_ivw_by_state_group_scatter_dots(data_obj, groupings_input, max_small, frame=year)
+    fig_scatter_bubbles_vw_state = scatter_plots.build_ivw_by_state_scatter_bubbles(data_obj, groupings_input, max_small, frame=year)
+    fig_scatter_bubbles_vw_group = scatter_plots.build_ivw_by_state_group_scatter_bubbles(data_obj, groupings_input, max_small, frame=year)
+    fig_scatter_abbrevs_vw_state = scatter_plots.build_ivw_by_state_scatter_abbrevs(data_obj, groupings_input, max_small, frame=year)
+    fig_box_vw_group = box_plots.build_ivw_by_state_group_box_plot(data_obj, groupings_input, max_small, frame=year)
+    # fig_map_color_by_group = choropleths.build_state_groups_map(data_obj, groupings_input, max_small, fig_width=fig_dims.MD7, frame=year)
+    return (fig_scatter_dots_vw_state, fig_scatter_dots_vw_group, fig_scatter_bubbles_vw_state, fig_scatter_bubbles_vw_group, 
+        fig_scatter_abbrevs_vw_state, fig_box_vw_group)
 
 
 # voter-impact-comparison-details callbacks, tab 3
-@app.callback(
-    Output('vote-weight-comparison-by-state-map-1-anim', 'figure'),
-    Output('vote-weight-comparison-by-state-scatter-dots-anim', 'figure'),
-    Output('vote-weight-comparison-by-state-scatter-abbrevs-anim', 'figure'),
-    Output('vote-weight-comparison-by-state-scatter-bubbles-anim', 'figure'),
-    Input('groupings-input', 'value'),
-    Input('max-small-input', 'value'),
-)
-def display_state_level_anims(groupings_input, max_small_input):
-    print(f"#### in display_state_level_anims")
-    # process input
-    max_small = int(max_small_input)
-    # generate figs
-    anim_map_1 = choropleths.build_ivw_by_state_map(data_obj, groupings_input, max_small)
-    anim_scatter_dots = scatter_plots.build_ivw_by_state_scatter_dots(data_obj, groupings_input, max_small)
-    anim_scatter_abbrevs = scatter_plots.build_ivw_by_state_scatter_abbrevs(data_obj, groupings_input, max_small)
-    anim_scatter_bubbles = scatter_plots.build_ivw_by_state_scatter_bubbles(data_obj, groupings_input, max_small)
-    return anim_map_1, anim_scatter_dots, anim_scatter_abbrevs, anim_scatter_bubbles
+# @app.callback(
+#     Output('vote-weight-comparison-by-state-map-1-anim', 'figure'),
+#     Output('vote-weight-comparison-by-state-scatter-dots-anim', 'figure'),
+#     Output('vote-weight-comparison-by-state-scatter-abbrevs-anim', 'figure'),
+#     Output('vote-weight-comparison-by-state-scatter-bubbles-anim', 'figure'),
+#     Input('groupings-input', 'value'),
+#     Input('max-small-input', 'value'),
+# )
+# def display_state_level_anims(groupings_input, max_small_input):
+#     print(f"#### in display_state_level_anims")
+#     # process input
+#     max_small = int(max_small_input)
+#     # generate figs
+#     anim_map_1 = choropleths.build_ivw_by_state_map(data_obj, groupings_input, max_small)
+#     anim_scatter_dots = scatter_plots.build_ivw_by_state_scatter_dots(data_obj, groupings_input, max_small)
+#     anim_scatter_abbrevs = scatter_plots.build_ivw_by_state_scatter_abbrevs(data_obj, groupings_input, max_small)
+#     anim_scatter_bubbles = scatter_plots.build_ivw_by_state_scatter_bubbles(data_obj, groupings_input, max_small)
+#     return anim_map_1, anim_scatter_dots, anim_scatter_abbrevs, anim_scatter_bubbles
 
 
 # voter-impact-comparison-details callbacks, tab 4
-@app.callback(
-    Output('vote-weight-comparison-by-state-group-map-1-anim', 'figure'),
-    Output('vote-weight-comparison-by-state-group-scatter-dots-anim', 'figure'),
-    Output('vote-weight-comparison-by-state-group-scatter-bubbles-anim', 'figure'),
-    Input('groupings-input', 'value'),
-    Input('max-small-input', 'value'),
-)
-def display_regional_aggregate_anims(groupings_input, max_small_input):
-    print(f"#### in display_regional_aggregate_anims")
-    # process input
-    max_small = int(max_small_input)
-    # generate figs
-    anim_map_1 = choropleths.build_state_groups_map(data_obj, groupings_input, max_small)
-    anim_scatter_dots = scatter_plots.build_ivw_by_state_group_scatter_dots(data_obj, groupings_input, max_small)
-    anim_scatter_bubbles = scatter_plots.build_ivw_by_state_group_scatter_bubbles(data_obj, groupings_input, max_small)
-    return anim_map_1, anim_scatter_dots, anim_scatter_bubbles
+# @app.callback(
+#     Output('vote-weight-comparison-by-state-group-map-1-anim', 'figure'),
+#     Output('vote-weight-comparison-by-state-group-scatter-dots-anim', 'figure'),
+#     Output('vote-weight-comparison-by-state-group-scatter-bubbles-anim', 'figure'),
+#     Input('groupings-input', 'value'),
+#     Input('max-small-input', 'value'),
+# )
+# def display_regional_aggregate_anims(groupings_input, max_small_input):
+#     print(f"#### in display_regional_aggregate_anims")
+#     # process input
+#     max_small = int(max_small_input)
+#     # generate figs
+#     anim_map_1 = choropleths.build_state_groups_map(data_obj, groupings_input, max_small)
+#     anim_scatter_dots = scatter_plots.build_ivw_by_state_group_scatter_dots(data_obj, groupings_input, max_small)
+#     anim_scatter_bubbles = scatter_plots.build_ivw_by_state_group_scatter_bubbles(data_obj, groupings_input, max_small)
+#     return anim_map_1, anim_scatter_dots, anim_scatter_bubbles
 
 
-# voter-participation callbacks, tab 2
+# voter-participation callbacks
 @app.callback(
     Output('fig-line-total-vote-over-time', 'figure'),
     Input('y-axis-input', 'value'),
