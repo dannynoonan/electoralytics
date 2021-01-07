@@ -134,10 +134,10 @@ year_slider_and_groups_selection = dbc.FormGroup([
     html.Br(),
     dbc.Row([
         dbc.Col(md=8, children=[
-            html.H4("Election Year")
+            html.H4("Election Year:")
         ]),
         dbc.Col(md=2, children=[
-            html.H4("State Grouping")
+            html.H4("State Grouping Heuristic:")
         ]),
         dbc.Col(md=2, children=[
             html.H4("Extract Small Group?")
@@ -196,7 +196,7 @@ form_input_vw_over_time_line_chart = dbc.FormGroup([
             html.H5("Show / Hide:")
         ]),
         dbc.Col(md=2, children=[
-            html.H5("State Grouping:")
+            html.H5("State Grouping Heuristic:")
         ]),
         dbc.Col(md=2, children=[
             html.H5("Extract Small Group?")

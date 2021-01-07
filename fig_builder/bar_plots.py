@@ -2,10 +2,11 @@ import pandas as pd
 import plotly.express as px
 
 from data_processor.functions import get_era_for_year, map_to_subdir
-from metadata import Columns, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, PARTIES, PARTY_COLORS, YEAR_0, YEAR_N
+from metadata import Columns, DataDirs, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, PARTIES, PARTY_COLORS, YEAR_0, YEAR_N
 
 
 cols = Columns()
+ddirs = DataDirs()
 fig_dims = FigDimensions()
 
 
@@ -32,8 +33,9 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
     # pivot_on_year_df.loc[pd.isnull(pivot_on_year_df[cols.VOTE_WEIGHT]), cols.VOTE_WEIGHT] = -0.1
 
     # display metadata
-    hover_data = {cols.PARTY: False, cols.VOTES_COUNTED: True, cols.EC_VOTES: True, cols.POP_PER_EC_SHORT: True, 
-                cols.VOTES_COUNTED_NORM: True, cols.EC_VOTES_NORM: True, cols.STATE: False}
+    hover_data = {cols.STATE: False, cols.YEAR: False, cols.PARTY: False, cols.PARTY: False, cols.LOG_VOTE_WEIGHT: False,
+                cols.VOTES_COUNTED: True, cols.EC_VOTES: True, cols.POP_PER_EC_SHORT: True, 
+                cols.VOTES_COUNTED_NORM: True, cols.EC_VOTES_NORM: True, cols.GROUP: True}
 
     # set color sequence
     category_orders = {}
@@ -65,7 +67,7 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
                 animation_frame=cols.YEAR, # ignored if df is for single year
                 color_continuous_scale=color_continuous_scale, color_continuous_midpoint=color_continuous_midpoint,
                 color_discrete_map=color_discrete_map, category_orders=category_orders,
-                labels={cols.VOTE_WEIGHT: 'Relative impact per voter'}, 
+                # labels={cols.VOTE_WEIGHT: 'Relative impact per voter'}, 
                 title=fig_title, width=fig_width, height=fig_height)
 
     fig.update_layout(

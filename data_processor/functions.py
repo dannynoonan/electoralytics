@@ -28,7 +28,7 @@ def map_to_subdir(groups_dir, max_small):
     elif max_small == 5:
         subdir = f"{subdir}/{ddirs.SMALL_5}"
     else:
-        # max_small should be explicitly set to 0, but catch-all just in case
+        # if max_small not explicitly set, assume it is 0
         subdir = f"{subdir}/{ddirs.NO_SMALL}"
     return subdir
 

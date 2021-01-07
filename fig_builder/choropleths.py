@@ -4,10 +4,11 @@ import pandas as pd
 import plotly.express as px
 
 from data_processor.functions import get_era_for_year, map_to_subdir, get_description_for_group_key
-from metadata import Columns, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, YEAR_0, YEAR_N
+from metadata import Columns, DataDirs, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, YEAR_0, YEAR_N
 
 
 cols = Columns()
+ddirs = DataDirs()
 fig_dims = FigDimensions()
 
 
@@ -32,9 +33,9 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, fig_width=None, fram
     # vote_weight_max = vote_weight_ser.max()
 
     # display metadata
-    hover_data = {cols.YEAR: False, cols.ABBREV: False, cols.LOG_VOTE_WEIGHT: False, cols.GROUP: True,
-                cols.VOTES_COUNTED: True, cols.EC_VOTES: True, cols.VOTE_WEIGHT: True, cols.POP_PER_EC_SHORT: True, 
-                cols.EC_VOTES_NORM: True}
+    hover_data = {cols.YEAR: False, cols.ABBREV: False, cols.LOG_VOTE_WEIGHT: False,  cols.VOTES_COUNTED: True, 
+                cols.EC_VOTES: True, cols.POP_PER_EC_SHORT: True, cols.VOTE_WEIGHT: True, cols.EC_VOTES_NORM: True, 
+                cols.GROUP: True}
     # map_title = f'{year} presidential election: Vote weight per person per state'
     base_fig_title = 'Vote Weight Per Person Per State'
     if frame:
@@ -51,6 +52,7 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, fig_width=None, fram
                         # range_color=[log_vote_weight_min, log_vote_weight_max],  
                         title=fig_title, width=fig_width, height=fig_height)
 
+    # TODO apply what I learned doing log_y line charts here
     fig.update_layout(
         coloraxis_colorbar=dict(tickvals=[-2.303, -1.609, -1.109, -0.693, -0.357, 0, 0.405, 0.916, 1.386, 1.792, 2.197],
                                 ticktext=['0.1', '0.2', '0.33', '0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']))
