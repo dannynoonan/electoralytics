@@ -94,35 +94,29 @@ class DataObject():
 
         # melt EC votes and EC votes normalized into the same column to create melted_ec_votes_pivot_dfs
         col_names = self.state_vote_weights_pivot_dfs[subdir].columns.values
-        col_names = col_names[col_names != cols.EC_VOTES]
-        col_names = col_names[col_names != cols.EC_VOTES_NORM]
-        mod_state_vote_weights_pivot_df = self.state_vote_weights_pivot_dfs[subdir].rename(
-            columns={cols.EC_VOTES: 'EC votes: Actual', cols.EC_VOTES_NORM: 'ECV: Adjusted for turnout'})
-        
+        ec_mod_df = self.state_vote_weights_pivot_dfs[subdir]
+        ec_mod_df['EC votes: Actual'] = ec_mod_df[cols.EC_VOTES]
+        ec_mod_df['ECV: Adjusted for turnout'] = ec_mod_df[cols.EC_VOTES_NORM]
         melted_ec_votes_pivot_df = pd.melt(
-            mod_state_vote_weights_pivot_df, 
+            ec_mod_df, 
             id_vars=col_names,
-            var_name='Actual vs Adjusted EC votes^',
-            value_name='EC votes^'
+            var_name='Actual vs Adjusted EC votes*',
+            value_name='EC votes*'
         )
-
         # assign df to melted_ec_votes_pivot_dfs at subdir 
         self.melted_ec_votes_pivot_dfs[subdir] = melted_ec_votes_pivot_df
 
         # melt Vote count and Vote count normalized into the same column to create melted_vote_count_pivot_dfs
         col_names = self.state_vote_weights_pivot_dfs[subdir].columns.values
-        col_names = col_names[col_names != cols.VOTES_COUNTED]
-        col_names = col_names[col_names != cols.VOTES_COUNTED_NORM]
-        mod_state_vote_weights_pivot_df = self.state_vote_weights_pivot_dfs[subdir].rename(
-            columns={cols.VOTES_COUNTED: 'Votes counted: Actual', cols.VOTES_COUNTED_NORM: 'Votes counted: Adjusted for weight'})
-
+        vc_mod_df = self.state_vote_weights_pivot_dfs[subdir]
+        ec_mod_df['Votes counted: Actual'] = ec_mod_df[cols.VOTES_COUNTED]
+        ec_mod_df['Votes counted: Adjusted for weight'] = ec_mod_df[cols.VOTES_COUNTED_NORM]
         melted_vote_count_pivot_df = pd.melt(
-            mod_state_vote_weights_pivot_df, 
+            vc_mod_df, 
             id_vars=col_names,
-            var_name='Actual vs Adjusted Vote count^',
-            value_name='Vote count^'
+            var_name='Actual vs Adjusted Vote count*',
+            value_name='Vote count*'
         )
-
         # assign df to melted_vote_count_pivot_dfs at subdir 
         self.melted_vote_count_pivot_dfs[subdir] = melted_vote_count_pivot_df
 

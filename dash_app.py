@@ -364,10 +364,10 @@ voter_impact_comparison_details = html.Div([
                             dcc.Graph(id="fig-bar-actual-vs-adj-ec"),
                             html.Br(),
                         ]),
-                        # dbc.Col(md=6, children=[
-                        #     dcc.Graph(id="fig-bar-actual-vs-adj-vw"),
-                        #     html.Br(),
-                        # ])
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-bar-actual-vs-adj-vw"),
+                            html.Br(),
+                        ])
                     ])
                 ]),
 
@@ -630,7 +630,7 @@ def update2(n_clicks):
     Output('fig-map-color-by-group', 'figure'),
     Output('fig-bar-state-vw-color-by-group', 'figure'),
     Output('fig-bar-actual-vs-adj-ec', 'figure'),
-    # Output('fig-bar-actual-vs-adj-vw', 'figure'),
+    Output('fig-bar-actual-vs-adj-vw', 'figure'),
     Input('year-input', 'value'),
     Input('groupings-input', 'value'),
     Input('max-small-input', 'value'),
@@ -646,8 +646,8 @@ def display_state_level_figs(year_input, groupings_input, max_small_input):
     fig_map_color_by_group = choropleths.build_ivw_by_state_map(data_obj, groupings_input, max_small, cols.GROUP, fig_width=fig_dims.MD7, frame=year)
     fig_bar_state_vw_color_by_group = bar_plots.build_ivw_by_state_bar(data_obj, groupings_input, max_small, fig_width=fig_dims.MD5, frame=year)
     fig_bar_actual_vs_adj_ec = bar_plots.build_actual_vs_adjusted_ec_bar(data_obj, groupings_input, max_small, frame=year)
-    # fig_bar_actual_vs_adj_vw = bar_plots.build_actual_vs_adjusted_vw_bar(data_obj, groupings_input, max_small, frame=year)
-    return fig_map_color_by_state_vw, fig_bar_state_vw_color_by_vw, fig_map_color_by_group, fig_bar_state_vw_color_by_group, fig_bar_actual_vs_adj_ec
+    fig_bar_actual_vs_adj_vw = bar_plots.build_actual_vs_adjusted_vw_bar(data_obj, groupings_input, max_small, frame=year)
+    return fig_map_color_by_state_vw, fig_bar_state_vw_color_by_vw, fig_map_color_by_group, fig_bar_state_vw_color_by_group, fig_bar_actual_vs_adj_ec, fig_bar_actual_vs_adj_vw
 
 
 # voter-impact-comparison-details callbacks, tab 2

@@ -73,8 +73,8 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_wid
             "Population per EC vote: <b>%{customdata[6]:,}</b>",
             "Group: <b>%{customdata[1]}</b>",
             "<br><b>Normalized to nat'l average:</b>",
-            "%{customdata[4]} EC votes => %{customdata[8]:,} pop votes",
             "%{customdata[3]:,} pop votes => %{customdata[7]:.2f} EC votes",
+            "%{customdata[4]} EC votes => %{customdata[8]:,} pop votes",
         ])
     )
 

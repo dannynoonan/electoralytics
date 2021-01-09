@@ -238,8 +238,8 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
             "Average vote weight: <b>%{customdata[2]:.2f}</b>",
             "Average population per EC vote: <b>%{customdata[3]:,}</b>",
             "<br><b>Normalized to nat'l average:</b>",
-            "%{y} EC votes => %{customdata[6]:,} pop votes",
             "%{customdata[1]:,} pop votes => %{x} EC votes",
+            "%{y} EC votes => %{customdata[6]:,} pop votes",
         ])
     )
 
@@ -308,8 +308,8 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fi
             "Average vote weight: <b>%{y:.2f}</b>",
             "Average population per EC vote: <b>%{customdata[2]:,}</b>",
             "<br><b>Normalized to nat'l average:</b>",
-            "%{x} EC votes => %{customdata[6]:,} pop votes",
             "%{customdata[1]:,} pop votes => %{customdata[5]:.2f} EC votes",
+            "%{x} EC votes => %{customdata[6]:,} pop votes",
         ])
     )
 
