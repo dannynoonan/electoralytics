@@ -35,10 +35,9 @@ def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame, fi
     box_data = pivot_on_year_df[[cols.GROUP, cols.VOTE_WEIGHT]]
     pivot = box_data.pivot(columns=cols.GROUP, values=cols.VOTE_WEIGHT)
 
-    fig = px.box(pivot, color=cols.GROUP, 
+    fig = px.box(pivot, color=cols.GROUP, title=fig_title, 
                 color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                title=fig_title, width=fig_width, height=fig_height, 
-                log_y=True)
+                width=fig_width, height=fig_height, log_y=True)
 
     # fig.add_trace(go.Scatter(x=flat_data['EC votes'], y=flat_data['Mean vote weight'], 
     #                          mode='lines', name=trace_name_natl_avg, line=dict(color='black', width=1)))

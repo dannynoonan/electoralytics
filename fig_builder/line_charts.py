@@ -79,12 +79,7 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
             group_counters[state_group] = grp_ctr+1    
 
     # display metadata
-    hover_data = {cols.GROUP: False, cols.YEAR: False, cols.STATES_IN_GROUP: True, cols.EC_VOTES: True}
-    # add hover data if trace_count is small enough
-    if trace_count <= TRACE_MAX_FOR_EXPANDED_HOVERDATA or trace_count > TRACE_MAX_FOR_HOVERMODE_X:
-        hover_data[cols.VOTES_COUNTED] = True
-        hover_data[cols.POP_PER_EC_SHORT] = True
-        hover_data[cols.AVG_WEIGHT] = True
+    custom_data = [cols.GROUP, cols.STATES_IN_GROUP, cols.EC_VOTES, cols.VOTES_COUNTED, cols.POP_PER_EC_SHORT]
     fig_title = 'Average Vote Weight Per Ballot Cast For Each Election'
     if display_groups:
         fig_title = f"{fig_title}, Grouped By Region"
@@ -101,11 +96,9 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
         avg_weight_max = math.log(avg_weight_max, 10) * 1.05
         orig_avg_weight_max = orig_avg_weight_max * 1.05 
 
-    fig = px.line(group_aggs_by_year_df, x=cols.YEAR, y=cols.AVG_WEIGHT, color=cols.GROUP, 
-                    hover_name=cols.GROUP, hover_data=hover_data, 
-                    color_discrete_map=group_colors, category_orders={cols.GROUP: groups},
-                    title=fig_title, width=fig_width, height=fig_height, 
-                    line_shape='spline', log_y=log_y)
+    fig = px.line(group_aggs_by_year_df, x=cols.YEAR, y=cols.AVG_WEIGHT, color=cols.GROUP, title=fig_title, 
+                    color_discrete_map=group_colors, category_orders={cols.GROUP: groups}, custom_data=custom_data,
+                    width=fig_width, height=fig_height, line_shape='spline', log_y=log_y)
     
     for i in range(len(fig.data)):
         fig.data[i].update(mode='markers+lines')
@@ -138,6 +131,29 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
         shapes.extend(era_blocks)
     fig.update_layout(shapes=shapes)
 
+    # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
+    # if trace_count < TRACE_MAX_FOR_EXPANDED_HOVERDATA <= TRACE_MAX_FOR_HOVERMODE_X:
+    if trace_count <= TRACE_MAX_FOR_EXPANDED_HOVERDATA or trace_count > TRACE_MAX_FOR_HOVERMODE_X:
+        fig.update_traces(
+            hovertemplate="<br>".join([
+                "<b>%{customdata[0]}</b> (%{x})<br></b>",
+                "Average weight: <b>%{y:.2f}</b>",
+                "States in group: <b>%{customdata[1]}</b>",
+                "Combined EC votes: <b>%{customdata[2]:,}</b>",
+                "Votes counted: <b>%{customdata[3]:,}</b>",
+                "Avg pop per EC vote: <b>%{customdata[4]:,}</b>",
+            ])
+        )
+    else:
+        fig.update_traces(
+            hovertemplate="<br>".join([
+                "<b>%{customdata[0]}</b> (%{x})<br></b>",
+                "Average weight: <b>%{y:.2f}</b>",
+                "States in group: <b>%{customdata[1]}</b>",
+                "Combined EC votes: <b>%{customdata[2]:,}</b>",
+            ])
+        )
+
     return fig
 
 
@@ -150,8 +166,7 @@ def build_total_vote_line_chart(data_obj, fig_width=None, log_y=False,):
     fig_height = 700
 
     # display metadata
-    hover_data = {cols.YEAR: False, cols.VOTES_COUNTED: True, cols.TOTAL_POP: True, cols.EC_VOTES: True, cols.POP_PER_EC: True, 
-                cols.STATE_COUNT: True, cols.STATES_USING_POP: True}
+    custom_data = [cols.VOTES_COUNTED, cols.TOTAL_POP, cols.EC_VOTES, cols.POP_PER_EC, cols.STATE_COUNT, cols.STATES_USING_POP]
     fig_title = 'Votes Cast For President as a Percentage of Total Population'
 
     x_min = 1785
@@ -164,10 +179,8 @@ def build_total_vote_line_chart(data_obj, fig_width=None, log_y=False,):
         vote_pct_max = math.log(vote_pct_max, 10) * 1.05
         orig_vote_pct_max = orig_vote_pct_max * 1.05 
 
-    fig = px.line(totals_by_year_df, x=cols.YEAR, y=cols.VOTES_COUNTED_PCT_TOTAL_POP, 
-                    hover_name=cols.YEAR, hover_data=hover_data, 
-                    title=fig_title, width=fig_width, height=fig_height, 
-                    line_shape='spline', log_y=log_y)
+    fig = px.line(totals_by_year_df, x=cols.YEAR, y=cols.VOTES_COUNTED_PCT_TOTAL_POP, title=fig_title, 
+                    custom_data=custom_data, width=fig_width, height=fig_height, line_shape='spline', log_y=log_y)
 
     for i in range(len(fig.data)):
         fig.data[i].update(mode='markers+lines')
@@ -193,5 +206,18 @@ def build_total_vote_line_chart(data_obj, fig_width=None, log_y=False,):
                     plot_bgcolor='white', shapes=shapes)
     fig.update_xaxes(gridcolor='#DDDDDD')
     fig.update_yaxes(gridcolor='#DDDDDD')
+
+    # hover text format solution from https://stackoverflow.com/questions/59057881/python-plotly-how-to-customize-hover-template-on-with-what-information-to-show
+    # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
+    fig.update_traces(
+        hovertemplate="<br>".join([
+            "<b>%{y:.2f}%</b> (%{x})<br>",
+            "Votes counted: <b>%{customdata[0]:,}</b>",
+            "Total population: <b>%{customdata[1]:,}</b>",
+            "Total EC votes: <b>%{customdata[2]}</b>",
+            "Avg pop per EC vote: <b>%{customdata[3]:,}</b>",
+            "State count: <b>%{customdata[4]}</b> (%{customdata[5]} using pop vote)</b>",
+        ])
+    )
 
     return fig

@@ -33,9 +33,7 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
     # pivot_on_year_df.loc[pd.isnull(pivot_on_year_df[cols.VOTE_WEIGHT]), cols.VOTE_WEIGHT] = -0.1
 
     # display metadata
-    hover_data = {cols.STATE: False, cols.YEAR: False, cols.PARTY: False, cols.PARTY: False, cols.LOG_VOTE_WEIGHT: False,
-                cols.VOTES_COUNTED: True, cols.EC_VOTES: True, cols.POP_PER_EC_SHORT: True, 
-                cols.VOTES_COUNTED_NORM: True, cols.EC_VOTES_NORM: True, cols.GROUP: True}
+    custom_data = [cols.VOTES_COUNTED, cols.EC_VOTES, cols.POP_PER_EC_SHORT, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM, cols.GROUP]
 
     # set color sequence
     category_orders = {}
@@ -62,13 +60,12 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
         fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
     
     # declare fig
-    fig = px.bar(pivot_on_year_df, x=cols.VOTE_WEIGHT, y=cols.STATE, color=color_col, 
-                hover_name=cols.STATE, hover_data=hover_data,
-                animation_frame=cols.YEAR, # ignored if df is for single year
+    fig = px.bar(pivot_on_year_df, x=cols.VOTE_WEIGHT, y=cols.STATE, color=color_col, title=fig_title, 
+                custom_data=custom_data, animation_frame=cols.YEAR, # ignored if df is for single year
                 color_continuous_scale=color_continuous_scale, color_continuous_midpoint=color_continuous_midpoint,
                 color_discrete_map=color_discrete_map, category_orders=category_orders,
                 # labels={cols.VOTE_WEIGHT: 'Relative impact per voter'}, 
-                title=fig_title, width=fig_width, height=fig_height)
+                width=fig_width, height=fig_height)
 
     fig.update_layout(
         yaxis={'tickangle': 35, 'showticklabels': True, 'type': 'category', 'tickfont_size': 8},
@@ -79,6 +76,20 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
         fig.update_layout(
             coloraxis_colorbar=dict(tickvals=[-0.693, -0.357, 0, 0.405, 0.916, 1.386, 1.792, 2.197],
                                     ticktext=['0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']))
+
+    # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
+    fig.update_traces(
+        hovertemplate="<br>".join([
+            "<b>%{x}</b> (%{y})<br>",
+            "Popular vote: <b>%{customdata[0]:,}</b>",
+            "Electoral College votes: <b>%{customdata[1]}</b>",
+            "Population per EC vote: <b>%{customdata[2]:,}</b>",
+            # "Group: %{customdata[5]}",
+            "<br><b>Normalized to nat'l average:</b>",
+            "%{customdata[1]} EC votes is %{customdata[3]:,} pop votes",
+            "%{customdata[0]:,} pop votes is %{customdata[4]:.2f} EC votes",
+        ])
+    )
 
     return fig
 
@@ -102,8 +113,7 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=N
     melted_ec_votes_pivot_df = melted_ec_votes_pivot_df[pd.notnull(melted_ec_votes_pivot_df[cols.STATE])]
 
     # display metadata
-    hover_data = {cols.PARTY: False, 'Actual vs Adjusted EC votes^': False, cols.VOTE_WEIGHT: True, cols.VOTES_COUNTED: True, 
-                cols.VOTES_COUNTED_NORM: True, cols.POP_PER_EC_SHORT: True, cols.STATE: False}
+    custom_data = [cols.YEAR, cols.VOTES_COUNTED, cols.VOTE_WEIGHT, cols.POP_PER_EC_SHORT, cols.VOTES_COUNTED_NORM]
     color_discrete_sequence = ['DarkGreen', 'LimeGreen']
     base_fig_title = 'Actual EC Votes vs EC Votes Adjusted For Turnout'
     if frame:
@@ -112,17 +122,29 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=N
     else:
         fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
 
-    fig = px.bar(melted_ec_votes_pivot_df, x='EC votes^', y=cols.STATE, color='Actual vs Adjusted EC votes^', 
-                barmode='group', hover_name=cols.STATE, hover_data=hover_data,
-                animation_frame=cols.YEAR, # ignored if df is for single year
-                color_discrete_sequence=color_discrete_sequence, 
-                title=fig_title, width=fig_width, height=fig_height)
+    fig = px.bar(melted_ec_votes_pivot_df, x='EC votes^', y=cols.STATE, color='Actual vs Adjusted EC votes^', title=fig_title, 
+                custom_data=custom_data, barmode='group', animation_frame=cols.YEAR, # ignored if df is for single year
+                color_discrete_sequence=color_discrete_sequence, width=fig_width, height=fig_height)
 
     fig.update_layout(
         yaxis={'tickangle': 35, 'showticklabels': True, 'type': 'category', 'tickfont_size': 8},
         yaxis_categoryorder='total descending'
     )
     fig.update_xaxes(title_text='Actual EC votes / EC Votes If Adjusted For Popular Vote Turnout')
+
+    # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
+    fig.update_traces(
+        hovertemplate="<br>".join([
+            "<b>%{y}</b> (%{customdata[0]})<br>",
+            "Electoral College votes^: <b>%{x}</b>",
+            "Popular vote: <b>%{customdata[1]:,}</b>",
+            "Vote Weight: <b>%{customdata[2]:.2f}</b>",
+            "Population per EC vote: <b>%{customdata[3]:,}</b>",
+            "<br><b>Normalized to nat'l average:</b>",
+            "*TODO* EC votes is %{customdata[4]:,} pop votes",
+            "*TODO* pop votes is *TODO* EC votes",
+        ])
+    )
 
     return fig
 

@@ -12,10 +12,11 @@ ddirs = DataDirs()
 fig_dims = FigDimensions()
 
 
-def build_ivw_by_state_map(data_obj, groups_dir, max_small, fig_width=None, frame=None):
+def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_width=None, frame=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir]
+    groups = GROUPS_FOR_DIR[groups_dir]
 
     # if frame is set, extract single-year data
     if frame:
@@ -33,9 +34,7 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, fig_width=None, fram
     # vote_weight_max = vote_weight_ser.max()
 
     # display metadata
-    hover_data = {cols.YEAR: False, cols.ABBREV: False, cols.LOG_VOTE_WEIGHT: False,  cols.VOTES_COUNTED: True, 
-                cols.EC_VOTES: True, cols.POP_PER_EC_SHORT: True, cols.VOTE_WEIGHT: True, cols.EC_VOTES_NORM: True, 
-                cols.GROUP: True}
+    custom_data = [cols.STATE, cols.VOTES_COUNTED, cols.EC_VOTES, cols.VOTE_WEIGHT, cols.POP_PER_EC_SHORT, cols.EC_VOTES_NORM, cols.GROUP, cols.YEAR]
     # map_title = f'{year} presidential election: Vote weight per person per state'
     base_fig_title = 'Vote Weight Per Person Per State'
     if frame:
@@ -44,72 +43,38 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, fig_width=None, fram
     else:
         fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
 
-    fig = px.choropleth(pivot_on_year_df, locations=cols.ABBREV, color=cols.LOG_VOTE_WEIGHT,
-                        locationmode='USA-states', scope="usa", hover_name=cols.STATE, hover_data=hover_data, 
-                        animation_frame=cols.YEAR, # ignored if df is for single year
-                        color_continuous_scale=px.colors.diverging.BrBG[::-1], color_continuous_midpoint=0,
-                        # range_color=[-1.0, pivot_on_single_year[cols.LOG_VOTE_WEIGHT].max()],
-                        # range_color=[log_vote_weight_min, log_vote_weight_max],  
-                        title=fig_title, width=fig_width, height=fig_height)
+    if color_field == cols.LOG_VOTE_WEIGHT:
+        fig = px.choropleth(pivot_on_year_df, locations=cols.ABBREV, color=color_field, title=fig_title, 
+                            locationmode='USA-states', scope="usa", custom_data=custom_data,
+                            animation_frame=cols.YEAR, # ignored if df is for single year
+                            color_continuous_scale=px.colors.diverging.BrBG[::-1], color_continuous_midpoint=0,
+                            # range_color=[-1.0, pivot_on_single_year[cols.LOG_VOTE_WEIGHT].max()],
+                            # range_color=[log_vote_weight_min, log_vote_weight_max],  
+                            width=fig_width, height=fig_height)
+        # TODO apply what I learned doing log_y line charts here
+        fig.update_layout(
+            coloraxis_colorbar=dict(tickvals=[-2.303, -1.609, -1.109, -0.693, -0.357, 0, 0.405, 0.916, 1.386, 1.792, 2.197],
+                                    ticktext=['0.1', '0.2', '0.33', '0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']))
+    elif color_field == cols.GROUP:
+        fig = px.choropleth(pivot_on_year_df, locations=cols.ABBREV, color=cols.GROUP, 
+                            locationmode='USA-states', scope="usa", custom_data=custom_data,
+                            animation_frame=cols.YEAR, animation_group=cols.GROUP, # ignored if df is for single year
+                            color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
+                            width=fig_width, height=fig_height)
 
-    # TODO apply what I learned doing log_y line charts here
-    fig.update_layout(
-        coloraxis_colorbar=dict(tickvals=[-2.303, -1.609, -1.109, -0.693, -0.357, 0, 0.405, 0.916, 1.386, 1.792, 2.197],
-                                ticktext=['0.1', '0.2', '0.33', '0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']))
-
-    # if write_html:
-    #     # apply_animation_settings(fig, base_fig_title=base_fig_title)
-
-    #     fig.layout.updatemenus[0].buttons[0].args[1]['frame']['duration'] = FRAME_RATE
-    #     fig.layout.updatemenus[0].buttons[0].args[1]['transition']['duration'] = 500
-            
-    #     for button in fig.layout.updatemenus[0].buttons:
-    #         button["args"][1]["frame"]["redraw"] = True
-            
-    #     for step in fig.layout.sliders[0].steps:
-    #         step["args"][1]["frame"]["redraw"] = True
-
-    #     for k in range(len(fig.frames)):
-    #         year = 1828 + (k*4)
-    #         era = get_era_for_year(year)
-    #         fig.frames[k]['layout'].update(title_text=f'{base_fig_title}: {year} ({era})')
-
-    #     fig.write_html('ivw_by_state_map_anim.html')
-
-    return fig
-
-
-def build_state_groups_map(data_obj, groups_dir, max_small, fig_width=None, frame=None):
-    subdir = map_to_subdir(groups_dir, max_small)
-    data_obj.load_dfs_for_subdir(subdir)
-    pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir]
-    groups = GROUPS_FOR_DIR[groups_dir]
-
-    # if frame is set, extract single-year data
-    if frame:
-        pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame]
-
-    if not fig_width:
-        fig_width = fig_dims.MD6
-    fig_height = fig_dims.crt(fig_width)
-
-    # generate cols.LOG_VOTE_WEIGHT column, workaround to manually create log color scale
-    # pivot_on_single_year[cols.LOG_VOTE_WEIGHT] = np.log2(pivot_on_single_year[cols.VOTE_WEIGHT])
-
-    # display metadata
-    hover_data = {cols.YEAR: False, cols.ABBREV: False, cols.GROUP: True, cols.VOTES_COUNTED: True, 
-              cols.EC_VOTES: True, cols.VOTE_WEIGHT: True, cols.POP_PER_EC_SHORT: True, cols.EC_VOTES_NORM: True}
-    base_fig_title = get_description_for_group_key(groups_dir)
-    if frame:
-        era = get_era_for_year(frame)
-        fig_title = f'{base_fig_title}: {frame} ({era})'
-    else:
-        fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
-
-    fig = px.choropleth(pivot_on_year_df, locations=cols.ABBREV, color=cols.GROUP, 
-                        locationmode='USA-states', scope="usa", hover_name=cols.STATE, hover_data=hover_data, 
-                        animation_frame=cols.YEAR, animation_group=cols.GROUP, # ignored if df is for single year
-                        color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                        title=fig_title, width=fig_width, height=fig_height)
+    # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
+    fig.update_traces(
+        hovertemplate="<br>".join([
+            "<b>%{customdata[0]}</b> (%{customdata[7]})<br>",
+            "Popular vote: <b>%{customdata[1]:,}</b>",
+            "Electoral College votes: <b>%{customdata[2]}</b>",
+            "Vote Weight: <b>%{customdata[3]:.2f}</b>",
+            "Population per EC vote: <b>%{customdata[4]:,}</b>",
+            "Group: %{customdata[6]}",
+            "<br><b>Normalized to nat'l average:</b>",
+            "%{customdata[2]} EC votes is *TODO* pop votes",
+            "%{customdata[1]:,} pop votes is %{customdata[5]:.2f} EC votes",
+        ])
+    )
 
     return fig
