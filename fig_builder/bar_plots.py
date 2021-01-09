@@ -140,9 +140,9 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=N
             "Popular vote: <b>%{customdata[1]:,}</b>",
             "Vote Weight: <b>%{customdata[2]:.2f}</b>",
             "Population per EC vote: <b>%{customdata[3]:,}</b>",
-            "<br><b>Normalized to nat'l average:</b>",
-            "*TODO* EC votes is %{customdata[4]:,} pop votes",
-            "*TODO* pop votes is *TODO* EC votes",
+            # "<br><b>Normalized to nat'l average:</b>",
+            # "*TODO* EC votes is %{customdata[4]:,} pop votes",
+            # "%{customdata[1]:,} pop votes is %{customdata[5]:.2f} EC votes",
         ])
     )
 

@@ -34,7 +34,8 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_wid
     # vote_weight_max = vote_weight_ser.max()
 
     # display metadata
-    custom_data = [cols.STATE, cols.VOTES_COUNTED, cols.EC_VOTES, cols.VOTE_WEIGHT, cols.POP_PER_EC_SHORT, cols.EC_VOTES_NORM, cols.GROUP, cols.YEAR]
+    custom_data = [cols.STATE, cols.GROUP, cols.YEAR, cols.VOTES_COUNTED, cols.EC_VOTES, cols.VOTE_WEIGHT, cols.POP_PER_EC_SHORT, cols.EC_VOTES_NORM, 
+                    cols.VOTES_COUNTED_NORM]
     # map_title = f'{year} presidential election: Vote weight per person per state'
     base_fig_title = 'Vote Weight Per Person Per State'
     if frame:
@@ -65,15 +66,15 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_wid
     # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
     fig.update_traces(
         hovertemplate="<br>".join([
-            "<b>%{customdata[0]}</b> (%{customdata[7]})<br>",
-            "Popular vote: <b>%{customdata[1]:,}</b>",
-            "Electoral College votes: <b>%{customdata[2]}</b>",
-            "Vote Weight: <b>%{customdata[3]:.2f}</b>",
-            "Population per EC vote: <b>%{customdata[4]:,}</b>",
-            "Group: %{customdata[6]}",
+            "<b>%{customdata[0]}</b> (%{customdata[2]})<br>",
+            "Popular vote: <b>%{customdata[3]:,}</b>",
+            "Electoral College votes: <b>%{customdata[4]}</b>",
+            "Vote Weight: <b>%{customdata[5]:.2f}</b>",
+            "Population per EC vote: <b>%{customdata[6]:,}</b>",
+            "Group: <b>%{customdata[1]}</b>",
             "<br><b>Normalized to nat'l average:</b>",
-            "%{customdata[2]} EC votes is *TODO* pop votes",
-            "%{customdata[1]:,} pop votes is %{customdata[5]:.2f} EC votes",
+            "%{customdata[4]} EC votes => %{customdata[8]:,} pop votes",
+            "%{customdata[3]:,} pop votes => %{customdata[7]:.2f} EC votes",
         ])
     )
 
