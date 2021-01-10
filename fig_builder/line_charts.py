@@ -79,7 +79,7 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
             group_counters[state_group] = grp_ctr+1    
 
     # display metadata
-    custom_data = [cols.GROUP, cols.STATES_IN_GROUP, cols.EC_VOTES, cols.VOTES_COUNTED, cols.POP_PER_EC_SHORT]
+    custom_data = [cols.GROUP, cols.STATES_IN_GROUP, cols.EC_VOTES, cols.VOTES_COUNTED, cols.POP_PER_EC]
     fig_title = 'Average Vote Weight Per Ballot Cast For Each Election'
     if display_groups:
         fig_title = f"{fig_title}, Grouped By Region"

@@ -31,7 +31,7 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
     norm_max = round(pivot_on_year_df[cols.EC_VOTES_NORM].max() * 1.05)
 
     # display metadata
-    custom_data = [cols.STATE, cols.VOTES_COUNTED, cols.VOTE_WEIGHT, cols.POP_PER_EC_SHORT, cols.VOTES_COUNTED_NORM]
+    custom_data = [cols.STATE, cols.VOTES_COUNTED, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM]
     base_fig_title = 'Vote Weight Per Person Per State'
     if frame:
         era = get_era_for_year(frame)
@@ -119,7 +119,7 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
     weight_max = pivot_on_year_df[cols.VOTE_WEIGHT].max()
 
     # display metadata
-    custom_data = [cols.STATE, cols.VOTES_COUNTED, cols.POP_PER_EC_SHORT, cols.VOTES_COUNTED_PCT, cols.EC_VOTES_NORM, cols.VOTES_COUNTED_NORM]
+    custom_data = [cols.STATE, cols.VOTES_COUNTED, cols.POP_PER_EC, cols.VOTES_COUNTED_PCT, cols.EC_VOTES_NORM, cols.VOTES_COUNTED_NORM]
     base_fig_title = 'Vote Weight Per Person Per State'
     if frame:
         era = get_era_for_year(frame)
@@ -194,7 +194,7 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
     norm_max = round(group_aggs_by_year_df[cols.EC_VOTES_NORM].max() * 1.05)
 
     # display metadata
-    custom_data = [cols.GROUP, cols.VOTES_COUNTED, cols.AVG_WEIGHT, cols.POP_PER_EC_SHORT, cols.STATE_COUNT, cols.STATES_IN_GROUP, cols.VOTES_COUNTED_NORM]
+    custom_data = [cols.GROUP, cols.VOTES_COUNTED, cols.AVG_WEIGHT, cols.POP_PER_EC, cols.STATE_COUNT, cols.STATES_IN_GROUP, cols.VOTES_COUNTED_NORM]
     base_fig_title = 'Average Vote Weight Per Person Per Region'
     if frame:
         era = get_era_for_year(frame)
@@ -269,7 +269,7 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fi
     weight_max = group_aggs_by_year_df[cols.AVG_WEIGHT].max() * 1.1
 
     # display metadata
-    custom_data = [cols.GROUP, cols.VOTES_COUNTED, cols.POP_PER_EC_SHORT, cols.STATE_COUNT, cols.STATES_IN_GROUP, cols.EC_VOTES_NORM, cols.VOTES_COUNTED_NORM]
+    custom_data = [cols.GROUP, cols.VOTES_COUNTED, cols.POP_PER_EC, cols.STATE_COUNT, cols.STATES_IN_GROUP, cols.EC_VOTES_NORM, cols.VOTES_COUNTED_NORM]
     base_fig_title = 'Average Vote Weight Per Person Per Region'
     if frame:
         era = get_era_for_year(frame)

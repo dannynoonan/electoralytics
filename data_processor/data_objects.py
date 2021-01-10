@@ -55,7 +55,7 @@ class DataObject():
         if small_subdir in DATA_DIR_TO_SMALL_GROUP_LABELS.keys():
             small_col_name = DATA_DIR_TO_SMALL_GROUP_LABELS[small_subdir]
             df.loc[df[cols.GROUP] == 'Small', cols.GROUP] = small_col_name
-        df.rename(columns={cols.POP_PER_EC: cols.POP_PER_EC_SHORT}, inplace=True)
+        # df.rename(columns={cols.POP_PER_EC: cols.POP_PER_EC_SHORT}, inplace=True)
         # generate Vote Weight (log) column, workaround to choropleth lacking log color scale option
         df[cols.LOG_VOTE_WEIGHT] = np.log2(df[cols.VOTE_WEIGHT])
 
@@ -139,7 +139,7 @@ class DataObject():
         if small_subdir in DATA_DIR_TO_SMALL_GROUP_LABELS.keys():
             small_col_name = DATA_DIR_TO_SMALL_GROUP_LABELS[small_subdir]
             df.loc[df[cols.GROUP] == 'Small', cols.GROUP] = small_col_name
-        df.rename(columns={cols.POP_PER_EC: cols.POP_PER_EC_SHORT}, inplace=True)
+        # df.rename(columns={cols.POP_PER_EC: cols.POP_PER_EC_SHORT}, inplace=True)
 
         # assign df to group_agg_weights_pivot_dfs at subdir 
         self.group_agg_weights_pivot_dfs[subdir] = df

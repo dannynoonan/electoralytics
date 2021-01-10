@@ -34,7 +34,7 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_wid
     # vote_weight_max = vote_weight_ser.max()
 
     # display metadata
-    custom_data = [cols.STATE, cols.GROUP, cols.YEAR, cols.VOTES_COUNTED, cols.EC_VOTES, cols.VOTE_WEIGHT, cols.POP_PER_EC_SHORT, cols.EC_VOTES_NORM, 
+    custom_data = [cols.STATE, cols.GROUP, cols.YEAR, cols.VOTES_COUNTED, cols.EC_VOTES, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.EC_VOTES_NORM, 
                     cols.VOTES_COUNTED_NORM]
     # map_title = f'{year} presidential election: Vote weight per person per state'
     base_fig_title = 'Vote Weight Per Person Per State'

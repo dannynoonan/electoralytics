@@ -33,7 +33,7 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
     # pivot_on_year_df.loc[pd.isnull(pivot_on_year_df[cols.VOTE_WEIGHT]), cols.VOTE_WEIGHT] = -0.1
 
     # display metadata
-    custom_data = [cols.VOTES_COUNTED, cols.EC_VOTES, cols.POP_PER_EC_SHORT, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM, cols.GROUP]
+    custom_data = [cols.VOTES_COUNTED, cols.EC_VOTES, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM, cols.GROUP]
 
     # set color sequence
     category_orders = {}
@@ -113,7 +113,7 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=N
     melted_ec_votes_pivot_df = melted_ec_votes_pivot_df[pd.notnull(melted_ec_votes_pivot_df[cols.STATE])]
 
     # display metadata
-    custom_data = [cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTE_WEIGHT, cols.POP_PER_EC_SHORT, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM]
+    custom_data = [cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM]
     color_discrete_sequence = ['DarkGreen', 'LimeGreen']
     base_fig_title = 'Actual EC Votes vs EC Votes Adjusted For Turnout'
     if frame:
@@ -166,9 +166,7 @@ def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, fig_width=N
     melted_vote_count_pivot_df = melted_vote_count_pivot_df[pd.notnull(melted_vote_count_pivot_df[cols.STATE])]
 
     # display metadata
-    # hover_data = {cols.PARTY: False, 'Actual vs Adjusted Vote count*': False, cols.VOTE_WEIGHT: True, cols.EC_VOTES: True,
-    #             cols.EC_VOTES_NORM: True, cols.POP_PER_EC_SHORT: True, cols.STATE: False}
-    custom_data = [cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTE_WEIGHT, cols.POP_PER_EC_SHORT, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM]
+    custom_data = [cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM]
     color_discrete_sequence = ['DarkBlue', 'DodgerBlue']
     base_fig_title = 'Actual Vote Count vs Vote Count Adjusted For Vote Weight'
     if frame:
