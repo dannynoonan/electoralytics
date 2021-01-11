@@ -23,7 +23,7 @@ class DataFiles():
         self.STATE_VOTE_WEIGHTS_PIVOT = 'stateVoteWeightsPivot.csv'
         self.STATE_SWING_WEIGHTS_PIVOT = 'stateSwingWeightsPivot.csv'
         self.GROUP_AGG_WEIGHTS_PIVOT = 'groupAggWeightsPivot.csv'
-        self.AVG_WEIGHT_BY_YEAR = 'avgWeightByYear.csv'
+        # self.AVG_WEIGHT_BY_YEAR = 'avgWeightByYear.csv'
 
 
 # columns in data files
@@ -37,6 +37,7 @@ class Columns():
         self.YEAR = 'Year'
         self.EC_VOTES = 'EC votes'
         self.EC_VOTES_NORM = 'EC votes normalized'
+        self.EC_VOTES_FROM_POP = 'EC votes from pop vote'
         self.VOTES_COUNTED = 'Votes counted'
         self.VOTES_COUNTED_NORM = 'Votes counted normalized'
         self.VOTES_COUNTED_PCT = 'Votes counted %'
@@ -183,7 +184,7 @@ PARTY_COLORS = {
 COLORS_PLOTLY = ['#636EFA', '#FECB52', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#EF553B']
 
 # years
-YEAR_0 = 1824
+YEAR_0 = 1800
 YEAR_N = 2020
 
 # animations

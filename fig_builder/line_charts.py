@@ -38,6 +38,9 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
         group_aggs_by_year_df = group_aggs_by_year_df.loc[~((group_aggs_by_year_df[cols.AVG_WEIGHT] == 0) & (group_aggs_by_year_df[cols.GROUP] == 'Postbellum'))]
         group_aggs_by_year_df = group_aggs_by_year_df.loc[~((group_aggs_by_year_df[cols.AVG_WEIGHT] == 0) & (group_aggs_by_year_df[cols.GROUP] == 'West'))]
 
+    # drop rows with 0 EC votes (e.g. Union when no states had pop vote, Confed states during Civil War, etc)
+    group_aggs_by_year_df = group_aggs_by_year_df[group_aggs_by_year_df[cols.EC_VOTES] > 0]
+
     if not fig_width:
         fig_width = fig_dims.MD6
     if not fig_height:
@@ -110,8 +113,8 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
         y_axis_text = f"{y_axis_text} (log)"
     fig.update_yaxes(title_text=y_axis_text)
 
-    # have x axis ticks every 20 years from 1840-2020
-    x_axis_ticks = dict(tickmode='array', tickvals=[x*20 for x in range(92, 102)])
+    # have x axis ticks every 20 years from 1800-2020
+    x_axis_ticks = dict(tickmode='array', tickvals=[x*20 for x in range(90, 102)])
 
     # update layout and axes
     fig.update_layout(xaxis_range=[YEAR_0, YEAR_N], yaxis_range=[avg_weight_min, avg_weight_max], plot_bgcolor='white', xaxis=x_axis_ticks)
@@ -138,7 +141,7 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
             hovertemplate="<br>".join([
                 "<b>%{customdata[0]}</b> (%{x})<br></b>",
                 "EC votes: <b>%{customdata[2]:,}</b>",
-                "Votes counted: <b>%{customdata[3]:,}</b>",
+                "Popular vote: <b>%{customdata[3]:,}</b>",
                 "Vote weight: <b>%{y:.2f}</b>",
                 "Avg pop per EC vote: <b>%{customdata[4]:,}</b>",
                 "State(s): <b>%{customdata[1]}</b>",
@@ -149,6 +152,7 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
             hovertemplate="<br>".join([
                 "<b>%{customdata[0]}</b> (%{x})<br></b>",
                 "Combined EC votes: <b>%{customdata[2]:,}</b>",
+                "Combined pop vote: <b>%{customdata[3]:,}</b>",
                 "Average weight: <b>%{y:.2f}</b>",
                 "States in group: <b>%{customdata[1]}</b>",
             ])

@@ -98,7 +98,6 @@ totals_by_year = pd.read_csv(dfiles.TOTALS_BY_YEAR)
 # files to output: 
 # * pivot_on_year 
 # * group_aggs_by_year 
-# * avg_weight_by_year 
 
 
 # initialize new data frames
@@ -110,8 +109,8 @@ group_aggs_by_year = pd.DataFrame(
             cols.EC_VOTES_NORM, cols.POP_PER_EC, cols.AVG_WEIGHT, cols.STATE_COUNT, cols.STATES_IN_GROUP])
 
 ### LEGACY, but still haven't transitioned off of ###
-avg_weight_by_year = pd.DataFrame({cols.GROUP: GROUPS_SER}) 
-avg_weight_by_year.set_index(cols.GROUP, inplace=True)
+# avg_weight_by_year = pd.DataFrame({cols.GROUP: GROUPS_SER}) 
+# avg_weight_by_year.set_index(cols.GROUP, inplace=True)
 
 
 # begin iterating through years in the_one_ring
@@ -194,7 +193,7 @@ while year <= YEAR_N:
     year_group_aggs = year_group_aggs.join(year_group_aggs_2, how='outer')
     # add/derive/populate additional columns
     year_group_aggs[cols.AVG_WEIGHT] = (pop_per_ec * year_group_aggs[cols.EC_VOTES] / year_group_aggs[cols.VOTES_COUNTED]).round(decimals=2)
-    year_group_aggs[cols.YEAR] = [year] * len(year_group_aggs)
+    year_group_aggs[cols.YEAR] = year
     year_group_aggs[cols.VOTES_COUNTED_NORM] = round(year_group_aggs[cols.VOTES_COUNTED] * year_group_aggs[cols.AVG_WEIGHT])
     year_group_aggs[cols.VOTES_COUNTED_PCT] = (100 * year_group_aggs[cols.VOTES_COUNTED] / pop_total).round(decimals=2)
     year_group_aggs[cols.EC_VOTES_NORM] = (year_group_aggs[cols.VOTES_COUNTED] / pop_per_ec).round(decimals=2)
@@ -220,17 +219,20 @@ while year <= YEAR_N:
     # TODO only now seeing the inconsistencies in how I'm inserting values into df cells, figure out the best way and use that method consistently
     year_total_aggs.loc[cols.YEAR] = year
     year_total_aggs[cols.GROUP] = "Nat'l Average"
-    year_total_aggs[cols.EC_VOTES] = year_totals[cols.EC_VOTES].item()
+    year_total_aggs[cols.EC_VOTES] = year_totals[cols.EC_VOTES_FROM_POP].item()  # Using EC from pop here for contextual consistency against group aggs
+    year_total_aggs[cols.EC_VOTES_NORM] = year_totals[cols.EC_VOTES_FROM_POP].item()
     year_total_aggs[cols.VOTES_COUNTED] = year_totals[cols.VOTES_COUNTED].item()
     year_total_aggs[cols.VOTES_COUNTED_NORM] = year_totals[cols.VOTES_COUNTED].item()
     year_total_aggs[cols.VOTES_COUNTED_PCT] = 100
-    year_total_aggs[cols.EC_VOTES_NORM] = year_totals[cols.EC_VOTES].item()
     year_total_aggs[cols.POP_PER_EC] = year_totals[cols.POP_PER_EC].item()
     year_total_aggs[cols.AVG_WEIGHT] = 1.0 
     state_count = year_totals[cols.STATE_COUNT].item()
-    states_in_group = f"All {state_count}"
+    state_count_w_pop_vote = year_group_aggs[cols.STATE_COUNT].sum()
+    states_in_group = f"{state_count_w_pop_vote} of {state_count} held popular vote"
+    if year > 1876:
+        states_in_group = f"All {state_count-1}"
     if year > 1963:
-        states_in_group = f"All {state_count-1} + DC"
+        states_in_group = f"{states_in_group} + DC"
     year_total_aggs[cols.STATE_COUNT] = state_count 
     year_total_aggs[cols.STATES_IN_GROUP] = states_in_group
     # concat year_total_aggs to group_aggs_by_year_df
@@ -238,20 +240,20 @@ while year <= YEAR_N:
 
     
     ### LEGACY ###
-    # aggregate EC votes and popular votes for each Group, assign summed values to new year_agg dataframe
-    year_agg = year_data.groupby(cols.GROUP).agg({cols.EC_VOTES: 'sum', cols.VOTES_COUNTED: 'sum'})
-    # add Average weight column by dividing EC votes by popular votes and multiplying by national pop-per-EC factor
-    year_agg[year] = pop_per_ec * year_agg[cols.EC_VOTES] / year_agg[cols.VOTES_COUNTED]
+    # # aggregate EC votes and popular votes for each Group, assign summed values to new year_agg dataframe
+    # year_agg = year_data.groupby(cols.GROUP).agg({cols.EC_VOTES: 'sum', cols.VOTES_COUNTED: 'sum'})
+    # # add Average weight column by dividing EC votes by popular votes and multiplying by national pop-per-EC factor
+    # year_agg[year] = pop_per_ec * year_agg[cols.EC_VOTES] / year_agg[cols.VOTES_COUNTED]
 
-    # add Total row to end of of year_agg
-    total_row = pd.DataFrame([['Total', ec_total, pop_total, 1.0]], 
-                             columns=[cols.GROUP, cols.EC_VOTES, cols.VOTES_COUNTED, year])
-    total_row = total_row.set_index(cols.GROUP)
-    year_agg = year_agg.append(total_row)
+    # # add Total row to end of of year_agg
+    # total_row = pd.DataFrame([['Total', ec_total, pop_total, 1.0]], 
+    #                          columns=[cols.GROUP, cols.EC_VOTES, cols.VOTES_COUNTED, year])
+    # total_row = total_row.set_index(cols.GROUP)
+    # year_agg = year_agg.append(total_row)
 
-    # extract avg_weight column into its own dataframe, rename column to be simply the year
-    avg_weight_df = year_agg.drop([cols.EC_VOTES, cols.VOTES_COUNTED], axis=1)
-    avg_weight_by_year = avg_weight_by_year.join(avg_weight_df, how='outer')
+    # # extract avg_weight column into its own dataframe, rename column to be simply the year
+    # avg_weight_df = year_agg.drop([cols.EC_VOTES, cols.VOTES_COUNTED], axis=1)
+    # avg_weight_by_year = avg_weight_by_year.join(avg_weight_df, how='outer')
     
     
     # increment to next election
@@ -260,14 +262,14 @@ while year <= YEAR_N:
 
 PIVOT_ON_YEAR_CSV = f"{ddirs.BASE}/{subdir}/{dfiles.STATE_VOTE_WEIGHTS_PIVOT}"
 GROUP_AGGS_BY_YEAR_CSV = f"{ddirs.BASE}/{subdir}/{dfiles.GROUP_AGG_WEIGHTS_PIVOT}"
-AVG_WEIGHT_BY_YEAR_CSV = f"{ddirs.BASE}/{subdir}/{dfiles.AVG_WEIGHT_BY_YEAR}"
+# AVG_WEIGHT_BY_YEAR_CSV = f"{ddirs.BASE}/{subdir}/{dfiles.AVG_WEIGHT_BY_YEAR}"
 
 print(f"Rows in {PIVOT_ON_YEAR_CSV}: {len(pivot_on_year)}")
 print(f"{pivot_on_year}")
 print(f"Rows in {GROUP_AGGS_BY_YEAR_CSV}: {len(group_aggs_by_year)}")
 print(f"{group_aggs_by_year}")
-print(f"Rows in {AVG_WEIGHT_BY_YEAR_CSV}: {len(avg_weight_by_year)}")
-print(f"{avg_weight_by_year}")
+# print(f"Rows in {AVG_WEIGHT_BY_YEAR_CSV}: {len(avg_weight_by_year)}")
+# print(f"{avg_weight_by_year}")
 
 
 if WRITE_TO_CSV:
@@ -281,5 +283,5 @@ if WRITE_TO_CSV:
 
     ### LEGACY ###
     # rename Total column and write avg_weight_by_year to file
-    avg_weight_by_year.rename(index={'Total': 'Nat\'l Average'}, inplace=True)
-    avg_weight_by_year.to_csv(AVG_WEIGHT_BY_YEAR_CSV)
+    # avg_weight_by_year.rename(index={'Total': 'Nat\'l Average'}, inplace=True)
+    # avg_weight_by_year.to_csv(AVG_WEIGHT_BY_YEAR_CSV)
