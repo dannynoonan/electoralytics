@@ -94,7 +94,7 @@ class DataObject():
 
         # melt EC votes and EC votes normalized into the same column to create melted_ec_votes_pivot_dfs
         col_names = self.state_vote_weights_pivot_dfs[subdir].columns.values
-        ec_mod_df = self.state_vote_weights_pivot_dfs[subdir]
+        ec_mod_df = self.state_vote_weights_pivot_dfs[subdir].copy()
         ec_mod_df['EC votes: Actual'] = ec_mod_df[cols.EC_VOTES]
         ec_mod_df['ECV: Adjusted for turnout'] = ec_mod_df[cols.EC_VOTES_NORM]
         melted_ec_votes_pivot_df = pd.melt(
@@ -108,9 +108,9 @@ class DataObject():
 
         # melt Vote count and Vote count normalized into the same column to create melted_vote_count_pivot_dfs
         col_names = self.state_vote_weights_pivot_dfs[subdir].columns.values
-        vc_mod_df = self.state_vote_weights_pivot_dfs[subdir]
-        ec_mod_df['Votes counted: Actual'] = ec_mod_df[cols.VOTES_COUNTED]
-        ec_mod_df['Votes counted: Adjusted for weight'] = ec_mod_df[cols.VOTES_COUNTED_NORM]
+        vc_mod_df = self.state_vote_weights_pivot_dfs[subdir].copy()
+        vc_mod_df['Votes counted: Actual'] = vc_mod_df[cols.VOTES_COUNTED]
+        vc_mod_df['Votes counted: Adjusted for weight'] = vc_mod_df[cols.VOTES_COUNTED_NORM]
         melted_vote_count_pivot_df = pd.melt(
             vc_mod_df, 
             id_vars=col_names,

@@ -22,50 +22,76 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
     if frame:
         pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame].sort_values(cols.GROUP, ascending=True)
 
+    # while I would prefer the NaNs to declare themselves as such, they don't render nicely as customdata params in hovertemplates
+    pivot_on_year_df.fillna(-1, inplace=True)
+
     if not fig_width:
         fig_width = fig_dims.MD6
     fig_height = fig_dims.crt(fig_width)
     
     # calculate axis range boundaries 
     ec_max = round(pivot_on_year_df[cols.EC_VOTES].max() * 1.05)
-    norm_max = round(pivot_on_year_df[cols.EC_VOTES_NORM].max() * 1.05)
-
     # display metadata
     custom_data = [cols.STATE, cols.VOTES_COUNTED, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM]
     base_fig_title = 'Vote Weight Per Person Per State'
+    y_axis_title = 'Electoral College Votes Per State'
+
+    # set fields and values that differ for static years (frame) vs animations (!frame)
     if frame:
+        # for static years, x axis is simply popular vote counted
+        x_max = round(pivot_on_year_df[cols.VOTES_COUNTED].max() * 1.05)
+        # for static years, calculate avg pop vote for ec max
+        totals_by_year_df = data_obj.totals_by_year_df
+        pop_per_ec = totals_by_year_df[totals_by_year_df[cols.YEAR] == frame][cols.POP_PER_EC].item()
+        x_mean_line_max = ec_max * pop_per_ec
+        # x axis details
+        x_axis_col = cols.VOTES_COUNTED
+        x_axis_title = 'Votes counted per state'
+        # for static years, set specific era title
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
+        
     else:
+        # for animations, keep amplitude of 'reference mean' trace constant by pegging x axis max against EC Votes normalized
+        x_max = round(pivot_on_year_df[cols.EC_VOTES_NORM].max() * 1.05)
+        # for animations, x_mean_line_max is same max EC Votes normalized
+        x_mean_line_max = x_max
+        # x axis details
+        x_axis_col = cols.EC_VOTES_NORM
+        x_axis_title = 'State EC votes if adjusted for popular vote turnout' 
+        # for animations, set base title (it will change during animation)
         fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
-
+              
+    # slight rendering variations for dots vs abbrevs 
     if display_elements == 'dots':
         # init figure with core properties
-        fig = px.scatter(pivot_on_year_df, x=cols.EC_VOTES_NORM, y=cols.EC_VOTES, color=cols.GROUP, title=fig_title, 
+        fig = px.scatter(pivot_on_year_df, x=x_axis_col, y=cols.EC_VOTES, color=cols.GROUP, title=fig_title, 
                         custom_data=custom_data, animation_frame=cols.YEAR, # ignored if df is for single year
                         color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
                         width=fig_width, height=fig_height, 
-                        opacity=0.7, range_x=[0,norm_max], range_y=[0,ec_max])
+                        opacity=0.7, range_x=[0,x_max], range_y=[0,ec_max])
         # scatterplot dot formatting
         fig.update_traces(marker=dict(size=24, line=dict(width=1, color='white')), 
                         selector=dict(mode='markers'))
         # axis labels
-        fig.update_xaxes(title_text='State EC votes if adjusted for popular vote turnout')
-        fig.update_yaxes(title_text='Electoral college votes per state')
+        fig.update_xaxes(title_text=x_axis_title)
+        fig.update_yaxes(title_text=y_axis_title)
 
     elif display_elements == 'abbrevs':
         # init figure with core properties
-        fig = px.scatter(pivot_on_year_df, x=cols.EC_VOTES_NORM, y=cols.EC_VOTES, color=cols.GROUP, title=fig_title, 
+        fig = px.scatter(pivot_on_year_df, x=x_axis_col, y=cols.EC_VOTES, color=cols.GROUP, title=fig_title, 
                         custom_data=custom_data, text=cols.ABBREV, animation_frame=cols.YEAR, # ignored if df is for single year
                         color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
                         width=fig_width, height=fig_height, opacity=0.7, 
-                        log_x=True, log_y=True, range_x=[.4,norm_max], range_y=[2.5,ec_max])
+                        log_x=True, log_y=True, range_x=[.4,x_max], range_y=[2.5,ec_max])
         # scatterplot dot formatting
         fig.update_traces(marker=dict(size=24, line=dict(width=1, color='DarkSlateGrey')), 
                         selector=dict(mode='markers'))
         # axis labels
-        fig.update_xaxes(title_text='State EC votes if adjusted for popular vote turnout (log)')
-        fig.update_yaxes(title_text='Electoral college votes per state (log)')
+        x_axis_title = f"{x_axis_title} (log)"
+        y_axis_title = f"{y_axis_title} (log)"
+        fig.update_xaxes(title_text=x_axis_title)
+        fig.update_yaxes(title_text=y_axis_title)
         # axis tick overrides
         layout = dict(
             yaxis=dict(tickmode='array', tickvals=[3,4,5,6,7,8,9,10,12,15,20,25,30,40,50]),
@@ -74,7 +100,7 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
         fig.update_layout(layout)
     
     # reference mean / quazi-linear regression line
-    fig.add_trace(go.Scatter(x=[0,ec_max], y=[0,ec_max], mode='lines', 
+    fig.add_trace(go.Scatter(x=[0,x_mean_line_max], y=[0,ec_max], mode='lines', 
                             name='Nationwide mean', line=dict(color='black', width=1)))
 
     fig.update_layout(title_x=0.45)
@@ -88,7 +114,8 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
             "<b>%{customdata[0]}</b><br>",
             "Electoral College votes: <b>%{y}</b>",
             "Popular vote: <b>%{customdata[1]:,}</b>",
-            "Vote weight: <b>%{customdata[2]:.2f}</b>",
+            # "Vote weight: <b>%{customdata[2]:.2f}</b>",
+            "Vote weight: <b>%{customdata[2]}</b>",
             "Population per EC vote: <b>%{customdata[3]:,}</b>",
             "<br><b>Normalized to nat'l average:</b>",
             "%{customdata[1]:,} pop votes => %{x} EC votes",

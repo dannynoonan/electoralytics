@@ -150,6 +150,7 @@ year_slider_and_groups_selection = dbc.FormGroup([
                 id="year-input",
                 min=YEAR_0,
                 max=YEAR_N,
+                step=None,
                 marks={
                     int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)'}}
                     for y in data_obj.all_years
