@@ -1,3 +1,4 @@
+import math
 import pandas as pd
 import plotly.express as px
 
@@ -73,9 +74,13 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
     )
 
     if color_col == cols.LOG_VOTE_WEIGHT:
+        # calculate log values for weights so I can plot the familiar linear numbers on the color bar
+        # TODO pretty sure this works around a plotly bug, also present in choropleth, open ticket or post to stackoverflow
+        tick_text = ['0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']
+        lin_ticks = [float(x) for x in tick_text]
+        log_ticks = [math.log(t, 2) for t in lin_ticks]
         fig.update_layout(
-            coloraxis_colorbar=dict(tickvals=[-0.693, -0.357, 0, 0.405, 0.916, 1.386, 1.792, 2.197],
-                                    ticktext=['0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']))
+            coloraxis_colorbar=dict(tickvals=log_ticks, ticktext=tick_text))
 
     # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
     fig.update_traces(

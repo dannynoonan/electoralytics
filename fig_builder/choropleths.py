@@ -52,10 +52,13 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_wid
                             # range_color=[-1.0, pivot_on_single_year[cols.LOG_VOTE_WEIGHT].max()],
                             # range_color=[log_vote_weight_min, log_vote_weight_max],  
                             width=fig_width, height=fig_height)
-        # TODO apply what I learned doing log_y line charts here
+        # calculate log values for weights so I can plot the familiar linear numbers on the color bar
+        # TODO pretty sure this works around a plotly choropleth bug, open ticket or post to stackoverflow
+        tick_text = ['0.1', '0.2', '0.33', '0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']
+        lin_ticks = [float(x) for x in tick_text]
+        log_ticks = [math.log(t, 2) for t in lin_ticks]
         fig.update_layout(
-            coloraxis_colorbar=dict(tickvals=[-2.303, -1.609, -1.109, -0.693, -0.357, 0, 0.405, 0.916, 1.386, 1.792, 2.197],
-                                    ticktext=['0.1', '0.2', '0.33', '0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']))
+            coloraxis_colorbar=dict(tickvals=log_ticks, ticktext=tick_text))
     elif color_field == cols.GROUP:
         fig = px.choropleth(pivot_on_year_df, locations=cols.ABBREV, color=cols.GROUP, 
                             locationmode='USA-states', scope="usa", custom_data=custom_data,

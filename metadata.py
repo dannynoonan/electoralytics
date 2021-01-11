@@ -202,7 +202,7 @@ EVENTS = [
     # {'year': 1868, 'name': '14th Amendment'},
     {'year': 1870, 'name': '15th Amendment', 'desc': 'Black male suffrage'},
     {'year': 1877, 'name': 'Compromise of 1877', 'desc': 'Federal troops leave South, \'Redeemer\' govts take power'},
-    {'year': 1883, 'name': 'Civil Rights Act of 1875 overturned', 'desc': 'Federal anti-discrimination laws unconstitutional'},
+    {'year': 1883, 'name': 'United States v. Stanley', 'desc': 'Civil Rights Act of 1875 deemed unconstitutional'},
     {'year': 1887, 'name': 'Dawes Act', 'desc': 'Suffrage to Native Americans who leave tribes'},
     {'year': 1896, 'name': 'Plessy v Ferguson:', 'desc': '\'Separate but equal\' segregation in the South'},
     # {'year': 1915, 'name': 'Second KKK reborn in Georgia'},
