@@ -104,8 +104,8 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
                 dict(xaxis=dict(tickmode='array', tickvals=[.5,.75,1,1.5,2,3,4,5,6,7,8,10,12,15,20,25,30,40,50,60])))
     
     # reference mean / quazi-linear regression line
-    fig.add_trace(go.Scatter(x=[0,x_mean_line_max], y=[0,ec_max], mode='lines', 
-                            name='Nationwide mean', line=dict(color='black', width=1)))
+    fig.add_trace(go.Scatter(x=[0,x_mean_line_max], y=[0,ec_max], mode='lines', name='Nationwide mean', 
+                            line=dict(color='black', width=1)))
 
     # scatterplot dot formatting
     fig.update_traces(marker=dict(size=24, line=dict(width=1, color='white')), selector=dict(mode='markers'))
@@ -203,8 +203,8 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
     fig.update_traces(marker=dict(size=24, line=dict(width=1, color='white')), selector=dict(mode='markers'))
 
     # reference mean / quazi-linear regression line
-    fig.add_trace(go.Scatter(x=[0,x_mean_line_max], y=[0,ec_max], mode='lines', 
-                            name='Nationwide mean', line=dict(color='black', width=1)))
+    fig.add_trace(go.Scatter(x=[0,x_mean_line_max], y=[0,ec_max], mode='lines', name='Nationwide mean', 
+                            line=dict(color='black', width=1)))
 
     # axis labels
     fig.update_xaxes(title_text=x_axis_title)
@@ -257,11 +257,13 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
 
     # display metadata common to (or that doesn't interfere with) all display types
     base_fig_title = 'Vote Weight Per Person Per State'
+    x_axis_title = 'Electoral College votes per state'
+    y_axis_title = 'Impact per voter per state (log)'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.STATE, cols.VOTES_COUNTED, cols.POP_PER_EC, cols.VOTES_COUNTED_PCT, cols.EC_VOTES_NORM, cols.VOTES_COUNTED_NORM]
     # hover_data is the fallback plan for animations where custom_data doesn't work
     # hack to work around lack of control in animation hover_data: copy EC_VOTES_NORM to new field, hide EC_VOTES_NORM, and add copy in desired sequence
-    col_votes_counted_pct_copy = 'Pop vote as % of nat\'l vote'
+    col_votes_counted_pct_copy = "Pop vote as % of nat'l vote"
     pivot_on_year_df[col_votes_counted_pct_copy] = pivot_on_year_df[cols.VOTES_COUNTED_PCT]
     hover_data = {cols.VOTES_COUNTED_PCT: False, cols.VOTES_COUNTED: True, cols.POP_PER_EC: True, 
                 col_votes_counted_pct_copy: True, cols.EC_VOTES_NORM: True, cols.VOTES_COUNTED_NORM: True}
@@ -285,12 +287,12 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
     fig.update_traces(marker=dict(line=dict(width=1, color='white')), selector=dict(mode='markers'))
 
     # reference mean / quazi-linear regression line
-    fig.add_trace(go.Scatter(x=[0,ec_max], y=[1,1], mode='lines', 
-                            name='Nationwide mean', line=dict(color='black', width=1)))
+    fig.add_trace(go.Scatter(x=[0,ec_max], y=[1,1], mode='lines', name='Nationwide mean', 
+                            line=dict(color='black', width=1)))
 
     # axis labels
-    fig.update_xaxes(title_text='Electoral College votes per state')
-    fig.update_yaxes(title_text='Impact per voter per state (log)')
+    fig.update_xaxes(title_text=x_axis_title)
+    fig.update_yaxes(title_text=y_axis_title)
 
     # axis tick overrides
     fig.update_layout(dict(yaxis=dict(tickmode='array', tickvals=[0.4,0.5,.6,.8,1,1.5,2,3,5,8])))
@@ -327,21 +329,34 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fi
     if frame:
         group_aggs_by_year_df = group_aggs_by_year_df[group_aggs_by_year_df[cols.YEAR] == frame]
 
-    # remove the Nat'l Average data
-    group_aggs_by_year_df = group_aggs_by_year_df.loc[~(group_aggs_by_year_df[cols.GROUP] == "Nat'l Average")]
-
     if not fig_width:
         fig_width = fig_dims.MD6
     fig_height = fig_dims.crt(fig_width)
+
+    # remove the Nat'l Average data
+    group_aggs_by_year_df = group_aggs_by_year_df.loc[~(group_aggs_by_year_df[cols.GROUP] == "Nat'l Average")]
 
     # calculate axis range boundaries
     ec_max = round(group_aggs_by_year_df[cols.EC_VOTES].max() * 1.1)
     weight_min = group_aggs_by_year_df[group_aggs_by_year_df[cols.AVG_WEIGHT] > 0][cols.AVG_WEIGHT].min() * 0.9
     weight_max = group_aggs_by_year_df[cols.AVG_WEIGHT].max() * 1.1
 
-    # display metadata
-    custom_data = [cols.GROUP, cols.VOTES_COUNTED, cols.POP_PER_EC, cols.STATE_COUNT, cols.STATES_IN_GROUP, cols.EC_VOTES_NORM, cols.VOTES_COUNTED_NORM]
+    # display metadata common to (or that doesn't interfere with) all display types
     base_fig_title = 'Average Vote Weight Per Person Per Region'
+    x_axis_title = 'Electoral College votes per state group'
+    y_axis_title = 'Impact per voter per state group (log)'
+    # custom_data enables dynamic variable substitution in hovertemplates for static frames
+    custom_data = [cols.GROUP, cols.VOTES_COUNTED, cols.POP_PER_EC, cols.STATE_COUNT, cols.STATES_IN_GROUP, cols.EC_VOTES_NORM, cols.VOTES_COUNTED_NORM]
+    # hover_data is the fallback plan for animations where custom_data doesn't work
+    # hack to work around lack of control in animation hover_data: copy EC_VOTES_NORM to new field, hide EC_VOTES_NORM, and add copy in desired sequence
+    col_votes_counted_pct_copy = "Pop vote as % of nat'l vote"
+    col_avg_weight_copy = "Average vote weight"
+    group_aggs_by_year_df[col_votes_counted_pct_copy] = group_aggs_by_year_df[cols.VOTES_COUNTED_PCT]
+    group_aggs_by_year_df[col_avg_weight_copy] = group_aggs_by_year_df[cols.AVG_WEIGHT]
+    hover_data = {cols.GROUP: False, cols.AVG_WEIGHT: False, cols.VOTES_COUNTED_PCT: False, cols.VOTES_COUNTED: True, col_avg_weight_copy: True, 
+                cols.POP_PER_EC: True, col_votes_counted_pct_copy: True, cols.EC_VOTES_NORM: True, cols.VOTES_COUNTED_NORM: True, cols.STATES_IN_GROUP: True}
+
+    # set fields and values that differ for static years (frame) vs animations (!frame)
     if frame:
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
@@ -349,23 +364,27 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fi
         fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
 
     # init figure with core properties
-    fig = px.scatter(group_aggs_by_year_df, x=cols.EC_VOTES, y=cols.AVG_WEIGHT, color=cols.GROUP, title=fig_title, 
-                    custom_data=custom_data, size=cols.VOTES_COUNTED_PCT, size_max=80,  
-                    animation_frame=cols.YEAR, animation_group=cols.GROUP, # ignored if df is for single year
+    fig = px.scatter(group_aggs_by_year_df, x=cols.EC_VOTES, y=cols.AVG_WEIGHT, color=cols.GROUP, 
+                    title=fig_title, custom_data=custom_data, size=cols.VOTES_COUNTED_PCT, size_max=80,  
+                    hover_name=cols.GROUP, hover_data=hover_data, animation_frame=cols.YEAR, animation_group=cols.GROUP, # ignored if df is for single year
                     color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
                     width=fig_width, height=fig_height, opacity=0.5, 
                     log_y=True, range_x=[0, ec_max], range_y=[weight_min, weight_max])
 
     # scatterplot dot formatting
-    fig.update_traces(marker=dict(line=dict(width=1, color='white')),
-                    selector=dict(mode='markers'))
+    fig.update_traces(marker=dict(line=dict(width=1, color='white')), selector=dict(mode='markers'))
 
     # reference mean / quazi-linear regression line
-    fig.add_trace(go.Scatter(x=[0,ec_max], y=[1,1], mode='lines', name='Nationwide mean', line=dict(color='black', width=1)))
+    fig.add_trace(go.Scatter(x=[0,ec_max], y=[1,1], mode='lines', name='Nationwide mean', 
+                    line=dict(color='black', width=1)))
 
     # axis labels
-    fig.update_xaxes(title_text='Electoral College votes per state group')
-    fig.update_yaxes(title_text='Impact per voter per state group (log)')
+    fig.update_xaxes(title_text=x_axis_title)
+    fig.update_yaxes(title_text=y_axis_title)
+
+    # apply animation settings
+    if not frame:
+        apply_animation_settings(fig, base_fig_title)
 
     # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
     fig.update_traces(
