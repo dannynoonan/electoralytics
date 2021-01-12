@@ -54,8 +54,12 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
     else:
         # for animations, keep amplitude of 'reference mean' trace constant by pegging x axis max against EC Votes normalized
         x_max = round(pivot_on_year_df[cols.EC_VOTES_NORM].max() * 1.05)
-        # for animations, x_mean_line_max is same max EC Votes normalized
-        x_mean_line_max = x_max
+        if display_elements == 'dots':
+            # for dots (linear) animations, x_mean_line_max is same max EC Votes normalized
+            x_mean_line_max = x_max
+        else:
+            # for abbrevs (log) animations, x_mean_line_max is same max EC Votes
+            x_mean_line_max = ec_max
         # x axis details
         x_axis_col = cols.EC_VOTES_NORM
         x_axis_title = 'State EC votes if adjusted for popular vote turnout' 
@@ -78,12 +82,17 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
         fig.update_yaxes(title_text=y_axis_title)
 
     elif display_elements == 'abbrevs':
+        # 
+        if frame:
+            range_x = None 
+        else:
+            range_x = range_x=[.4,x_max]
         # init figure with core properties
         fig = px.scatter(pivot_on_year_df, x=x_axis_col, y=cols.EC_VOTES, color=cols.GROUP, title=fig_title, 
                         custom_data=custom_data, text=cols.ABBREV, animation_frame=cols.YEAR, # ignored if df is for single year
                         color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
                         width=fig_width, height=fig_height, opacity=0.7, 
-                        log_x=True, log_y=True, range_x=[.4,x_max], range_y=[2.5,ec_max])
+                        log_x=True, log_y=True, range_x=range_x, range_y=[2.5,ec_max])
         # scatterplot dot formatting
         fig.update_traces(marker=dict(size=24, line=dict(width=1, color='DarkSlateGrey')), 
                         selector=dict(mode='markers'))
@@ -95,9 +104,14 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
         # axis tick overrides
         layout = dict(
             yaxis=dict(tickmode='array', tickvals=[3,4,5,6,7,8,9,10,12,15,20,25,30,40,50]),
-            xaxis=dict(tickmode='array', tickvals=[.5,.75,1,1.5,2,3,4,5,6,7,8,10,12,15,20,25,30,40,50,60])
+            # xaxis=dict(tickmode='array', tickvals=[.5,.75,1,1.5,2,3,4,5,6,7,8,10,12,15,20,25,30,40,50,60])
         )
         fig.update_layout(layout)
+        if not frame:
+            layout = dict(
+                xaxis=dict(tickmode='array', tickvals=[.5,.75,1,1.5,2,3,4,5,6,7,8,10,12,15,20,25,30,40,50,60])
+            )
+            fig.update_layout(layout)
     
     # reference mean / quazi-linear regression line
     fig.add_trace(go.Scatter(x=[0,x_mean_line_max], y=[0,ec_max], mode='lines', 
