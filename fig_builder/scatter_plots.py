@@ -31,7 +31,7 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
 
     # display metadata common to (or that doesn't interfere with) all display types
     base_fig_title = 'Vote Weight Per Person Per State'
-    y_axis_title = 'Electoral College Votes Per State'
+    y_axis_title = 'Electoral College votes per state'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.STATE, cols.VOTES_COUNTED, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM]
     # hover_data is the fallback plan for animations where custom_data doesn't work
@@ -46,35 +46,25 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
 
     # set fields and values that differ for static years (frame) vs animations (!frame)
     if frame:
-        # for static years, x axis is simply popular vote counted
-        x_max = round(pivot_on_year_df[cols.VOTES_COUNTED].max() * 1.05)
-        # for static years, calculate avg pop vote for ec max
-        totals_by_year_df = data_obj.totals_by_year_df
-        pop_per_ec = totals_by_year_df[totals_by_year_df[cols.YEAR] == frame][cols.POP_PER_EC].item()
-        x_mean_line_max = ec_max * pop_per_ec
-        # x axis details
+        # for static years, x axis is popular vote counted
         x_axis_col = cols.VOTES_COUNTED
         x_axis_title = 'Votes counted per state'
+        x_max = round(pivot_on_year_df[cols.VOTES_COUNTED].max() * 1.05)
+        # for static years, x_mean_line_max is max EC * population per EC vote 
+        totals_by_year_df = data_obj.totals_by_year_df.copy()
+        pop_per_ec = totals_by_year_df[totals_by_year_df[cols.YEAR] == frame][cols.POP_PER_EC].item()
+        x_mean_line_max = ec_max * pop_per_ec
         # for static years, set specific era title
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
         
     else:
-        # for animations, keep amplitude of 'reference mean' trace constant by pegging x axis max against EC Votes normalized
+        # for animations, x axis is EC votes normalized - this keeps amplitude of 'reference mean' trace constant
+        x_axis_col = cols.EC_VOTES_NORM
+        x_axis_title = 'State EC votes if adjusted for popular vote turnout' 
         x_max = round(pivot_on_year_df[cols.EC_VOTES_NORM].max())
         # for animations, x_mean_line_max is same max EC Votes
         x_mean_line_max = ec_max
-
-        # if display_elements == 'dots':
-        #     # for dots (linear) animations, x_mean_line_max is same max EC Votes normalized
-        #     x_mean_line_max = ec_max
-        # else:
-        #     # for abbrevs (log) animations, x_mean_line_max is same max EC Votes
-        #     x_mean_line_max = ec_max
-
-        # x axis details
-        x_axis_col = cols.EC_VOTES_NORM
-        x_axis_title = 'State EC votes if adjusted for popular vote turnout' 
         # for animations, set base title (it will change during animation)
         fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
               
@@ -118,10 +108,7 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
                             name='Nationwide mean', line=dict(color='black', width=1)))
 
     # scatterplot dot formatting
-    fig.update_traces(marker=dict(size=24, line=dict(width=1, color='white')), 
-                    selector=dict(mode='markers'))
-
-    fig.update_layout(title_x=0.45)
+    fig.update_traces(marker=dict(size=24, line=dict(width=1, color='white')), selector=dict(mode='markers'))
 
     if not frame:
         apply_animation_settings(fig, base_fig_title)
@@ -139,6 +126,108 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
                 "<br><b>Normalized to nat'l average:</b>",
                 "%{customdata[1]:,} pop votes => %{customdata[5]:.2f} EC votes",
                 "%{y} EC votes => %{customdata[4]:,} pop votes",
+            ])
+        )
+
+    return fig
+
+
+def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_width=None, frame=None):
+    subdir = map_to_subdir(groups_dir, max_small)
+    data_obj.load_dfs_for_subdir(subdir)
+    group_aggs_by_year_df = data_obj.group_agg_weights_pivot_dfs[subdir].copy()
+    groups = GROUPS_FOR_DIR[groups_dir]
+
+    # if frame is set, extract single-year data
+    if frame:
+        group_aggs_by_year_df = group_aggs_by_year_df[group_aggs_by_year_df[cols.YEAR] == frame]
+
+    if not fig_width:
+        fig_width = fig_dims.MD6
+    fig_height = fig_dims.crt(fig_width)
+
+    # remove the Nat'l Average data
+    group_aggs_by_year_df = group_aggs_by_year_df.loc[~(group_aggs_by_year_df[cols.GROUP] == "Nat'l Average")]
+
+    # calculate axis range boundaries
+    ec_max = round(group_aggs_by_year_df[cols.EC_VOTES].max() * 1.05)
+    # pop_max = round(group_aggs_by_year_df[cols.VOTES_COUNTED].max() * 1.05)
+    norm_max = round(group_aggs_by_year_df[cols.EC_VOTES_NORM].max() * 1.05)
+
+    # display metadata
+    base_fig_title = 'Average Vote Weight Per Person Per Grouping'
+    y_axis_title = 'Electoral college votes per state group'
+    # custom_data enables dynamic variable substitution in hovertemplates for static frames
+    custom_data = [cols.GROUP, cols.VOTES_COUNTED, cols.AVG_WEIGHT, cols.POP_PER_EC, cols.STATE_COUNT, cols.STATES_IN_GROUP, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM]
+    # hover_data is the fallback plan for animations where custom_data doesn't work
+    # hack to work around lack of control in animation hover_data: copy EC_VOTES_NORM to new field, hide EC_VOTES_NORM, and add copy in desired sequence
+    col_ec_votes_norm_copy = 'EC votes, normalized'
+    group_aggs_by_year_df[col_ec_votes_norm_copy] = group_aggs_by_year_df[cols.EC_VOTES_NORM]
+    hover_data = {cols.EC_VOTES_NORM: False, cols.GROUP: False, cols.VOTES_COUNTED: True, cols.AVG_WEIGHT: True, cols.POP_PER_EC: True, 
+                col_ec_votes_norm_copy: True, cols.VOTES_COUNTED_NORM: True, cols.STATES_IN_GROUP: True}
+
+    # set fields and values that differ for static years (frame) vs animations (!frame)
+    if frame:
+        # for static years, x axis is popular vote counted
+        x_axis_col = cols.VOTES_COUNTED
+        x_axis_title = 'Votes counted per state group'
+        x_max = round(group_aggs_by_year_df[cols.VOTES_COUNTED].max() * 1.05)
+        # for static years, x_mean_line_max is max EC * population per EC vote 
+        totals_by_year_df = data_obj.totals_by_year_df.copy()
+        pop_per_ec = totals_by_year_df[totals_by_year_df[cols.YEAR] == frame][cols.POP_PER_EC].item()
+        x_mean_line_max = ec_max * pop_per_ec
+        # for static years, set specific era title
+        era = get_era_for_year(frame)
+        fig_title = f'{base_fig_title}: {frame} ({era})'
+        
+    else:
+        # for animations, x axis is EC votes normalized - this keeps amplitude of 'reference mean' trace constant
+        x_axis_col = cols.EC_VOTES_NORM
+        x_axis_title = 'EC votes if adjusted for popular vote turnout' 
+        x_max = round(group_aggs_by_year_df[cols.EC_VOTES_NORM].max())
+        # for animations, x_mean_line_max is max EC Votes
+        x_mean_line_max = ec_max
+        # for animations, set base title (it will change during animation)
+        fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
+
+    # init figure with core properties
+    fig = px.scatter(group_aggs_by_year_df, x=x_axis_col, y=cols.EC_VOTES, color=cols.GROUP, 
+                    title=fig_title, custom_data=custom_data, 
+                    hover_name=cols.GROUP, hover_data=hover_data, animation_frame=cols.YEAR, animation_group=cols.GROUP, # ignored if df is for single year
+                    color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
+                    width=fig_width, height=fig_height, opacity=0.7, 
+                    range_x=[0,x_max], range_y=[0,ec_max])
+        
+    # scatterplot dot formatting
+    fig.update_traces(marker=dict(size=24, line=dict(width=1, color='white')), selector=dict(mode='markers'))
+
+    # reference mean / quazi-linear regression line
+    fig.add_trace(go.Scatter(x=[0,x_mean_line_max], y=[0,ec_max], mode='lines', 
+                            name='Nationwide mean', line=dict(color='black', width=1)))
+
+    # axis labels
+    fig.update_xaxes(title_text=x_axis_title)
+    fig.update_yaxes(title_text=y_axis_title)
+
+    # for animations, manually lay out a constant x axis and apply animation settings, for static graphs update hovertemplate
+    if not frame:
+        num_xticks = round(norm_max / 50) + 1
+        fig.update_layout(dict(xaxis=dict(tickmode='array', tickvals=[t*50 for t in range(num_xticks)])))
+        apply_animation_settings(fig, base_fig_title)
+    else:
+        # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
+        # since x axis is different for dots vs abbrevs, don't use x and instead explicitly rely on columns (redundantly) set in customdata
+        fig.update_traces(
+            hovertemplate="<br>".join([
+                "<b>%{customdata[0]}</b>",
+                "%{customdata[4]} states: %{customdata[5]}<br>",
+                "Aggregate Electoral College votes: <b>%{y}</b>",
+                "Aggregate popular vote: <b>%{customdata[1]:,}</b>",
+                "Average vote weight: <b>%{customdata[2]:.2f}</b>",
+                "Average population per EC vote: <b>%{customdata[3]:,}</b>",
+                "<br><b>Normalized to nat'l average:</b>",
+                "%{customdata[1]:,} pop votes => %{customdata[7]} EC votes",
+                "%{y} EC votes => %{customdata[6]:,} pop votes",
             ])
         )
 
@@ -211,81 +300,6 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
             "<br><b>Normalized to nat'l average:</b>",
             "%{customdata[1]:,} pop votes => %{customdata[4]:.2f} EC votes",
             "%{x} EC votes => %{customdata[5]:,} pop votes",
-        ])
-    )
-
-    return fig
-
-
-def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_width=None, frame=None):
-    subdir = map_to_subdir(groups_dir, max_small)
-    data_obj.load_dfs_for_subdir(subdir)
-    group_aggs_by_year_df = data_obj.group_agg_weights_pivot_dfs[subdir]
-    groups = GROUPS_FOR_DIR[groups_dir]
-
-    # if frame is set, extract single-year data
-    if frame:
-        group_aggs_by_year_df = group_aggs_by_year_df[group_aggs_by_year_df[cols.YEAR] == frame]
-
-    # remove the Nat'l Average data
-    group_aggs_by_year_df = group_aggs_by_year_df.loc[~(group_aggs_by_year_df[cols.GROUP] == "Nat'l Average")]
-
-    if not fig_width:
-        fig_width = fig_dims.MD6
-    fig_height = fig_dims.crt(fig_width)
-
-    # calculate axis range boundaries
-    ec_max = round(group_aggs_by_year_df[cols.EC_VOTES].max() * 1.05)
-    #pop_max = round(group_aggs_by_year[cols.VOTES_COUNTED].max() * 1.05)
-    norm_max = round(group_aggs_by_year_df[cols.EC_VOTES_NORM].max() * 1.05)
-
-    # display metadata
-    custom_data = [cols.GROUP, cols.VOTES_COUNTED, cols.AVG_WEIGHT, cols.POP_PER_EC, cols.STATE_COUNT, cols.STATES_IN_GROUP, cols.VOTES_COUNTED_NORM]
-    base_fig_title = 'Average Vote Weight Per Person Per Region'
-    if frame:
-        era = get_era_for_year(frame)
-        fig_title = f'{base_fig_title}: {frame} ({era})'
-    else:
-        fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
-
-    # init figure with core properties
-    fig = px.scatter(group_aggs_by_year_df, x=cols.EC_VOTES_NORM, y=cols.EC_VOTES, color=cols.GROUP, title=fig_title, 
-                    custom_data=custom_data, color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                    animation_frame=cols.YEAR, animation_group=cols.GROUP, # ignored if df is for single year          
-                    width=fig_width, height=fig_height, opacity=0.7, 
-    #                  log_x=True, log_y=True, range_x=[.4,norm_max], range_y=[2,ec_max],
-                    range_x=[0, norm_max], range_y=[0, ec_max])
-        
-    # scatterplot dot formatting
-    fig.update_traces(marker=dict(size=24, line=dict(width=1, color='DarkSlateGrey')), selector=dict(mode='markers'))
-
-    # reference mean / quazi-linear regression line
-    fig.add_trace(go.Scatter(x=[0,ec_max], y=[0,ec_max], mode='lines', 
-                            name='Nationwide mean', line=dict(color='black', width=1)))
-
-    # axis labels
-    fig.update_xaxes(title_text='State group EC votes if adjusted for popular vote turnout')
-    fig.update_yaxes(title_text='Electoral college votes per state group')
-
-    # axis tick overrides
-    num_xticks = round(norm_max / 50) + 1
-    layout = dict(xaxis=dict(tickmode='array', tickvals=[t*50 for t in range(num_xticks)]))
-    fig.update_layout(layout)
-
-    fig.update_layout(title_x=0.45)
-
-    # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
-    fig.update_traces(
-        hovertemplate="<br>".join([
-            "<b>%{customdata[0]}</b>",
-            "%{customdata[4]} states: %{customdata[5]}<br>",
-            "Aggregate Electoral College votes: <b>%{y}</b>",
-            "Aggregate popular vote: <b>%{customdata[1]:,}</b>",
-            "Average vote weight: <b>%{customdata[2]:.2f}</b>",
-            "Average population per EC vote: <b>%{customdata[3]:,}</b>",
-            "<br><b>Normalized to nat'l average:</b>",
-            "%{customdata[1]:,} pop votes => %{x} EC votes",
-            "%{y} EC votes => %{customdata[6]:,} pop votes",
         ])
     )
 
