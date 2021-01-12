@@ -112,22 +112,23 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
 
     if not frame:
         apply_animation_settings(fig, base_fig_title)
-    else:
-        # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
-        # since x axis is different for dots vs abbrevs, don't use x and instead explicitly rely on columns (redundantly) set in customdata
-        fig.update_traces(
-            hovertemplate = "<br>".join([
-                "<b>%{customdata[0]}</b><br>",
-                "Electoral College votes: <b>%{y}</b>",
-                "Popular vote: <b>%{customdata[1]:,}</b>",
-                # "Vote weight: <b>%{customdata[2]:.2f}</b>",
-                "Vote weight: <b>%{customdata[2]}</b>",
-                "Population per EC vote: <b>%{customdata[3]:,}</b>",
-                "<br><b>Normalized to nat'l average:</b>",
-                "%{customdata[1]:,} pop votes => %{customdata[5]:.2f} EC votes",
-                "%{y} EC votes => %{customdata[4]:,} pop votes",
-            ])
-        )
+
+    # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
+    # since x axis is different for dots vs abbrevs, don't use x and instead explicitly rely on columns (redundantly) set in customdata
+    # note hovertemplates only work on first frame of animations, but may as well include them in animations for that one frame
+    fig.update_traces(
+        hovertemplate = "<br>".join([
+            "<b>%{customdata[0]}</b><br>",
+            "Electoral College votes: <b>%{y}</b>",
+            "Popular vote: <b>%{customdata[1]:,}</b>",
+            # "Vote weight: <b>%{customdata[2]:.2f}</b>",
+            "Vote weight: <b>%{customdata[2]}</b>",
+            "Population per EC vote: <b>%{customdata[3]:,}</b>",
+            "<br><b>Normalized to nat'l average:</b>",
+            "%{customdata[1]:,} pop votes => %{customdata[5]:.2f} EC votes",
+            "%{y} EC votes => %{customdata[4]:,} pop votes",
+        ])
+    )
 
     return fig
 
@@ -154,9 +155,9 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
     # pop_max = round(group_aggs_by_year_df[cols.VOTES_COUNTED].max() * 1.05)
     norm_max = round(group_aggs_by_year_df[cols.EC_VOTES_NORM].max() * 1.05)
 
-    # display metadata
+    # display metadata common to (or that doesn't interfere with) all display types
     base_fig_title = 'Average Vote Weight Per Person Per Grouping'
-    y_axis_title = 'Electoral college votes per state group'
+    y_axis_title = 'Electoral College votes per state group'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.GROUP, cols.VOTES_COUNTED, cols.AVG_WEIGHT, cols.POP_PER_EC, cols.STATE_COUNT, cols.STATES_IN_GROUP, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM]
     # hover_data is the fallback plan for animations where custom_data doesn't work
@@ -209,27 +210,28 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
     fig.update_xaxes(title_text=x_axis_title)
     fig.update_yaxes(title_text=y_axis_title)
 
-    # for animations, manually lay out a constant x axis and apply animation settings, for static graphs update hovertemplate
+    # for animations, manually lay out a constant x axis and apply animation settings
     if not frame:
         num_xticks = round(norm_max / 50) + 1
         fig.update_layout(dict(xaxis=dict(tickmode='array', tickvals=[t*50 for t in range(num_xticks)])))
         apply_animation_settings(fig, base_fig_title)
-    else:
-        # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
-        # since x axis is different for dots vs abbrevs, don't use x and instead explicitly rely on columns (redundantly) set in customdata
-        fig.update_traces(
-            hovertemplate="<br>".join([
-                "<b>%{customdata[0]}</b>",
-                "%{customdata[4]} states: %{customdata[5]}<br>",
-                "Aggregate Electoral College votes: <b>%{y}</b>",
-                "Aggregate popular vote: <b>%{customdata[1]:,}</b>",
-                "Average vote weight: <b>%{customdata[2]:.2f}</b>",
-                "Average population per EC vote: <b>%{customdata[3]:,}</b>",
-                "<br><b>Normalized to nat'l average:</b>",
-                "%{customdata[1]:,} pop votes => %{customdata[7]} EC votes",
-                "%{y} EC votes => %{customdata[6]:,} pop votes",
-            ])
-        )
+
+    # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
+    # since x axis is different for dots vs abbrevs, don't use x and instead explicitly rely on columns (redundantly) set in customdata
+    # note hovertemplates only work on first frame of animations, but may as well include them in animations for that one frame
+    fig.update_traces(
+        hovertemplate="<br>".join([
+            "<b>%{customdata[0]}</b>",
+            "%{customdata[4]} states: %{customdata[5]}<br>",
+            "Aggregate Electoral College votes: <b>%{y}</b>",
+            "Aggregate popular vote: <b>%{customdata[1]:,}</b>",
+            "Average vote weight: <b>%{customdata[2]:.2f}</b>",
+            "Average population per EC vote: <b>%{customdata[3]:,}</b>",
+            "<br><b>Normalized to nat'l average:</b>",
+            "%{customdata[1]:,} pop votes => %{customdata[7]} EC votes",
+            "%{y} EC votes => %{customdata[6]:,} pop votes",
+        ])
+    )
 
     return fig
 
@@ -237,7 +239,7 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
 def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_width=None, frame=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
-    pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir]
+    pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
     groups = GROUPS_FOR_DIR[groups_dir]
 
     # if frame is set, extract single-year data
@@ -253,9 +255,18 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
     weight_min = pivot_on_year_df[pivot_on_year_df[cols.VOTE_WEIGHT] > 0][cols.VOTE_WEIGHT].min() * 0.9
     weight_max = pivot_on_year_df[cols.VOTE_WEIGHT].max()
 
-    # display metadata
-    custom_data = [cols.STATE, cols.VOTES_COUNTED, cols.POP_PER_EC, cols.VOTES_COUNTED_PCT, cols.EC_VOTES_NORM, cols.VOTES_COUNTED_NORM]
+    # display metadata common to (or that doesn't interfere with) all display types
     base_fig_title = 'Vote Weight Per Person Per State'
+    # custom_data enables dynamic variable substitution in hovertemplates for static frames
+    custom_data = [cols.STATE, cols.VOTES_COUNTED, cols.POP_PER_EC, cols.VOTES_COUNTED_PCT, cols.EC_VOTES_NORM, cols.VOTES_COUNTED_NORM]
+    # hover_data is the fallback plan for animations where custom_data doesn't work
+    # hack to work around lack of control in animation hover_data: copy EC_VOTES_NORM to new field, hide EC_VOTES_NORM, and add copy in desired sequence
+    col_votes_counted_pct_copy = 'Pop vote as % of nat\'l vote'
+    pivot_on_year_df[col_votes_counted_pct_copy] = pivot_on_year_df[cols.VOTES_COUNTED_PCT]
+    hover_data = {cols.VOTES_COUNTED_PCT: False, cols.VOTES_COUNTED: True, cols.POP_PER_EC: True, 
+                col_votes_counted_pct_copy: True, cols.EC_VOTES_NORM: True, cols.VOTES_COUNTED_NORM: True}
+    
+    # set fields and values that differ for static years (frame) vs animations (!frame)
     if frame:
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
@@ -263,30 +274,30 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
         fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
 
     # init figure with core properties
-    fig = px.scatter(pivot_on_year_df, x=cols.EC_VOTES, y=cols.VOTE_WEIGHT, color=cols.GROUP, title=fig_title, 
-                    custom_data=custom_data, size=cols.VOTES_COUNTED_PCT, size_max=80, 
-                    animation_frame=cols.YEAR, # ignored if df is for single year
+    fig = px.scatter(pivot_on_year_df, x=cols.EC_VOTES, y=cols.VOTE_WEIGHT, color=cols.GROUP,  
+                    title=fig_title, custom_data=custom_data, size=cols.VOTES_COUNTED_PCT, size_max=80, 
+                    hover_name=cols.STATE, hover_data=hover_data, animation_frame=cols.YEAR, # ignored if df is for single year
                     color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
                     width=fig_width, height=fig_height, opacity=0.5, 
                     log_y=True, range_x=[0,ec_max], range_y=[weight_min,weight_max])
 
     # scatterplot dot formatting
-    fig.update_traces(marker=dict(line=dict(width=1, color='white')), 
-                    selector=dict(mode='markers'))
+    fig.update_traces(marker=dict(line=dict(width=1, color='white')), selector=dict(mode='markers'))
 
     # reference mean / quazi-linear regression line
     fig.add_trace(go.Scatter(x=[0,ec_max], y=[1,1], mode='lines', 
                             name='Nationwide mean', line=dict(color='black', width=1)))
 
     # axis labels
-    fig.update_xaxes(title_text='Electoral college votes per state')
-    fig.update_yaxes(title_text='Individual voter impact per state (log)')
+    fig.update_xaxes(title_text='Electoral College votes per state')
+    fig.update_yaxes(title_text='Impact per voter per state (log)')
 
     # axis tick overrides
-    layout = dict(yaxis=dict(tickmode='array', tickvals=[0.4,0.5,.6,.8,1,1.5,2,3,5,8]))
-    fig.update_layout(layout)
+    fig.update_layout(dict(yaxis=dict(tickmode='array', tickvals=[0.4,0.5,.6,.8,1,1.5,2,3,5,8])))
 
-    fig.update_layout(title_x=0.45)
+    # apply animation settings
+    if not frame:
+        apply_animation_settings(fig, base_fig_title)
 
     # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
     fig.update_traces(
@@ -309,7 +320,7 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
 def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fig_width=None, frame=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
-    group_aggs_by_year_df = data_obj.group_agg_weights_pivot_dfs[subdir]
+    group_aggs_by_year_df = data_obj.group_agg_weights_pivot_dfs[subdir].copy()
     groups = GROUPS_FOR_DIR[groups_dir]
 
     # if frame is set, extract single-year data
@@ -353,10 +364,8 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fi
     fig.add_trace(go.Scatter(x=[0,ec_max], y=[1,1], mode='lines', name='Nationwide mean', line=dict(color='black', width=1)))
 
     # axis labels
-    fig.update_xaxes(title_text='Electoral college votes per group')
-    fig.update_yaxes(title_text='Impact per individual voter per group')
-
-    fig.update_layout(title_x=0.45)
+    fig.update_xaxes(title_text='Electoral College votes per state group')
+    fig.update_yaxes(title_text='Impact per voter per state group (log)')
 
     # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
     fig.update_traces(
