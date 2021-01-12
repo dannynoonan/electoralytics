@@ -16,6 +16,7 @@ fig_dims = FigDimensions()
 TRACE_MAX_FOR_EXPANDED_HOVERDATA = 5
 TRACE_MAX_FOR_HOVERMODE_X = 7
 MAX_TRACE_COUNT = 22
+GRID_COLOR = '#DDDDDD'
 
 
 def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_width=None, fig_height=None, state_abbrevs=None, log_y=False, 
@@ -23,12 +24,17 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     data_obj.load_totals_by_year
-    group_aggs_by_year_df = data_obj.group_agg_weights_pivot_dfs[subdir]
+    group_aggs_by_year_df = data_obj.group_agg_weights_pivot_dfs[subdir].copy()
     groups = GROUPS_FOR_DIR[groups_dir]
     group_col = GROUPS_COL_FOR_DIR[groups_dir]
 
     # assign GROUP_COLORS to local var so it can be modified if states are added
     group_colors = GROUP_COLORS
+
+    if not fig_width:
+        fig_width = fig_dims.MD6
+    if not fig_height:
+        fig_height = 700
 
     # if we're hiding groups, drop everything from df except Nat'l Average data
     if not display_groups:
@@ -41,12 +47,7 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
     # drop rows with 0 EC votes (e.g. Union when no states had pop vote, Confed states during Civil War, etc)
     group_aggs_by_year_df = group_aggs_by_year_df[group_aggs_by_year_df[cols.EC_VOTES] > 0]
 
-    if not fig_width:
-        fig_width = fig_dims.MD6
-    if not fig_height:
-        fig_height = 700
-
-    # trace_count
+    # track the number of traces displayed, hovermode type and hovertemplate format are altered to maximize info while fitting to screen
     trace_count = 1  # 1 for Nat'l Avg
     if display_groups:
         trace_count = trace_count + 4  # 4 for groups
@@ -59,7 +60,7 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
         state_abbrevs.pop()
         trace_count = trace_count-1
 
-    # merge selected states into group aggs df
+    # if any states are selected, merge their data into group aggs df
     if state_abbrevs:
         all_states_meta = data_obj.all_states_meta_df
         group_counters = {}
@@ -82,12 +83,20 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
             group_counters[state_group] = grp_ctr+1    
 
     # display metadata
-    custom_data = [cols.GROUP, cols.STATES_IN_GROUP, cols.EC_VOTES, cols.VOTES_COUNTED, cols.POP_PER_EC]
-    fig_title = 'Average Vote Weight Per Ballot Cast For Each Election'
+    fig_title = 'Average Impact Per Voter Per Presidential Election'
+    # fig_title = 'Average Vote Weight Per Ballot Cast For Each Presidential Election'
     if display_groups:
         fig_title = f"{fig_title}, Grouped By Region"
     if trace_count >= MAX_TRACE_COUNT:
         fig_title = f"{fig_title} [** MAXES OUT AT 22 LINES **]"
+    x_axis_title = 'Election Year'
+    y_axis_title = 'Vote Weight Per Ballot Cast'
+    if log_y:
+        y_axis_title = f"{y_axis_title} (log)"
+    # custom_data enables dynamic variable substitution in hovertemplates for static frames
+    custom_data = [cols.GROUP, cols.STATES_IN_GROUP, cols.EC_VOTES, cols.VOTES_COUNTED, cols.POP_PER_EC]
+    
+    # calculate axis range boundaries 
     # TODO not sure the best way to organize this. I think it's only necessary because of inconsistencies in how plotly 
     # translates log values for y0 and y1. When I have time I'll file a bug or post to stackoverflow. 
     avg_weight_min = group_aggs_by_year_df[group_aggs_by_year_df[cols.AVG_WEIGHT] > 0][cols.AVG_WEIGHT].min() * 0.9
@@ -99,29 +108,26 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
         avg_weight_max = math.log(avg_weight_max, 10) * 1.05
         orig_avg_weight_max = orig_avg_weight_max * 1.05 
 
+    # init figure with core properties
     fig = px.line(group_aggs_by_year_df, x=cols.YEAR, y=cols.AVG_WEIGHT, color=cols.GROUP, title=fig_title, 
                     color_discrete_map=group_colors, category_orders={cols.GROUP: groups}, custom_data=custom_data,
                     width=fig_width, height=fig_height, line_shape='spline', log_y=log_y)
     
+    # include dots marking data points in each trace
     for i in range(len(fig.data)):
         fig.data[i].update(mode='markers+lines')
 
-    # axis labels
-    fig.update_xaxes(title_text='Election Year')
-    y_axis_text = 'Average Vote Weight Per Ballot Cast'
-    if log_y:
-        y_axis_text = f"{y_axis_text} (log)"
-    fig.update_yaxes(title_text=y_axis_text)
-
-    # have x axis ticks every 20 years from 1800-2020
-    x_axis_ticks = dict(tickmode='array', tickvals=[x*20 for x in range(90, 102)])
-
-    # update layout and axes
+    # axis labels, ranges, ticklabels, and grid color
+    fig.update_xaxes(title_text=x_axis_title)
+    fig.update_yaxes(title_text=y_axis_title)
+    # have x axis ticks every 20 years from YEAR_0-YEAR_N, inclusive of YEAR_N
+    tick_span = 20
+    x_axis_ticks = dict(tickmode='array', tickvals=[x for x in range(YEAR_0, YEAR_N+tick_span, tick_span)])
     fig.update_layout(xaxis_range=[YEAR_0, YEAR_N], yaxis_range=[avg_weight_min, avg_weight_max], plot_bgcolor='white', xaxis=x_axis_ticks)
     if trace_count <= TRACE_MAX_FOR_HOVERMODE_X:
         fig.update_layout(hovermode="x")
-    fig.update_xaxes(gridcolor='#DDDDDD')
-    fig.update_yaxes(gridcolor='#DDDDDD')
+    fig.update_xaxes(gridcolor=GRID_COLOR)
+    fig.update_yaxes(gridcolor=GRID_COLOR)
 
     shapes = []
     # if display_events, add markers and labels designating events 
@@ -133,6 +139,9 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
         era_blocks = build_and_annotate_era_blocks(fig, ERAS, YEAR_0, orig_avg_weight_min, orig_avg_weight_max, y_max2=avg_weight_max)
         shapes.extend(era_blocks)
     fig.update_layout(shapes=shapes)
+
+    # center title
+    fig.update_layout(title_x=0.5)
 
     # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
     # if trace_count < TRACE_MAX_FOR_EXPANDED_HOVERDATA <= TRACE_MAX_FOR_HOVERMODE_X:
@@ -163,16 +172,22 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
 
 def build_total_vote_line_chart(data_obj, fig_width=None, log_y=False,):
     data_obj.load_totals_by_year()
-    totals_by_year_df = data_obj.totals_by_year_df
+    totals_by_year_df = data_obj.totals_by_year_df.copy()
 
     if not fig_width:
         fig_width = fig_dims.MD6
     fig_height = 700
 
     # display metadata
-    custom_data = [cols.VOTES_COUNTED, cols.TOTAL_POP, cols.EC_VOTES, cols.POP_PER_EC, cols.STATE_COUNT, cols.STATES_USING_POP]
     fig_title = 'Votes Cast For President as a Percentage of Total Population'
+    x_axis_title = 'Election Year'
+    y_axis_title = 'Percentage of national population who voted'
+    if log_y:
+        y_axis_title = f"{y_axis_title} (log)"
+    # custom_data enables dynamic variable substitution in hovertemplates for static frames
+    custom_data = [cols.VOTES_COUNTED, cols.TOTAL_POP, cols.EC_VOTES, cols.POP_PER_EC, cols.STATE_COUNT, cols.STATES_USING_POP]
 
+    # calculate axis range boundaries 
     x_min = 1785
     vote_pct_min = totals_by_year_df[cols.VOTES_COUNTED_PCT_TOTAL_POP].min() * 0.8
     vote_pct_max = totals_by_year_df[cols.VOTES_COUNTED_PCT_TOTAL_POP].max() * 1.05
@@ -183,18 +198,17 @@ def build_total_vote_line_chart(data_obj, fig_width=None, log_y=False,):
         vote_pct_max = math.log(vote_pct_max, 10) * 1.05
         orig_vote_pct_max = orig_vote_pct_max * 1.05 
 
+    # init figure with core properties
     fig = px.line(totals_by_year_df, x=cols.YEAR, y=cols.VOTES_COUNTED_PCT_TOTAL_POP, title=fig_title, 
                     custom_data=custom_data, width=fig_width, height=fig_height, line_shape='spline', log_y=log_y)
 
+    # include dots marking data points in each trace
     for i in range(len(fig.data)):
         fig.data[i].update(mode='markers+lines')
 
     # axis labels
-    fig.update_xaxes(title_text='Election Year')
-    y_axis_text = 'Percentage of National Population Who Voted'
-    if log_y:
-        y_axis_text = f"{y_axis_text} (log)"
-    fig.update_yaxes(title_text=y_axis_text)
+    fig.update_xaxes(title_text=x_axis_title)
+    fig.update_yaxes(title_text=y_axis_title)
 
     # build markers and labels marking events 
     event_markers = build_and_annotate_event_markers(fig, EVENTS, vote_pct_min, vote_pct_max, y_min2=orig_vote_pct_min, y_max2=orig_vote_pct_max)
@@ -202,14 +216,18 @@ def build_total_vote_line_chart(data_obj, fig_width=None, log_y=False,):
     era_blocks = build_and_annotate_era_blocks(fig, ERAS, x_min, orig_vote_pct_min, orig_vote_pct_max, y_max2=vote_pct_max)
     shapes = event_markers + era_blocks
 
-    # have x axis ticks every 20 years from 1800-2020
-    x_axis_ticks = dict(tickmode='array', tickvals=[x*20 for x in range(90, 102)])
+    # have x axis ticks every 20 years from YEAR_0-YEAR_N, inclusive of YEAR_N
+    tick_span = 20
+    x_axis_ticks = dict(tickmode='array', tickvals=[x for x in range(YEAR_0, YEAR_N+tick_span, tick_span)])
 
     # update layout and axes 
     fig.update_layout(xaxis_range=[x_min, YEAR_N], yaxis_range=[vote_pct_min, vote_pct_max], xaxis=x_axis_ticks,
                     plot_bgcolor='white', shapes=shapes)
-    fig.update_xaxes(gridcolor='#DDDDDD')
-    fig.update_yaxes(gridcolor='#DDDDDD')
+    fig.update_xaxes(gridcolor=GRID_COLOR)
+    fig.update_yaxes(gridcolor=GRID_COLOR)
+
+    # center title
+    fig.update_layout(title_x=0.5)
 
     # hover text format solution from https://stackoverflow.com/questions/59057881/python-plotly-how-to-customize-hover-template-on-with-what-information-to-show
     # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how

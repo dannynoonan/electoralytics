@@ -15,7 +15,7 @@ fig_dims = FigDimensions()
 def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_width=None, frame=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
-    pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir]
+    pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
     groups = GROUPS_FOR_DIR[groups_dir]
 
     # if frame is set, extract single-year data
@@ -26,15 +26,9 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_wid
         fig_width = fig_dims.MD6
     fig_height = fig_dims.crt(fig_width)
 
-    # log_vote_weight_ser = pivot_on_year_df[cols.LOG_VOTE_WEIGHT].replace([np.inf, -np.inf], np.nan).dropna()
-    # log_vote_weight_min = log_vote_weight_ser.min()
-    # log_vote_weight_max = log_vote_weight_ser.max()
-    # vote_weight_ser = pivot_on_year_df[cols.VOTE_WEIGHT].replace([np.inf, -np.inf], np.nan).dropna()
-    # vote_weight_min = vote_weight_ser.min()
-    # vote_weight_max = vote_weight_ser.max()
-
     # display metadata common to (or that doesn't interfere with) all display types
-    base_fig_title = 'Vote Weight Per Person Per State'
+    base_fig_title = 'Impact Per Voter Per State'
+    # base_fig_title = 'Vote Weight Per Person Per State'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.STATE, cols.GROUP, cols.YEAR, cols.VOTES_COUNTED, cols.EC_VOTES, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.EC_VOTES_NORM, 
                     cols.VOTES_COUNTED_NORM]
@@ -49,22 +43,23 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_wid
     else:
         fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
 
+    # init figure with core properties
     if color_field == cols.LOG_VOTE_WEIGHT:
+        # init figure where state color is determined by its vote weight (log value)
         fig = px.choropleth(pivot_on_year_df, locations=cols.ABBREV, color=color_field, title=fig_title, 
                             locationmode='USA-states', scope="usa", custom_data=custom_data,
                             hover_name=cols.STATE, hover_data=hover_data, animation_frame=cols.YEAR, # ignored if df is for single year
                             color_continuous_scale=px.colors.diverging.BrBG[::-1], color_continuous_midpoint=0,
-                            # range_color=[-1.0, pivot_on_single_year[cols.LOG_VOTE_WEIGHT].max()],
-                            # range_color=[log_vote_weight_min, log_vote_weight_max],  
                             width=fig_width, height=fig_height)
-        # calculate log values for weights so I can plot the familiar linear numbers on the color bar
+        # colorbar labels: calculate log values for weights so I can plot the familiar linear numbers on the color bar
         # TODO pretty sure this works around a plotly choropleth bug, open ticket or post to stackoverflow
-        tick_text = ['0.1', '0.2', '0.33', '0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']
-        lin_ticks = [float(x) for x in tick_text]
-        log_ticks = [math.log(t, 2) for t in lin_ticks]
-        fig.update_layout(coloraxis_colorbar=dict(tickvals=log_ticks, ticktext=tick_text))
+        colorbar_labels = ['0.1', '0.2', '0.33', '0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']
+        linear_vals = [float(x) for x in colorbar_labels]
+        log_vals = [math.log(t, 2) for t in linear_vals]
+        fig.update_layout(coloraxis_colorbar=dict(tickvals=log_vals, ticktext=colorbar_labels))
 
     elif color_field == cols.GROUP:
+        # init figure where state is determined by its state group
         fig = px.choropleth(pivot_on_year_df, locations=cols.ABBREV, color=cols.GROUP, title=fig_title,
                             locationmode='USA-states', scope="usa", custom_data=custom_data,
                             hover_name=cols.STATE, hover_data=hover_data, animation_frame=cols.YEAR, animation_group=cols.GROUP, # ignored if df is for single year
