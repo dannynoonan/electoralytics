@@ -26,7 +26,7 @@ def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame, fi
     fig_height = fig_dims.crt(fig_width)
 
     # display metadata
-    base_fig_title = 'Range of Vote Weight Per Person Per Region'
+    base_fig_title = 'Range of Vote Weight Per Person Per State Group'
     era = get_era_for_year(frame)
     fig_title = f'{base_fig_title}: {frame} ({era})'
 
@@ -38,10 +38,7 @@ def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame, fi
                 color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
                 width=fig_width, height=fig_height, log_y=True)
 
-    # fig.add_trace(go.Scatter(x=flat_data['EC votes'], y=flat_data['Mean vote weight'], 
-    #                          mode='lines', name=trace_name_natl_avg, line=dict(color='black', width=1)))
-
     fig.update_xaxes(title_text='')
-    fig.update_yaxes(title_text='Range of Vote Weight Per Person Within Regional Grouping')
-    fig.update_layout(title_x=0.46)
+    fig.update_yaxes(title_text='Range of impact per voter within state group')
+
     return fig

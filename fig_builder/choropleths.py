@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 
-from data_processor.functions import get_era_for_year, map_to_subdir, get_description_for_group_key
+from data_processor.functions import get_era_for_year, map_to_subdir, get_description_for_group_key, apply_animation_settings
 from metadata import Columns, DataDirs, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, YEAR_0, YEAR_N
 
 
@@ -33,11 +33,16 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_wid
     # vote_weight_min = vote_weight_ser.min()
     # vote_weight_max = vote_weight_ser.max()
 
-    # display metadata
+    # display metadata common to (or that doesn't interfere with) all display types
+    base_fig_title = 'Vote Weight Per Person Per State'
+    # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.STATE, cols.GROUP, cols.YEAR, cols.VOTES_COUNTED, cols.EC_VOTES, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.EC_VOTES_NORM, 
                     cols.VOTES_COUNTED_NORM]
-    # map_title = f'{year} presidential election: Vote weight per person per state'
-    base_fig_title = 'Vote Weight Per Person Per State'
+    # hover_data is the fallback plan for animations where custom_data doesn't work
+    hover_data = {cols.ABBREV: False, cols.LOG_VOTE_WEIGHT: False, cols.GROUP: True, cols.YEAR: True, cols.VOTES_COUNTED: True, cols.EC_VOTES: True, 
+                    cols.VOTE_WEIGHT: True, cols.POP_PER_EC: True, cols.EC_VOTES_NORM: True, cols.VOTES_COUNTED_NORM: True}
+    
+    # set fields and values that differ for static years (frame) vs animations (!frame)
     if frame:
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
@@ -47,7 +52,7 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_wid
     if color_field == cols.LOG_VOTE_WEIGHT:
         fig = px.choropleth(pivot_on_year_df, locations=cols.ABBREV, color=color_field, title=fig_title, 
                             locationmode='USA-states', scope="usa", custom_data=custom_data,
-                            animation_frame=cols.YEAR, # ignored if df is for single year
+                            hover_name=cols.STATE, hover_data=hover_data, animation_frame=cols.YEAR, # ignored if df is for single year
                             color_continuous_scale=px.colors.diverging.BrBG[::-1], color_continuous_midpoint=0,
                             # range_color=[-1.0, pivot_on_single_year[cols.LOG_VOTE_WEIGHT].max()],
                             # range_color=[log_vote_weight_min, log_vote_weight_max],  
@@ -57,14 +62,21 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_wid
         tick_text = ['0.1', '0.2', '0.33', '0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']
         lin_ticks = [float(x) for x in tick_text]
         log_ticks = [math.log(t, 2) for t in lin_ticks]
-        fig.update_layout(
-            coloraxis_colorbar=dict(tickvals=log_ticks, ticktext=tick_text))
+        fig.update_layout(coloraxis_colorbar=dict(tickvals=log_ticks, ticktext=tick_text))
+
     elif color_field == cols.GROUP:
-        fig = px.choropleth(pivot_on_year_df, locations=cols.ABBREV, color=cols.GROUP, 
+        fig = px.choropleth(pivot_on_year_df, locations=cols.ABBREV, color=cols.GROUP, title=fig_title,
                             locationmode='USA-states', scope="usa", custom_data=custom_data,
-                            animation_frame=cols.YEAR, animation_group=cols.GROUP, # ignored if df is for single year
+                            hover_name=cols.STATE, hover_data=hover_data, animation_frame=cols.YEAR, animation_group=cols.GROUP, # ignored if df is for single year
                             color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
                             width=fig_width, height=fig_height)
+
+    # center title
+    fig.update_layout(title_x=0.5)
+
+    # apply animation settings
+    if not frame:
+        apply_animation_settings(fig, base_fig_title)
 
     # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
     fig.update_traces(
