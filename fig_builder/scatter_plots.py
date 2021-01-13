@@ -30,7 +30,7 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
     pivot_on_year_df.fillna(-1, inplace=True)
 
     # display metadata common to (or that doesn't interfere with) all display types
-    base_fig_title = 'Vote Weight Per Person Per State'
+    base_fig_title = 'Impact Per Voter Per State'
     y_axis_title = 'Electoral College votes per state'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.STATE, cols.VOTES_COUNTED, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM]
@@ -48,7 +48,7 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
     if frame:
         # for static years, x axis is popular vote counted
         x_axis_col = cols.VOTES_COUNTED
-        x_axis_title = 'Votes counted per state'
+        x_axis_title = 'Popular votes counted per state'
         x_max = round(pivot_on_year_df[cols.VOTES_COUNTED].max() * 1.05)
         # for static years, x_mean_line_max is max EC * population per EC vote 
         totals_by_year_df = data_obj.totals_by_year_df.copy()
@@ -110,6 +110,9 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
     # scatterplot dot formatting
     fig.update_traces(marker=dict(size=24, line=dict(width=1, color='white')), selector=dict(mode='markers'))
 
+    # center title
+    fig.update_layout(title_x=0.5)
+
     if not frame:
         apply_animation_settings(fig, base_fig_title)
 
@@ -121,8 +124,7 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
             "<b>%{customdata[0]}</b><br>",
             "Electoral College votes: <b>%{y}</b>",
             "Popular vote: <b>%{customdata[1]:,}</b>",
-            # "Vote weight: <b>%{customdata[2]:.2f}</b>",
-            "Vote weight: <b>%{customdata[2]}</b>",
+            "Impact per voter: <b>%{customdata[2]}</b>",
             "Population per EC vote: <b>%{customdata[3]:,}</b>",
             "<br><b>Normalized to nat'l average:</b>",
             "%{customdata[1]:,} pop votes => %{customdata[5]:.2f} EC votes",
@@ -156,7 +158,7 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
     norm_max = round(group_aggs_by_year_df[cols.EC_VOTES_NORM].max() * 1.05)
 
     # display metadata common to (or that doesn't interfere with) all display types
-    base_fig_title = 'Average Vote Weight Per Person Per Grouping'
+    base_fig_title = 'Average Impact Per Voter Per State Group'
     y_axis_title = 'Electoral College votes per state group'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.GROUP, cols.VOTES_COUNTED, cols.AVG_WEIGHT, cols.POP_PER_EC, cols.STATE_COUNT, cols.STATES_IN_GROUP, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM]
@@ -171,7 +173,7 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
     if frame:
         # for static years, x axis is popular vote counted
         x_axis_col = cols.VOTES_COUNTED
-        x_axis_title = 'Votes counted per state group'
+        x_axis_title = 'Popular votes counted per state group'
         x_max = round(group_aggs_by_year_df[cols.VOTES_COUNTED].max() * 1.05)
         # for static years, x_mean_line_max is max EC * population per EC vote 
         totals_by_year_df = data_obj.totals_by_year_df.copy()
@@ -210,6 +212,9 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
     fig.update_xaxes(title_text=x_axis_title)
     fig.update_yaxes(title_text=y_axis_title)
 
+    # center title
+    fig.update_layout(title_x=0.5)
+
     # for animations, manually lay out a constant x axis and apply animation settings
     if not frame:
         num_xticks = round(norm_max / 50) + 1
@@ -225,7 +230,7 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
             "%{customdata[4]} states: %{customdata[5]}<br>",
             "Aggregate Electoral College votes: <b>%{y}</b>",
             "Aggregate popular vote: <b>%{customdata[1]:,}</b>",
-            "Average vote weight: <b>%{customdata[2]:.2f}</b>",
+            "Average impact per voter: <b>%{customdata[2]:.2f}</b>",
             "Average population per EC vote: <b>%{customdata[3]:,}</b>",
             "<br><b>Normalized to nat'l average:</b>",
             "%{customdata[1]:,} pop votes => %{customdata[7]} EC votes",
@@ -256,7 +261,7 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
     weight_max = pivot_on_year_df[cols.VOTE_WEIGHT].max()
 
     # display metadata common to (or that doesn't interfere with) all display types
-    base_fig_title = 'Vote Weight Per Person Per State'
+    base_fig_title = 'Impact Per Voter Per State'
     x_axis_title = 'Electoral College votes per state'
     y_axis_title = 'Impact per voter per state (log)'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
@@ -296,6 +301,9 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
     # axis tick overrides
     fig.update_layout(dict(yaxis=dict(tickmode='array', tickvals=[0.4,0.5,.6,.8,1,1.5,2,3,5,8])))
 
+    # center title
+    fig.update_layout(title_x=0.5)
+
     # apply animation settings
     if not frame:
         apply_animation_settings(fig, base_fig_title)
@@ -306,7 +314,7 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
             "<b>%{customdata[0]}</b><br>",
             "Electoral College votes: <b>%{x}</b>",
             "Popular vote: <b>%{customdata[1]:,}</b>",
-            "Vote weight: <b>%{y:.2f}</b>",
+            "Impact per voter: <b>%{y:.2f}</b>",
             "Population per EC vote: <b>%{customdata[2]:,}</b>",
             "Pop vote as % of nat'l vote: <b>%{customdata[3]:.2f}%</b>",
             "<br><b>Normalized to nat'l average:</b>",
@@ -341,7 +349,7 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fi
     weight_max = group_aggs_by_year_df[cols.AVG_WEIGHT].max() * 1.1
 
     # display metadata common to (or that doesn't interfere with) all display types
-    base_fig_title = 'Average Vote Weight Per Person Per Region'
+    base_fig_title = 'Average Impact Per Voter Per State Group'
     x_axis_title = 'Electoral College votes per state group'
     y_axis_title = 'Impact per voter per state group (log)'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
@@ -381,6 +389,9 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fi
     fig.update_xaxes(title_text=x_axis_title)
     fig.update_yaxes(title_text=y_axis_title)
 
+    # center title
+    fig.update_layout(title_x=0.5)
+
     # apply animation settings
     if not frame:
         apply_animation_settings(fig, base_fig_title)
@@ -392,7 +403,7 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fi
             "%{customdata[3]} states: %{customdata[4]}<br>",
             "Aggregate Electoral College votes: <b>%{x}</b>",
             "Aggregate popular vote: <b>%{customdata[1]:,}</b>",
-            "Average vote weight: <b>%{y:.2f}</b>",
+            "Average impact per voter: <b>%{y:.2f}</b>",
             "Average population per EC vote: <b>%{customdata[2]:,}</b>",
             "<br><b>Normalized to nat'l average:</b>",
             "%{customdata[1]:,} pop votes => %{customdata[5]:.2f} EC votes",

@@ -56,7 +56,8 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_wid
         colorbar_labels = ['0.1', '0.2', '0.33', '0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']
         linear_vals = [float(x) for x in colorbar_labels]
         log_vals = [math.log(t, 2) for t in linear_vals]
-        fig.update_layout(coloraxis_colorbar=dict(tickvals=log_vals, ticktext=colorbar_labels))
+        fig.update_layout(
+            coloraxis_colorbar=dict(tickvals=log_vals, ticktext=colorbar_labels, title='IPV (log)'))
 
     elif color_field == cols.GROUP:
         # init figure where state is determined by its state group
@@ -79,7 +80,7 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_wid
             "<b>%{customdata[0]}</b> (%{customdata[2]})<br>",
             "Popular vote: <b>%{customdata[3]:,}</b>",
             "Electoral College votes: <b>%{customdata[4]}</b>",
-            "Vote Weight: <b>%{customdata[5]:.2f}</b>",
+            "Impact per voter: <b>%{customdata[5]:.2f}</b>",
             "Population per EC vote: <b>%{customdata[6]:,}</b>",
             "Group: <b>%{customdata[1]}</b>",
             "<br><b>Normalized to nat'l average:</b>",

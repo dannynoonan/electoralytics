@@ -109,13 +109,15 @@ class DataObject():
         # melt Vote count and Vote count normalized into the same column to create melted_vote_count_pivot_dfs
         col_names = self.state_vote_weights_pivot_dfs[subdir].columns.values
         vc_mod_df = self.state_vote_weights_pivot_dfs[subdir].copy()
-        vc_mod_df['Votes counted: Actual'] = vc_mod_df[cols.VOTES_COUNTED]
-        vc_mod_df['Votes counted: Adjusted for weight'] = vc_mod_df[cols.VOTES_COUNTED_NORM]
+        vc_mod_df['Popular vote: Actual'] = vc_mod_df[cols.VOTES_COUNTED]
+        vc_mod_df['Pop vote: Adjusted for voter impact'] = vc_mod_df[cols.VOTES_COUNTED_NORM]
         melted_vote_count_pivot_df = pd.melt(
             vc_mod_df, 
             id_vars=col_names,
-            var_name='Actual vs Adjusted Vote count*',
+            var_name='Actual vs Adjusted Popular Vote*',
             value_name='Vote count*'
+            # var_name='Actual vs Adjusted Vote count*',
+            # value_name='Vote count*'
         )
         # assign df to melted_vote_count_pivot_dfs at subdir 
         self.melted_vote_count_pivot_dfs[subdir] = melted_vote_count_pivot_df

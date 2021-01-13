@@ -83,14 +83,15 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
             group_counters[state_group] = grp_ctr+1    
 
     # display metadata
-    fig_title = 'Average Impact Per Voter Per Presidential Election'
+    fig_title = 'Relative Impact Per Voter Per Presidential Election'
     # fig_title = 'Average Vote Weight Per Ballot Cast For Each Presidential Election'
     if display_groups:
         fig_title = f"{fig_title}, Grouped By Region"
     if trace_count >= MAX_TRACE_COUNT:
         fig_title = f"{fig_title} [** MAXES OUT AT 22 LINES **]"
     x_axis_title = 'Election Year'
-    y_axis_title = 'Vote Weight Per Ballot Cast'
+    y_axis_title = 'Relative Impact per voter'
+    # y_axis_title = 'Vote Weight Per Ballot Cast'
     if log_y:
         y_axis_title = f"{y_axis_title} (log)"
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
@@ -148,7 +149,7 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
             hovertemplate="<br>".join([
                 "<b>%{customdata[0]}</b> (%{x})<br></b>",
                 "EC votes: <b>%{customdata[2]:,}</b>",
-                "Popular vote: <b>%{customdata[3]:,}</b>",
+                "Impact per voter: <b>%{customdata[3]:,}</b>",
                 "Vote weight: <b>%{y:.2f}</b>",
                 "Avg pop per EC vote: <b>%{customdata[4]:,}</b>",
                 "State(s): <b>%{customdata[1]}</b>",
@@ -228,7 +229,7 @@ def build_total_vote_line_chart(data_obj, fig_width=None, log_y=False,):
     fig.update_traces(
         hovertemplate="<br>".join([
             "<b>%{y:.2f}%</b> (%{x})<br>",
-            "Votes counted: <b>%{customdata[0]:,}</b>",
+            "Popular vote: <b>%{customdata[0]:,}</b>",
             "Total population: <b>%{customdata[1]:,}</b>",
             "Total EC votes: <b>%{customdata[2]}</b>",
             "Avg pop per EC vote: <b>%{customdata[3]:,}</b>",

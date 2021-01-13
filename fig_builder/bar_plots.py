@@ -82,7 +82,7 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
         lin_ticks = [float(x) for x in tick_text]
         log_ticks = [math.log(t, 2) for t in lin_ticks]
         fig.update_layout(
-            coloraxis_colorbar=dict(tickvals=log_ticks, ticktext=tick_text))
+            coloraxis_colorbar=dict(tickvals=log_ticks, ticktext=tick_text, title='IPV (log)'))
 
     # center title
     fig.update_layout(title_x=0.5)
@@ -123,13 +123,14 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=N
     melted_ec_votes_pivot_df = melted_ec_votes_pivot_df[pd.notnull(melted_ec_votes_pivot_df[cols.STATE])]
 
     # display metadata
-    base_fig_title = 'Actual EC Votes vs EC Votes Adjusted For Turnout'
+    base_fig_title = "EC Votes: 'Actual' vs 'Adjusted for Turnout'" 
+    # base_fig_title = 'Actual EC Votes vs EC Votes Adjusted For Turnout'
     if frame:
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
         fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
-    x_axis_title = 'Actual EC votes / EC Votes If Adjusted For Popular Vote Turnout'
+    x_axis_title = 'Actual EC votes / EC votes if adjusted for popular vote'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM]
     # set color sequence
@@ -156,7 +157,7 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=N
             "<b>%{x}</b>*<br>",
             "<b>%{y}</b> (%{customdata[0]}):",
             "Popular vote: <b>%{customdata[2]:,}</b>",
-            "Vote Weight: <b>%{customdata[3]:.2f}</b>",
+            "Impact per voter: <b>%{customdata[3]:.2f}</b>",
             "Population per EC vote: <b>%{customdata[4]:,}</b>",
             "<br><b>Normalized to nat'l average:</b>",
             "%{customdata[2]:,} pop votes => %{customdata[6]:.2f} EC votes",
@@ -184,19 +185,20 @@ def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, fig_width=N
     melted_vote_count_pivot_df = melted_vote_count_pivot_df[pd.notnull(melted_vote_count_pivot_df[cols.STATE])]
 
     # display metadata
-    base_fig_title = 'Actual Vote Count vs Vote Count Adjusted For Vote Weight'
+    base_fig_title = "Popular Vote: 'Actual' vs 'Adjusted for Voter Impact'"
+    # base_fig_title = 'Actual Vote Count vs Vote Count Adjusted For Vote Weight'
     if frame:
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
         fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
-    x_axis_title = 'Actual Vote Count / Vote Count If Adjusted For Individual Vote Weight'
+    x_axis_title = 'Actual pop vote / Pop vote if adjusted for voter impact'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM]
     color_discrete_sequence = ['DarkBlue', 'DodgerBlue']
     
     # init figure with core properties
-    fig = px.bar(melted_vote_count_pivot_df, x='Vote count*', y=cols.STATE, color='Actual vs Adjusted Vote count*', title=fig_title, 
+    fig = px.bar(melted_vote_count_pivot_df, x='Vote count*', y=cols.STATE, color='Actual vs Adjusted Popular Vote*', title=fig_title, 
                 custom_data=custom_data, barmode='group', animation_frame=cols.YEAR, # ignored if df is for single year
                 color_discrete_sequence=color_discrete_sequence, width=fig_width, height=fig_height)
 
@@ -216,7 +218,7 @@ def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, fig_width=N
             "<b>%{x:,}</b>*<br>",
             "<b>%{y}</b> (%{customdata[0]}):",
             "Popular vote: <b>%{customdata[2]:,}</b>",
-            "Vote Weight: <b>%{customdata[3]:.2f}</b>",
+            "Impact per voter: <b>%{customdata[3]:.2f}</b>",
             "Population per EC vote: <b>%{customdata[4]:,}</b>",
             "<br><b>Normalized to nat'l average:</b>",
             "%{customdata[2]:,} pop votes => %{customdata[6]:.2f} EC votes",
@@ -244,7 +246,7 @@ def build_swallowed_vote_bar(data_obj, view, fig_width=None):
     fig_height = fig_dims.crt(fig_width)
 
     # display metadata
-    base_fig_title = 'Losers Under Winner-Take-All Electoral College System in 2020'
+    base_fig_title = 'Winners & Losers Under Winner-Take-All Electoral College System in 2020'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = ['State', 'Popular Vote', 'EC Votes for Candidate']
 
@@ -280,7 +282,7 @@ def build_swallowed_vote_relative_bar(data_obj, fig_width=None):
     fig_height = fig_dims.crt(fig_width)
 
     # display metadata
-    base_fig_title = 'Losers Under Winner-Take-All Electoral College System in 2020'
+    base_fig_title = 'Winners & Losers Under Winner-Take-All Electoral College System in 2020'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = ['Candidate: Pop Vote', 'Popular Vote', 'EC Votes for Candidate']
     # bar and legend metadata
@@ -293,8 +295,10 @@ def build_swallowed_vote_relative_bar(data_obj, fig_width=None):
                 category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
                 width=fig_width, height=fig_height)
 
-    fig.update_layout(yaxis_categoryorder='total ascending')
+    # axis metadata 
+    fig.update_yaxes(title_text='')
     fig.update_xaxes(range=[0,18000000])
+    fig.update_layout(yaxis_categoryorder='total ascending')
 
     # center title
     fig.update_layout(title_x=0.5)
@@ -320,7 +324,8 @@ def build_swallowed_vote_ec_bar(data_obj, fig_width=None):
     distilled_svs = distilled_svs[distilled_svs['EC Votes for Candidate'] != 0]
     
     # display metadata
-    base_fig_title = 'Losers Under Winner-Take-All Electoral College System in 2020'
+    base_fig_title = 'Winners & Losers Under Winner-Take-All Electoral College System in 2020'
+    x_axis_title = 'Electoral College Votes'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = ['Candidate: Pop Vote', 'Popular Vote']
     # bar and legend metadata
@@ -333,6 +338,9 @@ def build_swallowed_vote_ec_bar(data_obj, fig_width=None):
                 category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
                 width=fig_width, height=fig_height)
 
+    # axis metadata 
+    fig.update_xaxes(title_text=x_axis_title)
+    fig.update_yaxes(title_text='')
     fig.update_layout(yaxis_categoryorder='total ascending')
 
     # center title

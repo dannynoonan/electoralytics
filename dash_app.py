@@ -773,7 +773,7 @@ def display_all_state_grouping_map_anims(year_input):
 )
 def display_swallowed_vote_fig_1(display_type):
     print(f"#### in display_swallowed_vote_fig_1")
-    fig = bar_plots.build_swallowed_vote_bar(data_obj, 'raw')
+    fig = bar_plots.build_swallowed_vote_bar(data_obj, 'raw', fig_width=1000)
     return fig
 
 @app.callback(
@@ -782,7 +782,7 @@ def display_swallowed_vote_fig_1(display_type):
 )
 def display_swallowed_vote_fig_2(display_type):
     print(f"#### in display_swallowed_vote_fig_2")
-    fig = bar_plots.build_swallowed_vote_bar(data_obj, 'muted')
+    fig = bar_plots.build_swallowed_vote_bar(data_obj, 'muted', fig_width=1000)
     return fig
 
 @app.callback(
@@ -791,7 +791,7 @@ def display_swallowed_vote_fig_2(display_type):
 )
 def display_swallowed_vote_fig_3(display_type):
     print(f"#### in display_swallowed_vote_fig_3")
-    fig = bar_plots.build_swallowed_vote_relative_bar(data_obj)
+    fig = bar_plots.build_swallowed_vote_relative_bar(data_obj, fig_width=1000)
     return fig
 
 @app.callback(
@@ -800,7 +800,7 @@ def display_swallowed_vote_fig_3(display_type):
 )
 def display_swallowed_vote_fig_4(display_type):
     print(f"#### in display_swallowed_vote_fig_4")
-    fig = bar_plots.build_swallowed_vote_ec_bar(data_obj)
+    fig = bar_plots.build_swallowed_vote_ec_bar(data_obj, fig_width=1000)
     return fig
 
 
