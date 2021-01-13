@@ -454,43 +454,180 @@ voter_participation = html.Div([
 
 
 explanation_of_groupings = html.Div([
-    ## Top
     navbar,
-    html.Br(),html.Br(),
-
+    html.Br(),
     dbc.Row([
         html.H3("Explanation of State Aggregate Groupings"),
     ], justify="center", align="center"),
-
+    html.Br(),
     dbc.Row([
-        dbc.Col(md=3, children=[
-            groupings_explanation_dropdown,
-            html.Br(),
-        ])
-    ]),
-
-    dbc.Row([
-        dbc.Col(md=6, children=[
-            dcc.Graph(id="state-groupings-anim-civil-war-no-small"),
-            html.Br(),
-            dcc.Graph(id="state-groupings-anim-civil-war-small-3"),
-            html.Br(),
-            dcc.Graph(id="state-groupings-anim-civil-war-small-4"),
-            html.Br(),
-            dcc.Graph(id="state-groupings-anim-civil-war-small-5"),
-            html.Br(),
+        dbc.Col(md=2, style={'textAlign': 'right'}, children=[
+            html.H5("Extract Small Group?")
+        ]), 
+        dbc.Col(md=2, children=[
+            dcc.Dropdown(
+                id="max-small-input", 
+                options=[
+                    {'label': 'No Small Group', 'value': '0'},
+                    {'label': '3 EC Votes', 'value': '3'},
+                    {'label': '3 - 4 EC Votes', 'value': '4'},
+                    {'label': '3 - 5 EC Votes', 'value': '5'},
+                ], 
+                value="0"
+            )
         ]),
-        dbc.Col(md=6, children=[
-            dcc.Graph(id="state-groupings-anim-regional-census-no-small"),
-            html.Br(),
-            dcc.Graph(id="state-groupings-anim-regional-census-small-3"),
-            html.Br(),
-            dcc.Graph(id="state-groupings-anim-regional-census-small-4"),
-            html.Br(),
-            dcc.Graph(id="state-groupings-anim-regional-census-small-5"),
-            html.Br(),
+    ]),
+    html.Br(),
+    dbc.Row([
+        dbc.Col(md=12, children=[
+            dbc.Tabs(className="nav nav-pills", children=[
+                dbc.Tab(label="Civil War vs Regional Census - 2020", tab_style={"font-size": "20px"}, children=[
+                    dbc.Row([
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-acw-2020"),
+                            html.Br(),
+                        ]),
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-census-2020"),
+                            html.Br(),
+                        ])
+                    ])
+                ]),
+                dbc.Tab(label="2000", tab_style={"font-size": "20px"}, children=[
+                    dbc.Row([
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-acw-2000"),
+                            html.Br(),
+                        ]),
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-census-2000"),
+                            html.Br(),
+                        ])
+                    ])
+                ]),
+                dbc.Tab(label="1980", tab_style={"font-size": "20px"}, children=[
+                    dbc.Row([
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-acw-1980"),
+                            html.Br(),
+                        ]),
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-census-1980"),
+                            html.Br(),
+                        ])
+                    ])
+                ]),
+                dbc.Tab(label="1960", tab_style={"font-size": "20px"}, children=[
+                    dbc.Row([
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-acw-1960"),
+                            html.Br(),
+                        ]),
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-census-1960"),
+                            html.Br(),
+                        ])
+                    ])
+                ]),
+                dbc.Tab(label="1940", tab_style={"font-size": "20px"}, children=[
+                    dbc.Row([
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-acw-1940"),
+                            html.Br(),
+                        ]),
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-census-1940"),
+                            html.Br(),
+                        ])
+                    ])
+                ]),
+                dbc.Tab(label="1920", tab_style={"font-size": "20px"}, children=[
+                    dbc.Row([
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-acw-1920"),
+                            html.Br(),
+                        ]),
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-census-1920"),
+                            html.Br(),
+                        ])
+                    ])
+                ]),
+                dbc.Tab(label="1900", tab_style={"font-size": "20px"}, children=[
+                    dbc.Row([
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-acw-1900"),
+                            html.Br(),
+                        ]),
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-census-1900"),
+                            html.Br(),
+                        ])
+                    ])
+                ]),
+                dbc.Tab(label="1880", tab_style={"font-size": "20px"}, children=[
+                    dbc.Row([
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-acw-1880"),
+                            html.Br(),
+                        ]),
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-census-1880"),
+                            html.Br(),
+                        ])
+                    ])
+                ]),
+                dbc.Tab(label="1860", tab_style={"font-size": "20px"}, children=[
+                    dbc.Row([
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-acw-1860"),
+                            html.Br(),
+                        ]),
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-census-1860"),
+                            html.Br(),
+                        ])
+                    ])
+                ]),
+                dbc.Tab(label="1840", tab_style={"font-size": "20px"}, children=[
+                    dbc.Row([
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-acw-1840"),
+                            html.Br(),
+                        ]),
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-census-1840"),
+                            html.Br(),
+                        ])
+                    ])
+                ]),
+                dbc.Tab(label="1820", tab_style={"font-size": "20px"}, children=[
+                    dbc.Row([
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-acw-1820"),
+                            html.Br(),
+                        ]),
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-census-1820"),
+                            html.Br(),
+                        ])
+                    ])
+                ]),
+                dbc.Tab(label="1800", tab_style={"font-size": "20px"}, children=[
+                    dbc.Row([
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-acw-1800"),
+                            html.Br(),
+                        ]),
+                        dbc.Col(md=6, children=[
+                            dcc.Graph(id="fig-map-census-1800"),
+                            html.Br(),
+                        ])
+                    ])
+                ])
+            ])
         ])
-    ])    
+    ])
 ])
 
 
@@ -523,7 +660,6 @@ swallowed_vote_sampler = html.Div([
 empty_layout = html.Div([
     navbar,
 ])
-
 
 
 # app layout
@@ -739,31 +875,65 @@ def display_voter_pct_pop_over_time(y_axis_input):
 
 # explanation-of-groupings callbacks
 @app.callback(
-    Output('state-groupings-anim-civil-war-no-small', 'figure'),
-    Output('state-groupings-anim-regional-census-no-small', 'figure'),
-    Output('state-groupings-anim-civil-war-small-3', 'figure'),
-    Output('state-groupings-anim-regional-census-small-3', 'figure'),
-    Output('state-groupings-anim-civil-war-small-4', 'figure'),
-    Output('state-groupings-anim-regional-census-small-4', 'figure'),
-    Output('state-groupings-anim-civil-war-small-5', 'figure'),
-    Output('state-groupings-anim-regional-census-small-5', 'figure'),
-    Input('year-input', 'value'),
+    Output('fig-map-acw-2020', 'figure'),
+    Output('fig-map-census-2020', 'figure'),
+    Output('fig-map-acw-2000', 'figure'),
+    Output('fig-map-census-2000', 'figure'),
+    Output('fig-map-acw-1980', 'figure'),
+    Output('fig-map-census-1980', 'figure'),
+    Output('fig-map-acw-1960', 'figure'),
+    Output('fig-map-census-1960', 'figure'),
+    Output('fig-map-acw-1940', 'figure'),
+    Output('fig-map-census-1940', 'figure'),
+    Output('fig-map-acw-1920', 'figure'),
+    Output('fig-map-census-1920', 'figure'),
+    Output('fig-map-acw-1900', 'figure'),
+    Output('fig-map-census-1900', 'figure'),
+    Output('fig-map-acw-1880', 'figure'),
+    Output('fig-map-census-1880', 'figure'),
+    Output('fig-map-acw-1860', 'figure'),
+    Output('fig-map-census-1860', 'figure'),
+    Output('fig-map-acw-1840', 'figure'),
+    Output('fig-map-census-1840', 'figure'),
+    Output('fig-map-acw-1820', 'figure'),
+    Output('fig-map-census-1820', 'figure'),
+    Output('fig-map-acw-1800', 'figure'),
+    Output('fig-map-census-1800', 'figure'),
+    Input('max-small-input', 'value'),
 )
-def display_all_state_grouping_map_anims(year_input):
+def display_all_state_grouping_map_anims(max_small_input):
     print(f"#### in display_all_state_grouping_map_anims")
     # process input
-    year = int(year_input) # TODO probably access different small variants here, EC=3 vs EC=4 vs EC=5
+    max_small = int(max_small_input)
     # generate figs
-    anim_map_acw_no_small = choropleths.build_ivw_by_state_map(data_obj, ddirs.ACW, 0, cols.GROUP)
-    anim_map_census_no_small = choropleths.build_ivw_by_state_map(data_obj, ddirs.CENSUS, 0, cols.GROUP)
-    anim_map_acw_small_3 = choropleths.build_ivw_by_state_map(data_obj, ddirs.ACW, 3, cols.GROUP)
-    anim_map_census_small_3 = choropleths.build_ivw_by_state_map(data_obj, ddirs.CENSUS, 3, cols.GROUP)
-    anim_map_acw_small_4 = choropleths.build_ivw_by_state_map(data_obj, ddirs.ACW, 4, cols.GROUP)
-    anim_map_census_small_4 = choropleths.build_ivw_by_state_map(data_obj, ddirs.CENSUS, 4, cols.GROUP)
-    anim_map_acw_small_5 = choropleths.build_ivw_by_state_map(data_obj, ddirs.ACW, 5, cols.GROUP)
-    anim_map_census_small_5 = choropleths.build_ivw_by_state_map(data_obj, ddirs.CENSUS, 5, cols.GROUP)
-    return (anim_map_acw_no_small, anim_map_census_no_small, anim_map_acw_small_3, anim_map_census_small_3,
-        anim_map_acw_small_4, anim_map_census_small_4, anim_map_acw_small_5, anim_map_census_small_5)
+    fig_map_acw_2020 = choropleths.build_ivw_by_state_map(data_obj, ddirs.ACW, max_small, cols.GROUP, frame=2020)
+    fig_map_census_2020 = choropleths.build_ivw_by_state_map(data_obj, ddirs.CENSUS, max_small, cols.GROUP, frame=2020)
+    fig_map_acw_2000 = choropleths.build_ivw_by_state_map(data_obj, ddirs.ACW, max_small, cols.GROUP, frame=2000)
+    fig_map_census_2000 = choropleths.build_ivw_by_state_map(data_obj, ddirs.CENSUS, max_small, cols.GROUP, frame=2000)
+    fig_map_acw_1980 = choropleths.build_ivw_by_state_map(data_obj, ddirs.ACW, max_small, cols.GROUP, frame=1980)
+    fig_map_census_1980 = choropleths.build_ivw_by_state_map(data_obj, ddirs.CENSUS, max_small, cols.GROUP, frame=1980)
+    fig_map_acw_1960 = choropleths.build_ivw_by_state_map(data_obj, ddirs.ACW, max_small, cols.GROUP, frame=1960)
+    fig_map_census_1960 = choropleths.build_ivw_by_state_map(data_obj, ddirs.CENSUS, max_small, cols.GROUP, frame=1960)
+    fig_map_acw_1940 = choropleths.build_ivw_by_state_map(data_obj, ddirs.ACW, max_small, cols.GROUP, frame=1940)
+    fig_map_census_1940 = choropleths.build_ivw_by_state_map(data_obj, ddirs.CENSUS, max_small, cols.GROUP, frame=1940)
+    fig_map_acw_1920 = choropleths.build_ivw_by_state_map(data_obj, ddirs.ACW, max_small, cols.GROUP, frame=1920)
+    fig_map_census_1920 = choropleths.build_ivw_by_state_map(data_obj, ddirs.CENSUS, max_small, cols.GROUP, frame=1920)
+    fig_map_acw_1900 = choropleths.build_ivw_by_state_map(data_obj, ddirs.ACW, max_small, cols.GROUP, frame=1900)
+    fig_map_census_1900 = choropleths.build_ivw_by_state_map(data_obj, ddirs.CENSUS, max_small, cols.GROUP, frame=1900)
+    fig_map_acw_1880 = choropleths.build_ivw_by_state_map(data_obj, ddirs.ACW, max_small, cols.GROUP, frame=1880)
+    fig_map_census_1880 = choropleths.build_ivw_by_state_map(data_obj, ddirs.CENSUS, max_small, cols.GROUP, frame=1880)
+    fig_map_acw_1860 = choropleths.build_ivw_by_state_map(data_obj, ddirs.ACW, max_small, cols.GROUP, frame=1860)
+    fig_map_census_1860 = choropleths.build_ivw_by_state_map(data_obj, ddirs.CENSUS, max_small, cols.GROUP, frame=1860)
+    fig_map_acw_1840 = choropleths.build_ivw_by_state_map(data_obj, ddirs.ACW, max_small, cols.GROUP, frame=1840)
+    fig_map_census_1840 = choropleths.build_ivw_by_state_map(data_obj, ddirs.CENSUS, max_small, cols.GROUP, frame=1840)
+    fig_map_acw_1820 = choropleths.build_ivw_by_state_map(data_obj, ddirs.ACW, max_small, cols.GROUP, frame=1820)
+    fig_map_census_1820 = choropleths.build_ivw_by_state_map(data_obj, ddirs.CENSUS, max_small, cols.GROUP, frame=1820)
+    fig_map_acw_1800 = choropleths.build_ivw_by_state_map(data_obj, ddirs.ACW, max_small, cols.GROUP, frame=1800)
+    fig_map_census_1800 = choropleths.build_ivw_by_state_map(data_obj, ddirs.CENSUS, max_small, cols.GROUP, frame=1800)
+    return (fig_map_acw_2020, fig_map_census_2020, fig_map_acw_2000, fig_map_census_2000, fig_map_acw_1980, fig_map_census_1980, 
+        fig_map_acw_1960, fig_map_census_1960, fig_map_acw_1940, fig_map_census_1940, fig_map_acw_1920, fig_map_census_1920, 
+        fig_map_acw_1900, fig_map_census_1900, fig_map_acw_1880, fig_map_census_1880, fig_map_acw_1860, fig_map_census_1860, 
+        fig_map_acw_1840, fig_map_census_1840, fig_map_acw_1820, fig_map_census_1820, fig_map_acw_1800, fig_map_census_1800)
 
 
 # swallowed-vote-sampler callbacks

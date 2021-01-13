@@ -13,6 +13,8 @@ fig_dims = FigDimensions()
 
 
 def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_width=None, frame=None):
+    print(f"in build_ivw_by_state_map, groups_dir {groups_dir}, max_small {max_small}")
+
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
