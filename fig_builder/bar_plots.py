@@ -63,11 +63,14 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
     
     # init figure with core properties
     fig = px.bar(pivot_on_year_df, x=cols.VOTE_WEIGHT, y=cols.STATE, color=color_col, title=fig_title, 
-                custom_data=custom_data, animation_frame=cols.YEAR, # ignored if df is for single year
+                custom_data=custom_data, text=cols.VOTE_WEIGHT, animation_frame=cols.YEAR, # ignored if df is for single year
                 color_continuous_scale=color_continuous_scale, color_continuous_midpoint=color_continuous_midpoint,
                 color_discrete_map=color_discrete_map, category_orders=category_orders,
                 # labels={cols.VOTE_WEIGHT: 'Relative impact per voter'}, 
                 width=fig_width, height=fig_height)
+
+    # display x value alongside bar
+    fig.update_traces(texttemplate='%{text:,}', textposition='outside')
 
     # axis metadata
     fig.update_xaxes(title_text=x_axis_title)
@@ -85,7 +88,7 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
             coloraxis_colorbar=dict(tickvals=log_ticks, ticktext=tick_text, title='IPV (log)'))
 
     # center title
-    fig.update_layout(title_x=0.5)
+    fig.update_layout(title_x=0.5, uniformtext_minsize=10)
 
     # hovertemplate formatting and variable substitution using customdata
     fig.update_traces(
@@ -252,9 +255,12 @@ def build_swallowed_vote_bar(data_obj, view, fig_width=None):
 
     # init figure with core properties
     fig = px.bar(data_obj.swallowed_vote_df, x='Popular Vote', y='State: Candidate', 
-                color=color_col, title=base_fig_title, custom_data=custom_data, 
+                color=color_col, title=base_fig_title, custom_data=custom_data, text='Popular Vote',
                 category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
                 width=fig_width, height=fig_height)
+
+    # display x value alongside bar
+    fig.update_traces(texttemplate='%{text:,}', textposition='auto')
 
     # axis metadata 
     fig.update_xaxes(range=[0,10000000])
@@ -291,9 +297,12 @@ def build_swallowed_vote_relative_bar(data_obj, fig_width=None):
 
     # init figure with core properties
     fig = px.bar(data_obj.swallowed_vote_df, x='Popular Vote', y='State', color='Candidate: Outcome', 
-                title=base_fig_title, custom_data=custom_data, barmode='relative', 
+                title=base_fig_title, custom_data=custom_data, text='Popular Vote', barmode='relative', 
                 category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
                 width=fig_width, height=fig_height)
+
+    # display x value alongside bar
+    fig.update_traces(texttemplate='%{text:,}', textposition='auto')
 
     # axis metadata 
     fig.update_yaxes(title_text='')
@@ -333,10 +342,13 @@ def build_swallowed_vote_ec_bar(data_obj, fig_width=None):
     color_discrete_sequence = ['Blue', 'Red']
 
     # init figure with core properties
-    fig = px.bar(distilled_svs, x='EC Votes for Candidate', y='State', 
-                color='Candidate: Pop Vote', title=base_fig_title, custom_data=custom_data, 
+    fig = px.bar(distilled_svs, x='EC Votes for Candidate', y='State', color='Candidate: Pop Vote', 
+                title=base_fig_title, custom_data=custom_data, text='EC Votes for Candidate',
                 category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
                 width=fig_width, height=fig_height)
+
+    # display x value alongside bar
+    fig.update_traces(texttemplate='EC Votes: %{text:,}', textposition='auto')
 
     # axis metadata 
     fig.update_xaxes(title_text=x_axis_title)

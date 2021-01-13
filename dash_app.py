@@ -529,7 +529,8 @@ swallowed_vote_sampler = html.Div([
                 dbc.Tab(dcc.Graph(id="swallowed-vote-sampler-4"), label="Converted to EC vote"),
             ])
         ])
-    ])
+    ]),
+    html.Br()
 ])
 
 
