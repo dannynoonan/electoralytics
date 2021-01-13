@@ -12,7 +12,7 @@ ddirs = DataDirs()
 fig_dims = FigDimensions()
 
 
-def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_width=None, frame=None):
+def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_width=None, frame=None, base_fig_title=None):
     print(f"in build_ivw_by_state_map, groups_dir {groups_dir}, max_small {max_small}")
 
     subdir = map_to_subdir(groups_dir, max_small)
@@ -29,7 +29,8 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_wid
     fig_height = fig_dims.crt(fig_width)
 
     # display metadata common to (or that doesn't interfere with) all display types
-    base_fig_title = 'Impact Per Voter Per State'
+    if not base_fig_title:
+        base_fig_title = 'Impact Per Voter Per State'
     # base_fig_title = 'Vote Weight Per Person Per State'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.STATE, cols.GROUP, cols.YEAR, cols.VOTES_COUNTED, cols.EC_VOTES, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.EC_VOTES_NORM, 

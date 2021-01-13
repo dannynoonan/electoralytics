@@ -762,8 +762,8 @@ def display_state_grouping_explanation(year_input, max_small_input):
     year = int(year_input)
     max_small = int(max_small_input)
     # generate figs
-    fig_map_acw = choropleths.build_ivw_by_state_map(data_obj, ddirs.ACW, max_small, cols.GROUP, frame=year)
-    fig_map_census = choropleths.build_ivw_by_state_map(data_obj, ddirs.CENSUS, max_small, cols.GROUP, frame=year)
+    fig_map_acw = choropleths.build_ivw_by_state_map(data_obj, ddirs.ACW, max_small, cols.GROUP, frame=year, base_fig_title='States Grouped By Civil War Alignment')
+    fig_map_census = choropleths.build_ivw_by_state_map(data_obj, ddirs.CENSUS, max_small, cols.GROUP, frame=year, base_fig_title='States Grouped By Regional Census')
     return fig_map_acw, fig_map_census
 
 
