@@ -73,7 +73,7 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_wid
     if not frame:
         apply_animation_settings(fig, base_fig_title)
 
-    # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
+    # hovertemplate formatting and variable substitution using customdata
     fig.update_traces(
         hovertemplate="<br>".join([
             "<b>%{customdata[0]}</b> (%{customdata[2]})<br>",

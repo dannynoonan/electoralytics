@@ -77,7 +77,7 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
                         color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
                         width=fig_width, height=fig_height, opacity=0.7, 
                         range_x=[0,x_max], range_y=[0,ec_max])
-        # axis labels
+        # axis metadata
         fig.update_xaxes(title_text=x_axis_title)
         fig.update_yaxes(title_text=y_axis_title)
 
@@ -93,7 +93,7 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
                         color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
                         width=fig_width, height=fig_height, opacity=0.7, 
                         log_x=True, log_y=True, range_x=range_x, range_y=[2.5,ec_max])
-        # axis labels
+        # axis metadata
         fig.update_xaxes(title_text=f"{x_axis_title} (log)")
         fig.update_yaxes(title_text=f"{y_axis_title} (log)")
         # tick overrides for y and x axes (animation only for x axis) representing EC votes, whose ranges are constant over time
@@ -113,7 +113,7 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
     if not frame:
         apply_animation_settings(fig, base_fig_title)
 
-    # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
+    # hovertemplate formatting and variable substitution using customdata
     # since x axis is different for dots vs abbrevs, don't use x and instead explicitly rely on columns (redundantly) set in customdata
     # note hovertemplates only work on first frame of animations, but may as well include them in animations for that one frame
     fig.update_traces(
@@ -206,7 +206,7 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
     fig.add_trace(go.Scatter(x=[0,x_mean_line_max], y=[0,ec_max], mode='lines', name='Nationwide mean', 
                             line=dict(color='black', width=1)))
 
-    # axis labels
+    # axis metadata
     fig.update_xaxes(title_text=x_axis_title)
     fig.update_yaxes(title_text=y_axis_title)
 
@@ -216,7 +216,7 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
         fig.update_layout(dict(xaxis=dict(tickmode='array', tickvals=[t*50 for t in range(num_xticks)])))
         apply_animation_settings(fig, base_fig_title)
 
-    # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
+    # hovertemplate formatting and variable substitution using customdata
     # since x axis is different for dots vs abbrevs, don't use x and instead explicitly rely on columns (redundantly) set in customdata
     # note hovertemplates only work on first frame of animations, but may as well include them in animations for that one frame
     fig.update_traces(
@@ -290,10 +290,9 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
     fig.add_trace(go.Scatter(x=[0,ec_max], y=[1,1], mode='lines', name='Nationwide mean', 
                             line=dict(color='black', width=1)))
 
-    # axis labels
+    # axis metadata
     fig.update_xaxes(title_text=x_axis_title)
     fig.update_yaxes(title_text=y_axis_title)
-
     # axis tick overrides
     fig.update_layout(dict(yaxis=dict(tickmode='array', tickvals=[0.4,0.5,.6,.8,1,1.5,2,3,5,8])))
 
@@ -301,7 +300,7 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
     if not frame:
         apply_animation_settings(fig, base_fig_title)
 
-    # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
+    # hovertemplate formatting and variable substitution using customdata
     fig.update_traces(
         hovertemplate="<br>".join([
             "<b>%{customdata[0]}</b><br>",
@@ -378,7 +377,7 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fi
     fig.add_trace(go.Scatter(x=[0,ec_max], y=[1,1], mode='lines', name='Nationwide mean', 
                     line=dict(color='black', width=1)))
 
-    # axis labels
+    # axis metadata
     fig.update_xaxes(title_text=x_axis_title)
     fig.update_yaxes(title_text=y_axis_title)
 
@@ -386,7 +385,7 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fi
     if not frame:
         apply_animation_settings(fig, base_fig_title)
 
-    # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
+    # hovertemplate formatting and variable substitution using customdata
     fig.update_traces(
         hovertemplate="<br>".join([
             "<b>%{customdata[0]}</b>",

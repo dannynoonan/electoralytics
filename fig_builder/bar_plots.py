@@ -69,7 +69,7 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
                 # labels={cols.VOTE_WEIGHT: 'Relative impact per voter'}, 
                 width=fig_width, height=fig_height)
 
-    # axis titles, ticks, labels, and ordering
+    # axis metadata
     fig.update_xaxes(title_text=x_axis_title)
     fig.update_yaxes(title_text='')
     fig.update_layout(
@@ -87,7 +87,7 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
     # center title
     fig.update_layout(title_x=0.5)
 
-    # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
+    # hovertemplate formatting and variable substitution using customdata
     fig.update_traces(
         hovertemplate="<br>".join([
             "<b>%{x}</b> (%{y})<br>",
@@ -140,7 +140,7 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=N
                 custom_data=custom_data, barmode='group', animation_frame=cols.YEAR, # ignored if df is for single year
                 color_discrete_sequence=color_discrete_sequence, width=fig_width, height=fig_height)
 
-    # axis titles, ticks, labels, and ordering
+    # axis metadata
     fig.update_xaxes(title_text=x_axis_title)
     fig.update_yaxes(title_text='')
     fig.update_layout(
@@ -150,7 +150,7 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=N
     # center title
     fig.update_layout(title_x=0.5)
 
-    # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
+    # hovertemplate formatting and variable substitution using customdata
     fig.update_traces(
         hovertemplate="<br>".join([
             "<b>%{x}</b>*<br>",
@@ -200,7 +200,7 @@ def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, fig_width=N
                 custom_data=custom_data, barmode='group', animation_frame=cols.YEAR, # ignored if df is for single year
                 color_discrete_sequence=color_discrete_sequence, width=fig_width, height=fig_height)
 
-    # axis titles, ticks, labels, and ordering
+    # axis metadata
     fig.update_xaxes(title_text=x_axis_title)
     fig.update_yaxes(title_text='')
     fig.update_layout(
@@ -210,7 +210,7 @@ def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, fig_width=N
     # center title
     fig.update_layout(title_x=0.5)
 
-    # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
+    # hovertemplate formatting and variable substitution using customdata
     fig.update_traces(
         hovertemplate="<br>".join([
             "<b>%{x:,}</b>*<br>",
@@ -227,59 +227,71 @@ def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, fig_width=N
     return fig
 
 
-def build_swallowed_vote_fig_1(data_obj):
+def build_swallowed_vote_bar(data_obj, view, fig_width=None):
+    # bar and legend metadata depend on view input
+    if view == 'raw':
+        color_col = 'Candidate: Pop Vote'
+        category_orders = {'Candidate: Pop Vote': ['Biden', 'Trump']}
+        color_discrete_sequence = ['Blue', 'Red']
+
+    elif view == 'muted':
+        color_col = 'Candidate: Outcome'
+        category_orders = {'Candidate: Outcome': ['Biden: Win', 'Trump: Win', 'Biden: Loss', 'Trump: Loss']}
+        color_discrete_sequence = ['Blue', 'Red', 'Gray', 'Gray']
+
+    if not fig_width:
+        fig_width = fig_dims.MD6
+    fig_height = fig_dims.crt(fig_width)
+
     # display metadata
-    hover_data = {'State': True, 'Candidate': True, 'EC Votes for Candidate': True, 'State: Candidate': False,
-                'Candidate: Outcome': False}
-    category_orders = {'Candidate': ['Biden','Trump']}
-    color_discrete_sequence = ['Blue','Red']
+    base_fig_title = 'Losers Under Winner-Take-All Electoral College System in 2020'
+    # custom_data enables dynamic variable substitution in hovertemplates for static frames
+    custom_data = ['State', 'Popular Vote', 'EC Votes for Candidate']
 
     # init figure with core properties
-    fig = px.bar(data_obj.swallowed_vote_df, x="Popular Vote", y="State: Candidate", 
-                color='Candidate', hover_data=hover_data, width=1000, height=800,
-                category_orders=category_orders, color_discrete_sequence=color_discrete_sequence)
+    fig = px.bar(data_obj.swallowed_vote_df, x='Popular Vote', y='State: Candidate', 
+                color=color_col, title=base_fig_title, custom_data=custom_data, 
+                category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                width=fig_width, height=fig_height)
 
-    fig.update_layout(yaxis_categoryorder='total ascending')
+    # axis metadata 
     fig.update_xaxes(range=[0,10000000])
+    fig.update_yaxes(title_text='')
+    fig.update_layout(yaxis_categoryorder='total ascending')
 
     # center title
     fig.update_layout(title_x=0.5)
 
-    return fig
-    
-
-def build_swallowed_vote_fig_2(data_obj):
-    # display metadata
-    hover_data = {'State': True, 'Candidate': True, 'EC Votes for Candidate': True, 'State: Candidate': False, 
-                'Candidate: Outcome': False}
-    category_orders = {'Candidate: Outcome': ['Biden: Win','Trump: Win','Biden: Loss','Trump: Loss']}
-    color_discrete_sequence = ['Blue','Red','Gray','Gray']
-
-    # init figure with core properties
-    fig = px.bar(data_obj.swallowed_vote_df, x="Popular Vote", y="State: Candidate", 
-                color='Candidate: Outcome', hover_data=hover_data, width=1000, height=800,
-                category_orders=category_orders, color_discrete_sequence=color_discrete_sequence)
-
-    fig.update_layout(yaxis_categoryorder='total ascending')
-    fig.update_xaxes(range=[0,10000000])
-
-    # center title
-    fig.update_layout(title_x=0.5)
+    # hovertemplate formatting and variable substitution using customdata
+    fig.update_traces(
+        hovertemplate="<br>".join([
+            "<b>%{y}</b><br>",
+            "Popular vote for candidate: <b>%{customdata[1]:,}</b>",
+            "Electoral College votes for candidate: <b>%{customdata[2]}</b>",
+        ])
+    )
 
     return fig
 
 
-def build_swallowed_vote_fig_3(data_obj):
+def build_swallowed_vote_relative_bar(data_obj, fig_width=None):
+    if not fig_width:
+        fig_width = fig_dims.MD6
+    fig_height = fig_dims.crt(fig_width)
+
     # display metadata
-    hover_data = {'State': True, 'Candidate': True, 'EC Votes for Candidate': True, 'State: Candidate': False, 
-                'Candidate: Outcome': False}
-    category_orders = {'Candidate: Outcome': ['Biden: Win','Trump: Win','Biden: Loss','Trump: Loss']}
-    color_discrete_sequence = ['Blue','Red','Gray','Gray']
+    base_fig_title = 'Losers Under Winner-Take-All Electoral College System in 2020'
+    # custom_data enables dynamic variable substitution in hovertemplates for static frames
+    custom_data = ['Candidate: Pop Vote', 'Popular Vote', 'EC Votes for Candidate']
+    # bar and legend metadata
+    category_orders = {'Candidate: Outcome': ['Biden: Win', 'Trump: Win', 'Biden: Loss', 'Trump: Loss']}
+    color_discrete_sequence = ['Blue', 'Red', 'Gray', 'Gray']
 
     # init figure with core properties
-    fig = px.bar(data_obj.swallowed_vote_df, x="Popular Vote", y="State", 
-                color='Candidate: Outcome', barmode='relative', hover_data=hover_data, width=1000, height=800,
-                category_orders=category_orders, color_discrete_sequence=color_discrete_sequence)
+    fig = px.bar(data_obj.swallowed_vote_df, x='Popular Vote', y='State', color='Candidate: Outcome', 
+                title=base_fig_title, custom_data=custom_data, barmode='relative', 
+                category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                width=fig_width, height=fig_height)
 
     fig.update_layout(yaxis_categoryorder='total ascending')
     fig.update_xaxes(range=[0,18000000])
@@ -287,26 +299,53 @@ def build_swallowed_vote_fig_3(data_obj):
     # center title
     fig.update_layout(title_x=0.5)
 
+    # hovertemplate formatting and variable substitution using customdata
+    fig.update_traces(
+        hovertemplate="<br>".join([
+            "<b>%{y} for %{customdata[0]}</b><br>",
+            "Popular vote for candidate: <b>%{customdata[1]:,}</b>",
+            "Electoral College votes for candidate: <b>%{customdata[2]}</b>",
+        ])
+    )
+
     return fig
 
 
-def build_swallowed_vote_fig_4(data_obj):
+def build_swallowed_vote_ec_bar(data_obj, fig_width=None):
+    if not fig_width:
+        fig_width = fig_dims.MD6
+    fig_height = fig_dims.crt(fig_width)
+
     distilled_svs = data_obj.swallowed_vote_df.sort_values('EC Votes for Candidate', ascending=False)
     distilled_svs = distilled_svs[distilled_svs['EC Votes for Candidate'] != 0]
     
     # display metadata
-    hover_data = {'State': True, 'EC Votes for Candidate': True, 'State: Candidate': False}
-    category_orders = {'Candidate': ['Biden','Trump']}
-    color_discrete_sequence = ['Blue','Red']
+    base_fig_title = 'Losers Under Winner-Take-All Electoral College System in 2020'
+    # custom_data enables dynamic variable substitution in hovertemplates for static frames
+    custom_data = ['Candidate: Pop Vote', 'Popular Vote']
+    # bar and legend metadata
+    category_orders = {'Candidate: Pop Vote': ['Biden', 'Trump']}
+    color_discrete_sequence = ['Blue', 'Red']
 
     # init figure with core properties
-    fig = px.bar(distilled_svs, x="EC Votes for Candidate", y="State", 
-                color='Candidate', hover_data=hover_data, width=1000, height=800,
-                category_orders=category_orders, color_discrete_sequence=color_discrete_sequence)
+    fig = px.bar(distilled_svs, x='EC Votes for Candidate', y='State', 
+                color='Candidate: Pop Vote', title=base_fig_title, custom_data=custom_data, 
+                category_orders=category_orders, color_discrete_sequence=color_discrete_sequence,
+                width=fig_width, height=fig_height)
 
     fig.update_layout(yaxis_categoryorder='total ascending')
 
     # center title
     fig.update_layout(title_x=0.5)
 
+    # hovertemplate formatting and variable substitution using customdata
+    fig.update_traces(
+        hovertemplate="<br>".join([
+            "<b>%{y} for %{customdata[0]}</b><br>",
+            "Popular vote for candidate: <b>%{customdata[1]:,}</b>",
+            "Electoral College votes for candidate: <b>%{x}</b>",
+        ])
+    )
+
     return fig
+    

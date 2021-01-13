@@ -40,6 +40,7 @@ def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame, fi
                 color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
                 width=fig_width, height=fig_height, log_y=True)
 
+    # axis metadata
     fig.update_xaxes(title_text='')
     fig.update_yaxes(title_text=y_axis_title)
 

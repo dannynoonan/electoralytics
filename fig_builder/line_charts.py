@@ -117,17 +117,15 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
     for i in range(len(fig.data)):
         fig.data[i].update(mode='markers+lines')
 
-    # axis labels, ranges, ticklabels, and grid color
-    fig.update_xaxes(title_text=x_axis_title)
-    fig.update_yaxes(title_text=y_axis_title)
+    # axis metadata
+    fig.update_xaxes(title_text=x_axis_title, gridcolor=GRID_COLOR)
+    fig.update_yaxes(title_text=y_axis_title, gridcolor=GRID_COLOR)
     # have x axis ticks every 20 years from YEAR_0-YEAR_N, inclusive of YEAR_N
     tick_span = 20
     x_axis_ticks = dict(tickmode='array', tickvals=[x for x in range(YEAR_0, YEAR_N+tick_span, tick_span)])
     fig.update_layout(xaxis_range=[YEAR_0, YEAR_N], yaxis_range=[avg_weight_min, avg_weight_max], plot_bgcolor='white', xaxis=x_axis_ticks)
     if trace_count <= TRACE_MAX_FOR_HOVERMODE_X:
         fig.update_layout(hovermode="x")
-    fig.update_xaxes(gridcolor=GRID_COLOR)
-    fig.update_yaxes(gridcolor=GRID_COLOR)
 
     shapes = []
     # if display_events, add markers and labels designating events 
@@ -143,7 +141,7 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
     # center title
     fig.update_layout(title_x=0.5)
 
-    # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
+    # hovertemplate formatting and variable substitution using customdata
     # if trace_count < TRACE_MAX_FOR_EXPANDED_HOVERDATA <= TRACE_MAX_FOR_HOVERMODE_X:
     if trace_count <= TRACE_MAX_FOR_EXPANDED_HOVERDATA or trace_count > TRACE_MAX_FOR_HOVERMODE_X:
         fig.update_traces(
@@ -206,29 +204,25 @@ def build_total_vote_line_chart(data_obj, fig_width=None, log_y=False,):
     for i in range(len(fig.data)):
         fig.data[i].update(mode='markers+lines')
 
-    # axis labels
-    fig.update_xaxes(title_text=x_axis_title)
-    fig.update_yaxes(title_text=y_axis_title)
-
     # build markers and labels marking events 
     event_markers = build_and_annotate_event_markers(fig, EVENTS, vote_pct_min, vote_pct_max, y_min2=orig_vote_pct_min, y_max2=orig_vote_pct_max)
     # build shaded blocks designating eras
     era_blocks = build_and_annotate_era_blocks(fig, ERAS, x_min, orig_vote_pct_min, orig_vote_pct_max, y_max2=vote_pct_max)
     shapes = event_markers + era_blocks
 
+    # axis metadata
+    fig.update_xaxes(title_text=x_axis_title, gridcolor=GRID_COLOR)
+    fig.update_yaxes(title_text=y_axis_title, gridcolor=GRID_COLOR)
     # have x axis ticks every 20 years from YEAR_0-YEAR_N, inclusive of YEAR_N
     tick_span = 20
     x_axis_ticks = dict(tickmode='array', tickvals=[x for x in range(YEAR_0, YEAR_N+tick_span, tick_span)])
-
-    # update layout and axes 
     fig.update_layout(xaxis_range=[x_min, YEAR_N], yaxis_range=[vote_pct_min, vote_pct_max], xaxis=x_axis_ticks,
                     plot_bgcolor='white', shapes=shapes)
-    fig.update_xaxes(gridcolor=GRID_COLOR)
-    fig.update_yaxes(gridcolor=GRID_COLOR)
-
+    
     # center title
     fig.update_layout(title_x=0.5)
 
+    # hovertemplate formatting and variable substitution using customdata
     # hover text format solution from https://stackoverflow.com/questions/59057881/python-plotly-how-to-customize-hover-template-on-with-what-information-to-show
     # TODO where are x, y, and customdata actually defined, in fig? I'd like to avoid these redundant key-value mappings and use an f-string for this but not sure how
     fig.update_traces(
