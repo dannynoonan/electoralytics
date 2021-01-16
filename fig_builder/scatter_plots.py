@@ -30,8 +30,8 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
     pivot_on_year_df.fillna(-1, inplace=True)
 
     # display metadata common to (or that doesn't interfere with) all display types
-    base_fig_title = 'Impact Per Voter Per State'
-    y_axis_title = 'Electoral College votes per state'
+    base_fig_title = 'Voter Weight Per State'
+    y_axis_title = 'Electoral College Votes Per State'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.STATE, cols.VOTES_COUNTED, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM]
     # hover_data is the fallback plan for animations where custom_data doesn't work
@@ -48,7 +48,7 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
     if frame:
         # for static years, x axis is popular vote counted
         x_axis_col = cols.VOTES_COUNTED
-        x_axis_title = 'Popular votes counted per state'
+        x_axis_title = 'Popular Vote Per State'
         x_max = round(pivot_on_year_df[cols.VOTES_COUNTED].max() * 1.05)
         # for static years, x_mean_line_max is max EC * population per EC vote 
         totals_by_year_df = data_obj.totals_by_year_df.copy()
@@ -61,7 +61,7 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
     else:
         # for animations, x axis is EC votes normalized - this keeps amplitude of 'reference mean' trace constant
         x_axis_col = cols.EC_VOTES_NORM
-        x_axis_title = 'State EC votes if adjusted for popular vote turnout' 
+        x_axis_title = 'State EC Votes if Adjusted for Popular Vote' 
         x_max = round(pivot_on_year_df[cols.EC_VOTES_NORM].max())
         # for animations, x_mean_line_max is same max EC Votes
         x_mean_line_max = ec_max
@@ -122,13 +122,13 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
     fig.update_traces(
         hovertemplate = "<br>".join([
             "<b>%{customdata[0]}</b><br>",
-            "Electoral College votes: <b>%{y}</b>",
-            "Popular vote: <b>%{customdata[1]:,}</b>",
-            "Impact per voter: <b>%{customdata[2]}</b>",
-            "Population per EC vote: <b>%{customdata[3]:,}</b>",
-            "<br><b>Normalized to nat'l average:</b>",
-            "%{customdata[1]:,} pop votes => %{customdata[5]:.2f} EC votes",
-            "%{y} EC votes => %{customdata[4]:,} pop votes",
+            "Electoral College Votes: <b>%{y}</b>",
+            "Popular Vote: <b>%{customdata[1]:,}</b>",
+            "Voter Weight: <b>%{customdata[2]}</b>",
+            "Popular Vote Per Elector: <b>%{customdata[3]:,}</b>",
+            "<br><b>Normalized to Nat'l Average:</b>",
+            "%{customdata[1]:,} Pop Votes => %{customdata[5]:.2f} EC Votes",
+            "%{y} EC Votes => %{customdata[4]:,} Pop Votes",
         ])
     )
 
@@ -158,8 +158,8 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
     norm_max = round(group_aggs_by_year_df[cols.EC_VOTES_NORM].max() * 1.05)
 
     # display metadata common to (or that doesn't interfere with) all display types
-    base_fig_title = 'Average Impact Per Voter Per State Group'
-    y_axis_title = 'Electoral College votes per state group'
+    base_fig_title = 'Average Voter Weight Per State Group'
+    y_axis_title = 'Electoral College Votes Per State Group'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.GROUP, cols.VOTES_COUNTED, cols.AVG_WEIGHT, cols.POP_PER_EC, cols.STATE_COUNT, cols.STATES_IN_GROUP, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM]
     # hover_data is the fallback plan for animations where custom_data doesn't work
@@ -173,7 +173,7 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
     if frame:
         # for static years, x axis is popular vote counted
         x_axis_col = cols.VOTES_COUNTED
-        x_axis_title = 'Popular votes counted per state group'
+        x_axis_title = 'Aggregate Popular Vote Per State Group'
         x_max = round(group_aggs_by_year_df[cols.VOTES_COUNTED].max() * 1.05)
         # for static years, x_mean_line_max is max EC * population per EC vote 
         totals_by_year_df = data_obj.totals_by_year_df.copy()
@@ -186,7 +186,7 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
     else:
         # for animations, x axis is EC votes normalized - this keeps amplitude of 'reference mean' trace constant
         x_axis_col = cols.EC_VOTES_NORM
-        x_axis_title = 'EC votes if adjusted for popular vote turnout' 
+        x_axis_title = 'EC Votes if Adjusted for Popular Vote' 
         x_max = round(group_aggs_by_year_df[cols.EC_VOTES_NORM].max())
         # for animations, x_mean_line_max is max EC Votes
         x_mean_line_max = ec_max
@@ -227,14 +227,14 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
     fig.update_traces(
         hovertemplate="<br>".join([
             "<b>%{customdata[0]}</b>",
-            "%{customdata[4]} states: %{customdata[5]}<br>",
-            "Aggregate Electoral College votes: <b>%{y}</b>",
-            "Aggregate popular vote: <b>%{customdata[1]:,}</b>",
-            "Average impact per voter: <b>%{customdata[2]:.2f}</b>",
-            "Average population per EC vote: <b>%{customdata[3]:,}</b>",
-            "<br><b>Normalized to nat'l average:</b>",
-            "%{customdata[1]:,} pop votes => %{customdata[7]} EC votes",
-            "%{y} EC votes => %{customdata[6]:,} pop votes",
+            "%{customdata[4]} States: %{customdata[5]}<br>",
+            "Aggregate EC Votes: <b>%{y}</b>",
+            "Aggregate Popular Vote: <b>%{customdata[1]:,}</b>",
+            "Average Voter Weight: <b>%{customdata[2]:.2f}</b>",
+            "Average Pop Vote Per Elector: <b>%{customdata[3]:,}</b>",
+            "<br><b>Normalized to Nat'l Average:</b>",
+            "%{customdata[1]:,} Pop Votes => %{customdata[7]} EC Votes",
+            "%{y} EC Votes => %{customdata[6]:,} Pop Votes",
         ])
     )
 
@@ -261,9 +261,9 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
     weight_max = pivot_on_year_df[cols.VOTE_WEIGHT].max()
 
     # display metadata common to (or that doesn't interfere with) all display types
-    base_fig_title = 'Impact Per Voter Per State'
-    x_axis_title = 'Electoral College votes per state'
-    y_axis_title = 'Impact per voter per state (log)'
+    base_fig_title = 'Voter Weight Per State'
+    x_axis_title = 'Electoral College Votes per State'
+    y_axis_title = 'Voter Weight Per State (log)'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.STATE, cols.VOTES_COUNTED, cols.POP_PER_EC, cols.VOTES_COUNTED_PCT, cols.EC_VOTES_NORM, cols.VOTES_COUNTED_NORM]
     # hover_data is the fallback plan for animations where custom_data doesn't work
@@ -312,14 +312,14 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
     fig.update_traces(
         hovertemplate="<br>".join([
             "<b>%{customdata[0]}</b><br>",
-            "Electoral College votes: <b>%{x}</b>",
-            "Popular vote: <b>%{customdata[1]:,}</b>",
-            "Impact per voter: <b>%{y:.2f}</b>",
-            "Population per EC vote: <b>%{customdata[2]:,}</b>",
-            "Pop vote as % of nat'l vote: <b>%{customdata[3]:.2f}%</b>",
-            "<br><b>Normalized to nat'l average:</b>",
-            "%{customdata[1]:,} pop votes => %{customdata[4]:.2f} EC votes",
-            "%{x} EC votes => %{customdata[5]:,} pop votes",
+            "Electoral College Votes: <b>%{x}</b>",
+            "Popular Vote: <b>%{customdata[1]:,}</b>",
+            "Voter Weight: <b>%{y:.2f}</b>",
+            "Popular Vote Per Elector: <b>%{customdata[2]:,}</b>",
+            "Pop Vote as % of Nat'l Vote: <b>%{customdata[3]:.2f}%</b>",
+            "<br><b>Normalized to Nat'l Average:</b>",
+            "%{customdata[1]:,} Pop Votes => %{customdata[4]:.2f} EC Votes",
+            "%{x} EC Votes => %{customdata[5]:,} Pop Votes",
         ])
     )
 
@@ -349,11 +349,12 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fi
     weight_max = group_aggs_by_year_df[cols.AVG_WEIGHT].max() * 1.1
 
     # display metadata common to (or that doesn't interfere with) all display types
-    base_fig_title = 'Average Impact Per Voter Per State Group'
-    x_axis_title = 'Electoral College votes per state group'
-    y_axis_title = 'Impact per voter per state group (log)'
+    base_fig_title = 'Average Voter Weight Per State Group'
+    x_axis_title = 'Electoral College Votes Per State Group'
+    y_axis_title = 'Voter Weight Per State Group (log)'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
-    custom_data = [cols.GROUP, cols.VOTES_COUNTED, cols.POP_PER_EC, cols.STATE_COUNT, cols.STATES_IN_GROUP, cols.EC_VOTES_NORM, cols.VOTES_COUNTED_NORM]
+    custom_data = [cols.GROUP, cols.VOTES_COUNTED, cols.POP_PER_EC, cols.VOTES_COUNTED_PCT, cols.STATE_COUNT, cols.STATES_IN_GROUP, 
+                cols.EC_VOTES_NORM, cols.VOTES_COUNTED_NORM]
     # hover_data is the fallback plan for animations where custom_data doesn't work
     # hack to work around lack of control in animation hover_data: copy EC_VOTES_NORM to new field, hide EC_VOTES_NORM, and add copy in desired sequence
     col_votes_counted_pct_copy = "Pop vote as % of nat'l vote"
@@ -400,14 +401,15 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fi
     fig.update_traces(
         hovertemplate="<br>".join([
             "<b>%{customdata[0]}</b>",
-            "%{customdata[3]} states: %{customdata[4]}<br>",
-            "Aggregate Electoral College votes: <b>%{x}</b>",
-            "Aggregate popular vote: <b>%{customdata[1]:,}</b>",
-            "Average impact per voter: <b>%{y:.2f}</b>",
-            "Average population per EC vote: <b>%{customdata[2]:,}</b>",
-            "<br><b>Normalized to nat'l average:</b>",
-            "%{customdata[1]:,} pop votes => %{customdata[5]:.2f} EC votes",
-            "%{x} EC votes => %{customdata[6]:,} pop votes",
+            "%{customdata[4]} States: %{customdata[5]}<br>",
+            "Aggregate EC Votes: <b>%{x}</b>",
+            "Aggregate Popular Vote: <b>%{customdata[1]:,}</b>",
+            "Average Voter Weight: <b>%{y:.2f}</b>",
+            "Average Pop Vote Per Elector: <b>%{customdata[2]:,}</b>",
+            "Pop Vote as % of Nat'l Vote: <b>%{customdata[3]:.2f}%</b>",
+            "<br><b>Normalized to Nat'l Average:</b>",
+            "%{customdata[1]:,} Pop Votes => %{customdata[6]:.2f} EC Votes",
+            "%{x} EC Votes => %{customdata[7]:,} Pop Votes",
         ])
     )
 

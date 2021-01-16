@@ -56,7 +56,7 @@ class DataObject():
             small_col_name = DATA_DIR_TO_SMALL_GROUP_LABELS[small_subdir]
             df.loc[df[cols.GROUP] == 'Small', cols.GROUP] = small_col_name
         # df.rename(columns={cols.POP_PER_EC: cols.POP_PER_EC_SHORT}, inplace=True)
-        # generate Vote Weight (log) column, workaround to choropleth lacking log color scale option
+        # generate Voter Weight (log) column, workaround to choropleth lacking log color scale option
         df[cols.LOG_VOTE_WEIGHT] = np.log2(df[cols.VOTE_WEIGHT])
 
         # extract valid election years (for request validation)
@@ -95,13 +95,13 @@ class DataObject():
         # melt EC votes and EC votes normalized into the same column to create melted_ec_votes_pivot_dfs
         col_names = self.state_vote_weights_pivot_dfs[subdir].columns.values
         ec_mod_df = self.state_vote_weights_pivot_dfs[subdir].copy()
-        ec_mod_df['EC votes: Actual'] = ec_mod_df[cols.EC_VOTES]
-        ec_mod_df['ECV: Adjusted for turnout'] = ec_mod_df[cols.EC_VOTES_NORM]
+        ec_mod_df['EC Votes: Actual'] = ec_mod_df[cols.EC_VOTES]
+        ec_mod_df['ECV: Adjusted for Turnout'] = ec_mod_df[cols.EC_VOTES_NORM]
         melted_ec_votes_pivot_df = pd.melt(
             ec_mod_df, 
             id_vars=col_names,
-            var_name='Actual vs Adjusted EC votes*',
-            value_name='EC votes*'
+            var_name='Actual vs Adjusted EC Votes*',
+            value_name='EC Votes*'
         )
         # assign df to melted_ec_votes_pivot_dfs at subdir 
         self.melted_ec_votes_pivot_dfs[subdir] = melted_ec_votes_pivot_df
@@ -109,13 +109,13 @@ class DataObject():
         # melt Vote count and Vote count normalized into the same column to create melted_vote_count_pivot_dfs
         col_names = self.state_vote_weights_pivot_dfs[subdir].columns.values
         vc_mod_df = self.state_vote_weights_pivot_dfs[subdir].copy()
-        vc_mod_df['Popular vote: Actual'] = vc_mod_df[cols.VOTES_COUNTED]
-        vc_mod_df['Pop vote: Adjusted for voter impact'] = vc_mod_df[cols.VOTES_COUNTED_NORM]
+        vc_mod_df['Popular Vote: Actual'] = vc_mod_df[cols.VOTES_COUNTED]
+        vc_mod_df['Pop Vote: Adjusted for Voter Weight'] = vc_mod_df[cols.VOTES_COUNTED_NORM]
         melted_vote_count_pivot_df = pd.melt(
             vc_mod_df, 
             id_vars=col_names,
             var_name='Actual vs Adjusted Popular Vote*',
-            value_name='Vote count*'
+            value_name='Popular Vote*'
             # var_name='Actual vs Adjusted Vote count*',
             # value_name='Vote count*'
         )

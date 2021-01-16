@@ -48,8 +48,8 @@ navbar = html.Div([
     html.H1('Electoralytics - Visualizing Historical Presidential Election Data', id="nav-pills"),
     dbc.Nav(className="nav nav-pills", children=[
         dbc.DropdownMenu(label="Pages / Graphs", nav=True, children=[
-            dbc.DropdownMenuItem([html.I(className="fa"), "Comparing Voter Impact Per State - Overview"], href='/voter-impact-comparison-overview', target="_blank"), 
-            dbc.DropdownMenuItem([html.I(className="fa"), "Comparing Voter Impact Per State - Details"], href='/voter-impact-comparison-details', target="_blank"), 
+            dbc.DropdownMenuItem([html.I(className="fa"), "Comparing Voter Weight Per State - Overview"], href='/voter-weight-comparison-overview', target="_blank"), 
+            dbc.DropdownMenuItem([html.I(className="fa"), "Comparing Voter Weight Per State - Details"], href='/voter-weight-comparison-details', target="_blank"), 
             dbc.DropdownMenuItem([html.I(className="fa"), "Voter Participation Over Time"], href='/voter-participation', target="_blank"), 
             dbc.DropdownMenuItem([html.I(className="fa"), "Explanation of State Aggregate Groupings"], href='/explanation-of-groupings', target="_blank"), 
             dbc.DropdownMenuItem([html.I(className="fa"), "Sampler of Swallowed Votes"], href='/swallowed-vote-sampler', target="_blank"),
@@ -302,11 +302,11 @@ groupings_explanation_dropdown = dbc.FormGroup([
 
 
 ### LAYOUTS ###
-voter_impact_comparison_overview = html.Div([
+voter_weight_comparison_overview = html.Div([
     navbar,
     html.Br(),
     dbc.Row([
-        html.H2("Impact Per Voter Per State/Group Over Time"),
+        html.H2("Voter Weight Per State/Group Over Time"),
     ], justify="center", align="center"),
     dbc.Row([
         dbc.Col(md=12, children=[
@@ -323,13 +323,11 @@ voter_impact_comparison_overview = html.Div([
 ])
 
 
-voter_impact_comparison_details = html.Div([
+voter_weight_comparison_details = html.Div([
     navbar,
     html.Br(),
     dbc.Row([
-        # html.H3("Comparing Individual Voter Impact Per State"),
-        # html.H3("Comparing Vote Weight Per Ballot Cast Per State"),
-        html.H3("Comparing Vote Weight Per Ballot Cast (Per State/Per Grouping)"),
+        html.H3("Comparing Voter Weight Per State/Per Grouping"),
     ], justify="center", align="center"),
     dbc.Row([
         dbc.Col(md=12, children=[
@@ -339,8 +337,6 @@ voter_impact_comparison_details = html.Div([
     ]),
     dbc.Row([
         dbc.Col(md=12, children=[
-            # dbc.Col(html.H4("Inter-State Voter Impact Comparison"), width={"size": 6, "offset": 3}), 
-            # html.Br(),
             dbc.Tabs(className="nav nav-pills", children=[
                 dbc.Tab(label="Maps and Bar Charts", tab_style={"font-size": "20px"}, children=[
                     dbc.Row([
@@ -511,22 +507,26 @@ swallowed_vote_sampler = html.Div([
     ## Top
     navbar,
     html.Br(),html.Br(),
-
+    dbc.Row([
+        html.H3("2020 Sampler of Votes 'Swallowed' by the Electoral College"),
+    ], justify="center", align="center"),
+    html.Br(),
     dbc.Row([
         ### input + panel
-        dbc.Col(md=3, children=[
+        dbc.Col(md=2, children=[
             swallowed_vote_view_dropdown,
             html.Br(),html.Br(),html.Br(),
             html.Div(id="todo")
         ]),
         ### figures
-        dbc.Col(md=9, children=[
-            dbc.Col(html.H4("2020 sampler of votes 'flipped' by the Electoral College"), width={"size": 6, "offset": 3}), 
+        dbc.Col(md=10, children=[ 
+            # html.H4("2020 Sampler of Votes 'Swallowed' by the Electoral College"),
+            # html.Br(),
             dbc.Tabs(className="nav nav-pills", children=[
-                dbc.Tab(dcc.Graph(id="swallowed-vote-sampler-1"), label="Raw popular vote"),
-                dbc.Tab(dcc.Graph(id="swallowed-vote-sampler-2"), label="Muted popular vote"),
-                dbc.Tab(dcc.Graph(id="swallowed-vote-sampler-3"), label="Stacked popular vote"),
-                dbc.Tab(dcc.Graph(id="swallowed-vote-sampler-4"), label="Converted to EC vote"),
+                dbc.Tab(dcc.Graph(id="swallowed-vote-sampler-1"), label="Raw Popular Vote"),
+                dbc.Tab(dcc.Graph(id="swallowed-vote-sampler-2"), label="Muted Popular Vote"),
+                dbc.Tab(dcc.Graph(id="swallowed-vote-sampler-3"), label="Stacked Popular Vote"),
+                dbc.Tab(dcc.Graph(id="swallowed-vote-sampler-4"), label="Converted to EC Vote"),
             ])
         ])
     ]),
@@ -549,8 +549,8 @@ app.validation_layout = dbc.Container(fluid=True, children=[
     url_bar_and_content_div,
 
     ## Body
-    voter_impact_comparison_overview,
-    voter_impact_comparison_details,
+    voter_weight_comparison_overview,
+    voter_weight_comparison_details,
     voter_participation,
     explanation_of_groupings,
     swallowed_vote_sampler,
@@ -563,10 +563,10 @@ app.validation_layout = dbc.Container(fluid=True, children=[
 @app.callback(Output('page-content', 'children'),
               Input('url', 'pathname'))
 def display_page(pathname):
-    if pathname == "/voter-impact-comparison-overview":
-        return voter_impact_comparison_overview
-    elif pathname == "/voter-impact-comparison-details":
-        return voter_impact_comparison_details
+    if pathname == "/voter-weight-comparison-overview":
+        return voter_weight_comparison_overview
+    elif pathname == "/voter-weight-comparison-details":
+        return voter_weight_comparison_details
     elif pathname == "/voter-participation":
         return voter_participation
     elif pathname == "/explanation-of-groupings":
@@ -577,7 +577,7 @@ def display_page(pathname):
         return empty_layout
 
 
-# voter-impact-comparison-overview callbacks
+# voter-weight-comparison-overview callbacks
 @app.callback(
     Output('fig-line-vote-weight-by-state-group', 'figure'),
     Input('groupings-input', 'value'),
@@ -586,8 +586,7 @@ def display_page(pathname):
     Input('y-axis-input', 'value'),
     [Input('show-hide-input', 'value')],
 )
-def display_voter_impact_comparison_overview(groupings_input, max_small_input, state_abbrevs, y_axis_input, show_hide_input):
-    print(f"#### in display_voter_impact_comparison_overview")
+def display_voter_weight_comparison_overview(groupings_input, max_small_input, state_abbrevs, y_axis_input, show_hide_input):
     # process input
     max_small = int(max_small_input)
     if y_axis_input == 'log':
@@ -617,7 +616,7 @@ def display_voter_impact_comparison_overview(groupings_input, max_small_input, s
         display_groups=show_groups, display_events=show_events, display_eras=show_eras)
     return fig_line_ivw_by_state_group
 
-# voter-impact-comparison-overview callbacks, tab 1 cont'd: clear-all-input
+# voter-weight-comparison-overview callbacks, tab 1 cont'd: clear-all-input
 @app.callback(
     Output('multi-state-input', 'value'),
     [Input('clear-all-input', 'n_clicks')],
@@ -637,7 +636,7 @@ def update2(n_clicks):
         return ['show_groups','show_events','show_eras']
 
 
-# voter-impact-comparison-details callbacks, tab 1
+# voter-weight-comparison-details callbacks, tab 1
 @app.callback(
     Output('fig-map-color-by-state-vw', 'figure'),
     Output('fig-bar-state-vw-color-by-vw', 'figure'),
@@ -650,7 +649,6 @@ def update2(n_clicks):
     Input('max-small-input', 'value'),
 )
 def display_state_level_figs(year_input, groupings_input, max_small_input):
-    print(f"#### in display_state_level_figs")
     # process input
     year = int(year_input)
     max_small = int(max_small_input)
@@ -664,7 +662,7 @@ def display_state_level_figs(year_input, groupings_input, max_small_input):
     return fig_map_color_by_state_vw, fig_bar_state_vw_color_by_vw, fig_map_color_by_group, fig_bar_state_vw_color_by_group, fig_bar_actual_vs_adj_ec, fig_bar_actual_vs_adj_vw
 
 
-# voter-impact-comparison-details callbacks, tab 2
+# voter-weight-comparison-details callbacks, tab 2
 @app.callback(
     Output('fig-scatter-dots-vw-state', 'figure'),
     Output('fig-scatter-dots-vw-group', 'figure'),
@@ -693,7 +691,7 @@ def display_regional_aggregate_figs(year_input, groupings_input, max_small_input
         fig_scatter_abbrevs_vw_state, fig_box_vw_group)
 
 
-# voter-impact-comparison-details callbacks, tab 3
+# voter-weight-comparison-details callbacks, tab 3
 # @app.callback(
 #     Output('vote-weight-comparison-by-state-map-1-anim', 'figure'),
 #     Output('vote-weight-comparison-by-state-scatter-dots-anim', 'figure'),
@@ -714,7 +712,7 @@ def display_regional_aggregate_figs(year_input, groupings_input, max_small_input
 #     return anim_map_1, anim_scatter_dots, anim_scatter_abbrevs, anim_scatter_bubbles
 
 
-# voter-impact-comparison-details callbacks, tab 4
+# voter-weight-comparison-details callbacks, tab 4
 # @app.callback(
 #     Output('vote-weight-comparison-by-state-group-map-1-anim', 'figure'),
 #     Output('vote-weight-comparison-by-state-group-scatter-dots-anim', 'figure'),

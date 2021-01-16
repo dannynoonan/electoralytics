@@ -23,7 +23,6 @@ class DataFiles():
         self.STATE_VOTE_WEIGHTS_PIVOT = 'stateVoteWeightsPivot.csv'
         self.STATE_SWING_WEIGHTS_PIVOT = 'stateSwingWeightsPivot.csv'
         self.GROUP_AGG_WEIGHTS_PIVOT = 'groupAggWeightsPivot.csv'
-        # self.AVG_WEIGHT_BY_YEAR = 'avgWeightByYear.csv'
 
 
 # columns in data files
@@ -204,9 +203,11 @@ EVENTS = [
     {'year': 1877, 'name': 'Compromise of 1877', 'desc': 'Federal troops leave South, \'Redeemer\' govts take power'},
     {'year': 1883, 'name': 'United States v. Stanley', 'desc': 'Civil Rights Act of 1875 deemed unconstitutional'},
     # {'year': 1887, 'name': 'Dawes Act', 'desc': 'Suffrage to Native Americans who leave tribes'},
-    {'year': 1890, 'name': '\'Mississippi Plan\' begins', 'desc': 'Southern states rewrite voting laws in constitutions'},
+    {'year': 1890, 'name': '\'Mississippi Plan\' begins', 'desc': 'Voting laws rewritten in Southern state constitutions'},
     {'year': 1896, 'name': 'Plessy v Ferguson:', 'desc': '\'Separate but equal\' segregation is law of the land'},
     # {'year': 1890, 'name': '\'Mississippi Plan\' concludes', 'desc': 'Georgia is final Southern state to rewrite constitution'},
+    {'year': 1903, 'name': 'Giles v Harris', 'desc': 'Alabama constitution\'s discriminatory voting requirements upheld'},
+    # {'year': 1909, 'name': 'NAACP founded'},
     # {'year': 1912, 'name': 'First Internat\'l Eugenics Conference', 'desc': 'Internat\'l Federation of Eugenics Orgs founded'},
     # {'year': 1915, 'name': 'Second KKK reborn in Georgia'},
     {'year': 1920, 'name': '19th Amendment', 'desc': 'Women\'s suffrage'},

@@ -13,24 +13,22 @@ fig_dims = FigDimensions()
 
 
 def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_width=None, frame=None, base_fig_title=None):
-    print(f"in build_ivw_by_state_map, groups_dir {groups_dir}, max_small {max_small}")
-
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
     groups = GROUPS_FOR_DIR[groups_dir]
 
-    # if frame is set, extract single-year data
-    if frame:
-        pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame]
-
     if not fig_width:
         fig_width = fig_dims.MD6
     fig_height = fig_dims.crt(fig_width)
 
+    # if frame is set, extract single-year data
+    if frame:
+        pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame]
+
     # display metadata common to (or that doesn't interfere with) all display types
     if not base_fig_title:
-        base_fig_title = 'Impact Per Voter Per State'
+        base_fig_title = 'Voter Weight Per State'
     # base_fig_title = 'Vote Weight Per Person Per State'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.STATE, cols.GROUP, cols.YEAR, cols.VOTES_COUNTED, cols.EC_VOTES, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.EC_VOTES_NORM, 
@@ -60,11 +58,13 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_wid
         linear_vals = [float(x) for x in colorbar_labels]
         log_vals = [math.log(t, 2) for t in linear_vals]
         fig.update_layout(
-            coloraxis_colorbar=dict(tickvals=log_vals, ticktext=colorbar_labels, title='IPV (log)'))
+            coloraxis_colorbar=dict(tickvals=log_vals, ticktext=colorbar_labels, title='VW (log)'))
 
     elif color_field == cols.GROUP:
+        # while I would prefer the NaNs to declare themselves as such, they don't render nicely as customdata params in hovertemplates
+        pivot_on_year_df.fillna(-1, inplace=True)
         # init figure where state is determined by its state group
-        fig = px.choropleth(pivot_on_year_df, locations=cols.ABBREV, color=cols.GROUP, title=fig_title,
+        fig = px.choropleth(pivot_on_year_df, locations=cols.ABBREV, color=color_field, title=fig_title,
                             locationmode='USA-states', scope="usa", custom_data=custom_data,
                             hover_name=cols.STATE, hover_data=hover_data, animation_frame=cols.YEAR, animation_group=cols.GROUP, # ignored if df is for single year
                             color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
@@ -81,14 +81,14 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_wid
     fig.update_traces(
         hovertemplate="<br>".join([
             "<b>%{customdata[0]}</b> (%{customdata[2]})<br>",
-            "Popular vote: <b>%{customdata[3]:,}</b>",
-            "Electoral College votes: <b>%{customdata[4]}</b>",
-            "Impact per voter: <b>%{customdata[5]:.2f}</b>",
-            "Population per EC vote: <b>%{customdata[6]:,}</b>",
+            "Popular Vote: <b>%{customdata[3]:,}</b>",
+            "Electoral College Votes: <b>%{customdata[4]}</b>",
+            "Voter Weight: <b>%{customdata[5]:.2f}</b>",
+            "Popular Vote Per Elector: <b>%{customdata[6]:,}</b>",
             "Group: <b>%{customdata[1]}</b>",
-            "<br><b>Normalized to nat'l average:</b>",
-            "%{customdata[3]:,} pop votes => %{customdata[7]:.2f} EC votes",
-            "%{customdata[4]} EC votes => %{customdata[8]:,} pop votes",
+            "<br><b>Normalized to Nat'l Average:</b>",
+            "%{customdata[3]:,} Pop Votes => %{customdata[7]:.2f} EC Votes",
+            "%{customdata[4]} EC Votes => %{customdata[8]:,} Pop Votes",
         ])
     )
 

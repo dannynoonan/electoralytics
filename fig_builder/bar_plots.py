@@ -34,7 +34,7 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
     # pivot_on_year_df.loc[pd.isnull(pivot_on_year_df[cols.VOTE_WEIGHT]), cols.VOTE_WEIGHT] = -0.1
 
     # display metadata
-    base_fig_title = 'Impact Per Voter Per State'
+    base_fig_title = 'Voter Weight Per State'
     # base_fig_title = 'Vote Weight Per Ballot Cast Per State'
     # fig_title = f'{year} Presidential Election: Comparative Vote Weight Per Ballot Cast Per State'
     if frame:
@@ -42,7 +42,7 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
         fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
-    x_axis_title = 'Impact per voter'
+    x_axis_title = 'Voter Weight'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames    
     custom_data = [cols.VOTES_COUNTED, cols.EC_VOTES, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM, cols.GROUP]
 
@@ -66,7 +66,7 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
                 custom_data=custom_data, text=cols.VOTE_WEIGHT, animation_frame=cols.YEAR, # ignored if df is for single year
                 color_continuous_scale=color_continuous_scale, color_continuous_midpoint=color_continuous_midpoint,
                 color_discrete_map=color_discrete_map, category_orders=category_orders,
-                # labels={cols.VOTE_WEIGHT: 'Relative impact per voter'}, 
+                # labels={cols.VOTE_WEIGHT: 'Relative Voter Weight'}, 
                 width=fig_width, height=fig_height)
 
     # display x value alongside bar
@@ -94,13 +94,13 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
     fig.update_traces(
         hovertemplate="<br>".join([
             "<b>%{x}</b> (%{y})<br>",
-            "Popular vote: <b>%{customdata[0]:,}</b>",
-            "Electoral College votes: <b>%{customdata[1]}</b>",
-            "Population per EC vote: <b>%{customdata[2]:,}</b>",
+            "Popular Vote: <b>%{customdata[0]:,}</b>",
+            "Electoral College Votes: <b>%{customdata[1]}</b>",
+            "Popular Vote Per Elector: <b>%{customdata[2]:,}</b>",
             # "Group: %{customdata[5]}",
-            "<br><b>Normalized to nat'l average:</b>",
-            "%{customdata[0]:,} pop votes => %{customdata[4]:.2f} EC votes",
-            "%{customdata[1]} EC votes => %{customdata[3]:,} pop votes",
+            "<br><b>Normalized to Nat'l Average:</b>",
+            "%{customdata[0]:,} Pop Votes => %{customdata[4]:.2f} EC Votes",
+            "%{customdata[1]} EC Votes => %{customdata[3]:,} Pop Votes",
         ])
     )
 
@@ -112,7 +112,7 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=N
     # TODO does this need groups_dir and max_small or can it use defaults 100% of time?
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
-    melted_ec_votes_pivot_df = data_obj.melted_ec_votes_pivot_dfs[subdir].sort_values('EC votes*', ascending=True)
+    melted_ec_votes_pivot_df = data_obj.melted_ec_votes_pivot_dfs[subdir].sort_values('EC Votes*', ascending=True)
 
     # if frame is set, extract single-year data
     if frame:
@@ -133,14 +133,14 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=N
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
         fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
-    x_axis_title = 'Actual EC votes / EC votes if adjusted for popular vote'
+    x_axis_title = 'Actual EC Votes / EC Votes if Adjusted for Popular Vote'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM]
     # set color sequence
     color_discrete_sequence = ['DarkGreen', 'LimeGreen']
 
     # init figure with core properties
-    fig = px.bar(melted_ec_votes_pivot_df, x='EC votes*', y=cols.STATE, color='Actual vs Adjusted EC votes*', title=fig_title, 
+    fig = px.bar(melted_ec_votes_pivot_df, x='EC Votes*', y=cols.STATE, color='Actual vs Adjusted EC Votes*', title=fig_title, 
                 custom_data=custom_data, barmode='group', animation_frame=cols.YEAR, # ignored if df is for single year
                 color_discrete_sequence=color_discrete_sequence, width=fig_width, height=fig_height)
 
@@ -159,12 +159,12 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=N
         hovertemplate="<br>".join([
             "<b>%{x}</b>*<br>",
             "<b>%{y}</b> (%{customdata[0]}):",
-            "Popular vote: <b>%{customdata[2]:,}</b>",
-            "Impact per voter: <b>%{customdata[3]:.2f}</b>",
-            "Population per EC vote: <b>%{customdata[4]:,}</b>",
-            "<br><b>Normalized to nat'l average:</b>",
-            "%{customdata[2]:,} pop votes => %{customdata[6]:.2f} EC votes",
-            "%{customdata[1]} EC votes => %{customdata[5]:,} pop votes",
+            "Popular Vote: <b>%{customdata[2]:,}</b>",
+            "Voter Weight: <b>%{customdata[3]:.2f}</b>",
+            "Popular Vote Per Elector: <b>%{customdata[4]:,}</b>",
+            "<br><b>Normalized to Nat'l Average:</b>",
+            "%{customdata[2]:,} Pop Votes => %{customdata[6]:.2f} EC Votes",
+            "%{customdata[1]} EC Votes => %{customdata[5]:,} Pop Votes",
         ])
     )
 
@@ -174,7 +174,7 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=N
 def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, fig_width=None, frame=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
-    melted_vote_count_pivot_df = data_obj.melted_vote_count_pivot_dfs[subdir].sort_values('Vote count*', ascending=True)
+    melted_vote_count_pivot_df = data_obj.melted_vote_count_pivot_dfs[subdir].sort_values('Popular Vote*', ascending=True)
 
     # if frame is set, extract single-year data
     if frame:
@@ -188,20 +188,20 @@ def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, fig_width=N
     melted_vote_count_pivot_df = melted_vote_count_pivot_df[pd.notnull(melted_vote_count_pivot_df[cols.STATE])]
 
     # display metadata
-    base_fig_title = "Popular Vote: 'Actual' vs 'Adjusted for Voter Impact'"
+    base_fig_title = "Popular Vote: 'Actual' vs 'Adjusted for Voter Weight'"
     # base_fig_title = 'Actual Vote Count vs Vote Count Adjusted For Vote Weight'
     if frame:
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
         fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
-    x_axis_title = 'Actual pop vote / Pop vote if adjusted for voter impact'
+    x_axis_title = 'Actual Pop Vote / Pop Vote if Adjusted for Voter Weight'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM]
     color_discrete_sequence = ['DarkBlue', 'DodgerBlue']
     
     # init figure with core properties
-    fig = px.bar(melted_vote_count_pivot_df, x='Vote count*', y=cols.STATE, color='Actual vs Adjusted Popular Vote*', title=fig_title, 
+    fig = px.bar(melted_vote_count_pivot_df, x='Popular Vote*', y=cols.STATE, color='Actual vs Adjusted Popular Vote*', title=fig_title, 
                 custom_data=custom_data, barmode='group', animation_frame=cols.YEAR, # ignored if df is for single year
                 color_discrete_sequence=color_discrete_sequence, width=fig_width, height=fig_height)
 
@@ -220,12 +220,12 @@ def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, fig_width=N
         hovertemplate="<br>".join([
             "<b>%{x:,}</b>*<br>",
             "<b>%{y}</b> (%{customdata[0]}):",
-            "Popular vote: <b>%{customdata[2]:,}</b>",
-            "Impact per voter: <b>%{customdata[3]:.2f}</b>",
-            "Population per EC vote: <b>%{customdata[4]:,}</b>",
-            "<br><b>Normalized to nat'l average:</b>",
-            "%{customdata[2]:,} pop votes => %{customdata[6]:.2f} EC votes",
-            "%{customdata[1]} EC votes => %{customdata[5]:,} pop votes",
+            "Popular Vote: <b>%{customdata[2]:,}</b>",
+            "Voter Weight: <b>%{customdata[3]:.2f}</b>",
+            "Popular Vote Per Elector: <b>%{customdata[4]:,}</b>",
+            "<br><b>Normalized to Nat'l Average:</b>",
+            "%{customdata[2]:,} Pop Votes => %{customdata[6]:.2f} EC Votes",
+            "%{customdata[1]} EC Votes => %{customdata[5]:,} Pop Votes",
         ])
     )
 
@@ -362,8 +362,8 @@ def build_swallowed_vote_ec_bar(data_obj, fig_width=None):
     fig.update_traces(
         hovertemplate="<br>".join([
             "<b>%{y} for %{customdata[0]}</b><br>",
-            "Popular vote for candidate: <b>%{customdata[1]:,}</b>",
-            "Electoral College votes for candidate: <b>%{x}</b>",
+            "Popular Vote for Candidate: <b>%{customdata[1]:,}</b>",
+            "Electoral College Votes for Candidate: <b>%{x}</b>",
         ])
     )
 
