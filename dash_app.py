@@ -520,8 +520,6 @@ swallowed_vote_sampler = html.Div([
         ]),
         ### figures
         dbc.Col(md=10, children=[ 
-            # html.H4("2020 Sampler of Votes 'Swallowed' by the Electoral College"),
-            # html.Br(),
             dbc.Tabs(className="nav nav-pills", children=[
                 dbc.Tab(dcc.Graph(id="swallowed-vote-sampler-1"), label="Raw Popular Vote"),
                 dbc.Tab(dcc.Graph(id="swallowed-vote-sampler-2"), label="Muted Popular Vote"),
