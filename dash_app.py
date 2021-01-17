@@ -628,7 +628,6 @@ def update(n_clicks):
 )
 def update2(n_clicks):
     if n_clicks and int(n_clicks) > 0:
-        print(f"n_clicks: {n_clicks}")
         return []
     else:
         return ['show_groups','show_events','show_eras']
@@ -673,8 +672,7 @@ def display_state_level_figs(year_input, groupings_input, max_small_input):
     Input('groupings-input', 'value'),
     Input('max-small-input', 'value'),
 )
-def display_regional_aggregate_figs(year_input, groupings_input, max_small_input):
-    print(f"#### in display_regional_aggregate_figs")
+def display_vw_comparison_detail_scatters(year_input, groupings_input, max_small_input):
     # process input
     year = int(year_input)
     max_small = int(max_small_input)
@@ -699,7 +697,6 @@ def display_regional_aggregate_figs(year_input, groupings_input, max_small_input
 #     Input('max-small-input', 'value'),
 # )
 # def display_state_level_anims(groupings_input, max_small_input):
-#     print(f"#### in display_state_level_anims")
 #     # process input
 #     max_small = int(max_small_input)
 #     # generate figs
@@ -719,7 +716,6 @@ def display_regional_aggregate_figs(year_input, groupings_input, max_small_input
 #     Input('max-small-input', 'value'),
 # )
 # def display_regional_aggregate_anims(groupings_input, max_small_input):
-#     print(f"#### in display_regional_aggregate_anims")
 #     # process input
 #     max_small = int(max_small_input)
 #     # generate figs
@@ -735,7 +731,6 @@ def display_regional_aggregate_figs(year_input, groupings_input, max_small_input
     Input('y-axis-input', 'value'),
 )
 def display_voter_pct_pop_over_time(y_axis_input):
-    print(f"#### in display_voter_pct_pop_over_time")
     # process input
     if y_axis_input == 'log':
         log_y = True
@@ -754,7 +749,6 @@ def display_voter_pct_pop_over_time(y_axis_input):
     Input('max-small-input', 'value'),
 )
 def display_state_grouping_explanation(year_input, max_small_input):
-    print(f"#### in display_all_state_grouping_map_anims")
     # process input
     year = int(year_input)
     max_small = int(max_small_input)
@@ -770,7 +764,6 @@ def display_state_grouping_explanation(year_input, max_small_input):
     Input('display-type', 'value'),
 )
 def display_swallowed_vote_fig_1(display_type):
-    print(f"#### in display_swallowed_vote_fig_1")
     fig = bar_plots.build_swallowed_vote_bar(data_obj, 'raw', fig_width=1000)
     return fig
 
@@ -779,7 +772,6 @@ def display_swallowed_vote_fig_1(display_type):
     Input('display-type', 'value'),
 )
 def display_swallowed_vote_fig_2(display_type):
-    print(f"#### in display_swallowed_vote_fig_2")
     fig = bar_plots.build_swallowed_vote_bar(data_obj, 'muted', fig_width=1000)
     return fig
 
@@ -788,7 +780,6 @@ def display_swallowed_vote_fig_2(display_type):
     Input('display-type', 'value'),
 )
 def display_swallowed_vote_fig_3(display_type):
-    print(f"#### in display_swallowed_vote_fig_3")
     fig = bar_plots.build_swallowed_vote_relative_bar(data_obj, fig_width=1000)
     return fig
 
@@ -797,7 +788,6 @@ def display_swallowed_vote_fig_3(display_type):
     Input('display-type', 'value'),
 )
 def display_swallowed_vote_fig_4(display_type):
-    print(f"#### in display_swallowed_vote_fig_4")
     fig = bar_plots.build_swallowed_vote_ec_bar(data_obj, fig_width=1000)
     return fig
 

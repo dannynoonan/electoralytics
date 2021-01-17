@@ -23,7 +23,6 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
     # if frame is set, extract single-year data
     if frame:
         pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame]
-        print(f"in bar chart for frame {frame}, pivot_on_year_df:\n{pivot_on_year_df}")
 
     if not fig_width:
         fig_width = fig_dims.MD6
@@ -31,22 +30,31 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
 
     # remove placeholder group rows, clean up empty state row data  
     pivot_on_year_df = pivot_on_year_df[pd.notnull(pivot_on_year_df[cols.STATE])]
-    # pivot_on_year_df.loc[pd.isnull(pivot_on_year_df[cols.VOTES_COUNTED_NORM]), cols.VOTES_COUNTED_NORM] = 0
+    # part of my battle to keep states with no popular vote on the chart, while excluding states that hadn't been admitted yet
     pivot_on_year_df.loc[pd.isnull(pivot_on_year_df[cols.VOTE_WEIGHT]), cols.VOTE_WEIGHT] = 0.000000000001  # causes problems if set to 0
     # animations need every state in every year to have a placeholder row
     if not frame:
         pivot_on_year_df = fill_out_state_year_matrix(pivot_on_year_df, data_obj.all_states_meta_df, groups_dir)
 
+    # calculate axis range boundaries
+    vw_min = pivot_on_year_df[cols.VOTE_WEIGHT].min()
+    vw_max = pivot_on_year_df[cols.VOTE_WEIGHT].max()
+    if vw_min < 0.2:
+        # states with no popular vote have extremely low placeholder vote weights, this gets around those weights skewing the log x axis 
+        temp_df = pivot_on_year_df[pivot_on_year_df[cols.VOTE_WEIGHT] > 0.2]
+        vw_min = temp_df[cols.VOTE_WEIGHT].min()
+    if frame:
+        vw_min = vw_min * 0.85
+        vw_max = vw_max * 1.15
+
     # display metadata
     base_fig_title = 'Voter Weight Per State'
-    # base_fig_title = 'Vote Weight Per Ballot Cast Per State'
-    # fig_title = f'{year} Presidential Election: Comparative Vote Weight Per Ballot Cast Per State'
     if frame:
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
     else:
         fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
-    x_axis_title = 'Voter Weight'
+    x_axis_title = 'Voter Weight (log)'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames    
     custom_data = [cols.VOTES_COUNTED, cols.EC_VOTES, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM, cols.GROUP]
     # hover_data is the fallback plan for animations where custom_data doesn't work
@@ -65,7 +73,7 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
                     text=cols.VOTE_WEIGHT, animation_frame=cols.YEAR, # ignored if df is for single year
                     color_continuous_scale=color_continuous_scale, color_continuous_midpoint=color_continuous_midpoint,
                     # labels={cols.VOTE_WEIGHT: 'Relative Voter Weight'}, 
-                    width=fig_width, height=fig_height)
+                    range_x=[vw_min,vw_max], log_x=True, width=fig_width, height=fig_height)
 
     elif color_col in [cols.GROUP, cols.PARTY]:
         if color_col == cols.PARTY:
@@ -87,11 +95,15 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
                     custom_data=custom_data, hover_name=cols.VOTE_WEIGHT, hover_data=hover_data,
                     text=cols.VOTE_WEIGHT, animation_frame=cols.YEAR, # ignored if df is for single year
                     color_discrete_map=color_discrete_map, category_orders=category_orders,
-                    width=fig_width, height=fig_height)
- 
+                    range_x=[vw_min,vw_max], log_x=True, width=fig_width, height=fig_height)
 
-    # display x value alongside bar
-    fig.update_traces(texttemplate='%{text:,}', textposition='outside')
+    # overlay info on top of bars
+    if frame:
+        # display x value alongside bar
+        fig.update_traces(texttemplate='%{text:,}', textposition='outside')
+    else:
+        # display x value alongside bar
+        fig.update_traces(texttemplate='%{y} (%{text:,})', textposition='inside')
 
     # axis metadata
     fig.update_xaxes(title_text=x_axis_title)
@@ -156,7 +168,6 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=N
 
     # display metadata
     base_fig_title = "EC Votes: 'Actual' vs 'Adjusted for Turnout'" 
-    # base_fig_title = 'Actual EC Votes vs EC Votes Adjusted For Turnout'
     if frame:
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
@@ -219,7 +230,6 @@ def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, fig_width=N
 
     # display metadata
     base_fig_title = "Popular Vote: 'Actual' vs 'Adjusted for Voter Weight'"
-    # base_fig_title = 'Actual Vote Count vs Vote Count Adjusted For Vote Weight'
     if frame:
         era = get_era_for_year(frame)
         fig_title = f'{base_fig_title}: {frame} ({era})'
