@@ -1,6 +1,6 @@
 import pandas as pd
 
-from metadata import Columns, DataDirs, YEAR_0, FRAME_RATE, GROUP_ALT_COLORS
+from metadata import Columns, DataDirs, YEAR_0, YEAR_N, FRAME_RATE, GROUP_COLORS, GROUP_ALT_COLORS, GROUPS_COL_FOR_DIR
 
 
 # disable unhelpful 'SettingWithCopyWarnings'
@@ -33,11 +33,15 @@ def map_to_subdir(groups_dir, max_small):
     return subdir
 
 
-def get_description_for_group_key(group_key):
-    if group_key == ddirs.ACW:
-        return 'Civil War Groupings'
-    if group_key == ddirs.CENSUS:
-        return 'Regional Census Groupings'
+def flatten_state_color_map(all_states_meta_df, groups_dir):
+    group_col = GROUPS_COL_FOR_DIR[groups_dir]
+
+    state_color_map = {}
+    for index, meta_row in all_states_meta_df.iterrows():
+        state_color_map[meta_row[cols.STATE]] = GROUP_COLORS[meta_row[group_col]]
+
+    return state_color_map
+
 
 
 def get_era_for_year(year):
@@ -89,3 +93,26 @@ def append_state_vw_pivot_to_groups_aggs_df(state_vw_pivot_df, group_aggs_by_yea
     group_aggs_by_year_df = pd.concat([group_aggs_by_year_df, state_vw_pivot_df], ignore_index=True, sort=False)
 
     return group_aggs_by_year_df
+
+
+def fill_out_state_year_matrix(pivot_on_year_df, all_states_meta_df, groups_dir):
+    group_col = GROUPS_COL_FOR_DIR[groups_dir]
+
+    year = YEAR_0
+    while year <= YEAR_N:
+        # extract year into separate dataframe
+        pivot_on_single_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == year]
+
+        # iterate thru each of the (eventual) 51 states, check if row exists yet
+        for index, meta_row in all_states_meta_df.iterrows():
+            state_in_year = pivot_on_single_year_df[pivot_on_single_year_df[cols.ABBREV] == meta_row[cols.ABBREV]]
+            if len(state_in_year) == 0:
+                # if no match for state in year, add row to pivot_on_year_df using state metadata, 0s, and blank spaces
+                df = pd.DataFrame([[meta_row[cols.ABBREV], meta_row[cols.STATE], meta_row[group_col], year, 0, 0, 0, 0, 0, 0, 0, '']],
+                            columns=[cols.ABBREV, cols.STATE, cols.GROUP, cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTES_COUNTED_NORM,
+                                    cols.VOTES_COUNTED_PCT, cols.EC_VOTES_NORM, cols.POP_PER_EC, cols.VOTE_WEIGHT, cols.PARTY])
+                pivot_on_year_df = pd.concat([pivot_on_year_df, df], ignore_index=True, sort=False)
+        
+        year = year + 4
+
+    return pivot_on_year_df

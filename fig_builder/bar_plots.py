@@ -2,7 +2,7 @@ import math
 import pandas as pd
 import plotly.express as px
 
-from data_processor.functions import get_era_for_year, map_to_subdir
+from data_processor.functions import apply_animation_settings, fill_out_state_year_matrix, flatten_state_color_map, get_era_for_year, map_to_subdir
 from metadata import Columns, DataDirs, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, PARTIES, PARTY_COLORS, YEAR_0, YEAR_N
 
 
@@ -23,15 +23,19 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
     # if frame is set, extract single-year data
     if frame:
         pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame]
+        print(f"in bar chart for frame {frame}, pivot_on_year_df:\n{pivot_on_year_df}")
 
     if not fig_width:
         fig_width = fig_dims.MD6
     fig_height = fig_dims.wide_door(fig_width)
 
-    # remove placeholder rows for state groups that lack actual state data
+    # remove placeholder group rows, clean up empty state row data  
     pivot_on_year_df = pivot_on_year_df[pd.notnull(pivot_on_year_df[cols.STATE])]
-    pivot_on_year_df = pivot_on_year_df[pd.notnull(pivot_on_year_df[cols.VOTE_WEIGHT])]
-    # pivot_on_year_df.loc[pd.isnull(pivot_on_year_df[cols.VOTE_WEIGHT]), cols.VOTE_WEIGHT] = -0.1
+    # pivot_on_year_df.loc[pd.isnull(pivot_on_year_df[cols.VOTES_COUNTED_NORM]), cols.VOTES_COUNTED_NORM] = 0
+    pivot_on_year_df.loc[pd.isnull(pivot_on_year_df[cols.VOTE_WEIGHT]), cols.VOTE_WEIGHT] = 0.000000000001  # causes problems if set to 0
+    # animations need every state in every year to have a placeholder row
+    if not frame:
+        pivot_on_year_df = fill_out_state_year_matrix(pivot_on_year_df, data_obj.all_states_meta_df, groups_dir)
 
     # display metadata
     base_fig_title = 'Voter Weight Per State'
@@ -45,29 +49,46 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
     x_axis_title = 'Voter Weight'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames    
     custom_data = [cols.VOTES_COUNTED, cols.EC_VOTES, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM, cols.GROUP]
+    # hover_data is the fallback plan for animations where custom_data doesn't work
+    hover_data = {cols.ABBREV: False, cols.VOTE_WEIGHT: False, cols.LOG_VOTE_WEIGHT: False, cols.GROUP: True, cols.STATE: True, 
+                    cols.YEAR: True, cols.VOTES_COUNTED: True, cols.EC_VOTES: True, cols.POP_PER_EC: True, cols.EC_VOTES_NORM: True, 
+                    cols.VOTES_COUNTED_NORM: True}
 
-    # set color sequence based on color_col
-    category_orders = {}
-    color_discrete_map = []
-    color_continuous_scale = []
-    color_continuous_midpoint = None
-    if color_col == cols.PARTY:
-        category_orders = {cols.PARTY: PARTIES}
-        color_discrete_map = PARTY_COLORS
-    elif color_col == cols.LOG_VOTE_WEIGHT:
+    # init figure with core properties, set color scale or color category map based on color_col
+    if color_col == cols.LOG_VOTE_WEIGHT:
         color_continuous_scale = px.colors.diverging.BrBG[::-1]
         color_continuous_midpoint = 0
-    elif color_col == cols.GROUP:
-        category_orders = {cols.GROUP: groups}
-        color_discrete_map = GROUP_COLORS
-    
-    # init figure with core properties
-    fig = px.bar(pivot_on_year_df, x=cols.VOTE_WEIGHT, y=cols.STATE, color=color_col, title=fig_title, 
-                custom_data=custom_data, text=cols.VOTE_WEIGHT, animation_frame=cols.YEAR, # ignored if df is for single year
-                color_continuous_scale=color_continuous_scale, color_continuous_midpoint=color_continuous_midpoint,
-                color_discrete_map=color_discrete_map, category_orders=category_orders,
-                # labels={cols.VOTE_WEIGHT: 'Relative Voter Weight'}, 
-                width=fig_width, height=fig_height)
+
+        # init figure with core properties
+        fig = px.bar(pivot_on_year_df, x=cols.VOTE_WEIGHT, y=cols.STATE, color=color_col, title=fig_title, 
+                    custom_data=custom_data, hover_name=cols.VOTE_WEIGHT, hover_data=hover_data,
+                    text=cols.VOTE_WEIGHT, animation_frame=cols.YEAR, # ignored if df is for single year
+                    color_continuous_scale=color_continuous_scale, color_continuous_midpoint=color_continuous_midpoint,
+                    # labels={cols.VOTE_WEIGHT: 'Relative Voter Weight'}, 
+                    width=fig_width, height=fig_height)
+
+    elif color_col in [cols.GROUP, cols.PARTY]:
+        if color_col == cols.PARTY:
+            category_orders = {cols.PARTY: PARTIES}
+            color_discrete_map = PARTY_COLORS
+        elif color_col == cols.GROUP:
+            if frame:
+                category_orders = {cols.GROUP: groups}
+                color_discrete_map = GROUP_COLORS
+            else:
+                # animations don't work against categorical groupings... unless every state is its own category
+                all_states = data_obj.all_states_meta_df[cols.STATE].tolist()
+                category_orders = {cols.STATE: all_states}
+                color_discrete_map = flatten_state_color_map(data_obj.all_states_meta_df, groups_dir)
+                color_col = cols.STATE
+
+        # init figure with core properties
+        fig = px.bar(pivot_on_year_df, x=cols.VOTE_WEIGHT, y=cols.STATE, color=color_col, title=fig_title, 
+                    custom_data=custom_data, hover_name=cols.VOTE_WEIGHT, hover_data=hover_data,
+                    text=cols.VOTE_WEIGHT, animation_frame=cols.YEAR, # ignored if df is for single year
+                    color_discrete_map=color_discrete_map, category_orders=category_orders,
+                    width=fig_width, height=fig_height)
+ 
 
     # display x value alongside bar
     fig.update_traces(texttemplate='%{text:,}', textposition='outside')
@@ -89,6 +110,13 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
 
     # center title
     fig.update_layout(title_x=0.5, uniformtext_minsize=10)
+
+    # apply animation settings
+    if not frame:
+        apply_animation_settings(fig, base_fig_title, frame_rate=1500)
+        # hide unhelpful legend of alphabetized states from state group animations
+        if color_col == cols.STATE:
+            fig.update_layout(showlegend=False)
 
     # hovertemplate formatting and variable substitution using customdata
     fig.update_traces(
@@ -122,8 +150,9 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=N
         fig_width = fig_dims.MD6
     fig_height = fig_dims.square(fig_width)
 
-    # remove placeholder rows for state groups that lack actual state data
+    # remove placeholder group rows, clean up empty state row data
     melted_ec_votes_pivot_df = melted_ec_votes_pivot_df[pd.notnull(melted_ec_votes_pivot_df[cols.STATE])]
+    melted_ec_votes_pivot_df.loc[pd.isnull(melted_ec_votes_pivot_df[cols.VOTE_WEIGHT]), cols.VOTE_WEIGHT] = 0.000000000001  # causes problems if set to 0
 
     # display metadata
     base_fig_title = "EC Votes: 'Actual' vs 'Adjusted for Turnout'" 
@@ -184,8 +213,9 @@ def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, fig_width=N
         fig_width = fig_dims.MD6
     fig_height = fig_dims.square(fig_width)
 
-    # remove placeholder rows for state groups that lack actual state data
+    # remove placeholder group rows, clean up empty state row data
     melted_vote_count_pivot_df = melted_vote_count_pivot_df[pd.notnull(melted_vote_count_pivot_df[cols.STATE])]
+    melted_vote_count_pivot_df.loc[pd.isnull(melted_vote_count_pivot_df['Popular Vote*']), 'Popular Vote*'] = 0.000000000001  # causes problems if set to 0
 
     # display metadata
     base_fig_title = "Popular Vote: 'Actual' vs 'Adjusted for Voter Weight'"

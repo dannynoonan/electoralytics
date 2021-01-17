@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 
-from data_processor.functions import get_era_for_year, map_to_subdir, get_description_for_group_key, apply_animation_settings
+from data_processor.functions import get_era_for_year, map_to_subdir, apply_animation_settings
 from metadata import Columns, DataDirs, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, YEAR_0, YEAR_N
 
 
@@ -12,11 +12,14 @@ ddirs = DataDirs()
 fig_dims = FigDimensions()
 
 
-def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_width=None, frame=None, base_fig_title=None):
+def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_width=None, frame=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
     groups = GROUPS_FOR_DIR[groups_dir]
+
+    if not color_col:
+        color_col = cols.LOG_VOTE_WEIGHT
 
     if not fig_width:
         fig_width = fig_dims.MD6
@@ -27,16 +30,22 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_wid
         pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame]
 
     # display metadata common to (or that doesn't interfere with) all display types
-    if not base_fig_title:
-        base_fig_title = 'Voter Weight Per State'
-    # base_fig_title = 'Vote Weight Per Person Per State'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.STATE, cols.GROUP, cols.YEAR, cols.VOTES_COUNTED, cols.EC_VOTES, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.EC_VOTES_NORM, 
                     cols.VOTES_COUNTED_NORM]
     # hover_data is the fallback plan for animations where custom_data doesn't work
     hover_data = {cols.ABBREV: False, cols.LOG_VOTE_WEIGHT: False, cols.GROUP: True, cols.YEAR: True, cols.VOTES_COUNTED: True, cols.EC_VOTES: True, 
                     cols.VOTE_WEIGHT: True, cols.POP_PER_EC: True, cols.EC_VOTES_NORM: True, cols.VOTES_COUNTED_NORM: True}
-    
+
+    # figure title depends on which field the color scale is based on
+    if color_col == cols.GROUP:
+        if groups_dir == ddirs.ACW:
+            base_fig_title = 'States Grouped By Civil War Alignment'
+        else:
+            base_fig_title = 'States Grouped By Regional Census'
+    else:
+        base_fig_title = 'Voter Weight Per State'
+        
     # set fields and values that differ for static years (frame) vs animations (!frame)
     if frame:
         era = get_era_for_year(frame)
@@ -45,9 +54,9 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_wid
         fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
 
     # init figure with core properties
-    if color_field == cols.LOG_VOTE_WEIGHT:
+    if color_col == cols.LOG_VOTE_WEIGHT:
         # init figure where state color is determined by its vote weight (log value)
-        fig = px.choropleth(pivot_on_year_df, locations=cols.ABBREV, color=color_field, title=fig_title, 
+        fig = px.choropleth(pivot_on_year_df, locations=cols.ABBREV, color=color_col, title=fig_title, 
                             locationmode='USA-states', scope="usa", custom_data=custom_data,
                             hover_name=cols.STATE, hover_data=hover_data, animation_frame=cols.YEAR, # ignored if df is for single year
                             color_continuous_scale=px.colors.diverging.BrBG[::-1], color_continuous_midpoint=0,
@@ -60,11 +69,11 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_field, fig_wid
         fig.update_layout(
             coloraxis_colorbar=dict(tickvals=log_vals, ticktext=colorbar_labels, title='VW (log)'))
 
-    elif color_field == cols.GROUP:
+    elif color_col == cols.GROUP:
         # while I would prefer the NaNs to declare themselves as such, they don't render nicely as customdata params in hovertemplates
         pivot_on_year_df.fillna(-1, inplace=True)
         # init figure where state is determined by its state group
-        fig = px.choropleth(pivot_on_year_df, locations=cols.ABBREV, color=color_field, title=fig_title,
+        fig = px.choropleth(pivot_on_year_df, locations=cols.ABBREV, color=color_col, title=fig_title,
                             locationmode='USA-states', scope="usa", custom_data=custom_data,
                             hover_name=cols.STATE, hover_data=hover_data, animation_frame=cols.YEAR, animation_group=cols.GROUP, # ignored if df is for single year
                             color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},

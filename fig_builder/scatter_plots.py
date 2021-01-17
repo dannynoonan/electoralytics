@@ -250,6 +250,10 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
     # if frame is set, extract single-year data
     if frame:
         pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame]
+    else:
+        # lop off pre-Jacksonian years, early data distorts bubble size of later data
+        YEAR_0 = 1828
+        pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] >= YEAR_0]
 
     if not fig_width:
         fig_width = fig_dims.MD6
@@ -335,6 +339,10 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fi
     # if frame is set, extract single-year data
     if frame:
         group_aggs_by_year_df = group_aggs_by_year_df[group_aggs_by_year_df[cols.YEAR] == frame]
+    else:
+        # lop off pre-Jacksonian years, early data distorts bubble size of later data
+        YEAR_0 = 1828
+        group_aggs_by_year_df = group_aggs_by_year_df[group_aggs_by_year_df[cols.YEAR] >= YEAR_0]
 
     if not fig_width:
         fig_width = fig_dims.MD6

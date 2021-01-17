@@ -651,9 +651,9 @@ def display_state_level_figs(year_input, groupings_input, max_small_input):
     year = int(year_input)
     max_small = int(max_small_input)
     # generate figs
-    fig_map_color_by_state_vw = choropleths.build_ivw_by_state_map(data_obj, groupings_input, max_small, cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD7, frame=year)
-    fig_bar_state_vw_color_by_vw = bar_plots.build_ivw_by_state_bar(data_obj, groupings_input, max_small, fig_width=fig_dims.MD5, frame=year, color_col=cols.LOG_VOTE_WEIGHT)
-    fig_map_color_by_group = choropleths.build_ivw_by_state_map(data_obj, groupings_input, max_small, cols.GROUP, fig_width=fig_dims.MD7, frame=year)
+    fig_map_color_by_state_vw = choropleths.build_ivw_by_state_map(data_obj, groupings_input, max_small, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD7, frame=year)
+    fig_bar_state_vw_color_by_vw = bar_plots.build_ivw_by_state_bar(data_obj, groupings_input, max_small, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD5, frame=year)
+    fig_map_color_by_group = choropleths.build_ivw_by_state_map(data_obj, groupings_input, max_small, color_col=cols.GROUP, fig_width=fig_dims.MD7, frame=year)
     fig_bar_state_vw_color_by_group = bar_plots.build_ivw_by_state_bar(data_obj, groupings_input, max_small, fig_width=fig_dims.MD5, frame=year)
     fig_bar_actual_vs_adj_ec = bar_plots.build_actual_vs_adjusted_ec_bar(data_obj, groupings_input, max_small, frame=year)
     fig_bar_actual_vs_adj_vw = bar_plots.build_actual_vs_adjusted_vw_bar(data_obj, groupings_input, max_small, frame=year)
@@ -759,8 +759,8 @@ def display_state_grouping_explanation(year_input, max_small_input):
     year = int(year_input)
     max_small = int(max_small_input)
     # generate figs
-    fig_map_acw = choropleths.build_ivw_by_state_map(data_obj, ddirs.ACW, max_small, cols.GROUP, frame=year, base_fig_title='States Grouped By Civil War Alignment')
-    fig_map_census = choropleths.build_ivw_by_state_map(data_obj, ddirs.CENSUS, max_small, cols.GROUP, frame=year, base_fig_title='States Grouped By Regional Census')
+    fig_map_acw = choropleths.build_ivw_by_state_map(data_obj, ddirs.ACW, max_small, color_col=cols.GROUP, frame=year)
+    fig_map_census = choropleths.build_ivw_by_state_map(data_obj, ddirs.CENSUS, max_small, color_col=cols.GROUP, frame=year)
     return fig_map_acw, fig_map_census
 
 
