@@ -11,7 +11,7 @@ ddirs = DataDirs()
 fig_dims = FigDimensions()
 
 
-def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, frame=None, color_col=None, color_scale=None):
+def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, frame=None, color_col=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
@@ -68,8 +68,10 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
             color_continuous_scale = px.colors.diverging.BrBG[::-1]
             color_continuous_midpoint = 0
         elif color_col == cols.LOG_EC_VOTES:
-            color_continuous_scale = color_scale
+            color_continuous_scale = 'sunset_r'
             color_continuous_midpoint = None
+            # not sure to put this, so far only using LOG_EC_VOTES variant for a one-off
+            fig_title = f'Small-State Bias: Fewer Electoral College Votes -> High Voter Weight ({frame})'
 
         # init figure with core properties
         fig = px.bar(pivot_on_year_df, x=cols.VOTE_WEIGHT, y=cols.STATE, color=color_col, title=fig_title, 
