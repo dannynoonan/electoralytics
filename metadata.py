@@ -73,6 +73,9 @@ class FigDimensions():
     def wide_door(self, width):
         return width * 1.25
 
+    def narrow_door(self, width):
+        return width * 1.5
+
 
 data_dirs = DataDirs()
 cols = Columns()

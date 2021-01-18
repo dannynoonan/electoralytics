@@ -1,6 +1,7 @@
 import math
 import numpy as np
 import pandas as pd
+import plotly.graph_objects as go
 import plotly.express as px
 
 from data_processor.functions import get_era_for_year, map_to_subdir, apply_animation_settings
@@ -48,8 +49,11 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_
         
     # set fields and values that differ for static years (frame) vs animations (!frame)
     if frame:
-        era = get_era_for_year(frame)
-        fig_title = f'{base_fig_title}: {frame} ({era})'
+        fig_title = f'{base_fig_title}: {frame}'
+        # oye vey with all the scenarios needing all the sizes
+        if fig_width > 750:
+            era = get_era_for_year(frame)
+            fig_title = f'{fig_title} ({era})'
     else:
         fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
 
@@ -79,8 +83,9 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_
                             color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
                             width=fig_width, height=fig_height)
 
-    # center title
+    # display formatting
     fig.update_layout(title_x=0.5)
+    fig.update_layout(margin=go.layout.Margin(l=0, r=0, b=20, t=100))
 
     # apply animation settings
     if not frame:

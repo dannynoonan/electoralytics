@@ -1,6 +1,7 @@
 import math
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 
 from data_processor.functions import apply_animation_settings, fill_out_state_year_matrix, flatten_state_color_map, get_era_for_year, map_to_subdir
 from metadata import Columns, DataDirs, FigDimensions, GROUPS_FOR_DIR, GROUP_COLORS, PARTIES, PARTY_COLORS, YEAR_0, YEAR_N
@@ -26,7 +27,7 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
 
     if not fig_width:
         fig_width = fig_dims.MD6
-    fig_height = fig_dims.wide_door(fig_width)
+    fig_height = fig_dims.narrow_door(fig_width)
 
     # remove placeholder group rows, clean up empty state row data  
     pivot_on_year_df = pivot_on_year_df[pd.notnull(pivot_on_year_df[cols.STATE])]
@@ -136,8 +137,9 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
         fig.update_layout(
             coloraxis_colorbar=dict(tickvals=log_ticks, ticktext=tick_text, title='EC votes (log)'))
 
-    # center title
+    # display formatting
     fig.update_layout(title_x=0.5, uniformtext_minsize=10)
+    fig.update_layout(margin=go.layout.Margin(l=0))
 
     # apply animation settings
     if not frame:
@@ -149,9 +151,9 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
     # hovertemplate formatting and variable substitution using customdata
     fig.update_traces(
         hovertemplate="<br>".join([
-            "Voter Weight: <b>%{x}</b> (%{y})<br>",
+            "Voter Weight: <b>%{x}</b> (%{y})",
+            "Electoral College Votes: <b>%{customdata[1]}</b><br>",
             "Popular Vote: <b>%{customdata[0]:,}</b>",
-            "Electoral College Votes: <b>%{customdata[1]}</b>",
             "Popular Vote Per Elector: <b>%{customdata[2]:,}</b>",
             # "Group: %{customdata[5]}",
             "<br><b>Normalized to Nat'l Average:</b>",
@@ -207,8 +209,9 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=N
         yaxis={'tickangle': 35, 'showticklabels': True, 'type': 'category', 'tickfont_size': 8},
         yaxis_categoryorder='total descending')
 
-    # center title
+    # display formatting
     fig.update_layout(title_x=0.5)
+    fig.update_layout(margin=go.layout.Margin(l=0))
 
     # hovertemplate formatting and variable substitution using customdata
     fig.update_traces(
@@ -268,8 +271,9 @@ def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, fig_width=N
         yaxis={'tickangle': 35, 'showticklabels': True, 'type': 'category', 'tickfont_size': 8},
         yaxis_categoryorder='total descending')
 
-    # center title
+    # display formatting
     fig.update_layout(title_x=0.5)
+    fig.update_layout(margin=go.layout.Margin(l=0))
 
     # hovertemplate formatting and variable substitution using customdata
     fig.update_traces(
