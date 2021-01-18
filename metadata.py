@@ -36,6 +36,7 @@ class Columns():
         self.YEAR = 'Year'
         self.EC_VOTES = 'EC votes'
         self.EC_VOTES_NORM = 'EC votes normalized'
+        self.LOG_EC_VOTES = 'EC votes (log)'
         self.EC_VOTES_FROM_POP = 'EC votes from pop vote'
         self.VOTES_COUNTED = 'Votes counted'
         self.VOTES_COUNTED_NORM = 'Votes counted normalized'

@@ -56,8 +56,9 @@ class DataObject():
             small_col_name = DATA_DIR_TO_SMALL_GROUP_LABELS[small_subdir]
             df.loc[df[cols.GROUP] == 'Small', cols.GROUP] = small_col_name
         # df.rename(columns={cols.POP_PER_EC: cols.POP_PER_EC_SHORT}, inplace=True)
-        # generate Voter Weight (log) column, workaround to choropleth lacking log color scale option
+        # generate log columns, workaround to colorscales lacking log option
         df[cols.LOG_VOTE_WEIGHT] = np.log2(df[cols.VOTE_WEIGHT])
+        df[cols.LOG_EC_VOTES] = np.log10((df[cols.EC_VOTES]))
 
         # extract valid election years (for request validation)
         self.all_years = df[cols.YEAR].unique()

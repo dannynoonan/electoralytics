@@ -11,7 +11,7 @@ ddirs = DataDirs()
 fig_dims = FigDimensions()
 
 
-def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, frame=None, color_col=None):
+def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, frame=None, color_col=None, color_scale=None):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
@@ -58,19 +58,23 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
     # custom_data enables dynamic variable substitution in hovertemplates for static frames    
     custom_data = [cols.VOTES_COUNTED, cols.EC_VOTES, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM, cols.GROUP]
     # hover_data is the fallback plan for animations where custom_data doesn't work
-    hover_data = {cols.ABBREV: False, cols.VOTE_WEIGHT: False, cols.LOG_VOTE_WEIGHT: False, cols.GROUP: True, cols.STATE: True, 
-                    cols.YEAR: True, cols.VOTES_COUNTED: True, cols.EC_VOTES: True, cols.POP_PER_EC: True, cols.EC_VOTES_NORM: True, 
-                    cols.VOTES_COUNTED_NORM: True}
+    hover_data = {cols.ABBREV: False, cols.VOTE_WEIGHT: False, cols.LOG_VOTE_WEIGHT: False, cols.LOG_EC_VOTES: False, 
+                    cols.GROUP: True, cols.STATE: True, cols.YEAR: True, cols.VOTES_COUNTED: True, cols.EC_VOTES: True, 
+                    cols.POP_PER_EC: True, cols.EC_VOTES_NORM: True, cols.VOTES_COUNTED_NORM: True}
 
     # init figure with core properties, set color scale or color category map based on color_col
-    if color_col == cols.LOG_VOTE_WEIGHT:
-        color_continuous_scale = px.colors.diverging.BrBG[::-1]
-        color_continuous_midpoint = 0
+    if color_col in [cols.LOG_VOTE_WEIGHT, cols.LOG_EC_VOTES]:
+        if color_col == cols.LOG_VOTE_WEIGHT:
+            color_continuous_scale = px.colors.diverging.BrBG[::-1]
+            color_continuous_midpoint = 0
+        elif color_col == cols.LOG_EC_VOTES:
+            color_continuous_scale = color_scale
+            color_continuous_midpoint = None
 
         # init figure with core properties
         fig = px.bar(pivot_on_year_df, x=cols.VOTE_WEIGHT, y=cols.STATE, color=color_col, title=fig_title, 
                     custom_data=custom_data, hover_name=cols.VOTE_WEIGHT, hover_data=hover_data,
-                    text=cols.VOTE_WEIGHT, animation_frame=cols.YEAR, # ignored if df is for single year
+                    text=cols.EC_VOTES, animation_frame=cols.YEAR, # ignored if df is for single year
                     color_continuous_scale=color_continuous_scale, color_continuous_midpoint=color_continuous_midpoint,
                     # labels={cols.VOTE_WEIGHT: 'Relative Voter Weight'}, 
                     range_x=[vw_min,vw_max], log_x=True, width=fig_width, height=fig_height)
@@ -93,17 +97,21 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
         # init figure with core properties
         fig = px.bar(pivot_on_year_df, x=cols.VOTE_WEIGHT, y=cols.STATE, color=color_col, title=fig_title, 
                     custom_data=custom_data, hover_name=cols.VOTE_WEIGHT, hover_data=hover_data,
-                    text=cols.VOTE_WEIGHT, animation_frame=cols.YEAR, # ignored if df is for single year
+                    text=cols.EC_VOTES, animation_frame=cols.YEAR, # ignored if df is for single year
                     color_discrete_map=color_discrete_map, category_orders=category_orders,
                     range_x=[vw_min,vw_max], log_x=True, width=fig_width, height=fig_height)
 
     # overlay info on top of bars
     if frame:
-        # display x value alongside bar
-        fig.update_traces(texttemplate='%{text:,}', textposition='outside')
+        if color_col == cols.LOG_EC_VOTES:
+            # superimpose EC votes on top of bar
+            fig.update_traces(texttemplate='EC: %{text}', textposition='inside')
+        else:
+            # display vote weight alongside bar
+            fig.update_traces(texttemplate='%{x:,}', textposition='outside')
     else:
-        # display x value alongside bar
-        fig.update_traces(texttemplate='%{y} (%{text:,})', textposition='inside')
+        # superimpose state + vote weight on top of bar
+        fig.update_traces(texttemplate='%{y} (%{x:,})', textposition='inside')
 
     # axis metadata
     fig.update_xaxes(title_text=x_axis_title)
@@ -111,14 +119,20 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
     fig.update_layout(
         yaxis={'tickangle': 35, 'showticklabels': True, 'type': 'category', 'tickfont_size': 8},
         yaxis_categoryorder='total ascending')
+    # calculate log values to plot on the color bar
+    # TODO pretty sure this works around a plotly bug, also present in choropleth, open ticket or post to stackoverflow
     if color_col == cols.LOG_VOTE_WEIGHT:
-        # calculate log values for weights so I can plot the familiar linear numbers on the color bar
-        # TODO pretty sure this works around a plotly bug, also present in choropleth, open ticket or post to stackoverflow
         tick_text = ['0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']
         lin_ticks = [float(x) for x in tick_text]
         log_ticks = [math.log(t, 2) for t in lin_ticks]
         fig.update_layout(
-            coloraxis_colorbar=dict(tickvals=log_ticks, ticktext=tick_text, title='IPV (log)'))
+            coloraxis_colorbar=dict(tickvals=log_ticks, ticktext=tick_text, title='VW (log)'))
+    elif color_col == cols.LOG_EC_VOTES:
+        tick_text = ['3', '5', '10', '20', '50']
+        lin_ticks = [float(x) for x in tick_text]
+        log_ticks = [math.log(t, 10) for t in lin_ticks]
+        fig.update_layout(
+            coloraxis_colorbar=dict(tickvals=log_ticks, ticktext=tick_text, title='EC votes (log)'))
 
     # center title
     fig.update_layout(title_x=0.5, uniformtext_minsize=10)
@@ -133,7 +147,7 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
     # hovertemplate formatting and variable substitution using customdata
     fig.update_traces(
         hovertemplate="<br>".join([
-            "<b>%{x}</b> (%{y})<br>",
+            "Voter Weight: <b>%{x}</b> (%{y})<br>",
             "Popular Vote: <b>%{customdata[0]:,}</b>",
             "Electoral College Votes: <b>%{customdata[1]}</b>",
             "Popular Vote Per Elector: <b>%{customdata[2]:,}</b>",
