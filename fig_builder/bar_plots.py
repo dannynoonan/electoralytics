@@ -27,7 +27,7 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
 
     if not fig_width:
         fig_width = fig_dims.MD6
-    fig_height = fig_dims.narrow_door(fig_width)
+    fig_height = fig_dims.wide_door(fig_width)
 
     # remove placeholder group rows, clean up empty state row data  
     pivot_on_year_df = pivot_on_year_df[pd.notnull(pivot_on_year_df[cols.STATE])]
