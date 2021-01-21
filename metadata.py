@@ -111,20 +111,23 @@ GROUP_COLORS = {
     'Postbellum': '#DC5A48',
     # Census
     'Northeast': '#19D3F3',
-    # 'Northeast': '#636EFA',
     'South': '#FFA15A',
-    # 'South': '#FECB52',
     'Midwest': '#00CC96',
-    # 'Midwest': '#B6E880',
     'West': '#EB637A',
-    # 'West': '#FF6692',
-    # 'West': '#FF97FF',
+    # Slave-Free
+    'Free (Union)': '#5378BE',
+    'Slave (Confederate)': '#E3B061',
+    'Slave (Border)': '#69B190',
+    'Free': '#5378BE',
+    # 'Slave': '#BE5378',
+    'Slave': '#FFA07A',
+    # Small
     GROUP_LABEL_SMALL_3: '#A0A0A0',
     GROUP_LABEL_SMALL_4: '#A0A0A0',
     GROUP_LABEL_SMALL_5: '#A0A0A0',
     GROUP_LABEL_SMALL_EQ4: '#C0C0C0',
     GROUP_LABEL_SMALL_EQ5: '#E0E0E0',
-    # 'Small': '#AAAAAA', # '#EF553B',
+    # Nat'l
     'Nat\'l Average': '#444444',
 }
 

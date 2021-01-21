@@ -12,7 +12,7 @@ ddirs = DataDirs()
 fig_dims = FigDimensions()
 
 
-def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, frame=None, color_col=None, split_small=False):
+def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, frame=None, color_col=None, alt_groups=[]):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
@@ -25,10 +25,18 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
     if frame:
         pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame]
 
-    if split_small:
-        pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 3, cols.GROUP] = 'Small (3 ECV)'
-        pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 4, cols.GROUP] = 'Small (4 ECV)'
-        pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 5, cols.GROUP] = 'Small (5 ECV)'
+    if alt_groups:
+        if 'slave_free' in alt_groups:
+            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Union', cols.GROUP] = 'Free (Union)'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Confederate', cols.GROUP] = 'Slave (Confederate)'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Border', cols.GROUP] = 'Slave (Border)'
+            groups = ['Free (Union)', 'Slave (Confederate)', 'Slave (Border)', 'Small']
+        if 'split_small' in alt_groups:
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 3, cols.GROUP] = 'Small (3 ECV)'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 4, cols.GROUP] = 'Small (4 ECV)'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 5, cols.GROUP] = 'Small (5 ECV)'
+        groups.extend(['Small (3 ECV)', 'Small (4 ECV)', 'Small (5 ECV)'])
+        # pivot_on_year_df.sort_values(cols.GROUP, inplace=True)
 
     if not fig_width:
         fig_width = fig_dims.MD6

@@ -423,12 +423,12 @@ voter_weight_comparison_details = html.Div([
                                     html.P(className="card-text", children=[
                                         "Open an ", dcc.Link("intractive slideshow animation", 
                                         href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_vw_acw4_1000.html",
-                                        target="_blank"), " of the map above.",
+                                        target="_blank"), " illustrating the full history for the map above.",
                                     ]),
                                     html.P(className="card-text", style={"float": "right"}, children=[
                                         "Open an ", dcc.Link("intractive slideshow animation", 
                                         href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_bar_state_vw_color_by_vw_acw4_900.html",
-                                        target="_blank"), " of the chart to the right.",
+                                        target="_blank"), " illustrating the full history for the chart to the right.",
                                     ]),
                                 ]),
                             ])
@@ -447,12 +447,12 @@ voter_weight_comparison_details = html.Div([
                                     html.P(className="card-text", children=[
                                         "Open an ", dcc.Link("intractive slideshow animation", 
                                         href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_groups_acw4_1000.html",
-                                        target="_blank"), " of the map above.",
+                                        target="_blank"), " illustrating the full history for the map above.",
                                     ]),
                                     html.P(className="card-text", style={"float": "right"}, children=[
                                         "Open an ", dcc.Link("intractive slideshow animation", 
                                         href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_bar_state_vw_color_by_group_acw0_900.html",
-                                        target="_blank"), " of the chart to the right.",
+                                        target="_blank"), " illustrating the full history for the chart to the right.",
                                     ]),
                                 ]),
                             ])
@@ -484,7 +484,7 @@ voter_weight_comparison_details = html.Div([
                                     html.P(className="card-text", children=[
                                         "Open an ", dcc.Link("intractive slideshow animation", 
                                         href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_scatter_state_vw_dots_acw4_1000.html",
-                                        target="_blank"), " of the scatter plot above.",
+                                        target="_blank"), " illustrating the full history for the scatter plot above.",
                                     ]),
                                 ]),
                             ]), 
@@ -496,7 +496,7 @@ voter_weight_comparison_details = html.Div([
                                     html.P(className="card-text", children=[
                                         "Open an ", dcc.Link("intractive slideshow animation", 
                                         href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_scatter_state_vw_bubbles_acw4_1000.html",
-                                        target="_blank"), " of the scatter plot above.",
+                                        target="_blank"), " illustrating the full history for the scatter plot above.",
                                     ]),
                                 ]),
                             ]), 
@@ -508,7 +508,7 @@ voter_weight_comparison_details = html.Div([
                                     html.P(className="card-text", children=[
                                         "Open an ", dcc.Link("intractive slideshow animation", 
                                         href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_scatter_state_vw_abbrevs_acw4_1000.html",
-                                        target="_blank"), " of the scatter plot above.",
+                                        target="_blank"), " illustrating the full history for the scatter plot above.",
                                     ]),
                                 ]),
                             ]), 
@@ -522,7 +522,7 @@ voter_weight_comparison_details = html.Div([
                                     html.P(className="card-text", children=[
                                         "Open an ", dcc.Link("intractive slideshow animation", 
                                         href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_scatter_stategroup_vw_dots_acw4_1000.html",
-                                        target="_blank"), " of the scatter plot above.",
+                                        target="_blank"), " illustrating the full history for the scatter plot above.",
                                     ]),
                                 ]),
                             ]), 
@@ -534,7 +534,7 @@ voter_weight_comparison_details = html.Div([
                                     html.P(className="card-text", children=[
                                         "Open an ", dcc.Link("intractive slideshow animation", 
                                         href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_scatter_stategroup_vw_bubbles_acw4_1000.html",
-                                        target="_blank"), " of the scatter plot above.",
+                                        target="_blank"), " illustrating the full history for the scatter plot above.",
                                     ]),
                                 ]),
                             ]), 
