@@ -87,6 +87,8 @@ CENSUS_GROUPS = ['Northeast', 'South', 'Midwest', 'West']
 GROUP_LABEL_SMALL_3 = 'Small (3 ECV)'
 GROUP_LABEL_SMALL_4 = 'Small (3-4 ECV)'
 GROUP_LABEL_SMALL_5 = 'Small (3-5 ECV)'
+GROUP_LABEL_SMALL_EQ4 = 'Small (4 ECV)'
+GROUP_LABEL_SMALL_EQ5 = 'Small (5 ECV)'
 DATA_DIR_TO_SMALL_GROUP_LABELS = {
     data_dirs.SMALL_3: GROUP_LABEL_SMALL_3,
     data_dirs.SMALL_4: GROUP_LABEL_SMALL_4,
@@ -117,9 +119,11 @@ GROUP_COLORS = {
     'West': '#EB637A',
     # 'West': '#FF6692',
     # 'West': '#FF97FF',
-    GROUP_LABEL_SMALL_3: '#AAAAAA',
-    GROUP_LABEL_SMALL_4: '#AAAAAA',
-    GROUP_LABEL_SMALL_5: '#AAAAAA',
+    GROUP_LABEL_SMALL_3: '#A0A0A0',
+    GROUP_LABEL_SMALL_4: '#A0A0A0',
+    GROUP_LABEL_SMALL_5: '#A0A0A0',
+    GROUP_LABEL_SMALL_EQ4: '#C0C0C0',
+    GROUP_LABEL_SMALL_EQ5: '#E0E0E0',
     # 'Small': '#AAAAAA', # '#EF553B',
     'Nat\'l Average': '#444444',
 }

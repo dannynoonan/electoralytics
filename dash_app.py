@@ -49,6 +49,7 @@ navbar = html.Div([
     dbc.Nav(className="nav nav-pills", children=[
         dbc.DropdownMenu(label="Introduction and Methodology", nav=True, children=[
             dbc.DropdownMenuItem([html.I(className="fa"), "What Is It About the Electoral College"], href='/electoral-college-intro', target="_blank"), 
+            dbc.DropdownMenuItem([html.I(className="fa"), "Voter Weight Reveals Inequity"], href='/voter-weight-reveals-inequity', target="_blank"), 
             dbc.DropdownMenuItem([html.I(className="fa"), "Calculating Voter Weight"], href='/calculating-voter-weight', target="_blank"), 
             dbc.DropdownMenuItem([html.I(className="fa"), "Explanation of State Aggregate Groupings"], href='/explanation-of-groupings', target="_blank"), 
         ]),
@@ -58,9 +59,7 @@ navbar = html.Div([
         ]),
         dbc.DropdownMenu(label="References / Resources", nav=True, children=[
             dbc.DropdownMenuItem([html.I(className="fa"), "Source code"], href='https://github.com/dannynoonan/electoralytics', target="_blank"), 
-            dbc.DropdownMenuItem([html.I(className="fa"), "Articles"], href='/resources/articles'),
-            dbc.DropdownMenuItem([html.I(className="fa"), "Podcasts"], href='/resources/podcasts'),
-            dbc.DropdownMenuItem([html.I(className="fa"), "Books"], href='/resources/books'),
+            dbc.DropdownMenuItem([html.I(className="fa"), "Articles, Podcasts, Books"], href='/resources/articles-podcasts-books'),
         ])
     ])
 ])
@@ -419,6 +418,20 @@ voter_weight_comparison_details = html.Div([
                         dbc.Col(md=7, children=[
                             dcc.Graph(id="fig-map-color-by-state-vw"),
                             html.Br(),
+                            dbc.Card([
+                                dbc.CardBody([
+                                    html.P(className="card-text", children=[
+                                        "Open an ", dcc.Link("intractive slideshow animation", 
+                                        href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_vw_acw4_1000.html",
+                                        target="_blank"), " of the map above.",
+                                    ]),
+                                    html.P(className="card-text", style={"float": "right"}, children=[
+                                        "Open an ", dcc.Link("intractive slideshow animation", 
+                                        href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_bar_state_vw_color_by_vw_acw4_900.html",
+                                        target="_blank"), " of the chart to the right.",
+                                    ]),
+                                ]),
+                            ])
                         ]),
                         dbc.Col(md=5, children=[
                             dcc.Graph(id="fig-bar-state-vw-color-by-vw"),
@@ -429,6 +442,20 @@ voter_weight_comparison_details = html.Div([
                         dbc.Col(md=7, children=[
                             dcc.Graph(id="fig-map-color-by-group"),
                             html.Br(),
+                            dbc.Card([
+                                dbc.CardBody([
+                                    html.P(className="card-text", children=[
+                                        "Open an ", dcc.Link("intractive slideshow animation", 
+                                        href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_groups_acw4_1000.html",
+                                        target="_blank"), " of the map above.",
+                                    ]),
+                                    html.P(className="card-text", style={"float": "right"}, children=[
+                                        "Open an ", dcc.Link("intractive slideshow animation", 
+                                        href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_bar_state_vw_color_by_group_acw0_900.html",
+                                        target="_blank"), " of the chart to the right.",
+                                    ]),
+                                ]),
+                            ])
                         ]),
                         dbc.Col(md=5, children=[
                             dcc.Graph(id="fig-bar-state-vw-color-by-group"),
@@ -451,59 +478,72 @@ voter_weight_comparison_details = html.Div([
                     dbc.Row([
                         dbc.Col(md=6, children=[
                             dcc.Graph(id="fig-scatter-dots-vw-state"),
-                            html.Br(),                          
+                            html.Br(),
+                            dbc.Card([
+                                dbc.CardBody([
+                                    html.P(className="card-text", children=[
+                                        "Open an ", dcc.Link("intractive slideshow animation", 
+                                        href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_scatter_state_vw_dots_acw4_1000.html",
+                                        target="_blank"), " of the scatter plot above.",
+                                    ]),
+                                ]),
+                            ]), 
+                            html.Br(),                     
                             dcc.Graph(id="fig-scatter-bubbles-vw-state"),
                             html.Br(), 
+                            dbc.Card([
+                                dbc.CardBody([
+                                    html.P(className="card-text", children=[
+                                        "Open an ", dcc.Link("intractive slideshow animation", 
+                                        href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_scatter_state_vw_bubbles_acw4_1000.html",
+                                        target="_blank"), " of the scatter plot above.",
+                                    ]),
+                                ]),
+                            ]), 
+                            html.Br(),
                             dcc.Graph(id="fig-scatter-abbrevs-vw-state"),
+                            html.Br(),
+                            dbc.Card([
+                                dbc.CardBody([
+                                    html.P(className="card-text", children=[
+                                        "Open an ", dcc.Link("intractive slideshow animation", 
+                                        href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_scatter_state_vw_abbrevs_acw4_1000.html",
+                                        target="_blank"), " of the scatter plot above.",
+                                    ]),
+                                ]),
+                            ]), 
                             html.Br(),
                         ]),
                         dbc.Col(md=6, children=[
                             dcc.Graph(id="fig-scatter-dots-vw-group"),
                             html.Br(),
+                            dbc.Card([
+                                dbc.CardBody([
+                                    html.P(className="card-text", children=[
+                                        "Open an ", dcc.Link("intractive slideshow animation", 
+                                        href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_scatter_stategroup_vw_dots_acw4_1000.html",
+                                        target="_blank"), " of the scatter plot above.",
+                                    ]),
+                                ]),
+                            ]), 
+                            html.Br(),
                             dcc.Graph(id="fig-scatter-bubbles-vw-group"),
+                            html.Br(),
+                            dbc.Card([
+                                dbc.CardBody([
+                                    html.P(className="card-text", children=[
+                                        "Open an ", dcc.Link("intractive slideshow animation", 
+                                        href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_scatter_stategroup_vw_bubbles_acw4_1000.html",
+                                        target="_blank"), " of the scatter plot above.",
+                                    ]),
+                                ]),
+                            ]), 
                             html.Br(),
                             dcc.Graph(id="fig-box-vw-group"),
                             html.Br(),
                         ]),
                     ])
                 ]),
-
-                # dbc.Tab(label="State-Level Animations - TODO move", tab_style={"font-size": "20px"}, children=[
-                #     dbc.Row([
-                #         dbc.Col(md=6, children=[
-                #             dcc.Graph(id="vote-weight-comparison-by-state-map-1-anim"),
-                #             html.Br(),
-                #             dcc.Graph(id="vote-weight-comparison-by-state-scatter-dots-anim"),
-                #             html.Br(),
-                #             # dcc.Graph(id="vote-weight-comparison-by-state-bar-1-anim"),
-                #             # html.Br(),
-                #         ]),
-                #         dbc.Col(md=6, children=[
-                #             dcc.Graph(id="vote-weight-comparison-by-state-scatter-bubbles-anim"),
-                #             html.Br(), 
-                #             dcc.Graph(id="vote-weight-comparison-by-state-scatter-abbrevs-anim"),
-                #             html.Br(),
-                #             # dcc.Graph(id="vote-weight-comparison-by-state-bar-2-anim"),
-                #             # html.Br(),
-                #         ])
-                #     ])
-                # ]),
-
-                # dbc.Tab(label="Aggregate Group Animations - TODO move", tab_style={"font-size": "20px"}, children=[
-                #     dbc.Row([
-                #         dbc.Col(md=6, children=[
-                #             dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-bubbles-anim"),
-                #             html.Br(),
-                #             dcc.Graph(id="vote-weight-comparison-by-state-group-map-1-anim"),
-                #             html.Br(),
-                #         ]),
-                #         dbc.Col(md=6, children=[
-                #             dcc.Graph(id="vote-weight-comparison-by-state-group-scatter-dots-anim"),
-                #             html.Br(),
-                #         ]),
-                #     ])
-                # ]),
-
             ])
         ])
     ])
@@ -634,6 +674,27 @@ explanation_of_groupings = html.Div([
             ])
         ])
     ])
+])
+
+
+voter_weight_reveals_inequity = html.Div([
+    navbar,
+    html.Br(),
+    dbc.Row([
+        dbc.Col(md=3),
+        dbc.Col(md=6, children=[
+            dbc.Card([
+                dbc.CardBody([
+                    html.H3("Voter Weight and Electoral College Inequity", style={"text-align": "center"}),
+                    html.Br(),
+                    html.P(className="card-text", children=[
+                        "Lorem ipsum"
+                    ]),
+                ])
+            ])
+        ])
+    ]),
+    html.Br(),
 ])
 
 
@@ -894,6 +955,7 @@ app.validation_layout = dbc.Container(fluid=True, children=[
     voter_weight_comparison_overview,
     voter_weight_comparison_details,
     # voter_participation,
+    voter_weight_reveals_inequity,
     electoral_college_intro,
     explanation_of_groupings,
     # swallowed_vote_sampler,
@@ -913,6 +975,8 @@ def display_page(pathname):
     #     return voter_participation
     elif pathname == "/electoral-college-intro":
         return electoral_college_intro
+    elif pathname == "/voter-weight-reveals-inequity":
+        return voter_weight_reveals_inequity
     elif pathname == "/explanation-of-groupings":
         return explanation_of_groupings
     elif pathname == "/calculating-voter-weight":

@@ -26,7 +26,7 @@ def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame, fi
     fig_height = fig_dims.crt(fig_width)
 
     # display metadata
-    base_fig_title = 'Comparison of Voter Weight Ranges Between State Groups'
+    base_fig_title = 'Voter Weight Ranges Across State Groups'
     era = get_era_for_year(frame)
     fig_title = f'{base_fig_title}: {frame} ({era})'
     y_axis_title = 'Voter Weight'

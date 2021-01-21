@@ -59,6 +59,9 @@ filename = f'anim_map_state_groups_{groupings}{max_small}_{fig_width}'
 fig = bar_plots.build_ivw_by_state_bar(data_obj, groupings, 0, fig_width=fig_width, color_col=cols.GROUP)
 filename = f'anim_bar_state_vw_color_by_group_{groupings}0_{fig_width}'
 
+fig = bar_plots.build_ivw_by_state_bar(data_obj, groupings, 5, fig_width=fig_width, color_col=cols.GROUP, split_small=True)
+filename = f'anim_bar_state_vw_color_by_group_{groupings}0_{fig_width}'
+
 # fig = bar_plots.build_ivw_by_state_bar(data_obj, groupings, max_small, fig_width=fig_width, color_col=cols.LOG_VOTE_WEIGHT)
 # filename = f'anim_bar_state_vw_color_by_vw_{groupings}{max_small}_{fig_width}'
 
@@ -76,6 +79,9 @@ filename = f'fig_map_state_vw_acw4_{fig_width}'
 
 fig = choropleths.build_ivw_by_state_map(data_obj, groupings, max_small, cols.GROUP, fig_width=fig_width, frame=1960)
 filename = f'fig_map_color_by_group_acw4_{fig_width}'
+
+fig = bar_plots.build_ivw_by_state_bar(data_obj, groupings, max_small, fig_width=fig_width, frame=1960, color_col=cols.GROUP)
+filename = f'fig_bar_state_vw_color_by_group_{fig_width}'
 
 fig = bar_plots.build_ivw_by_state_bar(data_obj, groupings, max_small, fig_width=fig_width, frame=1960, color_col=cols.GROUP)
 filename = f'fig_bar_state_vw_color_by_group_{fig_width}'
