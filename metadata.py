@@ -114,13 +114,10 @@ GROUP_COLORS = {
     'South': '#FFA15A',
     'Midwest': '#00CC96',
     'West': '#EB637A',
-    # Slave-Free
+    # Slave/Free
     'Free (Union)': '#5378BE',
     'Slave (Confederate)': '#E3B061',
     'Slave (Border)': '#69B190',
-    'Free': '#5378BE',
-    # 'Slave': '#BE5378',
-    'Slave': '#FFA07A',
     # Small
     GROUP_LABEL_SMALL_3: '#A0A0A0',
     GROUP_LABEL_SMALL_4: '#A0A0A0',

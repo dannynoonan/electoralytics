@@ -49,7 +49,7 @@ navbar = html.Div([
     dbc.Nav(className="nav nav-pills", children=[
         dbc.DropdownMenu(label="Introduction and Methodology", nav=True, children=[
             dbc.DropdownMenuItem([html.I(className="fa"), "What Is It About the Electoral College"], href='/electoral-college-intro', target="_blank"), 
-            dbc.DropdownMenuItem([html.I(className="fa"), "Voter Weight Reveals Inequity"], href='/voter-weight-reveals-inequity', target="_blank"), 
+            dbc.DropdownMenuItem([html.I(className="fa"), "Voter Weight Reveals Electoral College Bias"], href='/voter-weight-reveals-electoral-college-bias', target="_blank"), 
             dbc.DropdownMenuItem([html.I(className="fa"), "Calculating Voter Weight"], href='/calculating-voter-weight', target="_blank"), 
             dbc.DropdownMenuItem([html.I(className="fa"), "Explanation of State Aggregate Groupings"], href='/explanation-of-groupings', target="_blank"), 
         ]),
@@ -677,21 +677,298 @@ explanation_of_groupings = html.Div([
 ])
 
 
-voter_weight_reveals_inequity = html.Div([
+voter_weight_reveals_electoral_college_bias = html.Div([
     navbar,
     html.Br(),
     dbc.Row([
-        dbc.Col(md=3),
+        html.H3("Exploring Electoral College biases using “Voter Weight”"),
+    ], justify="center", align="center"),
+    html.Br(),
+    dbc.Row([
         dbc.Col(md=6, children=[
             dbc.Card([
                 dbc.CardBody([
-                    html.H3("Voter Weight and Electoral College Inequity", style={"text-align": "center"}),
-                    html.Br(),
                     html.P(className="card-text", children=[
-                        "Lorem ipsum"
+                        "There’s some funny math built into the way we elect the President here in the US of A. Unlike more run-of-the-mill democratic \
+                        contests where every vote is tallied and the candidate with the most votes is declared the winner (", html.I("BOHHH"), 
+                        "-ring), here the weight of each individual vote depends on the state from which it was cast, and specifically on the Electoral \
+                        College apportionment granted to that state. Broadly speaking, a state’s apportionment correlates with (indeed, is determined by) \
+                        its population, so in theory everybody’s votes end up counting for roughly the same amount… but the devil is in the details, where \
+                        things don’t always line up as neatly as we’d expect."
+                    ]),
+                    html.Br(),
+                    html.H4("Small-state bias"),
+                    html.P(className="card-text", children=[
+                        "Of the various grievances frequently levied against this quirky 232-year-old institution, the disproportionate influence of \
+                        voters in less populous states has drawn an outsized share of recent ire. The effects of “small-state bias” are often illustrated by \
+                        comparing the ratio of each state’s population to its Electoral College votes, but the same effect is evident—and arguably more \
+                        precise—if we base the calculation on voter ", html.I("participation"), " (turnout) instead of population:"
+                    ]),
+                    html.Br(),
+                    html.H4("As the framers intended"),
+                    html.P(className="card-text", children=[
+                        "In the current political balance, rural states (like Wyoming) benefitting from small-state bias tend to lean conservative, adding \
+                        an air of political urgency to grievances against this electoral wrinkle. But the influence boost granted to states with smaller \
+                        populations has been part of the Electoral College since its inception, and suffice to say this was not its most controversial piece. \
+                        From its genesis during the Constitutional Convention, each state’s apportionment in the Electoral College was based on two things:",
+                        html.Ol(children=[
+                            html.Li("the same hybrid of flat (Senate) + proportional (House) representation that was the basis of the bicameral “Great \
+                                Compromise” - aka “small-state bias”"),
+                            html.Li("the infamous “Three-fifths Compromise” that rewarded white property-owning male voters in slave states with increased \
+                                congressional representation (and electoral vote allocation) in direct proportion to the size of their enslaved populations \
+                                - aka “slave-state bias”")
+                        ])
+                    ]),
+                    html.P(className="card-text", children=[
+                        "Antiquated though it may be, many still argue that small-state bias has a functional — if controversial — role to play as a bulwark \
+                        against big-state tyranny, protecting smaller populations (often spread across large swaths of territory) from being drowned out by \
+                        those living in larger population centers. And as patently objectionable as the Three-fifths Compromise is, the fact that it and the \
+                        heinous institution it bolstered were rendered obsolete by the Reconstruction amendments following the Civil War 150+ years ago has \
+                        presumably limited its relevance with respect to the Electoral College since then."
+                    ]),
+                    html.P(className="card-text", children=[
+                        "Presumably..."
+                    ]),
+                    html.Br(), html.Br(), html.Br(), html.Br(),
+                    html.P(className="card-text", style={"font-style": "italic"}, children=[
+                        "The chart to the right, the charts below, and every other chart in this publication use presidential election data accessible via this ",
+                        dcc.Link("Wikipedia portal", href="https://en.wikipedia.org/wiki/List_of_United_States_presidential_election_results_by_state", 
+                        target="_blank"), ". A consolidated version of that data (what I’m using to power this website) is available in csv format in the ",
+                        dcc.Link("data/ directory", href="https://github.com/dannynoonan/electoralytics/tree/master/data", target="_blank"), " of the ",
+                        dcc.Link("electoralytics repo", href="https://github.com/dannynoonan/electoralytics", target="_blank"), " on github."
                     ]),
                 ])
             ])
+        ]),
+        dbc.Col(md=6, children=[
+            dcc.Slider(
+                id="small-state-bias-year-input",
+                min=2000,
+                max=2020,
+                step=None,
+                marks={
+                    int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)'}}
+                    for y in data_obj.all_years if y >= 2000
+                },
+                value=2020,
+            ),
+            html.Br(),
+            dcc.Graph(id="fig-bar-small-state-bias"),
+            dbc.Card([
+                dbc.CardBody([
+                    html.P(className="card-text", children=[
+                        "Want to make your voice heard in Washington? Move to Wyoming!"
+                    ])
+                ])
+            ])
+        ])
+    ]),
+    html.Hr(),
+    html.Br(),
+    dbc.Row([
+        dbc.Col(md=6, children=[
+            dcc.Slider(
+                id="slave-state-bias-year-input",
+                min=1840,
+                max=1860,
+                step=None,
+                marks={
+                    int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)'}}
+                    for y in data_obj.all_years if y >= 1840 and y <= 1860
+                },
+                value=1860,
+            ),
+            html.Br(),
+            dcc.Graph(id="fig-bar-slave-state-bias"),
+            html.Br(),
+        ]),
+        dbc.Col(md=6, children=[
+            dbc.Card([
+                dbc.CardBody([
+                    html.Br(),
+                    html.H4("Slave state bias"),
+                    html.P(className="card-text", children=[
+                        "Sticking with the same “Voter Weight” calculation above, but turning the clock back 160 years, we encounter the infamous slave-state \
+                        bias in the chart to the left."
+                    ]),
+                    html.P(className="card-text", children=[
+                        "The small-state boost is evident here as well, but since the larger slave states send more electors to the Electoral College, the \
+                        magnitude of the slave-state bias ends up having greater impact overall."
+                    ]),
+                    html.Br(),
+                    html.H4("Voter Weight"),
+                    html.P(className="card-text", children=[
+                        "Note that we’ve applied the same “Voter Weight” calculation to illustrate both biases above. This despite the various \
+                        biases deriving from different legal statutes and census formulas, with different factors skewing the relationship between \
+                        apportionment and participation for each. Regardless of external inputs, Voter Weight boils down to the ratio between two factors:",
+                        html.Ol(children=[
+                            html.Li("popular vote, i.e. the number of people who cast a ballot, in a given state"),
+                            html.Li("the number of electors each state sends to the Electoral College (as determined by population census and the +2 senator \
+                                “bicameral boost”)")
+                        ]),
+                        "The higher the turnout (1) is relative to apportionment (2), the lower the impact of any given voter in that state, since slicing \
+                        the state’s pie into more pieces doesn’t change the overall size of the pie, it just reduces the size of each piece."
+                    ]),
+                    html.P(className="card-text", children=[
+                        "TODO do I need a paper-doll style graphic here explaining the 'slices of pie' idea?"
+                    ]),
+                    html.P(className="card-text", children=[
+                        "I’ll go into more detail on how I’m deriving Voter Weight in a later section, but a couple top line observations for now:",
+                        html.Ul(children=[
+                            html.Li("Voter Weight is a zero sum game: in aggregate all weights average out to 1.0, so an increase in one state must be offset \
+                                by a decrease in another"),
+                            html.Li("While a higher Voter Weight benefits those to whom it directly applies, it is ultimately a marker of anti-democratic \
+                                outcomes that favor one population over another"),
+                            html.Li("Regardless of which factors of apportionment or participation are responsible for shifts or distortions in Voter Weight, \
+                                the resulting comparison is apples-to-apples - that is, the same calculation can be applied regardless of underlying bias / \
+                                combination of biases")
+                        ]),
+                    ]),
+                ])
+            ])
+        ])
+    ]),
+    html.Hr(),
+    html.Br(),
+    dbc.Row([
+        dbc.Col(md=6, children=[
+            dbc.Card([
+                dbc.CardBody([
+                    html.H4("Voter suppression as a “five-fifths” scheme"),
+                    html.P(className="card-text", children=[
+                        "Now for the main event. Shortly before last November’s election, an episode of NPR’s Throughline made a case I’d never considered \
+                        before, connecting the lingering effects of the Three-Fifths Compromise to attitudes toward enfranchisement in the post-war South. \
+                        The hosts, joined by guest author Professor Akhil Reed Amar, argued that although the Three-fifths Compromise did technically end \
+                        with the abolition of slavery, it was effectively replaced by an even less equitable permutation of that infamous inaugural Electoral \
+                        College bias. Part of their “(mis)Representative Democracy” series, the full episode is 58 minutes, but this ", 
+                        dcc.Link("5-minute video snippet", href="https://www.npr.org/2020/09/30/918717270/the-electoral-college", target="_blank"),
+                        " gets to the heart of what caught my attention:",
+                    ]),
+                    html.Br(),
+                    html.Iframe(id="jw_embed", width="770", height="450", src="https://www.npr.org/embedded-video?storyId=918717270&mediaId=930549092&jwMediaType=null")
+                ])
+            ])
+        ]),
+        dbc.Col(md=6, children=[
+            dbc.Card([
+                dbc.CardBody([
+                    html.P(className="card-text", children=[
+                        "This part in particular grabbed my attention:"
+                    ]),
+                    html.Div(style={"margin-left": "50px", "margin-right": "50px", "font-style": "italic"}, children=[
+                        html.P(className="card-text", children=[
+                            "After the Civil War and the passage of the 13th amendment abolishing slavery, [southern states’] resistance to direct election \
+                            [as an alternative to the Electoral College] only grew stronger."
+                        ]),
+                        html.P(className="card-text", children=[
+                            "It's the “oh, crap” moment, because now we've gotten rid of slavery. So what happens to three-fifths? It becomes ", 
+                            html.B("FIVE"), "-fifths, because now technically everyone is free."
+                        ]),
+                        html.P(className="card-text", children=[
+                            "Suddenly, former slaves were fully counted in their populations. And now, the former Confederacy wielded even more power. \
+                            Because the Electoral College system rewards population over participation, southern states started to systematically keep \
+                            Black citizens from voting."
+                        ]),
+                        html.P(className="card-text", children=[
+                            "So actually, the South is going to have more seats in the Electoral College than ever before, more seats in the House of \
+                            Representatives, and they're not letting their people vote."
+                        ]),
+                        html.P(className="card-text", children=[
+                            "By suppressing Black voters, the southern states actually got a better deal when the Three-fifths Compromise ended."
+                        ])
+                    ]),
+                    html.Br(),
+                    html.P(className="card-text", children=[
+                        "That Southern white “Redeemers” disenfranchised the Black electorate through the uneven application of poll taxes, literacy tests, \
+                        grandfather clauses, as well as more direct intimidation and violence for 90-odd years during the Jim Crow era is (a) fucking insane, \
+                        horrific, and infuriating, but also (b) not breaking news. What does feel “news-breaking” in the podcast is the idea that suppressing \
+                        the Black vote had been part-and-parcel with Southern whites retaining — nay, ", html.I("increasing"), " — their disproportionate pre-war influence \
+                        on national elections, as compared to voters in other states. The idea that, buried in the warped racist logic that drove Southern \
+                        Redeemers to shamelessly, systematically, and violently prevent their Black populations from voting between the end of Reconstruction \
+                        in 1877 and the signing of the Voting Rights Act in 1965, was a sense of lingering electoral entitlement, an expectation that the same \
+                        preferential treatment for Southern whites enshrined in the “three-fifths” clause of the Constitution ought to be protected and \
+                        perpetuated.",
+                    ]),
+                ])
+            ])
+        ])
+    ]),
+    html.Hr(),
+    html.Br(),
+    dbc.Row([
+        dbc.Col(md=6, children=[
+            dbc.Card([
+                dbc.CardBody([
+                    html.H4("Suppression-state bias"),
+                    html.P(className="card-text", children=[
+                        "Considering all our 21st century grumbling about how small-state bias amplifies the voice of a Wyoming voter at the expense of a \
+                        California voter, and the stomach-churning 18th-19th century slave-state bias which amplified the voice of a Virginia slave-owner \
+                        relative to a New York merchant, I was curious how this third category of electoral bias during Jim Crow — let’s call it \
+                        “suppression-state bias” — would stack up against those other two."
+                    ]),
+                    html.P(className="card-text", children=[
+                        "Let’s take a quick look at the Jim Crow era, plugging in the same Voter Weight calculation we’ve used to reveal small-state bias \
+                        and slave-state bias above. Jim Crow voter suppression wasn’t institutionalized overnight, though by some measures it did begin the \
+                        moment Hayes struck his infamous deal ending Reconstruction in 1877, and by most accounts it continued right up until passage of the \
+                        Civil Rights act of 1964 and the Voting Rights Act of 1965, so it’s worth examining any year in that nearly 90-year time window. My ",
+                        dcc.Link("Wikipedia data source", href="https://en.wikipedia.org/wiki/List_of_United_States_presidential_election_results_by_state",
+                        target="_blank"), " lacks racial demographic detail, but on the face of things the issue is as regional as it is racial, with \
+                        potential determinitive factors being a state’s racial demographics, its prior relationship to slavery, and perhaps which side it \
+                        fought on during the Civil War. I explore the logic behind the grouping heuristics in an upcoming section, but the color-coding gives \
+                        an immediate sense for why I settled on the groupings I chose"
+                    ]),
+                    html.P(className="card-text", children=[
+                        "If Voter Weight in 1940 was 7.5 in South Carolina compared with 0.96 in Connecticut, that means pound-for-pound it would take 7-8 \
+                        votes cast in Connecticut to equal the influence of a single vote cast in South Carolina. Again, I’ll dive further into the Voter \
+                        Weight calculation details in the next section, but suffice to say this represents a staggering disparity in the influence of \
+                        individual voters in these states. Absent the factors of state size (both state’s populations earned them 8 Electoral College votes) \
+                        or slavery (having been abolished a full 75 years prior) the bias revealed in this bar graph has no explanation in Electoral \
+                        apportionment logic. Nothing accounts for this disparity other than staggering differences in voter participation, almost certainly \
+                        tied to massive institutional voter suppression."
+                    ]),
+                    html.P(className="card-text", children=[
+                        "Depending on your familiarity with racial voter suppression in the century following the Civil War, you may or may not be surprised \
+                        that the mathematically-prescribed small-state and slave-state biases enshrined in the Constitution--that is, the apportionment \
+                        imbalances that have made it onto every AP American History exam since the arrival of the Number 2 pencil--might in fact pale by \
+                        comparison to other permutations of sustained, systemic electoral inequity. The bigger story here, of course, isn’t that some states’ \
+                        (white) voters counted for more than other states’ (predominantly white) voters, it’s that hundreds of thousands of Southern Blacks \
+                        (and poor whites) were prevented from voting altogether, through the uneven application of poll taxes, literacy tests, grandfather \
+                        clauses, as well as more direct intimidation and violence for 90-odd years during the Jim Crow era. However, if ", 
+                        html.I("Throughline’s"), " “five-fifths” post-war status-quo idea holds water, the villainous cackling of turn-of-the-century \
+                        Southern racist political scheming doesn’t end there. Under an EC system that grants influence based on population rather than \
+                        participation, voter suppression has a corollary effect — and another perverse incentive — at the national level: it amplifies \
+                        precisely those voices responsible for suppressing their local voter turnout, relative to the voices of voters in states not engaged \
+                        in systemic voter suppression."
+                    ]),
+                    html.P(className="card-text", children=[
+                        "The question of which in an assortment of plausible nefarious intentions motivated white supremacist voter suppression in the \
+                        postbellum South is well beyond my purview - let’s leave that to the historians and social scientists. However, the fact that this \
+                        period of sustained disconnect between census population and voter participation is seared into the historical record means that now, \
+                        with the help of some basic data processing and visualization utilities, it’s straight-forward to examine in detail exactly how \
+                        un-democratic every state has behaved at certain points in history, and to potentially infer correlation or causation between Voter \
+                        Weight trends and specific external factors."
+                    ]),
+                    html.P(className="card-text", children=[
+                        "Welcome to my visual analysis of 220 years of bias in the Electoral College!"
+                    ]),
+                ])
+            ])
+        ]),
+        dbc.Col(md=6, children=[
+            dcc.Slider(
+                id="suppression-state-bias-year-input",
+                min=1880,
+                max=1960,
+                step=None,
+                marks={
+                    int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)'}}
+                    for y in [1880, 1900, 1920, 1940, 1960]
+                },
+                value=1940,
+            ),
+            html.Br(),
+            dcc.Graph(id="fig-bar-suppression-state-bias"),
+            html.Br(),
         ])
     ]),
     html.Br(),
@@ -955,7 +1232,7 @@ app.validation_layout = dbc.Container(fluid=True, children=[
     voter_weight_comparison_overview,
     voter_weight_comparison_details,
     # voter_participation,
-    voter_weight_reveals_inequity,
+    voter_weight_reveals_electoral_college_bias,
     electoral_college_intro,
     explanation_of_groupings,
     # swallowed_vote_sampler,
@@ -975,12 +1252,12 @@ def display_page(pathname):
     #     return voter_participation
     elif pathname == "/electoral-college-intro":
         return electoral_college_intro
-    elif pathname == "/voter-weight-reveals-inequity":
-        return voter_weight_reveals_inequity
-    elif pathname == "/explanation-of-groupings":
-        return explanation_of_groupings
+    elif pathname == "/voter-weight-reveals-electoral-college-bias":
+        return voter_weight_reveals_electoral_college_bias
     elif pathname == "/calculating-voter-weight":
         return calculating_voter_weight
+    elif pathname == "/explanation-of-groupings":
+        return explanation_of_groupings
     # elif pathname == "/swallowed-vote-sampler":
     #     return swallowed_vote_sampler
     else:
@@ -1204,6 +1481,32 @@ def display_electoral_collge_intro_tab4(year_input):
     suppress_callback_exceptions = True
     fig = bar_plots.build_swallowed_vote_ec_bar(data_obj)
     return fig
+
+
+# voter-weight-reveals-electoral-college-bias callbacks
+@app.callback(
+    Output('fig-bar-small-state-bias', 'figure'),
+    Output('fig-bar-slave-state-bias', 'figure'),
+    # Output('fig-bar-tbd-bias', 'figure'),
+    Output('fig-bar-suppression-state-bias', 'figure'),
+    Input('small-state-bias-year-input', 'value'),
+    Input('slave-state-bias-year-input', 'value'),
+    # Input('tbd-bias-year-input', 'value'),
+    Input('suppression-state-bias-year-input', 'value'),    
+)
+def display_state_grouping_explanation(small_state_bias_year_input, slave_state_bias_year_input, suppression_state_bias_year_input):
+    # process input
+    small_state_bias_year = int(small_state_bias_year_input)
+    slave_state_bias_year = int(slave_state_bias_year_input)
+    # tbd_bias_year = int(tbd_bias_year_input)
+    suppression_state_bias_year = int(suppression_state_bias_year_input)
+    # generate figs
+    fig_bar_small_state_bias = bar_plots.build_ivw_by_state_bar(data_obj, ddirs.CENSUS, 5, frame=small_state_bias_year, color_col=cols.GROUP, alt_groups=['split_small'])
+    fig_bar_slave_state_bias = bar_plots.build_ivw_by_state_bar(data_obj, ddirs.ACW, 5, frame=slave_state_bias_year, color_col=cols.GROUP, 
+                                                                alt_groups=['slave_free', 'split_small'], fig_width=fig_dims.MD6, fig_height=fig_dims.MD6)
+    # fig_bar_tbd_bias = bar_plots.build_ivw_by_state_bar(data_obj, ddirs.CENSUS, 5, frame=tbd_bias_year, color_col=cols.GROUP, alt_groups=['split_small'])
+    fig_bar_suppression_state_bias = bar_plots.build_ivw_by_state_bar(data_obj, ddirs.ACW, 5, frame=suppression_state_bias_year, color_col=cols.GROUP, alt_groups=['split_small'])
+    return fig_bar_small_state_bias, fig_bar_slave_state_bias, fig_bar_suppression_state_bias
 
 
 # explanation-of-groupings callbacks

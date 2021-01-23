@@ -12,7 +12,7 @@ ddirs = DataDirs()
 fig_dims = FigDimensions()
 
 
-def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, frame=None, color_col=None, alt_groups=[]):
+def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_height=None, frame=None, color_col=None, alt_groups=[]):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
@@ -35,12 +35,16 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
             pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 3, cols.GROUP] = 'Small (3 ECV)'
             pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 4, cols.GROUP] = 'Small (4 ECV)'
             pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 5, cols.GROUP] = 'Small (5 ECV)'
-        groups.extend(['Small (3 ECV)', 'Small (4 ECV)', 'Small (5 ECV)'])
+            groups.extend(['Small (3 ECV)', 'Small (4 ECV)', 'Small (5 ECV)'])
         # pivot_on_year_df.sort_values(cols.GROUP, inplace=True)
+
+    print(f'groups: {groups}')
+    print(f'pivot_on_year_df:\n{pivot_on_year_df}')
 
     if not fig_width:
         fig_width = fig_dims.MD6
-    fig_height = fig_dims.wide_door(fig_width)
+    if not fig_height:
+        fig_height = fig_dims.wide_door(fig_width)
 
     # remove placeholder group rows, clean up empty state row data  
     pivot_on_year_df = pivot_on_year_df[pd.notnull(pivot_on_year_df[cols.STATE])]
@@ -109,6 +113,8 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fram
                 category_orders = {cols.STATE: all_states}
                 color_discrete_map = flatten_state_color_map(data_obj.all_states_meta_df, groups_dir)
                 color_col = cols.STATE
+
+        print(f"category_orders: {category_orders}")
 
         # init figure with core properties
         fig = px.bar(pivot_on_year_df, x=cols.VOTE_WEIGHT, y=cols.STATE, color=color_col, title=fig_title, 
