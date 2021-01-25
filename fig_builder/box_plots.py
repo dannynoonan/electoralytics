@@ -12,14 +12,15 @@ def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame, fi
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
-    groups = GROUPS_FOR_DIR[groups_dir]
+    groups = GROUPS_FOR_DIR[groups_dir].copy()
 
     # extract single-year data
     pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame]
 
     # remove any rows added by other processes  TODO only seen twice and tough to reproduce. aberration?
-    pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.GROUP].isin(groups)]
-    # print(f"pivot_on_year_df after:\n{pivot_on_year_df}")
+    # pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.GROUP].isin(groups)]
+    # print(f"in build_ivw_by_state_group_box_plot, pivot_on_year_df after:\n{pivot_on_year_df}")
+    # print(f"groups: {groups}")
 
     if not fig_width:
         fig_width = fig_dims.MD6

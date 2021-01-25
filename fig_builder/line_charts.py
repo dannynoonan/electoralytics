@@ -25,7 +25,7 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
     data_obj.load_dfs_for_subdir(subdir)
     data_obj.load_totals_by_year
     group_aggs_by_year_df = data_obj.group_agg_weights_pivot_dfs[subdir].copy()
-    groups = GROUPS_FOR_DIR[groups_dir]
+    groups = GROUPS_FOR_DIR[groups_dir].copy()
     group_col = GROUPS_COL_FOR_DIR[groups_dir]
 
     # assign GROUP_COLORS to local var so it can be modified if states are added

@@ -16,7 +16,7 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
-    groups = GROUPS_FOR_DIR[groups_dir]
+    groups = GROUPS_FOR_DIR[groups_dir].copy()
 
     if not color_col:
         color_col = cols.GROUP
@@ -27,15 +27,22 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_
 
     if alt_groups:
         if 'slave_free' in alt_groups:
-            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Union', cols.GROUP] = 'Free (Union)'
-            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Confederate', cols.GROUP] = 'Slave (Confederate)'
-            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Border', cols.GROUP] = 'Slave (Border)'
-            groups = ['Free (Union)', 'Slave (Confederate)', 'Slave (Border)', 'Small']
+            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Union', cols.GROUP] = 'Free'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Confederate', cols.GROUP] = 'Slave'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Border', cols.GROUP] = 'Slave'
+            groups = ['Free', 'Slave', 'Small']
         if 'split_small' in alt_groups:
-            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 3, cols.GROUP] = 'Small (3 ECV)'
-            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 4, cols.GROUP] = 'Small (4 ECV)'
-            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 5, cols.GROUP] = 'Small (5 ECV)'
-            groups.extend(['Small (3 ECV)', 'Small (4 ECV)', 'Small (5 ECV)'])
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] <= 5, cols.GROUP] = '4-5 ECV'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 3, cols.GROUP] = '3 ECV'
+            groups.extend(['3 ECV', '4-5 ECV'])
+        if 'ecv_only' in alt_groups:
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 3, cols.GROUP] = '3 ECV'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] >= 4, cols.GROUP] = '4-5 ECV'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] >= 6, cols.GROUP] = '6-8 ECV'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] >= 9, cols.GROUP] = '9-13 ECV'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] >= 14, cols.GROUP] = '14-19 ECV'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] >= 20, cols.GROUP] = '20+ ECV'
+            groups = ['3 ECV', '4-5 ECV', '6-8 ECV', '9-13 ECV', '14-19 ECV', '20+ ECV']
         # pivot_on_year_df.sort_values(cols.GROUP, inplace=True)
 
     print(f'groups: {groups}')

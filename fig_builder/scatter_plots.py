@@ -13,7 +13,7 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
-    groups = GROUPS_FOR_DIR[groups_dir]
+    groups = GROUPS_FOR_DIR[groups_dir].copy()
 
     if not display_elements:
         display_elements = 'dots'
@@ -139,7 +139,7 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     group_aggs_by_year_df = data_obj.group_agg_weights_pivot_dfs[subdir].copy()
-    groups = GROUPS_FOR_DIR[groups_dir]
+    groups = GROUPS_FOR_DIR[groups_dir].copy()
 
     # if frame is set, extract single-year data
     if frame:
@@ -245,7 +245,7 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
-    groups = GROUPS_FOR_DIR[groups_dir]
+    groups = GROUPS_FOR_DIR[groups_dir].copy()
 
     # if frame is set, extract single-year data
     if frame:
@@ -334,7 +334,7 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fi
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     group_aggs_by_year_df = data_obj.group_agg_weights_pivot_dfs[subdir].copy()
-    groups = GROUPS_FOR_DIR[groups_dir]
+    groups = GROUPS_FOR_DIR[groups_dir].copy()
 
     # if frame is set, extract single-year data
     if frame:

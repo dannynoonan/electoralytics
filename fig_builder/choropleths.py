@@ -17,7 +17,7 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
-    groups = GROUPS_FOR_DIR[groups_dir]
+    groups = GROUPS_FOR_DIR[groups_dir].copy()
 
     if not color_col:
         color_col = cols.LOG_VOTE_WEIGHT
