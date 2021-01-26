@@ -84,8 +84,7 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_
                             width=fig_width, height=fig_height)
 
     # display formatting
-    fig.update_layout(title_x=0.5)
-    fig.update_layout(margin=go.layout.Margin(l=0, r=0, b=20, t=100))
+    fig.update_layout(title_x=0.5, dragmode=False, margin=go.layout.Margin(l=0, r=0, b=20, t=100))
 
     # apply animation settings
     if not frame:

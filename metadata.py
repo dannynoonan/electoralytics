@@ -60,7 +60,7 @@ class FigDimensions():
     def __init__(self):
         self.MD5 = 660
         self.MD6 = 785
-        self.MD7 = 940
+        self.MD7 = 920
         self.MD8 = 1080
         self.MD12 = 1640
 

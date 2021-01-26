@@ -288,15 +288,18 @@ def display_electoral_collge_intro_tab4(year_input):
     Output('fig-bar-suppression-state-bias', 'figure'),
     Output('fig-scatter-dots-suppression-state-bias', 'figure'),
     Output('fig-scatter-bubbles-suppression-state-bias', 'figure'),
+    Output('fig-map-color-by-vw', 'figure'),
     Input('small-state-bias-year-input', 'value'),
     Input('slave-state-bias-year-input', 'value'),
     Input('suppression-state-bias-year-input', 'value'),    
+    Input('map-color-by-vw-year-input', 'value'), 
 )
-def voter_weight_intro_page(small_state_bias_year_input, slave_state_bias_year_input, suppress_state_bias_year_input):
+def voter_weight_intro_page(small_state_bias_year_input, slave_state_bias_year_input, suppress_state_bias_year_input, map_color_by_vw_year_input):
     # process input
     small_state_bias_year = int(small_state_bias_year_input)
     slave_state_bias_year = int(slave_state_bias_year_input)
     suppress_state_bias_year = int(suppress_state_bias_year_input)
+    map_color_by_vw_year = int(map_color_by_vw_year_input)
     # fig titles
     title_small_state_bias = 'States Grouped By Size, Ordered by Voter Weight (Small-State Bias)'
     title_slave_state_bias = 'Free vs Slave vs Small States, Ordered by Voter Weight (Slave-State Bias)'
@@ -323,8 +326,10 @@ def voter_weight_intro_page(small_state_bias_year_input, slave_state_bias_year_i
     fig_scatter_bubbles_suppress_state_bias = scatter_plots.build_ivw_by_state_scatter_bubbles(
         data_obj, ddirs.ACW, 5, frame=suppress_state_bias_year, show_era=False, alt_groups=['split_small'], 
         base_fig_title=title_suppress_state_bias_scatter_bubbles)
+    fig_map_color_by_vw = choropleths.build_ivw_by_state_map(
+        data_obj, ddirs.ACW, 5, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD7, frame=map_color_by_vw_year)
     return (fig_bar_small_state_bias, fig_bar_slave_state_bias, fig_scatter_dots_slave_state_bias, fig_bar_suppress_state_bias, 
-        fig_scatter_dots_suppress_state_bias, fig_scatter_bubbles_suppress_state_bias)
+        fig_scatter_dots_suppress_state_bias, fig_scatter_bubbles_suppress_state_bias, fig_map_color_by_vw)
 
 
 # explanation-of-groupings callbacks

@@ -377,7 +377,7 @@ content = html.Div([
             html.Hr(className="border-light"),
             html.Br(),
             dbc.Row([
-                dbc.Col(md=6, children=[
+                dbc.Col(md=5, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
                             html.H4("Old story, new angle"),
@@ -428,6 +428,24 @@ content = html.Div([
                             ])
                         ])
                     ])
+                ]),
+                dbc.Col(md=7, children=[
+                    dcc.Slider(
+                        id="map-color-by-vw-year-input",
+                        min=1800,
+                        max=2020,
+                        step=None,
+                        marks={
+                            int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)', 'color': 'white'}}
+                            for y in data_obj.all_years 
+                        },
+                        value=1960,
+                    ),
+                    html.Br(),
+                    dcc.Graph(id="fig-map-color-by-vw"),
+                    html.P(className="card-text", style={"padding": "5px"}, children=[
+                        html.Small("Figure 6"),
+                    ]),
                 ]),
             ])
         ])
