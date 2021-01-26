@@ -18,7 +18,7 @@ from metadata import Columns, DataDirs, FigDimensions, YEAR_0, YEAR_N
 
 
 # base config
-app = dash.Dash(external_stylesheets=[dbc.themes.FLATLY])
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
 # server is needed for heroku deployment
 server = app.server
 
