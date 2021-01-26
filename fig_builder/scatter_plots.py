@@ -9,7 +9,8 @@ cols = Columns()
 fig_dims = FigDimensions()
 
 
-def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_elements=None, fig_width=None, frame=None):
+def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_elements=None, fig_width=None, frame=None,
+                                    alt_groups=[], base_fig_title=None, show_era=True):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
@@ -18,9 +19,23 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
     if not display_elements:
         display_elements = 'dots'
 
+    if alt_groups:
+        if 'slave_free' in alt_groups:
+            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Union', cols.GROUP] = 'Free'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Confederate', cols.GROUP] = 'Slave'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Border', cols.GROUP] = 'Slave'
+            groups = ['Free', 'Slave', 'Small']
+        if 'split_small' in alt_groups:
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] <= 5, cols.GROUP] = '4-5 ECV'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 3, cols.GROUP] = '3 ECV'
+            groups.extend(['3 ECV', '4-5 ECV'])
+
     if not fig_width:
         fig_width = fig_dims.MD6
     fig_height = fig_dims.crt(fig_width)
+
+    if not base_fig_title:
+        base_fig_title = 'Voter Weight Per State'
 
     # if frame is set, extract single-year data
     if frame:
@@ -30,7 +45,6 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
     pivot_on_year_df.fillna(-1, inplace=True)
 
     # display metadata common to (or that doesn't interfere with) all display types
-    base_fig_title = 'Voter Weight Per State'
     y_axis_title = 'Electoral College Votes Per State'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.STATE, cols.VOTES_COUNTED, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM]
@@ -54,9 +68,11 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
         totals_by_year_df = data_obj.totals_by_year_df.copy()
         pop_per_ec = totals_by_year_df[totals_by_year_df[cols.YEAR] == frame][cols.POP_PER_EC].item()
         x_mean_line_max = ec_max * pop_per_ec
-        # for static years, set specific era title
-        era = get_era_for_year(frame)
-        fig_title = f'{base_fig_title}: {frame} ({era})'
+        # for static years, title is based on frame and show_era
+        fig_title = f'{base_fig_title}: {frame}'
+        if show_era:
+            era = get_era_for_year(frame)
+            fig_title = f'{fig_title} ({era})'
         
     else:
         # for animations, x axis is EC votes normalized - this keeps amplitude of 'reference mean' trace constant
@@ -241,7 +257,8 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
     return fig
 
 
-def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_width=None, frame=None):
+def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_width=None, frame=None,
+                                    alt_groups=[], base_fig_title=None, show_era=True):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
@@ -259,13 +276,26 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
         fig_width = fig_dims.MD6
     fig_height = fig_dims.crt(fig_width)
 
+    if not base_fig_title:
+        base_fig_title = 'Voter Weight Per State'
+
+    if alt_groups:
+        if 'slave_free' in alt_groups:
+            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Union', cols.GROUP] = 'Free'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Confederate', cols.GROUP] = 'Slave'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Border', cols.GROUP] = 'Slave'
+            groups = ['Free', 'Slave', 'Small']
+        if 'split_small' in alt_groups:
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] <= 5, cols.GROUP] = '4-5 ECV'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 3, cols.GROUP] = '3 ECV'
+            groups.extend(['3 ECV', '4-5 ECV'])
+
     # calculate axis range boundaries 
     ec_max = round(pivot_on_year_df[cols.EC_VOTES].max())
     weight_min = pivot_on_year_df[pivot_on_year_df[cols.VOTE_WEIGHT] > 0][cols.VOTE_WEIGHT].min() * 0.9
     weight_max = pivot_on_year_df[cols.VOTE_WEIGHT].max()
 
     # display metadata common to (or that doesn't interfere with) all display types
-    base_fig_title = 'Voter Weight Per State'
     x_axis_title = 'Electoral College Votes per State'
     y_axis_title = 'Voter Weight Per State (log)'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
@@ -279,8 +309,10 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
     
     # set fields and values that differ for static years (frame) vs animations (!frame)
     if frame:
-        era = get_era_for_year(frame)
-        fig_title = f'{base_fig_title}: {frame} ({era})'
+        fig_title = f'{base_fig_title}: {frame}'
+        if show_era:
+            era = get_era_for_year(frame)
+            fig_title = f'{fig_title} ({era})'
     else:
         fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
 

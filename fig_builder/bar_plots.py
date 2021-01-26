@@ -46,9 +46,6 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_
             groups = ['3 ECV', '4-5 ECV', '6-8 ECV', '9-13 ECV', '14-19 ECV', '20+ ECV']
         # pivot_on_year_df.sort_values(cols.GROUP, inplace=True)
 
-    print(f'groups: {groups}')
-    print(f'pivot_on_year_df:\n{pivot_on_year_df}')
-
     if not fig_width:
         fig_width = fig_dims.MD6
     if not fig_height:

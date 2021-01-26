@@ -62,7 +62,7 @@ content = html.Div([
     ]),
     dbc.Row([
         dbc.Col(md=6, children=[
-            dbc.Card([
+            dbc.Card(className="border-success", children=[
                 dbc.CardBody([
                     html.P(className="card-text", children=[
                         "50 states + DC over the course of 58 elections spanning 232 years is a lot of data to sift through and absorb. I’ve \
@@ -88,7 +88,7 @@ content = html.Div([
             ])
         ]),
         dbc.Col(md=6, children=[
-            dbc.Card([
+            dbc.Card(className="border-success", children=[
                 dbc.CardBody([
                     html.H4("Regional Census Groupings", className="card-title"),
                     html.P(

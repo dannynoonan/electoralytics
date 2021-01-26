@@ -284,29 +284,47 @@ def display_electoral_collge_intro_tab4(year_input):
 @app.callback(
     Output('fig-bar-small-state-bias', 'figure'),
     Output('fig-bar-slave-state-bias', 'figure'),
+    Output('fig-scatter-dots-slave-state-bias', 'figure'),
     Output('fig-bar-suppression-state-bias', 'figure'),
+    Output('fig-scatter-dots-suppression-state-bias', 'figure'),
+    Output('fig-scatter-bubbles-suppression-state-bias', 'figure'),
     Input('small-state-bias-year-input', 'value'),
     Input('slave-state-bias-year-input', 'value'),
     Input('suppression-state-bias-year-input', 'value'),    
 )
-def voter_weight_intro_page(small_state_bias_year_input, slave_state_bias_year_input, suppression_state_bias_year_input):
+def voter_weight_intro_page(small_state_bias_year_input, slave_state_bias_year_input, suppress_state_bias_year_input):
     # process input
     small_state_bias_year = int(small_state_bias_year_input)
     slave_state_bias_year = int(slave_state_bias_year_input)
-    suppression_state_bias_year = int(suppression_state_bias_year_input)
+    suppress_state_bias_year = int(suppress_state_bias_year_input)
     # fig titles
     title_small_state_bias = 'States Grouped By Size, Ordered by Voter Weight (Small-State Bias)'
     title_slave_state_bias = 'Free vs Slave vs Small States, Ordered by Voter Weight (Slave-State Bias)'
+    title_slave_state_bias_scatter_dots = 'Free vs Slave vs Small States, Pop Vote X EC Votes (Slave-State Bias)'
     title_suppress_state_bias = 'States Grouped By Civil War Alliance, Ordered by Voter Weight'
+    title_suppress_state_bias_scatter_dots = 'States Grouped By Civil War Alliance, Pop Vote X EC Votes'
+    title_suppress_state_bias_scatter_bubbles = 'States Grouped By Civil War Alliance, EC Votes X Vote Weight'
     # generate figs
-    fig_bar_small_state_bias = bar_plots.build_ivw_by_state_bar(data_obj, ddirs.CENSUS, 5, frame=small_state_bias_year, color_col=cols.GROUP, 
-                                                                alt_groups=['ecv_only'], base_fig_title=title_small_state_bias, show_era=False)
-    fig_bar_slave_state_bias = bar_plots.build_ivw_by_state_bar(data_obj, ddirs.ACW, 5, frame=slave_state_bias_year, color_col=cols.GROUP,
-                                                                alt_groups=['slave_free', 'split_small'], base_fig_title=title_slave_state_bias, show_era=False,
-                                                                fig_width=fig_dims.MD6, fig_height=fig_dims.MD6)
-    fig_bar_suppress_state_bias = bar_plots.build_ivw_by_state_bar(data_obj, ddirs.ACW, 5, frame=suppression_state_bias_year, color_col=cols.GROUP, 
-                                                                alt_groups=['split_small'], base_fig_title=title_suppress_state_bias, show_era=False)
-    return fig_bar_small_state_bias, fig_bar_slave_state_bias, fig_bar_suppress_state_bias
+    fig_bar_small_state_bias = bar_plots.build_ivw_by_state_bar(
+        data_obj, ddirs.CENSUS, 5, frame=small_state_bias_year, color_col=cols.GROUP, show_era=False, alt_groups=['ecv_only'], 
+        base_fig_title=title_small_state_bias)
+    fig_bar_slave_state_bias = bar_plots.build_ivw_by_state_bar(
+        data_obj, ddirs.ACW, 5, frame=slave_state_bias_year, color_col=cols.GROUP, show_era=False, alt_groups=['slave_free', 'split_small'], 
+        base_fig_title=title_slave_state_bias, fig_width=fig_dims.MD6, fig_height=fig_dims.MD6)
+    fig_scatter_dots_slave_state_bias = scatter_plots.build_ivw_by_state_scatter_dots(
+        data_obj, ddirs.ACW, 5, frame=slave_state_bias_year, show_era=False, alt_groups=['slave_free', 'split_small'], 
+        base_fig_title=title_slave_state_bias_scatter_dots)
+    fig_bar_suppress_state_bias = bar_plots.build_ivw_by_state_bar(
+        data_obj, ddirs.ACW, 5, frame=suppress_state_bias_year, color_col=cols.GROUP, show_era=False, alt_groups=['split_small'], 
+        base_fig_title=title_suppress_state_bias)
+    fig_scatter_dots_suppress_state_bias = scatter_plots.build_ivw_by_state_scatter_dots(
+        data_obj, ddirs.ACW, 5, frame=suppress_state_bias_year, show_era=False, alt_groups=['split_small'], 
+        base_fig_title=title_suppress_state_bias_scatter_dots)
+    fig_scatter_bubbles_suppress_state_bias = scatter_plots.build_ivw_by_state_scatter_bubbles(
+        data_obj, ddirs.ACW, 5, frame=suppress_state_bias_year, show_era=False, alt_groups=['split_small'], 
+        base_fig_title=title_suppress_state_bias_scatter_bubbles)
+    return (fig_bar_small_state_bias, fig_bar_slave_state_bias, fig_scatter_dots_slave_state_bias, fig_bar_suppress_state_bias, 
+        fig_scatter_dots_suppress_state_bias, fig_scatter_bubbles_suppress_state_bias)
 
 
 # explanation-of-groupings callbacks
