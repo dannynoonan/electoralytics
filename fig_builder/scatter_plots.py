@@ -19,17 +19,6 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
     if not display_elements:
         display_elements = 'dots'
 
-    if alt_groups:
-        if 'slave_free' in alt_groups:
-            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Union', cols.GROUP] = 'Free'
-            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Confederate', cols.GROUP] = 'Slave'
-            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Border', cols.GROUP] = 'Slave'
-            groups = ['Free', 'Slave', 'Small']
-        if 'split_small' in alt_groups:
-            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] <= 5, cols.GROUP] = '4-5 ECV'
-            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 3, cols.GROUP] = '3 ECV'
-            groups.extend(['3 ECV', '4-5 ECV'])
-
     if not fig_width:
         fig_width = fig_dims.MD6
     fig_height = fig_dims.crt(fig_width)
@@ -40,6 +29,17 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
     # if frame is set, extract single-year data
     if frame:
         pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame].sort_values(cols.GROUP, ascending=True)
+
+    if alt_groups:
+        if 'slave_free' in alt_groups:
+            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Union', cols.GROUP] = 'Free'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Confederate', cols.GROUP] = 'Slave'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Border', cols.GROUP] = 'Slave'
+            groups = ['Free', 'Slave', 'Small']
+        if 'split_small' in alt_groups:
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] <= 5, cols.GROUP] = '4-5 ECV'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 3, cols.GROUP] = '3 ECV'
+            groups.extend(['3 ECV', '4-5 ECV'])
 
     # while I would prefer the NaNs to declare themselves as such, they don't render nicely as customdata params in hovertemplates
     pivot_on_year_df.fillna(-1, inplace=True)
@@ -264,6 +264,13 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
     groups = GROUPS_FOR_DIR[groups_dir].copy()
 
+    if not fig_width:
+        fig_width = fig_dims.MD6
+    fig_height = fig_dims.crt(fig_width)
+
+    if not base_fig_title:
+        base_fig_title = 'Voter Weight Per State'
+
     # if frame is set, extract single-year data
     if frame:
         pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame]
@@ -271,13 +278,6 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
         # lop off pre-Jacksonian years, early data distorts bubble size of later data
         YEAR_0 = 1828
         pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] >= YEAR_0]
-
-    if not fig_width:
-        fig_width = fig_dims.MD6
-    fig_height = fig_dims.crt(fig_width)
-
-    if not base_fig_title:
-        base_fig_title = 'Voter Weight Per State'
 
     if alt_groups:
         if 'slave_free' in alt_groups:

@@ -13,7 +13,8 @@ ddirs = DataDirs()
 fig_dims = FigDimensions()
 
 
-def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_width=None, frame=None):
+def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_width=None, frame=None,
+                            alt_groups=[], base_fig_title=None, show_era=True):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
@@ -30,6 +31,37 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_
     if frame:
         pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame]
 
+    if alt_groups:
+        if 'slave_free' in alt_groups:
+            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Union', cols.GROUP] = 'Free'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Confederate', cols.GROUP] = 'Slave'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Border', cols.GROUP] = 'Slave'
+            groups = ['Free', 'Slave', 'Small']
+        if 'split_small' in alt_groups:
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] <= 5, cols.GROUP] = '4-5 ECV'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 3, cols.GROUP] = '3 ECV'
+            groups.extend(['3 ECV', '4-5 ECV'])
+
+    # figure title depends on which field the color scale is based on
+    if not base_fig_title:
+        if color_col == cols.GROUP:
+            if groups_dir == ddirs.ACW:
+                base_fig_title = 'States Grouped By Civil War Alignment'
+            else:
+                base_fig_title = 'States Grouped By Regional Census'
+        else:
+            base_fig_title = 'Voter Weight Per State'
+        
+    # set fields and values that differ for static years (frame) vs animations (!frame)
+    if frame:
+        fig_title = f'{base_fig_title}: {frame}'
+        # oye vey with all the scenarios needing all the sizes
+        if show_era and fig_width > 750:
+            era = get_era_for_year(frame)
+            fig_title = f'{fig_title} ({era})'
+    else:
+        fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
+
     # display metadata common to (or that doesn't interfere with) all display types
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.STATE, cols.GROUP, cols.YEAR, cols.VOTES_COUNTED, cols.EC_VOTES, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.EC_VOTES_NORM, 
@@ -37,25 +69,6 @@ def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_
     # hover_data is the fallback plan for animations where custom_data doesn't work
     hover_data = {cols.ABBREV: False, cols.LOG_VOTE_WEIGHT: False, cols.GROUP: True, cols.YEAR: True, cols.VOTES_COUNTED: True, cols.EC_VOTES: True, 
                     cols.VOTE_WEIGHT: True, cols.POP_PER_EC: True, cols.EC_VOTES_NORM: True, cols.VOTES_COUNTED_NORM: True}
-
-    # figure title depends on which field the color scale is based on
-    if color_col == cols.GROUP:
-        if groups_dir == ddirs.ACW:
-            base_fig_title = 'States Grouped By Civil War Alignment'
-        else:
-            base_fig_title = 'States Grouped By Regional Census'
-    else:
-        base_fig_title = 'Voter Weight Per State'
-        
-    # set fields and values that differ for static years (frame) vs animations (!frame)
-    if frame:
-        fig_title = f'{base_fig_title}: {frame}'
-        # oye vey with all the scenarios needing all the sizes
-        if fig_width > 750:
-            era = get_era_for_year(frame)
-            fig_title = f'{fig_title} ({era})'
-    else:
-        fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
 
     # init figure with core properties
     if color_col == cols.LOG_VOTE_WEIGHT:

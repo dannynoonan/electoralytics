@@ -151,9 +151,16 @@ content = html.Div([
                                 the top of the Voter Weight rankings, but since the larger slave states send more electors to the Electoral College the magnitude \
                                 of slave-state bias has measurably greater impact overall."
                             ]),
+                            html.P(className="card-text", children=[
+                                "Figure 3 rearranges the data from Figure 2 into a scatter plot, crossing each state's Popular Vote (x axis) with its Electoral \
+                                College votes (y axis). The intersection between the axes where Voter Weight = 1.0 is plotted as a diagonal line signifying the \
+                                nationwide mean. States whose dots appear above and to the left of the mean line have Voter Weights greater than 1, those whose \
+                                dots are below and to the right have Voter Weights less than 1. Both figures are controlled using the same Year selection slider \
+                                above Figure 2."
+                            ])
                         ])
                     ]),
-                    html.Br(),
+                    html.Br(),html.Br(),
                     dcc.Slider(
                         id="slave-state-bias-year-input",
                         min=1840,
@@ -174,18 +181,6 @@ content = html.Div([
                     ]),
                 ]),
                 dbc.Col(md=6, children=[
-                    dbc.Card(className="border-success", children=[
-                        dbc.CardBody([
-                            html.P(className="card-text", children=[
-                                "Figure 3 rearranges the data from Figure 2 into a scatter plot, crossing each state's Popular Vote (x axis) with its Electoral \
-                                College votes (y axis). The intersection between the axes where Voter Weight = 1.0 is plotted as a diagonal line signifying the \
-                                nationwide mean. States whose dots appear above and to the left of the mean line have Voter Weights greater than 1, those whose \
-                                dots are below and to the right have Voter Weights less than 1. Both figures are controlled using the same Year selection slider \
-                                above Figure 2."
-                            ])
-                        ]),
-                    ]),
-                    html.Br(),
                     dcc.Graph(id="fig-scatter-dots-slave-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
                         html.Small("Figure 3: Slave-state bias, shown by color-shading states into Free, Slave, and Small groupings, and plotting Popular Vote \
@@ -193,6 +188,11 @@ content = html.Div([
                             that is, the intersection between the axes where the Voter Weight ratio is 1.0 — is plotted as a diagonal line signifying the \
                             nationwide mean. States whose dots appear above and to the left of the nationwide mean line have Voter Weights greater than 1, those \
                             whose dots are below and to the right have Voter Weights less than 1."),
+                    ]),
+                    html.Br(),
+                    dcc.Graph(id="fig-map-slave-state-bias"),
+                    html.P(className="card-text", style={"padding": "5px"}, children=[
+                        html.Small("Figure X"),
                     ]),
                     html.Br(),
                     dbc.Card(className="border-success", children=[
@@ -323,11 +323,60 @@ content = html.Div([
                             ]),
                         ])
                     ]),
+                    html.Br(),html.Br(),
+                    dcc.Graph(id="fig-scatter-bubbles-suppress-state-bias"),
+                    html.P(className="card-text", style={"padding": "5px"}, children=[
+                        html.Small("Figure 6"),
+                    ]),
+                    # dcc.Slider(
+                    #     id="suppress-state-bias-year-input",
+                    #     min=1880,
+                    #     max=1960,
+                    #     step=None,
+                    #     marks={
+                    #         int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)', 'color': 'white'}}
+                    #         for y in data_obj.all_years if y >= 1880 and y <= 1960
+                    #     },
+                    #     value=1940,
+                    # ),
+                    # html.Br(),
+                    # dcc.Graph(id="fig-bar-suppress-state-bias"),
+                    # html.P(className="card-text", style={"padding": "5px"}, children=[
+                    #     html.Small("Figure 4"),
+                    # ]),
                     html.Br(),
-                    dcc.Graph(id="fig-scatter-dots-suppression-state-bias"),
+                    dcc.Graph(id="fig-map-suppress-state-bias"),
+                    html.P(className="card-text", style={"padding": "5px"}, children=[
+                        html.Small("Figure X"),
+                    ]),
+                    html.Br(),
+                ]),
+                dbc.Col(md=6, children=[
+                    dcc.Graph(id="fig-scatter-dots-suppress-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
                         html.Small("Figure 5"),
                     ]),
+                    html.Br(),
+                    dcc.Slider(
+                        id="suppress-state-bias-year-input",
+                        min=1880,
+                        max=1960,
+                        step=None,
+                        marks={
+                            int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)', 'color': 'white'}}
+                            for y in data_obj.all_years if y >= 1880 and y <= 1960
+                        },
+                        value=1940,
+                    ),
+                    html.Br(),
+                    dcc.Graph(id="fig-bar-suppress-state-bias"),
+                    html.P(className="card-text", style={"padding": "5px"}, children=[
+                        html.Small("Figure 4"),
+                    ]),
+                    # dcc.Graph(id="fig-scatter-bubbles-suppress-state-bias"),
+                    # html.P(className="card-text", style={"padding": "5px"}, children=[
+                    #     html.Small("Figure 6"),
+                    # ]),
                     html.Br(),
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
@@ -346,31 +395,6 @@ content = html.Div([
                             ]),
                         ])
                     ])
-                ]),
-                dbc.Col(md=6, children=[
-                    html.Br(),
-                    dcc.Slider(
-                        id="suppression-state-bias-year-input",
-                        min=1880,
-                        max=1960,
-                        step=None,
-                        marks={
-                            int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)', 'color': 'white'}}
-                            for y in data_obj.all_years if y >= 1880 and y <= 1960
-                        },
-                        value=1940,
-                    ),
-                    html.Br(),
-                    dcc.Graph(id="fig-bar-suppression-state-bias"),
-                    html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 4"),
-                    ]),
-                    html.Br(),
-                    dcc.Graph(id="fig-scatter-bubbles-suppression-state-bias"),
-                    html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 6"),
-                    ]),
-                    html.Br(),
                 ])
             ]),
             html.Br(),
@@ -444,7 +468,7 @@ content = html.Div([
                     html.Br(),
                     dcc.Graph(id="fig-map-color-by-vw"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 6"),
+                        html.Small("Figure 7"),
                     ]),
                 ]),
             ])
