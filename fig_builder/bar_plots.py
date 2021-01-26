@@ -12,7 +12,8 @@ ddirs = DataDirs()
 fig_dims = FigDimensions()
 
 
-def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_height=None, frame=None, color_col=None, alt_groups=[]):
+def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_height=None, frame=None, color_col=None, 
+                            alt_groups=[], base_fig_title=None, show_era=True):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
@@ -53,6 +54,9 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_
     if not fig_height:
         fig_height = fig_dims.wide_door(fig_width)
 
+    if not base_fig_title:
+        base_fig_title = 'Voter Weight Per State'
+
     # remove placeholder group rows, clean up empty state row data  
     pivot_on_year_df = pivot_on_year_df[pd.notnull(pivot_on_year_df[cols.STATE])]
     # part of my battle to keep states with no popular vote on the chart, while excluding states that hadn't been admitted yet
@@ -73,10 +77,11 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_
         vw_max = vw_max * 1.15
 
     # display metadata
-    base_fig_title = 'Voter Weight Per State'
     if frame:
-        era = get_era_for_year(frame)
-        fig_title = f'{base_fig_title}: {frame} ({era})'
+        fig_title = f'{base_fig_title}: {frame}'
+        if show_era:
+            era = get_era_for_year(frame)
+            fig_title = f'{fig_title} ({era})'
     else:
         fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
     x_axis_title = 'Voter Weight (log)'

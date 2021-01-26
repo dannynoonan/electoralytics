@@ -59,7 +59,7 @@ class Columns():
 class FigDimensions():
     def __init__(self):
         self.MD5 = 660
-        self.MD6 = 800
+        self.MD6 = 780
         self.MD7 = 940
         self.MD8 = 1080
         self.MD12 = 1640
@@ -137,7 +137,7 @@ GROUP_COLORS = {
     # 'Small (4-5 ECV)': '#6d7473',
     '6-8 ECV': '#61928f', 
     '9-13 ECV': '#57c8c3', 
-    '14-19 ECV': '#43d7d1', 
+    '14-19 ECV': '#43ded8', 
     '20+ ECV': '#2ffcf5',
     # Nat'l
     'Nat\'l Average': '#444444',
