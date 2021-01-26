@@ -328,22 +328,6 @@ content = html.Div([
                     html.P(className="card-text", style={"padding": "5px"}, children=[
                         html.Small("Figure 6"),
                     ]),
-                    # dcc.Slider(
-                    #     id="suppress-state-bias-year-input",
-                    #     min=1880,
-                    #     max=1960,
-                    #     step=None,
-                    #     marks={
-                    #         int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)', 'color': 'white'}}
-                    #         for y in data_obj.all_years if y >= 1880 and y <= 1960
-                    #     },
-                    #     value=1940,
-                    # ),
-                    # html.Br(),
-                    # dcc.Graph(id="fig-bar-suppress-state-bias"),
-                    # html.P(className="card-text", style={"padding": "5px"}, children=[
-                    #     html.Small("Figure 4"),
-                    # ]),
                     html.Br(),
                     dcc.Graph(id="fig-map-suppress-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
@@ -373,10 +357,6 @@ content = html.Div([
                     html.P(className="card-text", style={"padding": "5px"}, children=[
                         html.Small("Figure 4"),
                     ]),
-                    # dcc.Graph(id="fig-scatter-bubbles-suppress-state-bias"),
-                    # html.P(className="card-text", style={"padding": "5px"}, children=[
-                    #     html.Small("Figure 6"),
-                    # ]),
                     html.Br(),
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([

@@ -13,7 +13,7 @@ content = html.Div([
     html.Br(),
     dbc.Row([
         dbc.Col(md=6, children=[
-            dbc.Card([
+            dbc.Card(className="border-success", children=[
                 dbc.CardBody([
                     html.H3("What Are Our Hangups with the Electoral College?", style={"text-align": "center"}),
                     html.Br(),
@@ -34,7 +34,7 @@ content = html.Div([
                 ])
             ]),
             html.Br(),
-            dbc.Card([
+            dbc.Card(className="border-success", children=[
                 dbc.CardBody([
                     html.H4("(2) Winner-take-all 'muting' and 'flipping' votes"),
                     html.P(className="card-text", children=[
@@ -56,7 +56,7 @@ content = html.Div([
                 dbc.Tab(dcc.Graph(id="fig-bar-swallowed-vote-sampler-4"), label="Converted to EC Vote"),
             ]),
             html.Br(),
-            dbc.Card([
+            dbc.Card(className="border-success", children=[
                 dbc.CardBody([           
                     html.P(className="card-text", children=[
                         "And that’s just a quick sampler. If I haven’t mentioned your specific grievance, I’m willing to wager it boils down to this: ",
@@ -107,7 +107,7 @@ content = html.Div([
             html.Br(),
             dcc.Graph(id="fig-bar-state-vw-color-by-ecv"),
             html.Br(),
-            dbc.Card([
+            dbc.Card(className="border-success", children=[
                 dbc.CardBody([
                     html.H4("(3) Winner-take-all and 'swing states'"),
                     html.P(className="card-text", children=[

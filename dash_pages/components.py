@@ -34,7 +34,7 @@ navbar = dbc.Card(className="text-white bg-primary", children=[
         html.Hr(className="border-light"),
         dbc.Nav(className="nav nav-pills", children=[
             dbc.DropdownMenu(label="Introduction and Methodology", nav=True, children=[
-                dbc.DropdownMenuItem([html.I(className="fa"), "What Is It About the Electoral College"], href='/electoral-college-intro', target="_blank"), 
+                # dbc.DropdownMenuItem([html.I(className="fa"), "What Is It About the Electoral College"], href='/electoral-college-intro', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "Voter Weight Reveals Electoral College Bias"], href='/voter-weight-reveals-electoral-college-bias', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "Calculating Voter Weight"], href='/calculating-voter-weight', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "Explanation of State Aggregate Groupings"], href='/explanation-of-groupings', target="_blank"), 
@@ -55,14 +55,14 @@ navbar = dbc.Card(className="text-white bg-primary", children=[
 year_slider_and_groups_selection = dbc.FormGroup([
     html.Br(),
     dbc.Row([
-        dbc.Col(md=8, children=[
-            html.H4("Election Year:")
+        dbc.Col(md=8, className="text-white", children=[
+            html.H5("Election Year:")
         ]),
-        dbc.Col(md=2, children=[
-            html.H4("State Grouping Heuristic:")
+        dbc.Col(md=2, className="text-white", children=[
+            html.H5("State Grouping Heuristic:")
         ]),
-        dbc.Col(md=2, children=[
-            html.H4("Extract Small Group?")
+        dbc.Col(md=2, className="text-white", children=[
+            html.H5("Extract Small Group?")
         ])
     ]),
     dbc.Row([
@@ -74,7 +74,7 @@ year_slider_and_groups_selection = dbc.FormGroup([
                 max=YEAR_N,
                 step=None,
                 marks={
-                    int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)'}}
+                    int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)', 'color': 'white'}}
                     for y in data_obj.all_years
                 },
                 value=1960,
@@ -110,10 +110,11 @@ year_slider_and_groups_selection = dbc.FormGroup([
 
 form_input_y_axis = dbc.FormGroup([
     dbc.Row([
-        dbc.Col(md=2, style={'textAlign': 'left'}, children=[
+        dbc.Col(md=2, className="text-white", style={'textAlign': 'left'}, children=[
             html.H4("Y axis:"),
             dcc.RadioItems(
                 id="y-axis-input-2",
+                className="text-white", 
                 options=[
                     {'label': 'Linear', 'value': 'linear'},
                     {'label': 'Log', 'value': 'log'}
@@ -130,25 +131,25 @@ form_input_vw_over_time_line_chart = dbc.FormGroup([
     html.Br(),
     dbc.Row([
         dbc.Col(md=2),
-        dbc.Col(md=2, children=[
+        dbc.Col(md=2, className="text-white", children=[
             html.H5("Display individual states:")
         ]),
-        dbc.Col(md=2, children=[
+        dbc.Col(md=2, className="text-white", children=[
             html.H5("Show / Hide:")
         ]),
-        dbc.Col(md=2, children=[
+        dbc.Col(md=2, className="text-white", children=[
             html.H5("State Grouping Heuristic:")
         ]),
-        dbc.Col(md=2, children=[
+        dbc.Col(md=2, className="text-white", children=[
             html.H5("Extract Small Group?")
         ]),
-        dbc.Col(md=2, children=[
+        dbc.Col(md=2, className="text-white", children=[
             html.H5("Y axis scale:")
         ]),
     ]),
     dbc.Row([
         dbc.Col(md=2, style={'textAlign': 'center'}, children=[
-            dbc.Button("Clear canvas", id="clear-all-input", className="mr-2")
+            dbc.Button("Clear canvas", id="clear-all-input", className="mr-2 bg-primary")
         ]),
         dbc.Col(md=2, style={'textAlign': 'left'}, children=[
             dcc.Dropdown(
@@ -161,6 +162,7 @@ form_input_vw_over_time_line_chart = dbc.FormGroup([
         dbc.Col(md=2, style={'textAlign': 'center'}, children=[
             dcc.Checklist(
                 id="show-hide-input",
+                className="text-white", 
                 options=[
                     {'label': 'State Groups', 'value': 'show_groups'},
                     {'label': 'Events', 'value': 'show_events'},
@@ -195,6 +197,7 @@ form_input_vw_over_time_line_chart = dbc.FormGroup([
         dbc.Col(md=2, style={'textAlign': 'left'}, children=[
             dcc.RadioItems(
                 id="y-axis-input",
+                className="text-white", 
                 options=[
                     {'label': 'Linear', 'value': 'linear'},
                     {'label': 'Log', 'value': 'log'}

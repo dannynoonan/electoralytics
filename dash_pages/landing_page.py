@@ -13,7 +13,7 @@ content = html.Div([
     dbc.Row([
         dbc.Col(md=1),
         dbc.Col(md=5, children=[
-            dbc.Card([
+            dbc.Card(className="border-success", children=[
                 dbc.CardBody([
                     html.H4("Landing Page", className="card-title"),
                     html.P(
