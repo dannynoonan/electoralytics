@@ -35,7 +35,7 @@ content = html.Div([
                                         and the +2 senator “bicameral boost”)"])
                                 ])
                             ]),
-                            html.Img(style={"float": "left", "padding-right": "10px"}, src="/assets/voteWeightEquations.png", width="400"),
+                            html.Img(style={"float": "left", "padding-right": "10px"}, src="/static/voteWeightEquations.png", width="400"),
                             html.P(className="card-text", children=[
                                 "The higher the Popular Vote is relative to the Electoral College vote apportionment, the lower the impact of any individual \
                                 voter in that state, since slicing the state’s pie into more pieces doesn’t change the overall size of the pie, it just reduces \
@@ -68,7 +68,7 @@ content = html.Div([
                             ]),
                             html.Br(), 
                             html.H4("Example: Georgia vs Wisconsin in early 20th Century", className="card-title"),  
-                            html.Img(style={"float": "right", "padding-left": "10px"}, src="/assets/vwCalcSampler/popToEcWIGA1900.png", width="450"),
+                            html.Img(style={"float": "right", "padding-left": "10px"}, src="/static/vwCalcSampler/popToEcWIGA1900.png", width="450"),
                             html.P(className="card-text", children=[
                                 "Both Georgia’s and Wisconsin’s populations in the 1900 census (2.22 million and 2.07 million respectively) garnered 11 \
                                 representatives and 13 Electoral College votes. In the 1904 congressional and presidential election that followed, 131K \
@@ -78,7 +78,7 @@ content = html.Div([
                                 any individual Wisconsinite’s voice counted for less than a third of a Georgian’s voice in that election:",                              
                             ]),
                             html.Br(),
-                            dbc.CardImg(src="/assets/vwCalcSampler/vwCalcWIGA1904.png", top=False),
+                            dbc.CardImg(src="/static/vwCalcSampler/vwCalcWIGA1904.png", top=False),
                             html.Br(), html.Br(),
                             html.P(className="card-text", children=[
                                 "A few decades later, despite the intervening rise of Progressivism and passage of the 19th Amendment guaranteeing women \
@@ -86,7 +86,7 @@ content = html.Div([
                                 it 10 representatives and 12 EC votes, but in the 1932 election 1.11M people voted in Wisconsin compared to 256K in Georgia, \
                                 giving each ballot cast in Georgia more than 4X the national-level influence of a Wisconsinite’s:",
                             ]),
-                            dbc.CardImg(src="/assets/vwCalcSampler/vwCalcWIGA1932.png", top=False),
+                            dbc.CardImg(src="/static/vwCalcSampler/vwCalcWIGA1932.png", top=False),
                             html.Br(), html.Br(),
                             html.P(className="card-text", children=[
                                 "It’s worth noting that this 3–4X disparity suggests a voter suppression dragnet in Georgia that reaches well beyond its \
