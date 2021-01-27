@@ -14,7 +14,7 @@ content = html.Div([
         dbc.CardBody([
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Using “Voter Weight” to explore Electoral College bias"),
+                html.H3("Using “Voter Weight” to Explore Electoral College Bias"),
             ]),
             html.Br(),
             dbc.Row([

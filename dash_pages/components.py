@@ -33,15 +33,15 @@ navbar = dbc.Card(className="text-white bg-primary", children=[
         html.H2("Electoralytics - Visualizing Historical Presidential Election Data", id="nav-pills", style={"text-align": "center"}),
         html.Hr(className="border-light"),
         dbc.Nav(className="nav nav-pills", children=[
-            dbc.DropdownMenu(label="Visualizing Voter Inequity", nav=True, children=[
+            dbc.DropdownMenu(label="Visualizing Electoral College Bias", nav=True, children=[
                 dbc.DropdownMenuItem([html.I(className="fa"), "Intro to Voter Weight And Electoral College Bias"], href='/voter-weight-electoral-college-bias-overview', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "Calculating Voter Weight"], href='/voter-weight-calculation', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "Explanation of State Groupings"], href='/explanation-of-groupings', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "Discussion and Conclusions"], href='/voter-weight-conclusions', target="_blank"), 
             ]),
             dbc.DropdownMenu(label="Maps, Charts, and Graphs", nav=True, children=[
-                dbc.DropdownMenuItem([html.I(className="fa"), "Voter Weight Timeline Visualizations"], href='/voter-weight-timeline-visualization', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Voter Weight Figure Vault"], href='/voter-weight-figure-vault', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Annotated Timeline Charting Voter Weight Trends"], href='/voter-weight-timeline-visualization', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "The Vault: 220 Years of Maps, Charts, & Figures"], href='/voter-weight-figure-vault', target="_blank"), 
             ]),
             dbc.DropdownMenu(label="References / Resources", nav=True, children=[
                 dbc.DropdownMenuItem([html.I(className="fa"), "Project source code"], href='https://github.com/dannynoonan/electoralytics', target="_blank"), 

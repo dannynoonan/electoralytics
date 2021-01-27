@@ -8,21 +8,63 @@ from dash_pages.components import navbar
 
 content = html.Div([
     navbar,
-    html.Br(),html.Br(),
-    dbc.Row([
-        dbc.Col(md=1),
-        dbc.Col(md=5, children=[
-            dbc.Card(className="border-success", children=[
-                dbc.CardBody([
-                    html.H4("Landing Page", className="card-title"),
-                    html.P(
-                        "Landing content",
-                        className="card-text",
-                    ),
-                ]),
-            ])
+    html.Div(className="jumbotron bg-success text-white", children=[
+        html.H3(children=[
+            "Visualizing Jim Crow Voter Suppression: Population, Participation, and Electoral College Bias"
         ]),
-        dbc.Col(md=6),
+        html.Br(),
+        html.Div(className="list-group", children=[
+            html.A(className="list-group-item list-group-item-action flex-column align-items-start bg-primary", 
+                href="/voter-weight-electoral-college-bias-overview", children=[
+                html.H4(className="mb-1 text-success", children=[
+                    "Using “Voter Weight” to Examine Electoral College Bias (main article)"
+                ]),
+                html.Img(src="/static/screenshots/barFreeSlaveSmall1852.png", height="250", style={"padding": "5px"}),
+                html.Img(src="/static/screenshots/mapFreeSlaveSmall1852.png", height="250", style={"padding": "5px"}),
+                html.Img(src="/static/screenshots/scatterDotsAcw1920.png", height="250", style={"padding": "5px"}),
+                html.Img(src="/static/screenshots/scatterBubblesAcw1940.png", height="250", style={"padding": "5px"}),
+            ]),
+            html.A(className="list-group-item list-group-item-action flex-column align-items-start bg-primary", 
+                href="/voter-weight-timeline-visualization", children=[
+                html.H4(className="mb-1 text-success", children=[
+                    "Annotated Timeline Charting Voter Weight Trends: 1800 - 2020",
+                ]),
+                html.Img(src="/static/screenshots/lineChartGroupVwSince1800.png", height="250", style={"padding": "5px"}),
+                html.Img(src="/static/screenshots/lineChartWIvsGAsince1800.png", height="250", style={"padding": "5px"}),
+            ]),
+            html.A(className="list-group-item list-group-item-action flex-column align-items-start bg-primary", 
+                href="/voter-weight-figure-vault", children=[
+                html.H4(className="mb-1 text-success", children=[
+                    "The Vault: 220 Years of Maps, Bar Charts, Scatter Plots, and Box Plots",
+                ]),
+                html.Img(src="/static/screenshots/scatterBubblesAcw1900.png", height="250", style={"padding": "5px"}),
+                html.Img(src="/static/screenshots/boxAcw1920.png", height="250", style={"padding": "5px"}),
+                html.Img(src="/static/screenshots/scatterAbbrevsAcw1920.png", height="250", style={"padding": "5px"}),
+                html.Img(src="/static/screenshots/mapVoteWeights1880.png", height="250", style={"padding": "5px"}),
+            ]),
+            html.A(className="list-group-item list-group-item-action flex-column align-items-start bg-primary", 
+                href="/voter-weight-calculation", children=[
+                html.H4(className="mb-1 text-success", children=[
+                    "Calculating Voter Weight",
+                ]),
+                html.Img(src="/static/voteWeightEquations.png", height="150", style={"padding": "5px"}),
+                html.Img(src="/static/vwCalcSampler/popToEcWIGA1900.png", height="150", style={"padding": "5px"}),
+            ]),
+            html.A(className="list-group-item list-group-item-action flex-column align-items-start bg-primary", 
+                href="/explanation-of-groupings", children=[
+                html.H4(className="mb-1 text-success", children=[
+                    "Explanation of State Groupings",
+                ]),
+                html.Img(src="/static/screenshots/mapAcw1880.png", height="250", style={"padding": "5px"}),
+                html.Img(src="/static/screenshots/mapCensus1960.png", height="250", style={"padding": "5px"}),
+            ]),
+            html.A(className="list-group-item list-group-item-action flex-column align-items-start bg-primary", 
+                href="/voter-weight-conclusions", children=[
+                html.H4(className="mb-1 text-success", children=[
+                    "Discussion and Conclusions", 
+                ])
+            ]),
+        ])
     ]),
     html.Br(),
 ])

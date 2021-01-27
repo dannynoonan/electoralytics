@@ -13,7 +13,7 @@ content = html.Div([
         dbc.CardBody([
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Electoral College Bias as Revealed by Annotated Timeline"),
+                html.H3("Annotated Timeline Charting Voter Weight Trends: 1800 - 2020"),
             ]),
             html.Br(),
             dbc.Row([
