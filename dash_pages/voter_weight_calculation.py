@@ -64,9 +64,6 @@ content = html.Div([
                                         Weight, the resulting comparison is apples-to-apples - that is, the same calculation can be applied regardless of \
                                         underlying bias / combination of biases")
                                 ]),
-                                "The higher the Popular Vote is relative to the Electoral College vote apportionment, the lower the impact of any individual \
-                                voter in that state, since slicing the state’s pie into more pieces doesn’t change the overall size of the pie, it just reduces \
-                                the size of each piece."
                             ]),
                         ])
                     ]),
@@ -97,15 +94,24 @@ content = html.Div([
                             html.Br(), html.Br(),
                             html.P(className="card-text", children=[
                                 "It’s worth noting that this 3–4X disparity suggests a voter suppression dragnet in Georgia that reaches well beyond its \
-                                African American population (which was 46.7% of Georgia’s total population in 1900). My intent isn’t to get too deep into the \
-                                historical weeds here, but this might be the effect of poll taxes aimed not only to disenfranchise Blacks, but also to purge \
-                                poor whites with Populist party sympathies from the voter rolls (since — per this Wikipedia page on Southern disenfranchisement \
-                                after Reconstruction — these two factions had momentarily joined forces to take over a handful of Southern state legislatures \
-                                in the 1890s, prompting swift retaliation by Southern white elites who rewrote state constitutions en masse to implement poll \
-                                taxes and other disenfranchising devices). While African Americans were undoubtedly the principal target of Southern \
-                                disenfranchisement practices, the idea that certain forms of voter suppression also impacted poor whites should be factored \
-                                into any interpretation of the data. But demographics aside, the Voter Weight / voter suppression calculation is the same — it \
-                                may just turn out that suppression-state bias goes beyond “five-fifths.”",
+                                African American population (which was ", dcc.Link("46.7% of Georgia’s total population in 1900", target="_blank",
+                                href="https://en.wikipedia.org/wiki/Disenfranchisement_after_the_Reconstruction_era#Southern_black_populations_in_1900"),
+                                ". My intent isn’t to get ", html.I("too"), " deep into the historical weeds here, but this might be the effect of poll \
+                                taxes aimed not only to disenfranchise Blacks, but also to purge poor whites with Populist party sympathies from the voter \
+                                rolls."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "Per this ", dcc.Link("Wikipedia page on Southern disenfranchisement after Reconstruction", target="_blank",
+                                href="https://en.wikipedia.org/wiki/Disenfranchisement_after_the_Reconstruction_era"), ", these two factions had \
+                                momentarily joined forces to take over a handful of Southern state legislatures in the 1890s, prompting swift retaliation \
+                                by Southern white elites who rewrote state constitutions en masse (the “Mississippi Plan”) to implement poll taxes and \
+                                other disenfranchising devices."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "While African Americans were undoubtedly the principal target of Southern disenfranchisement practices, the idea that \
+                                certain forms of voter suppression also impacted poor whites should be factored into any interpretation of the data. \
+                                But demographics aside, the Voter Weight / voter suppression calculation is the same — it may just turn out that \
+                                suppression-state bias goes beyond “five-fifths.”",
                             ]),
                         ])
                     ])

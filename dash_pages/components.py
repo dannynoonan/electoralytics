@@ -40,7 +40,7 @@ navbar = dbc.Card(className="text-white bg-primary", children=[
                 dbc.DropdownMenuItem([html.I(className="fa"), "Discussion and Conclusions"], href='/voter-weight-conclusions', target="_blank"), 
             ]),
             dbc.DropdownMenu(label="Maps, Charts, and Graphs", nav=True, children=[
-                dbc.DropdownMenuItem([html.I(className="fa"), "Voter Weight Timeline Visualizations"], href='/voter-weight-timeline-viz', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Voter Weight Timeline Visualizations"], href='/voter-weight-timeline-visualization', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "Voter Weight Figure Vault"], href='/voter-weight-figure-vault', target="_blank"), 
             ]),
             dbc.DropdownMenu(label="References / Resources", nav=True, children=[

@@ -69,7 +69,7 @@ def display_page(pathname):
         return explanation_of_groupings.content
     elif pathname == "/voter-weight-conclusions":
         return voter_weight_conclusions.content
-    elif pathname == "/voter-weight-timeline-viz":
+    elif pathname == "/voter-weight-timeline-visualization":
         return voter_weight_timeline_viz.content
     elif pathname == "/voter-weight-figure-vault":
         return voter_weight_figure_vault.content

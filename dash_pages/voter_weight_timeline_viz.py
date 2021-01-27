@@ -13,7 +13,7 @@ content = html.Div([
         dbc.CardBody([
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Comparing Voter Weight Per State/Per Grouping"),
+                html.H3("Electoral College Bias as Revealed by Annotated Timeline"),
             ]),
             html.Br(),
             dbc.Row([
@@ -28,19 +28,26 @@ content = html.Div([
                 dbc.Col(md=5, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
-                            html.H4("Using the Voter Weight timeline chart", className="card-title"),
+                            html.H4("Using the Annotated Voter Weight timeline chart", className="card-title"),
                             html.P(className="card-text", children=[
                                 "The line chart above shows Voter Weight trends as a function of time, spanning every US presidential election between 1800 and \
-                                2020. When you first load the page, it displays aggregate/average data at the state group level, but using the dropdown menu above \
-                                you can select individual states to compare, and using the legend to the right or the checkbox above you can hide the group-level \
-                                trend lines one at a time or en masse."
+                                2020.",
+                            ]),
+                            html.P(className="card-text", children=[
+                                "When you first load the page, it displays aggregate/average data at the state-group level (Civil War affiliation or Regional \
+                                Census). Using the legend to the right you can hide group-level trend lines one at a time, and using the “Show / Hide State \
+                                Small” dropdown menu above you can hide the group-level trend lines en masse."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "Using the dropdown menu above the chart, you can select individual states to compare. These can be overlaid onto group-level \
+                                data or viewed separately."
                             ]),
                             html.P(className="card-text", children=[
                                 "Background colors, markers, and text annotations denoting significant events and eras are there to add context, relating to \
                                 African American rights and to voting rights generally. These can also be hidden using the checkboxes above the chart.",                            
                             ]),
                             html.P(className="card-text", children=[
-                                "If things get too cluttered and you decide to assemble a comparison from scratch, hit the “Clear canvas” button to start fresh. \
+                                "If things get too cluttered, you can assemble a comparison from scratch by hitting the “Clear canvas” button to start fresh. \
                                 Toggling from “linear” to “log” scale for Vote Weight (Y axis) can help de-clutter trend lines in the lower registers as well.",                              
                             ]),
                             html.P(className="card-text", children=[
@@ -67,18 +74,27 @@ content = html.Div([
                             ]),
                             html.P(className="card-text", children=[
                                 "As a result, fewer than 2% of people voted in each of these first 10 US presidential elections, hitting a 30-year low in 1820 \
-                                at 1.11% of the total population. Popular vote data before 1800 is too scant to really work with, then from 1800 to 1824 the amount \
-                                of data increases but it’s erratic, as several states switch back and forth between elector selection by legislature, by very limited \
-                                popular vote, and by significantly wider popular vote. My regional tallies exclude states that don’t even hold popular presidential \
-                                elections in a given year, meaning states like North Carolina and Kentucky that have very ", html.I("restrictive"), " voting end up \
-                                being “penalized” more than states like New York, South Carolina, occasionally Massachusetts, and other states in years when ",
-                                html.I("nobody"), " ends up voting.",                              
+                                at 1.11% of the total population (see figure below)."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "Popular vote data before 1800 is too scant to really work with, then from 1800 to 1824 the amount of data increases - but it’s \
+                                erratic. Several states switch back and forth between elector selection (a) by legislature, (b) by very limited popular vote, \
+                                and (c) by significantly wider popular vote.",
+                            ]),
+                            html.P(className="card-text", children=[
+                                "My presentation doesn't account for this back-and-forth very well. My aggregate tallies (at the state-group level) exclude states \
+                                that don’t even hold popular presidential elections in a given year, meaning states like North Carolina and Kentucky with very ", 
+                                html.I("restrictive"), " voting end up being “penalized” more than states like New York and South Carolina where ", html.I("nobody"), 
+                                " is voting.",                              
                             ]),
                             html.P(className="card-text", children=[
                                 "Between 1820 and 1828 the popular vote increased 10-fold, marking the dawn of “populism” and “Jacksonian democracy,” and from 1828 \
                                 onward some form of popular vote has been the norm in every state (except South Carolina, which didn’t switch to popular vote until \
-                                Reconstruction). I considered excluding the years prior to 1828 altogether, since those years tell a much different story than what \
-                                emerges from the late 1820s onward, but in the end I held onto them - less for the trend analysis than for the novelty and intrigue.",                              
+                                Reconstruction)."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "I considered excluding the years prior to 1828 altogether, since those years tell a much different story than what emerges from the \
+                                late 1820s onward, but in the end I held onto them - less for the trend analysis than for the novelty and intrigue.",                              
                             ]),
                             html.P(className="card-text", children=[
                                 "The “Votes cast as a percentage of population” chart below shows the increase (and decrease) in national popular vote over time.",                              
@@ -97,6 +113,7 @@ content = html.Div([
                     dcc.Graph(id="fig-line-total-vote-over-time")
                 ])
             ]),
+            html.Br(),
         ])
     ])
 ])

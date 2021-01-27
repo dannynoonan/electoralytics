@@ -451,7 +451,7 @@ content = html.Div([
                                 infer correlation or causation between specific external factors and Voter Weight trends."
                             ]),
                             html.P(className="card-text", children=[
-                                "This ", dcc.Link("annotated line-chart timeline", href="/voter-weight-timeline-viz"), " of state- and group-level Voter \
+                                "This ", dcc.Link("annotated line-chart timeline", href="/voter-weight-timeline-visualization"), " of state- and group-level Voter \
                                 Weights stretching from 1800 to 2020 attempts to mix a (very thin) layer of historical context in with the full gamut of Voter \
                                 Weight data. It’s a lot to absorb, but it’s configurable, so strip it down to the studs and build it back up however you’d like, \
                                 comparing any combination of states or groups over any time period you’d like to zoom in on."

@@ -13,7 +13,7 @@ content = voter_weight_comparison_details = html.Div([
         dbc.CardBody([
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Voter Weight Figure Vault"),
+                html.H3("Electoral College Bias as Revealed by Voter Weight: Figure Vault"),
             ]),
             html.Br(),
             dbc.Row([
