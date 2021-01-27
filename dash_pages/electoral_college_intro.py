@@ -30,7 +30,7 @@ content = html.Div([
                         "Here’s one: you live in a big state, and you’re peeved that individual voters in less populous states have a disproportionate impact \
                         on the national election:",                            
                     ]),
-                    html.Img(src="/assets/arrows/arrow_right_1v_thick_transparent.png", width="75", style={"float": "right"})
+                    html.Img(src="/static/arrows/arrow_right_1v_thick_transparent.png", width="75", style={"float": "right"})
                 ])
             ]),
             html.Br(),
@@ -44,7 +44,7 @@ content = html.Div([
                     ])
                 ]),
                 html.Div(style={"text-align": "center"}, children=[
-                    html.Img(src="/assets/arrows/arrow_down_1v_thick_transparent.png", width="75")
+                    html.Img(src="/static/arrows/arrow_down_1v_thick_transparent.png", width="75")
                 ]),
                 html.Br(),
             ]),
@@ -120,12 +120,12 @@ content = html.Div([
                     ])
                 ]),
                 html.Div(style={"text-align": "center"}, children=[
-                    html.Img(src="/assets/arrows/arrow_down_1v_thick_transparent.png", width="75")
+                    html.Img(src="/static/arrows/arrow_down_1v_thick_transparent.png", width="75")
                 ]),
                 html.Br(),
             ]),
             html.Br(),
-            html.Img(src="/assets/Voter-Influence-on-Presidential-Election-by-State-Type.png", width="800")
+            html.Img(src="/static/Voter-Influence-on-Presidential-Election-by-State-Type.png", width="800")
         ]),
     ]),
     html.Br(),

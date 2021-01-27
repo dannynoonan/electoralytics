@@ -244,7 +244,7 @@ content = html.Div([
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
                             html.P(className="card-text", children=[
-                                "If you aren't able to watch or listen to the clip, these passages get to the essence:"
+                                "If you aren't able to watch or listen to the clip, this section gets to the essence:"
                             ]),
                             html.Div(style={"margin-left": "50px", "margin-right": "50px", "font-style": "italic"}, children=[
                                 html.P(className="card-text", children=[

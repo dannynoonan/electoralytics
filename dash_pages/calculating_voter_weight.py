@@ -17,10 +17,10 @@ content = html.Div([
             ]),
             html.Br(),
             dbc.Row([
-                dbc.Col(md=3),
                 dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
+                            html.H4("The math", className="card-title"),
                             html.P(className="card-text", children=[
                                 "“Small-state bias,” “slave-state bias,” and this idea of “suppression-state bias” all derive from different legal statutes, \
                                 census formulas, and state-level behaviors. Although different factors skew the relationship between apportionment and \
@@ -66,7 +66,12 @@ content = html.Div([
                                 voter in that state, since slicing the state’s pie into more pieces doesn’t change the overall size of the pie, it just reduces \
                                 the size of each piece."
                             ]),
-                            html.Br(), 
+                        ])
+                    ]),
+                ]),
+                dbc.Col(md=6, children=[
+                    dbc.Card(className="border-success", children=[
+                        dbc.CardBody([ 
                             html.H4("Example: Georgia vs Wisconsin in early 20th Century", className="card-title"),  
                             html.Img(style={"float": "right", "padding-left": "10px"}, src="/static/vwCalcSampler/popToEcWIGA1900.png", width="450"),
                             html.P(className="card-text", children=[
@@ -103,7 +108,6 @@ content = html.Div([
                         ])
                     ])
                 ]),
-                dbc.Col(md=3)
             ])
         ])
     ])

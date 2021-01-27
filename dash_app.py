@@ -10,7 +10,8 @@ import plotly.express as px
 
 from dash_pages import (
     calculating_voter_weight, components, electoral_college_intro, explanation_of_groupings, landing_page,
-    voter_weight_comparison_details, voter_weight_comparison_overview, voter_weight_reveals_electoral_college_bias)
+    voter_weight_comparison_details, voter_weight_comparison_overview, voter_weight_conclusions,
+    voter_weight_reveals_electoral_college_bias)
 from data_processor.data_objects import DataObject
 from data_processor.functions import validate_input, map_to_subdir
 from fig_builder import bar_plots, box_plots, choropleths, line_charts, scatter_plots
@@ -18,7 +19,7 @@ from metadata import Columns, DataDirs, FigDimensions, YEAR_0, YEAR_N
 
 
 # base config
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY], title='Electoralytics - Visualizing Historical Presidential Election Data')
 # server is needed for heroku deployment
 server = app.server
 
@@ -71,6 +72,8 @@ def display_page(pathname):
         return voter_weight_reveals_electoral_college_bias.content
     elif pathname == "/calculating-voter-weight":
         return calculating_voter_weight.content
+    elif pathname == "/voter-weight-conclusions":
+        return voter_weight_conclusions.content
     elif pathname == "/explanation-of-groupings":
         return explanation_of_groupings.content
     else:
@@ -86,8 +89,7 @@ def display_page(pathname):
     [Input('multi-state-input', 'value')],
     Input('y-axis-input', 'value'),
     [Input('show-hide-input', 'value')],
-    Input('y-axis-input-2', 'value'),
-)
+    Input('y-axis-input-2', 'value'))
 def display_voter_weight_comparison_overview(groupings_input, max_small_input, state_abbrevs, y_axis_input, show_hide_input, y_axis_input_2):
     # process input
     max_small = int(max_small_input)
@@ -127,15 +129,13 @@ def display_voter_weight_comparison_overview(groupings_input, max_small_input, s
 # voter-weight-comparison-overview callbacks, tab 1 cont'd: clear-all-input
 @app.callback(
     Output('multi-state-input', 'value'),
-    [Input('clear-all-input', 'n_clicks')],
-)
+    [Input('clear-all-input', 'n_clicks')])
 def update(n_clicks):
     return []
 
 @app.callback(
     Output('show-hide-input', 'value'),
-    [Input('clear-all-input', 'n_clicks')],
-)
+    [Input('clear-all-input', 'n_clicks')])
 def update2(n_clicks):
     if n_clicks and int(n_clicks) > 0:
         return []
@@ -153,8 +153,7 @@ def update2(n_clicks):
     Output('fig-bar-actual-vs-adj-vw', 'figure'),
     Input('year-input', 'value'),
     Input('groupings-input', 'value'),
-    Input('max-small-input', 'value'),
-)
+    Input('max-small-input', 'value'))
 def display_state_level_figs(year_input, groupings_input, max_small_input):
     # process input
     year = int(year_input)
@@ -180,8 +179,7 @@ def display_state_level_figs(year_input, groupings_input, max_small_input):
     # Output('fig-map-color-by-group', 'figure'),
     Input('year-input', 'value'),
     Input('groupings-input', 'value'),
-    Input('max-small-input', 'value'),
-)
+    Input('max-small-input', 'value'))
 def display_vw_comparison_detail_scatters(year_input, groupings_input, max_small_input):
     # process input
     year = int(year_input)
@@ -197,50 +195,11 @@ def display_vw_comparison_detail_scatters(year_input, groupings_input, max_small
         fig_scatter_abbrevs_vw_state, fig_box_vw_group)
 
 
-# voter-weight-comparison-details callbacks, tab 3
-# @app.callback(
-#     Output('vote-weight-comparison-by-state-map-1-anim', 'figure'),
-#     Output('vote-weight-comparison-by-state-scatter-dots-anim', 'figure'),
-#     Output('vote-weight-comparison-by-state-scatter-abbrevs-anim', 'figure'),
-#     Output('vote-weight-comparison-by-state-scatter-bubbles-anim', 'figure'),
-#     Input('groupings-input', 'value'),
-#     Input('max-small-input', 'value'),
-# )
-# def display_state_level_anims(groupings_input, max_small_input):
-#     # process input
-#     max_small = int(max_small_input)
-#     # generate figs
-#     anim_map_1 = choropleths.build_ivw_by_state_map(data_obj, groupings_input, max_small)
-#     anim_scatter_dots = scatter_plots.build_ivw_by_state_scatter_dots(data_obj, groupings_input, max_small)
-#     anim_scatter_abbrevs = scatter_plots.build_ivw_by_state_scatter_dots(data_obj, groupings_input, max_small, display_elements='abbrevs')
-#     anim_scatter_bubbles = scatter_plots.build_ivw_by_state_scatter_bubbles(data_obj, groupings_input, max_small)
-#     return anim_map_1, anim_scatter_dots, anim_scatter_abbrevs, anim_scatter_bubbles
-
-
-# voter-weight-comparison-details callbacks, tab 4
-# @app.callback(
-#     Output('vote-weight-comparison-by-state-group-map-1-anim', 'figure'),
-#     Output('vote-weight-comparison-by-state-group-scatter-dots-anim', 'figure'),
-#     Output('vote-weight-comparison-by-state-group-scatter-bubbles-anim', 'figure'),
-#     Input('groupings-input', 'value'),
-#     Input('max-small-input', 'value'),
-# )
-# def display_regional_aggregate_anims(groupings_input, max_small_input):
-#     # process input
-#     max_small = int(max_small_input)
-#     # generate figs
-#     anim_map_1 = choropleths.build_ivw_by_state_map(data_obj, groupings_input, max_small, cols.GROUP)
-#     anim_scatter_dots = scatter_plots.build_ivw_by_state_group_scatter_dots(data_obj, groupings_input, max_small)
-#     anim_scatter_bubbles = scatter_plots.build_ivw_by_state_group_scatter_bubbles(data_obj, groupings_input, max_small)
-#     return anim_map_1, anim_scatter_dots, anim_scatter_bubbles
-
-
 # electoral-college-intro callbacks, swallowed vote sampler tab 1
 @app.callback(
     Output('fig-bar-state-vw-color-by-ecv', 'figure'),
     Output('fig-bar-swallowed-vote-sampler-1', 'figure'),
-    Input('year-input', 'value'),
-)
+    Input('year-input', 'value'))
 def display_electoral_collge_intro(year_input):
     # process input
     year = int(year_input)
@@ -252,8 +211,7 @@ def display_electoral_collge_intro(year_input):
 # electoral-college-intro callbacks, swallowed vote sampler tab 2
 @app.callback(
     Output('fig-bar-swallowed-vote-sampler-2', 'figure'),
-    Input('year-input', 'value'),
-)
+    Input('year-input', 'value'))
 def display_electoral_collge_intro_tab2(year_input):
     suppress_callback_exceptions = True
     fig = bar_plots.build_swallowed_vote_bar(data_obj, 'muted')
@@ -262,8 +220,7 @@ def display_electoral_collge_intro_tab2(year_input):
 # electoral-college-intro callbacks, swallowed vote sampler tab 3
 @app.callback(
     Output('fig-bar-swallowed-vote-sampler-3', 'figure'),
-    Input('year-input', 'value'),
-)
+    Input('year-input', 'value'))
 def display_electoral_collge_intro_tab3(year_input):
     suppress_callback_exceptions = True
     fig = bar_plots.build_swallowed_vote_relative_bar(data_obj)
@@ -272,8 +229,7 @@ def display_electoral_collge_intro_tab3(year_input):
 # electoral-college-intro callbacks, swallowed vote sampler tab 4
 @app.callback(
     Output('fig-bar-swallowed-vote-sampler-4', 'figure'),
-    Input('year-input', 'value'),
-)
+    Input('year-input', 'value'))
 def display_electoral_collge_intro_tab4(year_input):
     suppress_callback_exceptions = True
     fig = bar_plots.build_swallowed_vote_ec_bar(data_obj)
@@ -294,8 +250,7 @@ def display_electoral_collge_intro_tab4(year_input):
     Input('small-state-bias-year-input', 'value'),
     Input('slave-state-bias-year-input', 'value'),
     Input('suppress-state-bias-year-input', 'value'),    
-    Input('map-color-by-vw-year-input', 'value'), 
-)
+    Input('map-color-by-vw-year-input', 'value'))
 def voter_weight_intro_page(small_state_bias_year_input, slave_state_bias_year_input, suppress_state_bias_year_input, map_color_by_vw_year_input):
     # process input
     small_state_bias_year = int(small_state_bias_year_input)
@@ -346,8 +301,7 @@ def voter_weight_intro_page(small_state_bias_year_input, slave_state_bias_year_i
     Output('fig-map-acw', 'figure'),
     Output('fig-map-census', 'figure'),
     Input('year-input', 'value'),
-    Input('max-small-input', 'value'),
-)
+    Input('max-small-input', 'value'))
 def display_state_grouping_explanation(year_input, max_small_input):
     # process input
     year = int(year_input)

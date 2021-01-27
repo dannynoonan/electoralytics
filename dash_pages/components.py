@@ -38,6 +38,7 @@ navbar = dbc.Card(className="text-white bg-primary", children=[
                 dbc.DropdownMenuItem([html.I(className="fa"), "Voter Weight Reveals Electoral College Bias"], href='/voter-weight-reveals-electoral-college-bias', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "Calculating Voter Weight"], href='/calculating-voter-weight', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "Explanation of State Aggregate Groupings"], href='/explanation-of-groupings', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Discussion and Conclusions"], href='/voter-weight-conclusions', target="_blank"), 
             ]),
             dbc.DropdownMenu(label="Maps, Charts, and Graphs", nav=True, children=[
                 dbc.DropdownMenuItem([html.I(className="fa"), "Comparing Voter Weight Per State - Overview"], href='/voter-weight-comparison-overview', target="_blank"), 
