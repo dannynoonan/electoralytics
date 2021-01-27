@@ -59,8 +59,8 @@ class Columns():
 class FigDimensions():
     def __init__(self):
         self.MD5 = 650
-        self.MD6 = 785
-        self.MD7 = 920
+        self.MD6 = 788
+        self.MD7 = 924
         self.MD8 = 1080
         self.MD12 = 1610
 
@@ -119,7 +119,7 @@ GROUP_COLORS = {
     # 'Slave (Confederate)': '#E3B061',
     # 'Slave (Border)': '#69B190',
     'Free': '#8072FA',
-    'Slave': '#FA8072',
+    'Slave': '#FFB6C1',
     # Small
     GROUP_LABEL_SMALL_3: '#A0A0A0',
     GROUP_LABEL_SMALL_4: '#A0A0A0',

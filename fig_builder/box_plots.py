@@ -8,7 +8,7 @@ cols = Columns()
 fig_dims = FigDimensions()
 
 
-def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame, fig_width=None):
+def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame, fig_width=None, show_era=True):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
@@ -28,8 +28,10 @@ def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame, fi
 
     # display metadata
     base_fig_title = 'Voter Weight Ranges Across State Groups'
-    era = get_era_for_year(frame)
-    fig_title = f'{base_fig_title}: {frame} ({era})'
+    fig_title = f'{base_fig_title}: {frame}'
+    if show_era:
+        era = get_era_for_year(frame)
+        fig_title = f'{fig_title} ({era})'
     y_axis_title = 'Voter Weight'
 
     # box plot

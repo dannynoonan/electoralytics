@@ -151,7 +151,7 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
     return fig
 
 
-def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_width=None, frame=None):
+def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_width=None, frame=None, base_fig_title=None, show_era=True):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     group_aggs_by_year_df = data_obj.group_agg_weights_pivot_dfs[subdir].copy()
@@ -165,6 +165,9 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
         fig_width = fig_dims.MD6
     fig_height = fig_dims.crt(fig_width)
 
+    if not base_fig_title:
+        base_fig_title = 'Average Voter Weight Per State Group'
+
     # remove the Nat'l Average data
     group_aggs_by_year_df = group_aggs_by_year_df.loc[~(group_aggs_by_year_df[cols.GROUP] == "Nat'l Average")]
 
@@ -174,7 +177,6 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
     norm_max = round(group_aggs_by_year_df[cols.EC_VOTES_NORM].max() * 1.05)
 
     # display metadata common to (or that doesn't interfere with) all display types
-    base_fig_title = 'Average Voter Weight Per State Group'
     y_axis_title = 'Electoral College Votes Per State Group'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.GROUP, cols.VOTES_COUNTED, cols.AVG_WEIGHT, cols.POP_PER_EC, cols.STATE_COUNT, cols.STATES_IN_GROUP, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM]
@@ -197,7 +199,10 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
         x_mean_line_max = ec_max * pop_per_ec
         # for static years, set specific era title
         era = get_era_for_year(frame)
-        fig_title = f'{base_fig_title}: {frame} ({era})'
+        fig_title = f'{base_fig_title}: {frame}'
+        if show_era:
+            era = get_era_for_year(frame)
+            fig_title = f'{fig_title} ({era})'
         
     else:
         # for animations, x axis is EC votes normalized - this keeps amplitude of 'reference mean' trace constant
@@ -362,7 +367,7 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
     return fig
 
 
-def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fig_width=None, frame=None):
+def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fig_width=None, frame=None, base_fig_title=None, show_era=True):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     group_aggs_by_year_df = data_obj.group_agg_weights_pivot_dfs[subdir].copy()
@@ -380,6 +385,9 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fi
         fig_width = fig_dims.MD6
     fig_height = fig_dims.crt(fig_width)
 
+    if not base_fig_title:
+        base_fig_title = 'Average Voter Weight Per State Group'
+
     # remove the Nat'l Average data
     group_aggs_by_year_df = group_aggs_by_year_df.loc[~(group_aggs_by_year_df[cols.GROUP] == "Nat'l Average")]
 
@@ -389,7 +397,6 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fi
     weight_max = group_aggs_by_year_df[cols.AVG_WEIGHT].max() * 1.1
 
     # display metadata common to (or that doesn't interfere with) all display types
-    base_fig_title = 'Average Voter Weight Per State Group'
     x_axis_title = 'Electoral College Votes Per State Group'
     y_axis_title = 'Voter Weight Per State Group (log)'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
@@ -406,8 +413,10 @@ def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fi
 
     # set fields and values that differ for static years (frame) vs animations (!frame)
     if frame:
-        era = get_era_for_year(frame)
-        fig_title = f'{base_fig_title}: {frame} ({era})'
+        fig_title = f'{base_fig_title}: {frame}'
+        if show_era:
+            era = get_era_for_year(frame)
+            fig_title = f'{fig_title} ({era})'
     else:
         fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
 

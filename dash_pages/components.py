@@ -33,20 +33,19 @@ navbar = dbc.Card(className="text-white bg-primary", children=[
         html.H2("Electoralytics - Visualizing Historical Presidential Election Data", id="nav-pills", style={"text-align": "center"}),
         html.Hr(className="border-light"),
         dbc.Nav(className="nav nav-pills", children=[
-            dbc.DropdownMenu(label="Introduction and Methodology", nav=True, children=[
-                # dbc.DropdownMenuItem([html.I(className="fa"), "What Is It About the Electoral College"], href='/electoral-college-intro', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Voter Weight Reveals Electoral College Bias"], href='/voter-weight-reveals-electoral-college-bias', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Calculating Voter Weight"], href='/calculating-voter-weight', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Explanation of State Aggregate Groupings"], href='/explanation-of-groupings', target="_blank"), 
+            dbc.DropdownMenu(label="Visualizing Voter Inequity", nav=True, children=[
+                dbc.DropdownMenuItem([html.I(className="fa"), "Intro to Voter Weight And Electoral College Bias"], href='/voter-weight-electoral-college-bias-overview', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Calculating Voter Weight"], href='/voter-weight-calculation', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Explanation of State Groupings"], href='/explanation-of-groupings', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "Discussion and Conclusions"], href='/voter-weight-conclusions', target="_blank"), 
             ]),
             dbc.DropdownMenu(label="Maps, Charts, and Graphs", nav=True, children=[
-                dbc.DropdownMenuItem([html.I(className="fa"), "Comparing Voter Weight Per State - Overview"], href='/voter-weight-comparison-overview', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Comparing Voter Weight Per State - Details"], href='/voter-weight-comparison-details', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Voter Weight Timeline Visualizations"], href='/voter-weight-timeline-viz', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Voter Weight Figure Vault"], href='/voter-weight-figure-vault', target="_blank"), 
             ]),
             dbc.DropdownMenu(label="References / Resources", nav=True, children=[
-                dbc.DropdownMenuItem([html.I(className="fa"), "Source code"], href='https://github.com/dannynoonan/electoralytics', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Articles, Podcasts, Books"], href='/resources/articles-podcasts-books'),
+                dbc.DropdownMenuItem([html.I(className="fa"), "Project source code"], href='https://github.com/dannynoonan/electoralytics', target="_blank"), 
+                # dbc.DropdownMenuItem([html.I(className="fa"), "Articles, Podcasts, Books"], href='/resources/articles-podcasts-books'),
             ])
         ])
     ])

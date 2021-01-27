@@ -122,8 +122,6 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_
                 color_discrete_map = flatten_state_color_map(data_obj.all_states_meta_df, groups_dir)
                 color_col = cols.STATE
 
-        print(f"category_orders: {category_orders}")
-
         # init figure with core properties
         fig = px.bar(pivot_on_year_df, x=cols.VOTE_WEIGHT, y=cols.STATE, color=color_col, title=fig_title, 
                     custom_data=custom_data, hover_name=cols.VOTE_WEIGHT, hover_data=hover_data,
@@ -193,7 +191,7 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_
 
 
 # ref: https://towardsdatascience.com/how-to-create-a-grouped-bar-chart-with-plotly-express-in-python-e2b64ed4abd7
-def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=None, frame=None):
+def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=None, frame=None, show_era=True):
     # TODO does this need groups_dir and max_small or can it use defaults 100% of time?
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
@@ -214,8 +212,10 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=N
     # display metadata
     base_fig_title = "EC Votes: 'Actual' vs 'Adjusted for Turnout'" 
     if frame:
-        era = get_era_for_year(frame)
-        fig_title = f'{base_fig_title}: {frame} ({era})'
+        fig_title = f'{base_fig_title}: {frame}'
+        if show_era:
+            era = get_era_for_year(frame)
+            fig_title = f'{fig_title} ({era})'
     else:
         fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
     x_axis_title = 'Actual EC Votes / EC Votes if Adjusted for Popular Vote'
@@ -257,7 +257,7 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=N
     return fig
 
 
-def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, fig_width=None, frame=None):
+def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, fig_width=None, frame=None, show_era=True):
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     melted_vote_count_pivot_df = data_obj.melted_vote_count_pivot_dfs[subdir].sort_values('Popular Vote*', ascending=True)
@@ -277,8 +277,10 @@ def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, fig_width=N
     # display metadata
     base_fig_title = "Popular Vote: 'Actual' vs 'Adjusted for Voter Weight'"
     if frame:
-        era = get_era_for_year(frame)
-        fig_title = f'{base_fig_title}: {frame} ({era})'
+        fig_title = f'{base_fig_title}: {frame}'
+        if show_era:
+            era = get_era_for_year(frame)
+            fig_title = f'{fig_title} ({era})'
     else:
         fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
     x_axis_title = 'Actual Pop Vote / Pop Vote if Adjusted for Voter Weight'

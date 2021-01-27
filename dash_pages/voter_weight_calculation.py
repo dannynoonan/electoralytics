@@ -20,7 +20,7 @@ content = html.Div([
                 dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
-                            html.H4("The math", className="card-title"),
+                            html.H4("Ratios and averages", className="card-title"),
                             html.P(className="card-text", children=[
                                 "“Small-state bias,” “slave-state bias,” and this idea of “suppression-state bias” all derive from different legal statutes, \
                                 census formulas, and state-level behaviors. Although different factors skew the relationship between apportionment and \
@@ -51,6 +51,8 @@ content = html.Div([
                                 html.I("Disclaimer:"), " I’m neither a historian nor a mathematician, so I don’t know if this is ", html.I("the"), " way to \
                                 measure these types of voter influence disparities, but it certainly is ", html.I("a"), " way is to measure them.",                            
                             ]),
+                            html.Br(),
+                            html.H4("Implications / true meaning of Voter Weight", className="card-title"),
                             html.P(className="card-text", children=[
                                 "A couple general observations about Voter Weight:",
                                 html.Ul(children=[

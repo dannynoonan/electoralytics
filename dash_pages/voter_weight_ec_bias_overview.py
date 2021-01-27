@@ -58,7 +58,7 @@ content = html.Div([
                                 detail in an upcoming section."
                             ]),
                             html.P(className="card-text", children=[
-                                "In Figure 1, each state is listed in descending order by Voter Weight, and color shading indicates its number of votes in the \
+                                "In ", html.B("Figure 1"), ", each state is listed in descending order by Voter Weight, and color shading indicates its number of votes in the \
                                 Electoral College. If, in this most recent election, Voter Weight was 3.19 in Wyoming compared with 0.81 in neighboring Colorado, \
                                 that means a vote cast in Cheyenne counted for 4X a vote cast 45 minutes south in Fort Collins. Want to make your voice heard \
                                 in Washington? Move to Wyoming!"
@@ -141,8 +141,8 @@ content = html.Div([
                             html.H4("Slave state bias"),
                             html.P(className="card-text", children=[
                                 "Sticking with the same “Voter Weight” calculation above, but turning the clock back 160 years, we encounter the infamous slave-state \
-                                bias in Figure 2. I’ve added new color shading to states in this second bar plot, using each state’s relationship to slavery as a \
-                                grouping heuristic. For small states I’ve also carried forward color shading based on state size."
+                                bias in ", html.B("Figure 2"), ". I’ve added new color shading to states in this second bar plot, using each state’s relationship to \
+                                slavery as a grouping heuristic. For small states I’ve also carried forward color shading based on state size."
                             ]),
                             html.P(className="card-text", children=[
                                 "Highlighting an example: If Voter Weight in 1852 was 2.24 in Alabama (9 Electoral College votes) compared with 0.78 in Illinois \
@@ -152,11 +152,16 @@ content = html.Div([
                                 of slave-state bias has measurably greater impact overall."
                             ]),
                             html.P(className="card-text", children=[
-                                "Figure 3 rearranges the data from Figure 2 into a scatter plot, crossing each state's Popular Vote (x axis) with its Electoral \
+                                html.B("Figure 3"), " rearranges the data from Figure 2 into a scatter plot, crossing each state's Popular Vote (x axis) with its Electoral \
                                 College votes (y axis). The intersection between the axes where Voter Weight = 1.0 is plotted as a diagonal line signifying the \
-                                nationwide mean. States whose dots appear above and to the left of the mean line have Voter Weights greater than 1, those whose \
-                                dots are below and to the right have Voter Weights less than 1. Both figures are controlled using the same Year selection slider \
-                                above Figure 2."
+                                nationwide mean. If every vote in every state counted equally, every state’s dot would be directly on top of that nationwide mean \
+                                line. To the extent that some state’s voters have greater impact than others (through favorable Electoral College apportionment, \
+                                depressed turnout, etc), states whose dots appear above and to the left of the median line have greater impact, while states whose \
+                                dots appear below and to the right of the median line have less."
+                            ]),
+                            html.P(className="card-text", children=[
+                                html.B("Figure 4"), " displays each state's group affiliation on a map. All three figures are controlled using the same Year selection \
+                                slider below."
                             ])
                         ])
                     ]),
@@ -192,16 +197,18 @@ content = html.Div([
                     html.Br(),
                     dcc.Graph(id="fig-map-slave-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure X"),
+                        html.Small("Figure 4: Reference map illustrating which states fit into which group. Areas lacking color shading or hover data \
+                            are states that haven’t been admitted to the Union yet."),
                     ]),
                     html.Br(),
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([                           
                             html.H4("Voter Weight"),
+                            html.Img(style={"float": "right", "padding-right": "10px"}, src="/static/voteWeightEquations.png", width="400"),
                             html.P(className="card-text", children=[
                                 "Despite small-state bias and slave-state bias deriving from different legal statutes and census formulas, I’ve applied the same \
                                 “Voter Weight” calculation to illustrate each in the figures above. Check out the ", dcc.Link("Calculating Voter Weight",
-                                href="/calculating-voter-weight"), " section for a detailed breakdown of the math behind this metric, but a couple top line \
+                                href="/voter-weight-calculation"), " section for a detailed breakdown of the math behind this metric, but a couple top line \
                                 observations for now:",
                                 html.Ul(children=[
                                     html.Li("Voter Weight is a zero sum game: in aggregate all weights average out to 1.0, so an increase in one state must be offset \
@@ -326,36 +333,18 @@ content = html.Div([
                     html.Br(),html.Br(),
                     dcc.Graph(id="fig-scatter-bubbles-suppress-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 6"),
+                        html.Small("Figure 7: Suppression-state bias, shown by color-shading states by Civil War groupings, and plotting Electoral College votes on \
+                            the x axis against derived Voter Weight on the y axis, with Popular Vote now represented by the size of each state’s “bubble.” The \
+                            national mean is plotted at all points on the x axis where Voter Weight is 1.0 on the y axis, and any bubble above the mean line indicates \
+                            a state whose voters — that is, those who were able to vote — wielded disproportionately high Voter Weight in that election. For small \
+                            bubbles with low EC vote counts, high Voter Weight can be explained by small-state bias. For larger bubbles, we are looking at \
+                            suppression-state bias."),
                     ]),
                     html.Br(),
                     dcc.Graph(id="fig-map-suppress-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure X"),
-                    ]),
-                    html.Br(),
-                ]),
-                dbc.Col(md=6, children=[
-                    dcc.Graph(id="fig-scatter-dots-suppress-state-bias"),
-                    html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 5"),
-                    ]),
-                    html.Br(),
-                    dcc.Slider(
-                        id="suppress-state-bias-year-input",
-                        min=1880,
-                        max=1960,
-                        step=None,
-                        marks={
-                            int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)', 'color': 'white'}}
-                            for y in data_obj.all_years if y >= 1880 and y <= 1960
-                        },
-                        value=1940,
-                    ),
-                    html.Br(),
-                    dcc.Graph(id="fig-bar-suppress-state-bias"),
-                    html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 4"),
+                        html.Small("Figure 9: Reference map illustrating which states fit into which group. Areas lacking color shading or hover data are states \
+                            that haven’t been admitted to the Union yet."),
                     ]),
                     html.Br(),
                     dbc.Card(className="border-success", children=[
@@ -375,6 +364,51 @@ content = html.Div([
                             ]),
                         ])
                     ])
+                ]),
+                dbc.Col(md=6, children=[
+                    dbc.Card(className="border-success", children=[
+                        dbc.CardBody([
+                            html.H4("Suppression-state visualizations"),
+                            html.P(className="card-text", children=[
+                                html.B("Figures 6, 8, and 9"), " use the same background axes and maps from above to generate and render Voter Weight data during \
+                                the Jim Crow era, using Civil War groupings."
+                            ]),
+                            html.P(className="card-text", children=[
+                                html.B("Figure 7"), " plots each state’s Electoral College votes on the x axis and its derived Voter Weight on the y axis, with \
+                                Popular Vote now represented by the size of each state’s “bubble.” The horizontal line at 1.0 on the y axis corresponds to the \
+                                national mean. The higher a bubble is above the mean, the greater the weight of individual votes cast in that state. For those \
+                                states whose Electoral Vote counts (x values) and Popular Votes (bubble sizes) are very low, a high Voter Weight can be explained \
+                                by small-state bias. For the rest, another bias is at play."
+                            ]),
+                        ])
+                    ]),
+                    html.Br(),
+                    dcc.Graph(id="fig-scatter-dots-suppress-state-bias"),
+                    html.P(className="card-text", style={"padding": "5px"}, children=[
+                        html.Small("Figure 6: Suppression-state bias, shown by color-shading states by Civil War groupings, and plotting Popular Vote (turnout) on \
+                            the x axis against Electoral College Votes on the y axis. The average Popular Vote tally per Electoral College vote (where the Voter \
+                            Weight ratio is 1.0) is plotted as a diagonal line signifying the nationwide mean. States whose dots appear above and to the left of the \
+                            nationwide mean line have Voter Weights greater than 1, those whose dots are below and to the right have Voter Weights less than 1."),
+                    ]),
+                    html.Br(),
+                    dcc.Slider(
+                        id="suppress-state-bias-year-input",
+                        min=1880,
+                        max=1960,
+                        step=None,
+                        marks={
+                            int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)', 'color': 'white'}}
+                            for y in data_obj.all_years if y >= 1880 and y <= 1960
+                        },
+                        value=1940,
+                    ),
+                    html.Br(),
+                    dcc.Graph(id="fig-bar-suppress-state-bias"),
+                    html.P(className="card-text", style={"padding": "5px"}, children=[
+                        html.Small("Figure 8: Suppression-state bias, shown by color-shading states by Civil War groupings, then listing them in descending order \
+                            by Voter Weight. Voter Weights are generally higher in former Confederate states than in Union, Border, or Postbellum states, with \
+                            small states still having some of the highest weights."),
+                    ]),
                 ])
             ]),
             html.Br(),
@@ -409,26 +443,25 @@ content = html.Div([
                                 plausible nefarious objectives motivated white supremacist voter suppression in the postbellum South is well beyond my purview - \
                                 leave that to the historians and social scientists."
                             ]),
+                            html.Br(),
+                            html.H4("Zooming out to zoom in"),
                             html.P(className="card-text", children=[
                                 "Regardless of underlying plans or purpose, this disconnect between census population and voter participation is seared into the \
                                 historical record, offering a way to compare and quantify democratic and anti-democratic behavior over time - and to potentially \
                                 infer correlation or causation between specific external factors and Voter Weight trends."
                             ]),
-                            html.Br(),
-                            html.H4("Diving deeper"),
                             html.P(className="card-text", children=[
-                                html.Li(children=["This ", dcc.Link("annotated line-chart timeline", href="/voter-weight-comparison-overview"), " of state- and group-level \
-                                Voter Weights stretching from 1800 to 2020 attempts to mix a (very thin) layer of historical context in with the full gamut of \
-                                Voter Weight data. It’s a lot, but it’s configurable, so strip it down to the studs and build it back up however you’d like, \
-                                comparing any combination of states or groups over any time period you’d like to zoom in on."]),
-                                html.Li(children=["As mentioned earlier, there are sections diving into ", dcc.Link("how Voter Weight is calculated", 
-                                href="/calculating-voter-weight"), " as well as ", dcc.Link("how the state groupings break down", href="/explanation-of-groupings"), 
-                                " so dive in to (or steer clear of) those details at your leisure."]),
-                                html.Li(children=["Explore the ", dcc.Link("full vault of year-by-year data visualizations", href="/voter-weight-comparison-details"), 
-                                ", drilling into maps and bar charts illustrating the play-by-play via sliders and animations, then watching trends unfold in \
-                                scatter plots illustrating the ebb and flow of inequity and balance over the course of 220 years of state-level Electoral College \
-                                data."]),
-                                html.Li(children=["Read some of my ", dcc.Link("conclusions, surprises, and takeaways", href="/voter-weight-conclusions")]),
+                                "This ", dcc.Link("annotated line-chart timeline", href="/voter-weight-timeline-viz"), " of state- and group-level Voter \
+                                Weights stretching from 1800 to 2020 attempts to mix a (very thin) layer of historical context in with the full gamut of Voter \
+                                Weight data. It’s a lot to absorb, but it’s configurable, so strip it down to the studs and build it back up however you’d like, \
+                                comparing any combination of states or groups over any time period you’d like to zoom in on."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "Other electoralytics resources to drill into:",
+                                html.Li(children=[dcc.Link("How Voter Weight is calculated", href="/voter-weight-calculation")]), 
+                                html.Li(children=[dcc.Link("How the state groupings break down", href="/explanation-of-groupings")]), 
+                                html.Li(children=[dcc.Link("The full vault of year-by-year data visualizations", href="/voter-weight-figure-vault")]),
+                                html.Li(children=[dcc.Link("Discussion and Conclusion", href="/voter-weight-conclusions")]),
                             ])
                         ])
                     ])
@@ -448,7 +481,10 @@ content = html.Div([
                     html.Br(),
                     dcc.Graph(id="fig-map-color-by-vw"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 7"),
+                        html.Small(children=["Figure 10: States color-shaded by Voter Weight, over the course of 56 presidential elections between 1800 and 2020. Control \
+                            the year using the slider above, or open an ", dcc.Link("intractive slideshow animation", className="text-white",
+                            href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_vw_acw4_1000.html",
+                            target="_blank"), " illustrating the full history."]),
                     ]),
                 ]),
             ])
