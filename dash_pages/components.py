@@ -33,6 +33,7 @@ navbar = dbc.Card(className="text-white bg-primary", children=[
         html.H2("Electoralytics - Visualizing Historical Presidential Election Data", id="nav-pills", style={"text-align": "center"}),
         html.Hr(className="border-light"),
         dbc.Nav(className="nav nav-pills", children=[
+            dbc.NavItem(dbc.NavLink("Home", href="/")),
             dbc.DropdownMenu(label="Visualizing Electoral College Bias", nav=True, children=[
                 dbc.DropdownMenuItem([html.I(className="fa"), "Intro to Voter Weight And Electoral College Bias"], href='/voter-weight-electoral-college-bias-overview', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "Calculating Voter Weight"], href='/voter-weight-calculation', target="_blank"), 
