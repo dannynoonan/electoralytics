@@ -9,6 +9,9 @@ fig_dims = FigDimensions()
 
 
 def build_and_annotate_event_markers(fig, events, y_min, y_max, y_min2=None, y_max2=None):
+    """
+    helper function to build_vw_by_state_group_line_chart for plotting and annotating event markers, including log axis recalculations
+    """
     if not y_min2:
         y_min2 = y_min
     if not y_max2:
@@ -35,6 +38,9 @@ def build_and_annotate_event_markers(fig, events, y_min, y_max, y_min2=None, y_m
 
 
 def build_and_annotate_era_blocks(fig, eras, x_min, y_min, y_max, y_max2=None):
+    """
+    helper function to build_vw_by_state_group_line_chart for plotting and annotating era blocks, including log axis recalculations
+    """
     if not y_max2:
         y_max2 = y_max
 

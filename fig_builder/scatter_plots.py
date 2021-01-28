@@ -9,8 +9,12 @@ cols = Columns()
 fig_dims = FigDimensions()
 
 
-def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_elements=None, fig_width=None, frame=None,
+def build_vw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_elements=None, fig_width=None, frame=None,
                                     alt_groups=[], base_fig_title=None, show_era=True):
+    """
+    generate px.scatter color-shading each state by its group, plotting each state's dot by its popular vote (x) and ec votes (y)
+    values to show its voter weight wrt the national mean
+    """
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
@@ -151,7 +155,11 @@ def build_ivw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_ele
     return fig
 
 
-def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_width=None, frame=None, base_fig_title=None, show_era=True):
+def build_vw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_width=None, frame=None, base_fig_title=None, show_era=True):
+    """
+    generate px.scatter aggregating state group data, plotting each group's dot by its aggregate popular vote (x) and ec votes (y) values 
+    to show its average voter weight wrt the national mean
+    """
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     group_aggs_by_year_df = data_obj.group_agg_weights_pivot_dfs[subdir].copy()
@@ -262,8 +270,12 @@ def build_ivw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_w
     return fig
 
 
-def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_width=None, frame=None,
+def build_vw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_width=None, frame=None,
                                     alt_groups=[], base_fig_title=None, show_era=True):
+    """
+    generate px.scatter color-shading each state by its group, plotting each state's bubble by its ec votes (x) and voter weight (y)
+    with bubble size representing pop vote, to show its voter weight and overall impact wrt the national mean
+    """
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
@@ -367,7 +379,11 @@ def build_ivw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_widt
     return fig
 
 
-def build_ivw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fig_width=None, frame=None, base_fig_title=None, show_era=True):
+def build_vw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fig_width=None, frame=None, base_fig_title=None, show_era=True):
+    """
+    generate px.scatter aggregating state group data, plotting each group's bubble by its aggregate ec votes (x) and voter weight (y)
+    with bubble size representing aggregate pop vote, to show its average voter weight and overall impact wrt the national mean
+    """
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     group_aggs_by_year_df = data_obj.group_agg_weights_pivot_dfs[subdir].copy()

@@ -8,7 +8,7 @@ cols = Columns()
 fig_dims = FigDimensions()
 
 
-def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame, fig_width=None, show_era=True):
+def build_vw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame, fig_width=None, show_era=True):
     """
     generate a px.box plot grouping voter weight data by state voter and plotting ranges for each group
     """
@@ -22,7 +22,7 @@ def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame, fi
 
     # remove any rows added by other processes  TODO only seen twice and tough to reproduce. aberration?
     # pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.GROUP].isin(groups)]
-    # print(f"in build_ivw_by_state_group_box_plot, pivot_on_year_df after:\n{pivot_on_year_df}")
+    # print(f"in build_vw_by_state_group_box_plot, pivot_on_year_df after:\n{pivot_on_year_df}")
     # print(f"groups: {groups}")
 
     if not fig_width:

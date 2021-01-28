@@ -19,8 +19,12 @@ MAX_TRACE_COUNT = 22
 GRID_COLOR = '#DDDDDD'
 
 
-def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_width=None, fig_height=None, state_abbrevs=None, log_y=False, 
+def build_vw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_width=None, fig_height=None, state_abbrevs=None, log_y=False, 
                                         display_groups=True, display_eras=True, display_events=True):
+    """
+    generate px.line chart layering aggregate voter weight data per state group over 220 year historical timeline, annotated with historical 
+    event metadata, with option to add individual states to the voter weight timeline comparison
+    """
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     data_obj.load_totals_by_year
@@ -168,7 +172,10 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
     return fig
 
 
-def build_total_vote_line_chart(data_obj, fig_width=None, log_y=False,):
+def build_total_vote_line_chart(data_obj, fig_width=None, log_y=False):
+    """
+    generate px.line chart plotting voter turnout as a percentage of population over 232 year historical timeline
+    """
     data_obj.load_totals_by_year()
     totals_by_year_df = data_obj.totals_by_year_df.copy()
 

@@ -35,19 +35,19 @@ frame = 1960
 
 
 # animations
-fig = scatter_plots.build_ivw_by_state_scatter_dots(data_obj, groupings, max_small, fig_width=fig_width)
+fig = scatter_plots.build_vw_by_state_scatter_dots(data_obj, groupings, max_small, fig_width=fig_width)
 filename = f'anim_scatter_state_vw_dots_{groupings}{max_small}_{fig_width}'
 
-fig = scatter_plots.build_ivw_by_state_scatter_dots(data_obj, groupings, max_small, fig_width=fig_width, display_elements='abbrevs')
+fig = scatter_plots.build_vw_by_state_scatter_dots(data_obj, groupings, max_small, fig_width=fig_width, display_elements='abbrevs')
 filename = f'anim_scatter_state_vw_abbrevs_{groupings}{max_small}_{fig_width}'
 
-fig = scatter_plots.build_ivw_by_state_group_scatter_dots(data_obj, groupings, max_small, fig_width=fig_width)
+fig = scatter_plots.build_vw_by_state_group_scatter_dots(data_obj, groupings, max_small, fig_width=fig_width)
 filename = f'anim_scatter_stategroup_vw_dots_{groupings}{max_small}_{fig_width}'
 
-fig = scatter_plots.build_ivw_by_state_scatter_bubbles(data_obj, groupings, max_small, fig_width=fig_width)
+fig = scatter_plots.build_vw_by_state_scatter_bubbles(data_obj, groupings, max_small, fig_width=fig_width)
 filename = f'anim_scatter_state_vw_bubbles_{groupings}{max_small}_{fig_width}'
 
-fig = scatter_plots.build_ivw_by_state_group_scatter_bubbles(data_obj, groupings, max_small, fig_width=fig_width)
+fig = scatter_plots.build_vw_by_state_group_scatter_bubbles(data_obj, groupings, max_small, fig_width=fig_width)
 filename = f'anim_scatter_stategroup_vw_bubbles_{groupings}{max_small}_{fig_width}'
 
 fig = choropleths.build_vw_by_state_map(data_obj, groupings, max_small, cols.LOG_VOTE_WEIGHT, fig_width=fig_width)
@@ -86,11 +86,11 @@ filename = f'fig_bar_state_vw_color_by_group_{frame}_{groupings}{max_small}_{fig
 pio.write_html(fig, file=f'{html_dir}/{filename}.html', auto_open=True)
 
 line_plot_width = fig_dims.MD12
-fig = line_charts.build_ivw_by_state_group_line_chart(data_obj, groupings, max_small, fig_width=line_plot_width)
+fig = line_charts.build_vw_by_state_group_line_chart(data_obj, groupings, max_small, fig_width=line_plot_width)
 filename = f'fig_line_group_vw_acw4_{line_plot_width}'
 
-fig = scatter_plots.build_ivw_by_state_scatter_dots(data_obj, groupings, max_small, fig_width=fig_width, frame=1960)
+fig = scatter_plots.build_vw_by_state_scatter_dots(data_obj, groupings, max_small, fig_width=fig_width, frame=1960)
 filename = f'fig_scatter_state_vw_dots_acw4_{fig_width}'
 
-fig = scatter_plots.build_ivw_by_state_scatter_bubbles(data_obj, groupings, max_small, fig_width=fig_width, frame=1960)
+fig = scatter_plots.build_vw_by_state_scatter_bubbles(data_obj, groupings, max_small, fig_width=fig_width, frame=1960)
 filename = f'fig_scatter_state_vw_bubbles_{frame}_{groupings}{max_small}_{fig_width}'

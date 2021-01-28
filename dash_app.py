@@ -116,7 +116,7 @@ def display_voter_weight_ec_bias_intro(small_state_bias_year_input, slave_state_
     fig_bar_slave_state_bias = bar_plots.build_vw_by_state_bar(
         data_obj, ddirs.ACW, 5, frame=slave_state_bias_year, color_col=cols.GROUP, show_era=False, alt_groups=['slave_free', 'split_small'], 
         base_fig_title=title_slave_state_bias_bar, fig_width=fig_dims.MD6, fig_height=fig_dims.MD6)
-    fig_scatter_dots_slave_state_bias = scatter_plots.build_ivw_by_state_scatter_dots(
+    fig_scatter_dots_slave_state_bias = scatter_plots.build_vw_by_state_scatter_dots(
         data_obj, ddirs.ACW, 5, frame=slave_state_bias_year, show_era=False, alt_groups=['slave_free', 'split_small'], 
         base_fig_title=title_slave_state_bias_scatter_dots)
     fig_map_slave_state_bias = choropleths.build_vw_by_state_map(
@@ -125,10 +125,10 @@ def display_voter_weight_ec_bias_intro(small_state_bias_year_input, slave_state_
     fig_bar_suppress_state_bias = bar_plots.build_vw_by_state_bar(
         data_obj, ddirs.ACW, 5, frame=suppress_state_bias_year, color_col=cols.GROUP, show_era=False, alt_groups=['split_small'], 
         base_fig_title=title_suppress_state_bias_bar)
-    fig_scatter_dots_suppress_state_bias = scatter_plots.build_ivw_by_state_scatter_dots(
+    fig_scatter_dots_suppress_state_bias = scatter_plots.build_vw_by_state_scatter_dots(
         data_obj, ddirs.ACW, 5, frame=suppress_state_bias_year, show_era=False, alt_groups=['split_small'], 
         base_fig_title=title_suppress_state_bias_scatter_dots)
-    fig_scatter_bubbles_suppress_state_bias = scatter_plots.build_ivw_by_state_scatter_bubbles(
+    fig_scatter_bubbles_suppress_state_bias = scatter_plots.build_vw_by_state_scatter_bubbles(
         data_obj, ddirs.ACW, 5, frame=suppress_state_bias_year, show_era=False, alt_groups=['split_small'], 
         base_fig_title=title_suppress_state_bias_scatter_bubbles)
     fig_map_suppress_state_bias = choropleths.build_vw_by_state_map(
@@ -195,11 +195,11 @@ def display_voter_weight_timeline_viz(groupings_input, max_small_input, state_ab
     else:
         log_y_2 = False
     # generate figs
-    fig_line_ivw_by_state_group = line_charts.build_ivw_by_state_group_line_chart(
+    fig_line_vw_by_state_group = line_charts.build_vw_by_state_group_line_chart(
         data_obj, groupings_input, max_small, fig_width=fig_dims.MD12, state_abbrevs=state_abbrevs, log_y=log_y, 
         display_groups=show_groups, display_events=show_events, display_eras=show_eras)
     fig_line_total_vote_over_time = line_charts.build_total_vote_line_chart(data_obj, fig_width=fig_dims.MD12, log_y=log_y_2)
-    return fig_line_ivw_by_state_group, fig_line_total_vote_over_time
+    return fig_line_vw_by_state_group, fig_line_total_vote_over_time
 
 # voter-weight-timeline-viz callbacks cont'd: clear-all-input
 @app.callback(
@@ -279,16 +279,16 @@ def display_voter_weight_figure_vault_tab2(year_input, groupings_input, max_smal
     title_scatter_group_dots = f'Aggregate Voter Weight Ratios: Popular Vote x EC Votes'
     title_scatter_group_bubbles = f'Aggregate Voter Weight x EC Votes, Scaled to Pop Vote'
     # generate figs
-    fig_scatter_dots_vw_state = scatter_plots.build_ivw_by_state_scatter_dots(
+    fig_scatter_dots_vw_state = scatter_plots.build_vw_by_state_scatter_dots(
         data_obj, groupings_input, max_small, frame=year, base_fig_title=title_scatter_state_dots, show_era=False)
-    fig_scatter_bubbles_vw_state = scatter_plots.build_ivw_by_state_scatter_bubbles(
+    fig_scatter_bubbles_vw_state = scatter_plots.build_vw_by_state_scatter_bubbles(
         data_obj, groupings_input, max_small, frame=year, base_fig_title=title_scatter_state_bubbles, show_era=False)
-    fig_scatter_abbrevs_vw_state = scatter_plots.build_ivw_by_state_scatter_dots(
+    fig_scatter_abbrevs_vw_state = scatter_plots.build_vw_by_state_scatter_dots(
         data_obj, groupings_input, max_small, display_elements='abbrevs', frame=year, base_fig_title=title_scatter_state_dots, show_era=False)
-    fig_box_vw_group = box_plots.build_ivw_by_state_group_box_plot(data_obj, groupings_input, max_small, frame=year, show_era=False)
-    fig_scatter_dots_vw_group = scatter_plots.build_ivw_by_state_group_scatter_dots(
+    fig_box_vw_group = box_plots.build_vw_by_state_group_box_plot(data_obj, groupings_input, max_small, frame=year, show_era=False)
+    fig_scatter_dots_vw_group = scatter_plots.build_vw_by_state_group_scatter_dots(
         data_obj, groupings_input, max_small, frame=year, base_fig_title=title_scatter_group_dots, show_era=False)
-    fig_scatter_bubbles_vw_group = scatter_plots.build_ivw_by_state_group_scatter_bubbles(
+    fig_scatter_bubbles_vw_group = scatter_plots.build_vw_by_state_group_scatter_bubbles(
         data_obj, groupings_input, max_small, frame=year, base_fig_title=title_scatter_group_bubbles, show_era=False)
     return (fig_scatter_dots_vw_state, fig_scatter_bubbles_vw_state, fig_scatter_abbrevs_vw_state, fig_box_vw_group, 
             fig_scatter_dots_vw_group, fig_scatter_bubbles_vw_group)
