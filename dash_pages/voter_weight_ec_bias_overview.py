@@ -52,10 +52,10 @@ content = html.Div([
                                 then that +2 Senator boost easily doubles or triples the relative impact of that state’s voters."
                             ]),
                             html.P(className="card-text", children=[
-                                "This “small-state bias” are often calculated by comparing the ratio of each state’s population to its Electoral College \
-                                votes, but the same effect is evident—and arguably more precise—if we base the calculation on voter ", html.I("participation"), 
-                                " (turnout) instead of population. This is the basis of “Voter Weight,” which is reused throughout my analysis and which I explore in \
-                                detail in an upcoming section."
+                                "This “small-state bias” is often calculated by comparing the ratio of each state’s population to its Electoral College \
+                                votes. The same effect is evident—and arguably more precise—if we comparing the ratio of each state’s voter ", 
+                                html.I("participation"), " (turnout) to its Electoral College votes. This is the basis of “Voter Weight,” which is reused \
+                                throughout my analysis and which I explore in detail in an upcoming section."
                             ]),
                             html.P(className="card-text", children=[
                                 "In ", html.B("Figure 1"), ", each state is listed in descending order by Voter Weight, and color shading indicates its number of votes in the \
@@ -63,18 +63,20 @@ content = html.Div([
                                 that means a vote cast in Cheyenne counted for 4X a vote cast 45 minutes south in Fort Collins. Want to make your voice heard \
                                 in Washington? Move to Wyoming!"
                             ]),
+                            html.Br(),
+                            html.H4("A note about swing states and “winner-take-all”"),
                             html.P(className="card-text", children=[
-                                html.I("(Astute critics of this crude voter influence metric will be quick to point out that it completely ignores the reality of \
+                                "Astute critics of this crude voter influence metric will be quick to point out that it completely ignores the reality of \
                                 “battleground states,” which Wyoming isn't but Colorado arguably is. The Electoral College's “winner take all” implementation, \
                                 and the safe-state vs swing-state electioneering it engenders, tends to overshadow nibbling irritatants like small-state bias, \
-                                but stick with me — the applications of this crude Voter Weight metric might surprise you.)")
+                                but stick with me — the applications of this crude Voter Weight metric might surprise you."
                             ]),
                             html.Br(),
                             html.H4("As the framers intended"),
                             html.P(className="card-text", children=[
                                 "In the present-day political balance, rural states (like Wyoming) benefitting from small-state bias tend to lean conservative, adding \
                                 an air of political urgency to recent grievances against this electoral wrinkle. But the influence boost for states with smaller \
-                                populations has been part of the Electoral College since its inception, and suffice to say this was not its most controversial piece. \
+                                populations has been part of the Electoral College since its inception — and suffice to say this was not its most controversial piece. \
                                 From its genesis during the Constitutional Convention, each state’s apportionment in the Electoral College was based on two things:",
                                 html.Ol(children=[
                                     html.Li("the same hybrid of flat (Senate) + proportional (House) representation that was the basis of the bicameral Great \
@@ -153,15 +155,18 @@ content = html.Div([
                             ]),
                             html.P(className="card-text", children=[
                                 html.B("Figure 3"), " rearranges the data from Figure 2 into a scatter plot, crossing each state's Popular Vote (x axis) with its Electoral \
-                                College votes (y axis). The intersection between the axes where Voter Weight = 1.0 is plotted as a diagonal line signifying the \
-                                nationwide mean. If every vote in every state counted equally, every state’s dot would be directly on top of that nationwide mean \
-                                line. To the extent that some state’s voters have greater impact than others (through favorable Electoral College apportionment, \
-                                depressed turnout, etc), states whose dots appear above and to the left of the median line have greater impact, while states whose \
-                                dots appear below and to the right of the median line have less."
+                                College votes (y axis). The intersection between the axes where the Voter Weight ratio is 1.0 is plotted as a diagonal line signifying the \
+                                nationwide mean. ", html.I("If every vote in every state counted equally, every state’s dot would be directly on top of that nationwide mean \
+                                line."),
                             ]),
                             html.P(className="card-text", children=[
-                                html.B("Figure 4"), " displays each state's group affiliation on a map. All three figures are controlled using the same Year selection \
-                                slider below."
+                                "To the extent that some state’s voters have greater impact than others (through favorable Electoral College apportionment, depressed \
+                                turnout, etc), those whose dots appear above and to the left of the median line have greater impact, while states whose dots appear below \
+                                and to the right of the median line have less."
+                            ]),
+                            html.P(className="card-text", children=[
+                                html.B("Figure 4"), " helps keep us geographically oriented by displaying each state's group affiliation on a map. All three figures are \
+                                controlled using the same Year selection slider below."
                             ])
                         ])
                     ]),
@@ -206,10 +211,12 @@ content = html.Div([
                             html.H4("Voter Weight"),
                             html.Img(style={"float": "right", "padding-right": "10px"}, src="/static/voteWeightEquations.png", width="400"),
                             html.P(className="card-text", children=[
-                                "Despite small-state bias and slave-state bias deriving from different legal statutes and census formulas, I’ve applied the same \
+                                "Despite small-state bias and slave-state bias deriving from different legal statutes and census formulas, I’m applying the same \
                                 “Voter Weight” calculation to illustrate each in the figures above. Check out the ", dcc.Link("Calculating Voter Weight",
-                                href="/voter-weight-calculation"), " section for a detailed breakdown of the math behind this metric, but a couple top line \
-                                observations for now:",
+                                href="/voter-weight-calculation"), " section for a detailed breakdown of the math behind this metric."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "A couple of top line observations for now:",
                                 html.Ul(children=[
                                     html.Li("Voter Weight is a zero sum game: in aggregate all weights average out to 1.0, so an increase in one state must be offset \
                                         by a decrease in another"),
@@ -233,12 +240,15 @@ content = html.Div([
                         dbc.CardBody([
                             html.H4("Voter suppression as a “five-fifths” scheme"),
                             html.P(className="card-text", children=[
-                                "Here’s where things get interesting. Shortly before last November’s election, an episode of ", html.I("NPR’s Throughline"), 
-                                " made a case I’d never considered before, connecting the lingering effects of the three-fifths compromise to attitudes toward \
-                                enfranchisement in the post-war South. The hosts, joined by Yale Professor and noted constitutional scholar Akhil Reed Amar, \
-                                argued that although the three-fifths compromise did ", html.I("technically"), " end with the abolition of slavery, it was \
-                                effectively replaced by an even ", html.I("less"), " equitable permutation of that infamous inaugural Electoral College bias. \
-                                Part of their “(mis)Representative Democracy” series, the full episode is 58 minutes, but this ", 
+                                "Here’s where things veer off of the standard storyline about the Electoral College. Shortly before last November’s election, \
+                                an episode of ", html.I("NPR’s Throughline"), " made a case I’d never considered before, connecting the lingering effects of the \
+                                three-fifths compromise to attitudes toward enfranchisement in the post-war South. The hosts, joined by Yale Professor and noted \
+                                constitutional scholar Akhil Reed Amar, argued that although the three-fifths compromise did ", html.I("technically"), " end with \
+                                the abolition of slavery, it was effectively replaced by an even ", html.I("less"), " equitable permutation of that infamous \
+                                inaugural Electoral College bias."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "Part of their “(mis)Representative Democracy” series, the full episode is 58 minutes, but this ", 
                                 dcc.Link("5-minute video snippet", href="https://www.npr.org/2020/09/30/918717270/the-electoral-college", target="_blank"), 
                                 " gets to the heart of what caught my attention:"
                             ]),
@@ -302,7 +312,7 @@ content = html.Div([
                         dbc.CardBody([
                             html.H4("Suppression-state bias"),
                             html.P(className="card-text", children=[
-                                "Considering all our 21st century grumbling about how small-state bias amplifies the voice of an Alaska voter at the expense of a \
+                                "Considering our 21st century grumbling about how small-state bias amplifies the voice of an Alaska voter at the expense of a \
                                 California voter, and the stomach-churning 18th-19th century slave-state bias which amplified the voice of a Virginia slave-owner \
                                 relative to a New York merchant, I was pretty darn curious how this third category of electoral bias during Jim Crow — let’s call it \
                                 “suppression-state bias” — would stack up against those other two."
@@ -351,8 +361,8 @@ content = html.Div([
                         dbc.CardBody([
                             html.H4("Five-fifths and then some"),
                             html.P(className="card-text", children=[
-                                "If the range of Voter Weights seems more extreme in this era than it did in the other two time periods, that’s because it is. \
-                                Highlighting just one example: If Voter Weight in 1940 was 7.5 in South Carolina compared with 0.96 in Connecticut, that means \
+                                "If the range of Voter Weights seems more extreme in this era than it did in the other two time periods, well... that’s because it \
+                                is. Highlighting just one example: If Voter Weight in 1940 was 7.5 in South Carolina compared with 0.96 in Connecticut, that means \
                                 pound-for-pound it would take 7-8 votes cast in Connecticut to equal the influence of a single vote cast in South Carolina. This \
                                 represents a staggering disparity in the influence of individual voters—that is, those permitted to vote—in these states."
                             ]),
@@ -371,14 +381,20 @@ content = html.Div([
                             html.H4("Suppression-state visualizations"),
                             html.P(className="card-text", children=[
                                 html.B("Figures 6, 8, and 9"), " use the same background axes and maps from above to generate and render Voter Weight data during \
-                                the Jim Crow era, using Civil War groupings."
+                                the Jim Crow era, grouping states by their Civil War affiliations."
                             ]),
                             html.P(className="card-text", children=[
-                                html.B("Figure 7"), " plots each state’s Electoral College votes on the x axis and its derived Voter Weight on the y axis, with \
-                                Popular Vote now represented by the size of each state’s “bubble.” The horizontal line at 1.0 on the y axis corresponds to the \
-                                national mean. The higher a bubble is above the mean, the greater the weight of individual votes cast in that state. For those \
-                                states whose Electoral Vote counts (x values) and Popular Votes (bubble sizes) are very low, a high Voter Weight can be explained \
-                                by small-state bias. For the rest, another bias is at play."
+                                html.B("Figure 7"), " plots each state’s Electoral College votes on the x axis, plots the derived Voter Weight on the y axis, and \
+                                now represents Popular Vote turnout as the size of each state’s “bubble.” The horizontal line at 1.0 on the y axis corresponds to the \
+                                national mean. The higher a bubble is above the mean, the greater the weight of individual votes cast in that state."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "Similar to the ratio-based scatter plots in Figure 3 and Figure 6: if every vote in every state counted equally, every state’s bubble \
+                                in Figure 7 would be directly on top of that nationwide mean line (horizontal in this case)."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "For those states in Figure 7 whose Electoral Vote counts (x values) and Popular Votes (bubble sizes) are very low, a high Voter \
+                                Weight can be explained by small-state bias. For the rest, another bias is at play."
                             ]),
                         ])
                     ]),
@@ -427,9 +443,9 @@ content = html.Div([
                             ]),
                             html.P(className="card-text", children=[
                                 "The bigger story here, of course, isn’t that Southern states’ (white) voters counted for more than Northern and Western states’ \
-                                (predominantly white) voters, it’s that hundreds of thousands of Southern Blacks (and poor whites) were prevented from voting \
-                                altogether, through the uneven application of poll taxes, literacy tests, grandfather clauses, as well as more direct intimidation \
-                                and violence for 90-odd years during the Jim Crow era."
+                                (predominantly white) voters. The bigger story is that hundreds of thousands of Southern Blacks (and poor whites) were prevented from \
+                                voting altogether, through the uneven application of poll taxes, literacy tests, grandfather clauses, as well as more direct \
+                                intimidation and violence for 90-odd years during the Jim Crow era."
                             ]),
                             html.P(className="card-text", children=[
                                 "However, if ", html.I("Throughline’s"), " “five-fifths” post-war status-quo idea holds water, the villainous cackling of \
@@ -457,7 +473,7 @@ content = html.Div([
                                 comparing any combination of states or groups over any time period you’d like to zoom in on."
                             ]),
                             html.P(className="card-text", children=[
-                                "Other electoralytics resources to drill into:",
+                                "Following that, there are four other sections to this presentation that are here for you to dig into:",
                                 html.Li(children=[dcc.Link("How Voter Weight is calculated", href="/voter-weight-calculation")]), 
                                 html.Li(children=[dcc.Link("How the state groupings break down", href="/explanation-of-groupings")]), 
                                 html.Li(children=[dcc.Link("The full vault of year-by-year data visualizations", href="/voter-weight-figure-vault")]),
