@@ -1,5 +1,4 @@
 import dash
-from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
@@ -35,7 +34,7 @@ content = html.Div([
                                         and the +2 senator “bicameral boost”)"])
                                 ])
                             ]),
-                            html.Img(src="/static/voteWeightEquations.png", style={"float": "left", "padding-right": "10px"}, width="400"),
+                            html.Img(src="/static/vwMath/derivingPvpeVw.png", style={"float": "left", "padding-right": "10px"}, width="400"),
                             html.P(className="card-text", children=[
                                 "The higher the Popular Vote is relative to the Electoral College vote apportionment, the lower the impact of any individual \
                                 voter in that state, since slicing the state’s pie into more pieces doesn’t change the overall size of the pie, it just reduces \

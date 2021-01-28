@@ -1,5 +1,4 @@
 import dash
-from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
@@ -14,11 +13,8 @@ data_obj.load_dfs_for_subdir()
 data_obj.load_all_states_meta()
 data_obj.load_abbrevs_to_states()
 data_obj.load_totals_by_year()
-data_obj.load_swallowed_vote_sampler()
 
-cols = Columns()
 ddirs = DataDirs()
-fig_dims = FigDimensions()
 
 
 url_bar_and_content_div = html.Div([

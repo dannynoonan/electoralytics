@@ -12,7 +12,7 @@ from dash_pages import (
     components, electoral_college_intro, explanation_of_groupings, landing_page, voter_weight_calculation, 
     voter_weight_conclusions, voter_weight_ec_bias_overview, voter_weight_figure_vault, voter_weight_timeline_viz)
 from data_processor.data_objects import DataObject
-from data_processor.functions import validate_input, map_to_subdir
+from data_processor.functions import map_to_subdir
 from fig_builder import bar_plots, box_plots, choropleths, line_charts, scatter_plots
 from metadata import Columns, DataDirs, FigDimensions, YEAR_0, YEAR_N
 
@@ -41,7 +41,7 @@ app.layout = dbc.Container(fluid=True, children=[
     components.url_bar_and_content_div,
 ])
 
-# app layout
+# app validation_layout
 app.validation_layout = dbc.Container(fluid=True, children=[
     components.url_bar_and_content_div,
 
@@ -79,7 +79,7 @@ def display_page(pathname):
         return landing_page.content
 
 
-# voter-weight-electoral-college-bias-overview callbacks
+############ voter-weight-electoral-college-bias-overview callbacks
 @app.callback(
     Output('fig-bar-small-state-bias', 'figure'),
     Output('fig-bar-slave-state-bias', 'figure'),
@@ -139,7 +139,7 @@ def display_voter_weight_ec_bias_intro(small_state_bias_year_input, slave_state_
         fig_scatter_dots_suppress_state_bias, fig_scatter_bubbles_suppress_state_bias, fig_map_suppress_state_bias, fig_map_color_by_vw)
 
 
-# explanation-of-groupings callbacks
+############ explanation-of-groupings callbacks
 @app.callback(
     Output('fig-map-acw', 'figure'),
     Output('fig-map-census', 'figure'),
@@ -155,8 +155,7 @@ def display_explanation_of_groupings(year_input, max_small_input):
     return fig_map_acw, fig_map_census
 
 
-
-# voter-weight-timeline-viz callbacks
+############ voter-weight-timeline-viz callbacks ############ 
 @app.callback(
     Output('fig-line-vote-weight-by-state-group', 'figure'),
     Output('fig-line-total-vote-over-time', 'figure'),
@@ -219,7 +218,7 @@ def clear_canvas_2(n_clicks):
         return ['show_groups','show_events','show_eras']
 
 
-# voter-weight-figure-vault callbacks, tab 1
+############ voter-weight-figure-vault callbacks, tab 1 ############ 
 @app.callback(
     Output('fig-map-color-by-state-vw', 'figure'),
     Output('fig-bar-state-vw-color-by-vw', 'figure'),
@@ -259,7 +258,6 @@ def display_voter_weight_figure_vault_tab1(year_input, groupings_input, max_smal
     return (fig_map_color_by_state_vw, fig_bar_state_vw_color_by_vw, fig_map_color_by_group, fig_bar_state_vw_color_by_group, 
             fig_bar_actual_vs_adj_ec, fig_bar_actual_vs_adj_vw)
 
-
 # voter-weight-figure-vault callbacks, tab 2
 @app.callback(
     Output('fig-scatter-dots-vw-state', 'figure'),
@@ -268,7 +266,6 @@ def display_voter_weight_figure_vault_tab1(year_input, groupings_input, max_smal
     Output('fig-box-vw-group', 'figure'),  
     Output('fig-scatter-dots-vw-group', 'figure'),  
     Output('fig-scatter-bubbles-vw-group', 'figure'),
-    # Output('fig-map-color-by-group', 'figure'),
     Input('year-input', 'value'),
     Input('groupings-input', 'value'),
     Input('max-small-input', 'value'))
@@ -297,7 +294,7 @@ def display_voter_weight_figure_vault_tab2(year_input, groupings_input, max_smal
             fig_scatter_dots_vw_group, fig_scatter_bubbles_vw_group)
 
 
-# electoral-college-intro callbacks, swallowed vote sampler tab 1
+############ electoral-college-intro callbacks, swallowed vote sampler tab 1
 @app.callback(
     Output('fig-bar-state-vw-color-by-ecv', 'figure'),
     Output('fig-bar-swallowed-vote-sampler-1', 'figure'),

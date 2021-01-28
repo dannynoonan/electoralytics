@@ -158,8 +158,8 @@ def build_ivw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_wid
         fig.update_traces(
             hovertemplate="<br>".join([
                 "<b>%{customdata[0]}</b> (%{x})<br></b>",
-                "Combined EC Votes: <b>%{customdata[2]:,}</b>",
                 "Combined Popular Vote: <b>%{customdata[3]:,}</b>",
+                "Combined EC Votes: <b>%{customdata[2]:,}</b>",
                 "Average Voter Weight: <b>%{y:.2f}</b>",
                 "States in Group: <b>%{customdata[1]}</b>",
             ])

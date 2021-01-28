@@ -11,15 +11,10 @@ cols = Columns()
 ddirs = DataDirs()
 
 
-def validate_input(year_input, all_years):
-    year = int(year_input)
-    if year in all_years:
-        return year
-    else:
-        return -1
-
-
 def map_to_subdir(groups_dir, max_small):
+    """
+    combine groups_dir and max_small to determine which data directory to reference
+    """
     subdir = f"{ddirs.GEN}/{groups_dir}"
     if max_small == 3:
         subdir = f"{subdir}/{ddirs.SMALL_3}"
@@ -34,6 +29,9 @@ def map_to_subdir(groups_dir, max_small):
 
 
 def flatten_state_color_map(all_states_meta_df, groups_dir):
+    """
+    in rare case of state not being able to proxy thru its group to determine its color, map states to colors explicitly
+    """
     group_col = GROUPS_COL_FOR_DIR[groups_dir]
 
     state_color_map = {}
@@ -43,8 +41,10 @@ def flatten_state_color_map(all_states_meta_df, groups_dir):
     return state_color_map
 
 
-
 def get_era_for_year(year):
+    """
+    map year to era label
+    """
     if year <= 1860:
         return 'Antebellum Period'
     elif year == 1864:
@@ -62,6 +62,9 @@ def get_era_for_year(year):
 
 
 def apply_animation_settings(fig, base_fig_title, frame_rate=None):
+    """
+    generic recipe of steps to execute on animation figure after its built: explicitly set frame rate, dynamically update fig title, etc
+    """
     if not frame_rate:
         frame_rate = FRAME_RATE
 
@@ -82,6 +85,9 @@ def apply_animation_settings(fig, base_fig_title, frame_rate=None):
 
 
 def append_state_vw_pivot_to_groups_aggs_df(state_vw_pivot_df, group_aggs_by_year_df, group_colors):
+    """
+    concat state-specific df to group agg df in cases where figure needs them to be part of same df
+    """
     # drop columns not being merged
     state_vw_pivot_df.drop([cols.GROUP, cols.PARTY, cols.LOG_VOTE_WEIGHT], axis=1, inplace=True)
     # rename columns to be consistent with group aggs cols
@@ -96,6 +102,9 @@ def append_state_vw_pivot_to_groups_aggs_df(state_vw_pivot_df, group_aggs_by_yea
 
 
 def fill_out_state_year_matrix(pivot_on_year_df, all_states_meta_df, groups_dir):
+    """
+    create empty cells for states not in the union to enable continuous animation flow over multi-year data set
+    """
     group_col = GROUPS_COL_FOR_DIR[groups_dir]
 
     year = YEAR_0

@@ -1,9 +1,7 @@
 import dash
-from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
-
 
 from dash_pages.components import navbar, data_obj
 
@@ -14,7 +12,7 @@ content = html.Div([
         dbc.CardBody([
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Using “Voter Weight” to Explore Electoral College Bias"),
+                html.H3("Visualizing Jim Crow Voter Suppression: Population, Participation, and “Voter Weight”"),
             ]),
             html.Br(),
             dbc.Row([

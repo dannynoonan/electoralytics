@@ -17,7 +17,7 @@ content = html.Div([
             html.A(className="list-group-item list-group-item-action flex-column align-items-start bg-primary", 
                 href="/voter-weight-electoral-college-bias-overview", children=[
                 html.H4(className="mb-1 text-success", children=[
-                    "Using “Voter Weight” to Examine Electoral College Bias (main article)"
+                    "Visualizing Jim Crow Voter Suppression: Population, Participation, and “Voter Weight” (main article)"
                 ]),
                 html.Img(src="/static/screenshots/barFreeSlaveSmall1852.png", height="250", style={"padding": "5px", "padding-top": "10px"}),
                 html.Img(src="/static/screenshots/mapFreeSlaveSmall1852.png", height="250", style={"padding": "5px", "padding-top": "10px"}),
