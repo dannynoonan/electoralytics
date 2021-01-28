@@ -12,7 +12,7 @@ content = html.Div([
         dbc.CardBody([
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Visualizing Jim Crow Voter Suppression: Population, Participation, and “Voter Weight”"),
+                html.H3("Visualizing Jim Crow Voter Suppression: Participation, Apportionment, and “Voter Weight”"),
             ]),
             html.Br(),
             dbc.Row([
@@ -207,7 +207,7 @@ content = html.Div([
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([                           
                             html.H4("Voter Weight"),
-                            html.Img(style={"float": "right", "padding-right": "10px"}, src="/static/voteWeightEquations.png", width="400"),
+                            html.Img(style={"float": "right", "padding-right": "10px"}, src="/static/vwMath/derivingPvpeVw.png", width="400"),
                             html.P(className="card-text", children=[
                                 "Despite small-state bias and slave-state bias deriving from different legal statutes and census formulas, I’m applying the same \
                                 “Voter Weight” calculation to illustrate each in the figures above. Check out the ", dcc.Link("Calculating Voter Weight",
