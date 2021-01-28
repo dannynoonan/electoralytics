@@ -50,38 +50,38 @@ filename = f'anim_scatter_state_vw_bubbles_{groupings}{max_small}_{fig_width}'
 fig = scatter_plots.build_ivw_by_state_group_scatter_bubbles(data_obj, groupings, max_small, fig_width=fig_width)
 filename = f'anim_scatter_stategroup_vw_bubbles_{groupings}{max_small}_{fig_width}'
 
-fig = choropleths.build_ivw_by_state_map(data_obj, groupings, max_small, cols.LOG_VOTE_WEIGHT, fig_width=fig_width)
+fig = choropleths.build_vw_by_state_map(data_obj, groupings, max_small, cols.LOG_VOTE_WEIGHT, fig_width=fig_width)
 filename = f'anim_map_state_vw_{groupings}{max_small}_{fig_width}'
 
-fig = choropleths.build_ivw_by_state_map(data_obj, groupings, max_small, cols.GROUP, fig_width=fig_width)
+fig = choropleths.build_vw_by_state_map(data_obj, groupings, max_small, cols.GROUP, fig_width=fig_width)
 filename = f'anim_map_state_groups_{groupings}{max_small}_{fig_width}'
 
-fig = bar_plots.build_ivw_by_state_bar(data_obj, groupings, 0, fig_width=fig_width, color_col=cols.GROUP)
+fig = bar_plots.build_vw_by_state_bar(data_obj, groupings, 0, fig_width=fig_width, color_col=cols.GROUP)
 filename = f'anim_bar_state_vw_color_by_group_{groupings}0_{fig_width}'
 
-# fig = bar_plots.build_ivw_by_state_bar(data_obj, groupings, max_small, fig_width=fig_width, color_col=cols.LOG_VOTE_WEIGHT)
+# fig = bar_plots.build_vw_by_state_bar(data_obj, groupings, max_small, fig_width=fig_width, color_col=cols.LOG_VOTE_WEIGHT)
 # filename = f'anim_bar_state_vw_color_by_vw_{groupings}{max_small}_{fig_width}'
 
 
 
 # single year statics
-fig = bar_plots.build_ivw_by_state_bar(data_obj, groupings, max_small, fig_width=fig_width, frame=2020, color_col=cols.LOG_EC_VOTES)
+fig = bar_plots.build_vw_by_state_bar(data_obj, groupings, max_small, fig_width=fig_width, frame=2020, color_col=cols.LOG_EC_VOTES)
 filename = f'fig_bar_state_vw_color_by_ecv_{fig_width}'
 
-fig = bar_plots.build_ivw_by_state_bar(data_obj, groupings, max_small, fig_width=fig_width, frame=1960, color_col=cols.LOG_VOTE_WEIGHT)
+fig = bar_plots.build_vw_by_state_bar(data_obj, groupings, max_small, fig_width=fig_width, frame=1960, color_col=cols.LOG_VOTE_WEIGHT)
 filename = f'fig_bar_state_vw_color_by_vw_{fig_width}'
 
-fig = choropleths.build_ivw_by_state_map(data_obj, groupings, max_small, cols.LOG_VOTE_WEIGHT, fig_width=fig_width, frame=1960)
+fig = choropleths.build_vw_by_state_map(data_obj, groupings, max_small, cols.LOG_VOTE_WEIGHT, fig_width=fig_width, frame=1960)
 filename = f'fig_map_state_vw_acw4_{fig_width}'
 
-fig = choropleths.build_ivw_by_state_map(data_obj, groupings, max_small, cols.GROUP, fig_width=fig_width, frame=1960)
+fig = choropleths.build_vw_by_state_map(data_obj, groupings, max_small, cols.GROUP, fig_width=fig_width, frame=1960)
 filename = f'fig_map_color_by_group_acw4_{fig_width}'
 
-fig = bar_plots.build_ivw_by_state_bar(data_obj, groupings, max_small, fig_width=fig_width, frame=1960, color_col=cols.GROUP)
+fig = bar_plots.build_vw_by_state_bar(data_obj, groupings, max_small, fig_width=fig_width, frame=1960, color_col=cols.GROUP)
 filename = f'fig_bar_state_vw_color_by_group_{fig_width}'
 
 frame = 1860
-fig = bar_plots.build_ivw_by_state_bar(data_obj, groupings, max_small, fig_width=fig_width, frame=frame, color_col=cols.GROUP, alt_groups=['split_small'])
+fig = bar_plots.build_vw_by_state_bar(data_obj, groupings, max_small, fig_width=fig_width, frame=frame, color_col=cols.GROUP, alt_groups=['split_small'])
 filename = f'fig_bar_state_vw_color_by_group_{frame}_{groupings}{max_small}_{fig_width}'
 pio.write_html(fig, file=f'{html_dir}/{filename}.html', auto_open=True)
 

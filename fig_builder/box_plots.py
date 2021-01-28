@@ -9,6 +9,9 @@ fig_dims = FigDimensions()
 
 
 def build_ivw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame, fig_width=None, show_era=True):
+    """
+    generate a px.box plot grouping voter weight data by state voter and plotting ranges for each group
+    """
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()

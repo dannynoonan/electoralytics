@@ -13,8 +13,12 @@ ddirs = DataDirs()
 fig_dims = FigDimensions()
 
 
-def build_ivw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_width=None, frame=None,
+def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_width=None, frame=None,
                             alt_groups=[], base_fig_title=None, show_era=True):
+    """
+    swiss army knife function for generating a px.choropleth map, color-shading states by group or along a data spectrum.
+    supports static single-year plots or animations. 
+    """
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()

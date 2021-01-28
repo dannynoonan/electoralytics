@@ -12,8 +12,12 @@ ddirs = DataDirs()
 fig_dims = FigDimensions()
 
 
-def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_height=None, frame=None, color_col=None, 
+def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_height=None, frame=None, color_col=None, 
                             alt_groups=[], base_fig_title=None, show_era=True):
+    """
+    swiss army knife function for generating a px.bar plot, color-shading states by a category or along a data spectrum,
+    in descending order by voter weight. supports static single-year plots or animations. 
+    """
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
@@ -191,7 +195,10 @@ def build_ivw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_
 
 
 # ref: https://towardsdatascience.com/how-to-create-a-grouped-bar-chart-with-plotly-express-in-python-e2b64ed4abd7
-def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=None, frame=None, show_era=True):
+def build_actual_vs_adjusted_ec_votes_bar(data_obj, groups_dir, max_small, fig_width=None, frame=None, show_era=True):
+    """
+    generate a px.bar plot displaying actual ec votes data vs ec votes data adjusted for pop vote, side by side for each state 
+    """
     # TODO does this need groups_dir and max_small or can it use defaults 100% of time?
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
@@ -257,7 +264,10 @@ def build_actual_vs_adjusted_ec_bar(data_obj, groups_dir, max_small, fig_width=N
     return fig
 
 
-def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, fig_width=None, frame=None, show_era=True):
+def build_actual_vs_adjusted_pop_vote_bar(data_obj, groups_dir, max_small, fig_width=None, frame=None, show_era=True):
+    """
+    generate a px.bar plot displaying actual pop vote data vs pop vote data adjusted for voter weight, side by side for each state 
+    """
     subdir = map_to_subdir(groups_dir, max_small)
     data_obj.load_dfs_for_subdir(subdir)
     melted_vote_count_pivot_df = data_obj.melted_vote_count_pivot_dfs[subdir].sort_values('Popular Vote*', ascending=True)
@@ -322,6 +332,10 @@ def build_actual_vs_adjusted_vw_bar(data_obj, groups_dir, max_small, fig_width=N
 
 
 def build_swallowed_vote_bar(data_obj, view, fig_width=None):
+    """
+    generate a px.bar tuned specifically to swallowed vote sampler data, for comparing vote counts side by side
+    raw view shows colors each candidate's vote bars, muted view grays out the losing candidate's vote bars
+    """
     # bar and legend metadata depend on view input
     if view == 'raw':
         color_col = 'Candidate: Pop Vote'
@@ -372,6 +386,9 @@ def build_swallowed_vote_bar(data_obj, view, fig_width=None):
 
 
 def build_swallowed_vote_relative_bar(data_obj, fig_width=None):
+    """
+    generate a px.bar tuned specifically to swallowed vote sampler data, for stacking both candidate's vote counts in relative barmode 
+    """
     if not fig_width:
         fig_width = fig_dims.MD6
     fig_height = fig_dims.crt(fig_width)
@@ -414,6 +431,9 @@ def build_swallowed_vote_relative_bar(data_obj, fig_width=None):
 
 
 def build_swallowed_vote_ec_bar(data_obj, fig_width=None):
+    """
+    generate a px.bar tuned specifically to swallowed vote sampler data, for showing winning candidate's ec votes 
+    """
     if not fig_width:
         fig_width = fig_dims.MD6
     fig_height = fig_dims.crt(fig_width)
