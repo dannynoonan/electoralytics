@@ -95,7 +95,7 @@ def build_vw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_elem
                         title=fig_title, custom_data=custom_data, 
                         hover_name=cols.STATE, hover_data=hover_data, animation_frame=cols.YEAR, # ignored if df is for single year
                         color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                        width=fig_width, height=fig_height, opacity=0.7, 
+                        height=fig_height, opacity=0.7, 
                         range_x=[0,x_max], range_y=[0,ec_max])
         # axis metadata
         fig.update_xaxes(title_text=x_axis_title)
@@ -111,7 +111,7 @@ def build_vw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_elem
                         title=fig_title, custom_data=custom_data, text=cols.ABBREV, 
                         hover_name=cols.STATE, hover_data=hover_data, animation_frame=cols.YEAR, # ignored if df is for single year
                         color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                        width=fig_width, height=fig_height, opacity=0.7, 
+                        height=fig_height, opacity=0.7, 
                         log_x=True, log_y=True, range_x=range_x, range_y=[2.5,ec_max])
         # axis metadata
         fig.update_xaxes(title_text=f"{x_axis_title} (log)")
@@ -227,7 +227,7 @@ def build_vw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_wi
                     title=fig_title, custom_data=custom_data, 
                     hover_name=cols.GROUP, hover_data=hover_data, animation_frame=cols.YEAR, animation_group=cols.GROUP, # ignored if df is for single year
                     color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                    width=fig_width, height=fig_height, opacity=0.7, 
+                    height=fig_height, opacity=0.7, 
                     range_x=[0,x_max], range_y=[0,ec_max])
         
     # scatterplot dot formatting
@@ -338,7 +338,7 @@ def build_vw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_width
                     title=fig_title, custom_data=custom_data, size=cols.VOTES_COUNTED_PCT, size_max=80, 
                     hover_name=cols.STATE, hover_data=hover_data, animation_frame=cols.YEAR, # ignored if df is for single year
                     color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                    width=fig_width, height=fig_height, opacity=0.5, 
+                    height=fig_height, opacity=0.5, 
                     log_y=True, range_x=[0,ec_max], range_y=[weight_min,weight_max])
 
     # scatterplot dot formatting
@@ -441,7 +441,7 @@ def build_vw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fig
                     title=fig_title, custom_data=custom_data, size=cols.VOTES_COUNTED_PCT, size_max=80,  
                     hover_name=cols.GROUP, hover_data=hover_data, animation_frame=cols.YEAR, animation_group=cols.GROUP, # ignored if df is for single year
                     color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                    width=fig_width, height=fig_height, opacity=0.5, 
+                    height=fig_height, opacity=0.5, 
                     log_y=True, range_x=[0, ec_max], range_y=[weight_min, weight_max])
 
     # scatterplot dot formatting

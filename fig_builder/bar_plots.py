@@ -109,7 +109,7 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
                     text=cols.EC_VOTES, animation_frame=cols.YEAR, # ignored if df is for single year
                     color_continuous_scale=color_continuous_scale, color_continuous_midpoint=color_continuous_midpoint,
                     # labels={cols.VOTE_WEIGHT: 'Relative Voter Weight'}, 
-                    range_x=[vw_min,vw_max], log_x=True, width=fig_width, height=fig_height)
+                    range_x=[vw_min,vw_max], log_x=True, height=fig_height)
 
     elif color_col in [cols.GROUP, cols.PARTY]:
         if color_col == cols.PARTY:
@@ -131,7 +131,7 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
                     custom_data=custom_data, hover_name=cols.VOTE_WEIGHT, hover_data=hover_data,
                     text=cols.EC_VOTES, animation_frame=cols.YEAR, # ignored if df is for single year
                     color_discrete_map=color_discrete_map, category_orders=category_orders,
-                    range_x=[vw_min,vw_max], log_x=True, width=fig_width, height=fig_height)
+                    range_x=[vw_min,vw_max], log_x=True, height=fig_height)
 
     # overlay info on top of bars
     if frame:
@@ -234,7 +234,7 @@ def build_actual_vs_adjusted_ec_votes_bar(data_obj, groups_dir, max_small, fig_w
     # init figure with core properties
     fig = px.bar(melted_ec_votes_pivot_df, x='EC Votes*', y=cols.STATE, color='Actual vs Adjusted EC Votes*', title=fig_title, 
                 custom_data=custom_data, barmode='group', animation_frame=cols.YEAR, # ignored if df is for single year
-                color_discrete_sequence=color_discrete_sequence, width=fig_width, height=fig_height)
+                color_discrete_sequence=color_discrete_sequence, height=fig_height)
 
     # axis metadata
     fig.update_xaxes(title_text=x_axis_title)
@@ -301,7 +301,7 @@ def build_actual_vs_adjusted_pop_vote_bar(data_obj, groups_dir, max_small, fig_w
     # init figure with core properties
     fig = px.bar(melted_vote_count_pivot_df, x='Popular Vote*', y=cols.STATE, color='Actual vs Adjusted Popular Vote*', title=fig_title, 
                 custom_data=custom_data, barmode='group', animation_frame=cols.YEAR, # ignored if df is for single year
-                color_discrete_sequence=color_discrete_sequence, width=fig_width, height=fig_height)
+                color_discrete_sequence=color_discrete_sequence, height=fig_height)
 
     # axis metadata
     fig.update_xaxes(title_text=x_axis_title)

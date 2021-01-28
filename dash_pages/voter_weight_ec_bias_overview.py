@@ -250,7 +250,7 @@ content = html.Div([
                                 dcc.Link("5-minute video snippet", href="https://www.npr.org/2020/09/30/918717270/the-electoral-college", target="_blank"), 
                                 " gets to the heart of what caught my attention:"
                             ]),
-                            html.Iframe(id="jw_embed", width="750", height="423", 
+                            html.Iframe(id="jw_embed", width="100%", height="423", 
                                 src="https://www.npr.org/embedded-video?storyId=918717270&mediaId=930549092&jwMediaType=null"),
                         ])
                     ])

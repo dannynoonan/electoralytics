@@ -81,7 +81,7 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
                             locationmode='USA-states', scope="usa", custom_data=custom_data,
                             hover_name=cols.STATE, hover_data=hover_data, animation_frame=cols.YEAR, # ignored if df is for single year
                             color_continuous_scale=px.colors.diverging.BrBG[::-1], color_continuous_midpoint=0,
-                            width=fig_width, height=fig_height)
+                            height=fig_height)
         # colorbar labels: calculate log values for weights so I can plot the familiar linear numbers on the color bar
         # TODO pretty sure this works around a plotly choropleth bug, open ticket or post to stackoverflow
         colorbar_labels = ['0.1', '0.2', '0.33', '0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']
@@ -98,7 +98,7 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
                             locationmode='USA-states', scope="usa", custom_data=custom_data,
                             hover_name=cols.STATE, hover_data=hover_data, animation_frame=cols.YEAR, animation_group=cols.GROUP, # ignored if df is for single year
                             color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                            width=fig_width, height=fig_height)
+                            height=fig_height)
 
     # display formatting
     fig.update_layout(title_x=0.5, dragmode=False, margin=go.layout.Margin(l=0, r=0, b=20, t=100))
