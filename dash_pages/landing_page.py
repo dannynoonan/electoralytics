@@ -47,8 +47,9 @@ content = html.Div([
                 html.H4(className="mb-1 text-success", children=[
                     "Calculating Voter Weight",
                 ]),
-                html.Img(src="/static/voteWeightEquations.png", height="150", style={"padding": "5px"}),
-                html.Img(src="/static/vwCalcSampler/popToEcWIGA1900.png", height="150", style={"padding": "5px"}),
+                html.Img(src="/static/vwMath/derivingPvpeVw.png", height="150", style={"padding": "5px"}),
+                html.Img(src="/static/vwMath/vwEcSummQuotEquation.png", height="150", style={"padding": "5px"}),
+                html.Img(src="/static/vwMath/vwMathSampler/popToEcWIGA1900.png", height="150", style={"padding": "5px"}),
             ]),
             html.A(className="list-group-item list-group-item-action flex-column align-items-start bg-primary", 
                 href="/explanation-of-groupings", children=[
