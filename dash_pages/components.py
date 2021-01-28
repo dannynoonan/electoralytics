@@ -109,25 +109,6 @@ year_slider_and_groups_selection = dbc.FormGroup([
 ])
 
 
-form_input_y_axis = dbc.FormGroup([
-    dbc.Row([
-        dbc.Col(md=2, className="text-white", style={'textAlign': 'left'}, children=[
-            html.H4("Y axis:"),
-            dcc.RadioItems(
-                id="y-axis-input-2",
-                className="text-white", 
-                options=[
-                    {'label': 'Linear', 'value': 'linear'},
-                    {'label': 'Log', 'value': 'log'}
-                ],
-                value='linear',
-                inputStyle={"margin-left": "4px", "margin-right": "4px"}
-            )
-        ])
-    ])
-])
-
-
 form_input_vw_over_time_line_chart = dbc.FormGroup([
     html.Br(),
     dbc.Row([

@@ -4,7 +4,7 @@ import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 
-from dash_pages.components import navbar, form_input_vw_over_time_line_chart, form_input_y_axis
+from dash_pages.components import navbar, form_input_vw_over_time_line_chart
 
 
 content = html.Div([
@@ -22,7 +22,6 @@ content = html.Div([
                     dcc.Graph(id="fig-line-vote-weight-by-state-group"),
                 ])
             ]),
-
             html.Br(),
             dbc.Row([
                 dbc.Col(md=5, children=[
@@ -34,9 +33,9 @@ content = html.Div([
                                 2020.",
                             ]),
                             html.P(className="card-text", children=[
-                                "When you first load the page, it displays aggregate/average data at the state-group level (Civil War affiliation or Regional \
-                                Census). Using the legend to the right you can hide group-level trend lines one at a time, and using the “Show / Hide State \
-                                Small” dropdown menu above you can hide the group-level trend lines en masse."
+                                "When you first load the page, it displays aggregate/average data at the state-group level (with “Civil War” grouping selected). \
+                                Using the legend to the right you can hide group-level trend lines one at a time, and using the “Show / Hide State Groups” \
+                                dropdown menu above you can hide the group-level trend lines en masse."
                             ]),
                             html.P(className="card-text", children=[
                                 "Using the dropdown menu above the chart, you can select individual states to compare. These can be overlaid onto group-level \
@@ -82,10 +81,10 @@ content = html.Div([
                                 and (c) by significantly wider popular vote.",
                             ]),
                             html.P(className="card-text", children=[
-                                "My presentation doesn't account for this back-and-forth very well. My aggregate tallies (at the state-group level) exclude states \
-                                that don’t even hold popular presidential elections in a given year, meaning states like North Carolina and Kentucky with very ", 
-                                html.I("restrictive"), " voting end up being “penalized” more than states like New York and South Carolina where ", html.I("nobody"), 
-                                " is voting.",                              
+                                "My presentation of these earliest years doesn't account for the on-again/off-again use of Popular Vote very well. My aggregate \
+                                tallies (at the state-group level) exclude states that don’t even hold a popular presidential vote in a given year. This means \
+                                states like North Carolina and Kentucky that did hold popular votes - albeit very restrictive ones - in those earliest years end \
+                                up being “penalized” more than states like New York and South Carolina where ", html.I("nobody"), " was permitted to vote.",                              
                             ]),
                             html.P(className="card-text", children=[
                                 "Between 1820 and 1828 the popular vote increased 10-fold, marking the dawn of “populism” and “Jacksonian democracy,” and from 1828 \
@@ -93,23 +92,41 @@ content = html.Div([
                                 Reconstruction)."
                             ]),
                             html.P(className="card-text", children=[
-                                "I considered excluding the years prior to 1828 altogether, since those years tell a much different story than what emerges from the \
-                                late 1820s onward, but in the end I held onto them - less for the trend analysis than for the novelty and intrigue.",                              
+                                "I considered excluding the years prior to 1828 from analysis altogether, since those years tell a much different story than what \
+                                emerges from the late 1820s onward, but in the end I held onto them - less for the trend analysis than for the novelty and intrigue.",                              
                             ]),
                             html.P(className="card-text", children=[
-                                "The “Votes cast as a percentage of population” chart below shows the increase (and decrease) in national popular vote over time.",                              
+                                "The “Votes cast as a percentage of population” chart below shows this overall increase (and decrease) in national popular vote over \
+                                time.",                              
                             ]),
                         ])
                     ])
                 ])
             ]),
-            html.Br(),
-            # dbc.Row([
-            #     html.H2("Voter Participation Nationally Over Time"),
-            # ], justify="center", align="center"),
+            html.Br(),html.Br(),
+            dbc.Row([
+                dbc.Col(md=2, className="text-white", style={'textAlign': 'left'}, children=[
+                    dbc.FormGroup([
+                        html.H4("Y axis:"),
+                        dcc.RadioItems(
+                            id="y-axis-input-2",
+                            className="text-white", 
+                            options=[
+                                {'label': 'Linear', 'value': 'linear'},
+                                {'label': 'Log', 'value': 'log'}
+                            ],
+                            value='linear',
+                            inputStyle={"margin-left": "4px", "margin-right": "4px"}
+                        )
+                    ])
+                ]),
+                dbc.Col(md=8, className="text-white", style={'textAlign': 'center'}, children=[
+                    html.H3("Voter Participation Nationally Over Time"),
+                ]),
+                dbc.Col(md=2)
+            ]),
             dbc.Row([
                 dbc.Col(md=12, children=[
-                    form_input_y_axis,
                     dcc.Graph(id="fig-line-total-vote-over-time")
                 ])
             ]),
