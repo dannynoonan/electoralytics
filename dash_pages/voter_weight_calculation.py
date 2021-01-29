@@ -34,7 +34,7 @@ content = html.Div([
                                         and the +2 senator “bicameral boost”)"])
                                 ])
                             ]),
-                            html.Img(src="/static/vwMath/derivingPvpeVw.png", style={"float": "left", "padding-right": "10px"}, width="400"),
+                            html.Img(src="/static/vwMath/derivingPvpeVw.png", style={"float": "left", "padding-right": "10px"}, width="55%"),
                             html.P(className="card-text", children=[
                                 "The higher the Popular Vote is relative to the Electoral College vote apportionment, the lower the impact of any individual \
                                 voter in that state, since slicing the state’s pie into more pieces doesn’t change the overall size of the pie, it just reduces \
@@ -48,7 +48,7 @@ content = html.Div([
                                 "On its own, this absolute PVPE metric loses any meaning when compared between different years, so my Voter Weight calculation \
                                 takes the additional step of normalizing each state's PVPE against the nationwide PVPE average in a given year."
                             ]),
-                            html.Img(src="/static/vwMath/vwEcSummQuotEquation.png", style={"float": "right", "padding-left": "10px"}, width="400"),
+                            html.Img(src="/static/vwMath/vwEcSummQuotEquation.png", style={"float": "right", "padding-left": "10px"}, width="50%"),
                             html.P(className="card-text", children=[
                                 "Higher Voter Weights in certain states are offset by lower Voter Weights in other states. The sum total of every state's Vote \
                                 Weight multiplied by its Electoral College Votes, divided by the total number of Electoral College votes nationally, evens out at 1."
@@ -78,7 +78,7 @@ content = html.Div([
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([ 
                             html.H4("Example: Georgia vs Wisconsin in early 20th Century", className="card-title"),  
-                            html.Img(style={"float": "right", "padding-left": "10px"}, src="/static/vwMath/vwMathSampler/popToEcWIGA1900.png", width="450"),
+                            html.Img(style={"float": "right", "padding-left": "10px"}, src="/static/vwMath/vwMathSampler/popToEcWIGA1900.png", width="60%"),
                             html.P(className="card-text", children=[
                                 "Both Georgia’s and Wisconsin’s populations in the 1900 census (2.22 million and 2.07 million respectively) garnered 11 \
                                 representatives and 13 Electoral College votes. In the 1904 congressional and presidential election that followed, 131K \

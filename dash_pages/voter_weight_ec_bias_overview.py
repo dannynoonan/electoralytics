@@ -51,9 +51,9 @@ content = html.Div([
                             ]),
                             html.P(className="card-text", children=[
                                 "This “small-state bias” is often calculated by comparing the ratio of each state’s population to its Electoral College \
-                                votes. The same effect is evident—and arguably more precise—if we comparing the ratio of each state’s voter ", 
-                                html.I("participation"), " (turnout) to its Electoral College votes. This is the basis of “Voter Weight,” which is reused \
-                                throughout my analysis and which I explore in detail in an upcoming section."
+                                votes. The same effect is evident—and arguably more precise—if we compare the ratio of each state’s voter ", 
+                                html.I("participation"), " (turnout) to its Electoral College votes. This is the basis of “Voter Weight,” a metric I'll be \
+                                using throughout my analysis (explained in detail ", dcc.Link("here", href="/voter-weight-calculation"), ").",
                             ]),
                             html.P(className="card-text", children=[
                                 "In ", html.B("Figure 1"), ", each state is listed in descending order by Voter Weight, and color shading indicates its number of votes in the \
@@ -159,12 +159,12 @@ content = html.Div([
                             ]),
                             html.P(className="card-text", children=[
                                 "To the extent that some state’s voters have greater impact than others (through favorable Electoral College apportionment, depressed \
-                                turnout, etc), those whose dots appear above and to the left of the median line have greater impact, while states whose dots appear below \
+                                turnout, etc), those whose dots appear above and to the left of the median line have more weight, while states whose dots appear below \
                                 and to the right of the median line have less."
                             ]),
                             html.P(className="card-text", children=[
-                                html.B("Figure 4"), " helps keep us geographically oriented by displaying each state's group affiliation on a map. All three figures are \
-                                controlled using the same Year selection slider below."
+                                html.B("Figure 4"), " anchors us geographically by displaying each state's group affiliation on a map. All three figures are controlled \
+                                using the same Year selection slider below."
                             ])
                         ])
                     ]),
@@ -324,8 +324,8 @@ content = html.Div([
                             ]),
                             html.P(className="card-text", children=[
                                 "I was curious what would be more predictive of a state’s tendency toward post-war voter suppression: the fact that they’d been a \
-                                slave state, or their political alliance (and military defeat) as part of the Confederacy. In a sense, the Border states function as \
-                                a control group for examining that question."
+                                slave state, or their political alliance (and military defeat) with the Confederacy. In a sense, the Border states function as a \
+                                control group for examining that question."
                             ]),
                             html.P(className="card-text", children=[
                                 "With that in mind, I grouped states into Union (free), Confederate (slave), and Border (slave-Union) state groups, using the familiar \
@@ -456,6 +456,11 @@ content = html.Div([
                                 "I don’t mean to get out over my skis on the notion of intent. The question of which nefarious objectives out of an assortment of \
                                 plausible nefarious objectives motivated white supremacist voter suppression in the postbellum South is well beyond my purview - \
                                 leave that to the historians and social scientists."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "Intentional or otherwise, Southern white elites sure seem to have reaped the benefits of greater national influence during the Jim \
+                                Crow era. And they couldn't have done it without the Electoral College, since a pure national popular vote would have simply diluted \
+                                their influence among voters from states with greater, more egalitarian, more democratic participation levels."
                             ]),
                             html.Br(),
                             html.H4("Zooming out to zoom in"),
