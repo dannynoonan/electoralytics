@@ -38,16 +38,16 @@ content = html.Div([
                             html.Br(),
                             html.H4("Small-state bias"),
                             html.P(className="card-text", children=[
-                                "One of the more familiar Electoral College imbalances is between voters in larger states and voters in smaller states."
+                                "One of the more familiar Electoral College imbalances is between voters in more populous vs less populous states."
                             ]),
                             html.P(className="card-text", children=[
-                                "Quick review: each state’s Electoral College votes equal the sum of its Representatives + Senators in Congress, the same \
-                                bicameral balance that was part of the Constitutional Convention’s ", dcc.Link("Great Compromise", 
-                                href="https://en.wikipedia.org/wiki/Connecticut_Compromise", target="_blank"), ". And just as every state sends the same number \
-                                of Senators to DC, even the smallest states receive the same +2 Senator “bicameral boost” in their Electoral College vote count, \
-                                hence the “3-vote-minimum” for even the least populous states. The effect of the +2 boost tapers off as states increase in \
-                                population and Electoral College apportionment, but if a state’s population garners it only 1 or 2 Congressional Representatives \
-                                then that +2 Senator boost easily doubles or triples the relative impact of that state’s voters."
+                                "Quick review: each state’s Electoral College votes equal the sum of its Congressional Representatives (based on population) \
+                                + Senators (2 per state regardless of population), the same bicameral balance that was part of the Constitutional Convention’s ", 
+                                dcc.Link("Great Compromise", href="https://en.wikipedia.org/wiki/Connecticut_Compromise", target="_blank"), ". And just as every \
+                                state sends the same number of Senators to DC, even the smallest states receive the same +2 Senator “bicameral boost” in their \
+                                Electoral College vote count, hence the “3-vote-minimum” for even the least populous states. The effect of the +2 boost tapers \
+                                off as states increase in population and Electoral College apportionment, but if a state’s population garners it only 1 or 2 \
+                                Congressional Representatives then that +2 Senator boost easily doubles or triples the relative impact of that state’s voters."
                             ]),
                             html.P(className="card-text", children=[
                                 "This “small-state bias” is often calculated by comparing the ratio of each state’s population to its Electoral College \
@@ -56,10 +56,10 @@ content = html.Div([
                                 using throughout my analysis (explained in detail ", dcc.Link("here", href="/voter-weight-calculation"), ").",
                             ]),
                             html.P(className="card-text", children=[
-                                "In ", html.B("Figure 1"), ", each state is listed in descending order by Voter Weight, and color shading indicates its number of votes in the \
-                                Electoral College. If, in this most recent election, Voter Weight was 3.19 in Wyoming compared with 0.81 in neighboring Colorado, \
-                                that means a vote cast in Cheyenne counted for 4X a vote cast 45 minutes south in Fort Collins. Want to make your voice heard \
-                                in Washington? Move to Wyoming!"
+                                "In ", html.B("Figure 1"), ", each state is listed in descending order by Voter Weight, and color shading indicates its number \
+                                of votes in the Electoral College. If, in this most recent election, Voter Weight was 3.19 in Wyoming compared with 0.81 in \
+                                neighboring Colorado, that means a vote cast in Cheyenne counted for 4X a vote cast 45 minutes south in Fort Collins. Want to \
+                                make your voice heard in Washington? Move to Wyoming!"
                             ]),
                             html.Br(),
                             html.H4("A note about swing states and “winner-take-all”"),
