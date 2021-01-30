@@ -31,10 +31,37 @@ content = html.Div([
                                     html.Li("the Electoral College apportionment granted to that state"),
                                     html.Li("how many people turn out to vote in that state"),
                                 ]),
-                                "On the surface, this is pretty straight-forward. But the way these factors have been implemented and manipulated over the \
-                                centuries reveals an eye-opening history of inequity, entitlement, and imbalance - all of which is enshrined in historical \
-                                election data."
                             ]),
+                            html.P(className="card-text", children=[
+                                "On the surface, this is pretty straight-forward. But these factors, and the way they've been implemented and manipulated over the \
+                                centuries, introduce bias into the system — bias that weights the influence of certain voters over the influence of others. In \
+                                this article I explore three types of Electoral College bias that are emergent in historical election data:",
+                                html.Ul([
+                                    html.Li(children=[html.B("small-state bias"), ": prescribed in the nation's bicameral design, with egalitarian intent, but \
+                                        whose infamy has been on the rise in recent years"]),
+                                    html.Li(children=[html.B("slave-state bias"), ": long defunct, but perhaps less of a historical relic than we presume"]),
+                                    html.Li(children=[html.B("suppression-state bias"), ": an idea not explicitly prescribed by the Constitution, but measurable \
+                                        using the same basic formulas that reveal the other two"])
+                                ]),
+                            ]),
+                            html.P(className="card-text", children=[
+                                "In the sections and figures below I'll start by re-introducing the first two biases — which may be familiar from American history \
+                                class — before diving into this third type of bias. The causes of what I'm calling suppression-state bias are well-known, but it \
+                                typically isn't examined in the context of the other two (or even described as an Electoral College bias per se). However, an ", 
+                                dcc.Link(html.I("NPR Throughline"), href="https://www.npr.org/2020/09/30/918717270/the-electoral-college", target="_blank"), 
+                                dcc.Link(" podcast", href="https://www.npr.org/2020/09/30/918717270/the-electoral-college", target="_blank"), " (embedded below) \
+                                that aired last October motivated me to attempt an apples-to-apples comparison, uniformly illustrating the effects of all three \
+                                side by side."
+                            ]),
+                            # html.P(className="card-text", children=[
+                            #     "I could tell early on that the results were more pronounced than expected, so I took the plunge and have made a thorough effort \
+                            #     at breathing life into the podcast's provacative idea, using historical data available on ", dcc.Link("Wikipedia", target="_blank", 
+                            #     href="https://en.wikipedia.org/wiki/List_of_United_States_presidential_election_results_by_state"), " and some flashy python data \
+                            #     visualization tech (for the geeks: namely ", dcc.Link("pandas", target="_blank", 
+                            #     href="https://towardsdatascience.com/a-quick-introduction-to-the-pandas-python-library-f1b678f34673"), ", ", 
+                            #     dcc.Link("plotly express", href="https://medium.com/plotly/introducing-plotly-express-808df010143d", target="_blank"), ", and ", 
+                            #     dcc.Link("dash", href="https://medium.com/plotly/introducing-dash-5ecf7191b503", target="_blank"), ")."
+                            # ]),
                             html.Br(),
                             html.H4("Small-state bias"),
                             html.P(className="card-text", children=[
