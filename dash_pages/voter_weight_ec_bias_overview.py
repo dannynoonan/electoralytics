@@ -33,9 +33,9 @@ content = html.Div([
                                 ]),
                             ]),
                             html.P(className="card-text", children=[
-                                "On the surface, this is pretty straight-forward. But these factors, and the way they've been implemented and manipulated over the \
-                                centuries, introduce bias into the system — bias that weights the influence of certain voters over the influence of others. In \
-                                this article I explore three types of Electoral College bias that are emergent in historical election data:",
+                                "These factors originated in efforts at balancing out the influence of the states, but their effect has been to create imbalances \
+                                in the influence of individual voters. In this article I explore three types of Electoral College imbalance, rooted in the push and \
+                                pull between apportionment and participation, that are emergent in historical election data:",
                                 html.Ul([
                                     html.Li(children=[html.B("small-state bias"), ": prescribed in the nation's bicameral design, with egalitarian intent, but \
                                         whose infamy has been on the rise in recent years"]),
