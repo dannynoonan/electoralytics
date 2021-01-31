@@ -44,15 +44,34 @@ content = html.Div([
                                         using the same basic formulas that reveal the other two"])
                                 ]),
                             ]),
+                            # html.P(className="card-text", children=[
+                            #     "The first two were baked into the Constitution from the get-go, the type of simple quantifiable anecdotes guaranteed \
+                            #     to appear on AP American History exams and on Trivial Pursuit cards. But the focus of this article is on the third: suppression-state \
+                            #     bias."
+                            # ]),
                             html.P(className="card-text", children=[
-                                "In the sections and figures below I'll start by re-introducing the first two biases — which may be familiar from American history \
-                                class — before diving into this third type of bias. The causes of what I'm calling suppression-state bias are well-known, but it \
-                                typically isn't examined in the context of the other two (or even described as an Electoral College bias per se). However, an ", 
-                                dcc.Link(html.I("NPR Throughline"), href="https://www.npr.org/2020/09/30/918717270/the-electoral-college", target="_blank"), 
-                                dcc.Link(" podcast", href="https://www.npr.org/2020/09/30/918717270/the-electoral-college", target="_blank"), " (embedded below) \
-                                that aired last October motivated me to attempt an apples-to-apples comparison, uniformly illustrating the effects of all three \
-                                side by side."
+                                "The first two were baked into the Constitution from the get-go, but the third typically isn't examined in the context of the \
+                                Electoral College. Increased focus on racial justice history and electoral politics have put these ideas in proximity recently, \
+                                motivating me to attempt an apples-to-apples comparison between all three biases."
                             ]),
+                            # html.P(className="card-text", children=[
+                            #     "The history of voter suppression in the Jim Crow South is well-known, but it typically isn't examined in the context of the \
+                            #     Electoral College, and I've never seen it directly compared or quantified against the other two “built-in” Electoral College biases. \
+                            #     The convergence of racial justice and electoral politics last fall, where I first encountered the suggestion that Southern whites \
+                            #     actually ", html.I("increased"), " their Electoral College advantage in the years after ", html.I("after"), " slavery, motivated \
+                            #     me to attempt an apples-to-apples comparison between all three biases, uniformly illustrating their effects side by side."
+                            # ]),
+                            # html.P(className="card-text", children=[
+                            #     "The first two are old-school, baked into the Constitution from the get-go, the type of simple quantifiable anecdotes guaranteed \
+                            #     to appear on AP American History exams and on Trivial Pursuit cards. But the focus of this article is on the third, whose causes \
+                            #     and history are also well-known, though typically aren't examined in the context of the Electoral College. The idea to even \
+                            #     connect them together was first planted in me by the oh-so-2020 convergence of racial justice and electoral politics in this ", 
+                            #     dcc.Link(html.I("NPR Throughline"), target="_blank", href="https://www.npr.org/2020/09/30/918717270/the-electoral-college"), 
+                            #     dcc.Link(" podcast", target="_blank", href="https://www.npr.org/2020/09/30/918717270/the-electoral-college", " about the history \
+                            #     of the Electoral College, embedded below. The episode makes the provocative suggestion that the Electoral College was \
+                            #     manipulated to even greater advantage for Southern whites after the slave-state bias rendered moot,  me to attempt an apples-to-apples comparison, uniformly illustrating the effects of all three \
+                            #     side by side."
+                            # ]),
                             # html.P(className="card-text", children=[
                             #     "I could tell early on that the results were more pronounced than expected, so I took the plunge and have made a thorough effort \
                             #     at breathing life into the podcast's provacative idea, using historical data available on ", dcc.Link("Wikipedia", target="_blank", 
