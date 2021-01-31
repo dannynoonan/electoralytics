@@ -33,13 +33,14 @@ content = html.Div([
                                 ]),
                             ]),
                             html.P(className="card-text", children=[
-                                "These factors originated in efforts at balancing out the influence of the states, but their effect has been to create imbalances \
-                                in the influence of individual voters. In this article I explore three types of Electoral College imbalance, rooted in the push and \
-                                pull between apportionment and participation, that are emergent in historical election data:",
+                                "These factors originated in an effort to balance out the influence of the states, but one of their effects has been to create \
+                                imbalances between the influence of individual voters. In this article I explore three types of Electoral College imbalance, \
+                                rooted in the push and pull between state apportionment and voter participation, that are emergent in historical election data:",
                                 html.Ul([
                                     html.Li(children=[html.B("small-state bias"), ": prescribed in the nation's bicameral design, with egalitarian intent, but \
                                         whose infamy has been on the rise in recent years"]),
-                                    html.Li(children=[html.B("slave-state bias"), ": long defunct, but perhaps less of a historical relic than we presume"]),
+                                    html.Li(children=[html.B("slave-state bias"), ": the “three-fifths compromise,” which ended with the abolition of slavery in \
+                                        1865, but had lingering effects on Southern whites' sense of electoral entitlement for decades to follow"]),
                                     html.Li(children=[html.B("suppression-state bias"), ": an idea not explicitly prescribed by the Constitution, but measurable \
                                         using the same basic formulas that reveal the other two"])
                                 ]),
@@ -50,9 +51,17 @@ content = html.Div([
                             #     bias."
                             # ]),
                             html.P(className="card-text", children=[
-                                "The first two were baked into the Constitution from the get-go, but the third typically isn't examined in the context of the \
-                                Electoral College. Increased focus on racial justice history and electoral politics have put these ideas in proximity recently, \
-                                motivating me to attempt an apples-to-apples comparison between all three biases."
+                                "The first two are well-known, baked into the Constitution from the get-go, the type of simple quantifiable anecdotes you'd expect \
+                                on an American History exam or in a game of Trivial Pursuit. The third bias typically isn't examined in the context of the Electoral \
+                                College, but the collision of racial justice history and electoral politics in media and discussion has recently put these ideas in \
+                                closer proximity."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "In particular, the suggestion that Jim Crow voter suppression actually conferred ", html.I("greater"), " influence to Southern whites ", 
+                                html.I("after"), " the end of slavery than the three-fifths compromise had during slavery was something I'd never encountered until \
+                                the weeks leading up to the 2020 election. This hypothesis seemed easy enough to quantify and visualize, motivating me to attempt an \
+                                apples-to-apples comparison between each type of bias, examining which of the three has introduced the greatest distortion in voter \
+                                influence over time."
                             ]),
                             # html.P(className="card-text", children=[
                             #     "The history of voter suppression in the Jim Crow South is well-known, but it typically isn't examined in the context of the \
@@ -84,7 +93,8 @@ content = html.Div([
                             html.Br(),
                             html.H4("Small-state bias"),
                             html.P(className="card-text", children=[
-                                "One of the more familiar Electoral College imbalances is between voters in more populous vs less populous states."
+                                "In recent years, the idea that voters in smaller states have greater influence on national elections than voters in more \
+                                populous states has drawn its share of ire."
                             ]),
                             html.P(className="card-text", children=[
                                 "Quick review: each state’s Electoral College votes equal the sum of its Congressional Representatives (based on population) \
