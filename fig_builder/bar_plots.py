@@ -26,6 +26,8 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
     if not color_col:
         color_col = cols.GROUP
 
+    groups_label = color_col
+
     # if frame is set, extract single-year data
     if frame:
         pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame]
@@ -48,6 +50,7 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
             pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] >= 14, cols.GROUP] = '14-19 ECV'
             pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] >= 20, cols.GROUP] = '20+ ECV'
             groups = ['3 ECV', '4-5 ECV', '6-8 ECV', '9-13 ECV', '14-19 ECV', '20+ ECV']
+            groups_label = 'Electoral College Votes'
 
     if not fig_width:
         fig_width = fig_dims.MD6
@@ -108,7 +111,7 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
                     custom_data=custom_data, hover_name=cols.VOTE_WEIGHT, hover_data=hover_data,
                     text=cols.EC_VOTES, animation_frame=cols.YEAR, # ignored if df is for single year
                     color_continuous_scale=color_continuous_scale, color_continuous_midpoint=color_continuous_midpoint,
-                    # labels={cols.VOTE_WEIGHT: 'Relative Voter Weight'}, 
+                    # labels={cols.GROUP: groups_label}, 
                     range_x=[vw_min,vw_max], log_x=True, height=fig_height)
 
     elif color_col in [cols.GROUP, cols.PARTY]:
@@ -131,6 +134,7 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
                     custom_data=custom_data, hover_name=cols.VOTE_WEIGHT, hover_data=hover_data,
                     text=cols.EC_VOTES, animation_frame=cols.YEAR, # ignored if df is for single year
                     color_discrete_map=color_discrete_map, category_orders=category_orders,
+                    labels={cols.GROUP: groups_label},
                     range_x=[vw_min,vw_max], log_x=True, height=fig_height)
 
     # overlay info on top of bars
