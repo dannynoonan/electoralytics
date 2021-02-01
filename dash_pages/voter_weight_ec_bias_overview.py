@@ -26,19 +26,16 @@ content = html.Div([
                             html.P(className="card-text", children=[
                                 "Unlike more run-of-the-mill democratic contests where every vote is tallied and the candidate with the most votes is declared \
                                 the winner (", html.I("BOHHH"), "-ring), here the weight of each individual vote depends on the state from which it is cast. \
-                                Specifically:", 
-                                html.Ul(children=[
-                                    html.Li("the Electoral College apportionment granted to that state"),
-                                    html.Li("how many people turn out to vote in that state"),
-                                ]),
+                                Specifically: (a) the Electoral College apportionment granted to that state, and (b) how many people turn out to vote in that \
+                                state."
                             ]),
                             html.P(className="card-text", children=[
                                 "These factors originated in an effort to balance out the influence of the states, but one of their effects has been to create \
                                 imbalances between the influence of individual voters. In this article I explore three types of Electoral College imbalance, \
                                 rooted in the push and pull between state apportionment and voter participation, that are emergent in historical election data:",
                                 html.Ul([
-                                    html.Li(children=[html.B("small-state bias"), ": prescribed in the nation's bicameral design, with egalitarian intent, but \
-                                        whose infamy has been on the rise in recent years"]),
+                                    html.Li(children=[html.B("small-state bias"), ": prescribed in the Constitution's bicameral design, where every state gets \
+                                        two votes for its two Senators, proportionally favoring smaller states with fewer Representatives"]),
                                     html.Li(children=[html.B("slave-state bias"), ": the “three-fifths compromise,” which ended with the abolition of slavery in \
                                         1865, but had lingering effects on Southern whites' sense of electoral entitlement for decades to follow"]),
                                     html.Li(children=[html.B("suppression-state bias"), ": an idea not explicitly prescribed by the Constitution, but measurable \
@@ -51,10 +48,10 @@ content = html.Div([
                             #     bias."
                             # ]),
                             html.P(className="card-text", children=[
-                                "The first two are well-known, baked into the Constitution from the get-go, the type of simple quantifiable anecdotes you'd expect \
-                                on an American History exam or in a game of Trivial Pursuit. The third bias typically isn't examined in the context of the Electoral \
-                                College, but the collision of racial justice history and electoral politics in media and discussion has recently put these ideas in \
-                                closer proximity."
+                                "The small-state and slave-state biases are well-known, baked into the Constitution from the get-go, the type of simple quantifiable \
+                                anecdotes you'd expect on an American History exam or in a game of Trivial Pursuit. And the idea of suppression-state bias typically \
+                                isn't examined in the context of the Electoral College, but the intersection of racial justice history and electoral politics in \
+                                recent media and discussion has brought these ideas into closer proximity."
                             ]),
                             html.P(className="card-text", children=[
                                 "In particular, the suggestion that Jim Crow voter suppression actually conferred ", html.I("greater"), " influence to Southern whites ", 
@@ -154,7 +151,7 @@ content = html.Div([
                     ])                  
                 ]),
                 dbc.Col(md=6, children=[
-                    html.Br(),
+                    html.H4("Select year:", className="text-white"),
                     dcc.Slider(
                         id="small-state-bias-year-input",
                         className="text-white",
@@ -224,7 +221,8 @@ content = html.Div([
                             ])
                         ])
                     ]),
-                    html.Br(),html.Br(),
+                    html.Br(),
+                    html.H4("Select year:", className="text-white"),
                     dcc.Slider(
                         id="slave-state-bias-year-input",
                         min=1840,
@@ -460,7 +458,7 @@ content = html.Div([
                             Weight ratio is 1.0) is plotted as a diagonal line signifying the nationwide mean. States whose dots appear above and to the left of the \
                             nationwide mean line have Voter Weights greater than 1, those whose dots are below and to the right have Voter Weights less than 1."),
                     ]),
-                    html.Br(),
+                    html.H4("Select year:", className="text-white"),
                     dcc.Slider(
                         id="suppress-state-bias-year-input",
                         min=1880,
@@ -542,6 +540,7 @@ content = html.Div([
                     ])
                 ]),
                 dbc.Col(md=7, children=[
+                    html.H4("Select year:", className="text-white"),
                     dcc.Slider(
                         id="map-color-by-vw-year-input",
                         min=1800,

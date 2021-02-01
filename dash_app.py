@@ -101,7 +101,7 @@ def display_voter_weight_ec_bias_intro(small_state_bias_year_input, slave_state_
     suppress_state_bias_year = int(suppress_state_bias_year_input)
     map_color_by_vw_year = int(map_color_by_vw_year_input)
     # fig titles
-    title_small_state_bias_bar = 'States Grouped By Size, Ordered by Voter Weight (Small-State Bias)'
+    title_small_state_bias_bar = 'States Ordered by Voter Weight, Grouped By Size (Small-State Bias)'
     title_slave_state_bias_bar = 'Free vs Slave vs Small States, Ordered by Voter Weight (Slave-State Bias)'
     title_slave_state_bias_scatter_dots = 'Free vs Slave vs Small States, Pop Vote x EC Votes (Slave-State Bias)'
     title_slave_state_bias_map = 'Free States vs Slave States vs Small States'
