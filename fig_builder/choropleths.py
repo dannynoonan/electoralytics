@@ -14,7 +14,7 @@ fig_dims = FigDimensions()
 
 
 def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_width=None, frame=None,
-                            alt_groups=[], base_fig_title=None, show_era=True):
+                            alt_groups=[], base_fig_title=None, show_era=True, display_ecv=False):
     """
     swiss army knife function for generating a px.choropleth map, color-shading states by group or along a data spectrum.
     supports static single-year plots or animations. 
@@ -26,6 +26,8 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
 
     if not color_col:
         color_col = cols.LOG_VOTE_WEIGHT
+
+    groups_label = color_col
 
     if not fig_width:
         fig_width = fig_dims.MD6
@@ -45,6 +47,15 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
             pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] <= 5, cols.GROUP] = '4-5 ECV'
             pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 3, cols.GROUP] = '3 ECV'
             groups.extend(['3 ECV', '4-5 ECV'])
+        if 'ecv_only' in alt_groups:
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 3, cols.GROUP] = '3 ECV'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] >= 4, cols.GROUP] = '4-5 ECV'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] >= 6, cols.GROUP] = '6-8 ECV'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] >= 9, cols.GROUP] = '9-13 ECV'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] >= 14, cols.GROUP] = '14-19 ECV'
+            pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] >= 20, cols.GROUP] = '20+ ECV'
+            groups = ['3 ECV', '4-5 ECV', '6-8 ECV', '9-13 ECV', '14-19 ECV', '20+ ECV']
+            groups_label = 'Electoral College Votes'
 
     # figure title depends on which field the color scale is based on
     if not base_fig_title:
@@ -98,7 +109,7 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
                             locationmode='USA-states', scope="usa", custom_data=custom_data,
                             hover_name=cols.STATE, hover_data=hover_data, animation_frame=cols.YEAR, animation_group=cols.GROUP, # ignored if df is for single year
                             color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                            height=fig_height)
+                            labels={cols.GROUP: groups_label}, height=fig_height)
 
     # display formatting
     fig.update_layout(title_x=0.5, dragmode=False, margin=go.layout.Margin(l=0, r=0, b=20, t=100))

@@ -151,6 +151,11 @@ content = html.Div([
                     ])                  
                 ]),
                 dbc.Col(md=6, children=[
+                    dcc.Graph(id="fig-map-small-state-bias"),
+                    html.P(className="card-text", style={"padding": "5px"}, children=[
+                        html.Small("Figure 0: States shaded by Electoral College votes, derived by adding the state's number of Congressional Representatives \
+                            (as determined by decennial population census) to its number of Senators (2 per state, regardless of population)"),
+                    ]),
                     html.H4("Select year:", className="text-white"),
                     dcc.Slider(
                         id="small-state-bias-year-input",
@@ -174,7 +179,7 @@ content = html.Div([
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
                             html.P(className="card-text", style={"font-style": "italic"}, children=[
-                                "The figure above, the figures below, and every other figure in this publication use presidential election data accessible via this ",
+                                "The figures above, the figures below, and every other figure in this publication use presidential election data accessible via this ",
                                 dcc.Link("Wikipedia portal", href="https://en.wikipedia.org/wiki/List_of_United_States_presidential_election_results_by_state", 
                                 target="_blank"), ". A consolidated version of that data (what I’m using to power this website) is available in csv format in the ",
                                 dcc.Link("data/ directory", href="https://github.com/dannynoonan/electoralytics/tree/master/data", target="_blank"), " of the ",
