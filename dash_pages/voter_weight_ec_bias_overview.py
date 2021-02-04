@@ -31,14 +31,14 @@ content = html.Div([
                             ]),
                             html.P(className="card-text", children=[
                                 "These factors originated in an effort to balance out the influence of the states, but one of their effects has been to create \
-                                imbalances between the influence of individual voters. In this article I explore three types of Electoral College imbalance, \
+                                imbalances among the influence of individual voters. In this article I explore three types of Electoral College imbalance, \
                                 rooted in the push and pull between state apportionment and voter participation, that are emergent in historical election data:",
                                 html.Ul([
-                                    html.Li(children=[html.B("small-state bias"), ": prescribed in the Constitution's bicameral design, where every state gets \
+                                    html.Li(children=[html.B("Small-state bias"), ": Prescribed in the Constitution's bicameral design, where every state gets \
                                         two votes for its two Senators, proportionally favoring smaller states with fewer Representatives"]),
-                                    html.Li(children=[html.B("slave-state bias"), ": the “three-fifths compromise,” which ended with the abolition of slavery in \
+                                    html.Li(children=[html.B("Slave-state bias"), ": The “three-fifths compromise,” which ended with the abolition of slavery in \
                                         1865, but had lingering effects on Southern whites' sense of electoral entitlement for decades to follow"]),
-                                    html.Li(children=[html.B("suppression-state bias"), ": an idea not explicitly prescribed by the Constitution, but measurable \
+                                    html.Li(children=[html.B("Suppression-state bias"), ": An idea not explicitly prescribed by the Constitution, but measurable \
                                         using the same basic formulas that reveal the other two"])
                                 ]),
                             ]),
@@ -130,9 +130,9 @@ content = html.Div([
                                 populations has been part of the Electoral College since its inception — and suffice to say this was not its most controversial piece. \
                                 From its genesis during the Constitutional Convention, each state’s apportionment in the Electoral College was based on two things:",
                                 html.Ol(children=[
-                                    html.Li("the same hybrid of flat (Senate) + proportional (House) representation that was the basis of the bicameral Great \
+                                    html.Li("The same hybrid of flat (Senate) + proportional (House) representation that was the basis of the bicameral Great \
                                         Compromise - aka “small-state bias”"),
-                                    html.Li("the infamous “Three-fifths Compromise” that rewarded white property-owning male voters in slave states with increased \
+                                    html.Li("The infamous “Three-fifths Compromise” that rewarded white property-owning male voters in slave states with increased \
                                         congressional representation (and electoral vote allocation) in direct proportion to the size of their enslaved populations \
                                         - aka “slave-state bias”")
                                 ])
@@ -167,7 +167,7 @@ content = html.Div([
                     html.Br(),
                     dcc.Graph(id="fig-bar-small-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 1: Small-state bias, shown by color-shading states according to Electoral College votes, then listing them in \
+                        html.Small("Figure 1: Small-state bias, shown by color shading states according to Electoral College votes, then listing them in \
                             descending order by Voter Weight."),
                     ]),
                     html.Br(),
@@ -191,7 +191,7 @@ content = html.Div([
                 dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
-                            html.H4("Slave state bias"),
+                            html.H4("Slave-state bias"),
                             html.P(className="card-text", children=[
                                 "Sticking with the same “Voter Weight” calculation above, but turning the clock back 160 years, we encounter the infamous slave-state \
                                 bias in ", html.B("Figure 2"), ". I’ve added new color shading to states in this second bar plot, using each state’s relationship to \
@@ -237,7 +237,7 @@ content = html.Div([
                     html.Br(),
                     dcc.Graph(id="fig-bar-slave-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 2: Slave-state bias, shown by color-shading states into Free, Slave, and Small groupings, then listing them in \
+                        html.Small("Figure 2: Slave-state bias, shown by color shading states into Free, Slave, and Small groupings, then listing them in \
                             descending order by Voter Weight. Voter Weights are higher in slave states than free states, with small states still having some \
                             of the highest weights."),
                     ]),
@@ -245,7 +245,7 @@ content = html.Div([
                 dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-scatter-dots-slave-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 3: Slave-state bias, shown by color-shading states into Free, Slave, and Small groupings, and plotting Popular Vote \
+                        html.Small("Figure 3: Slave-state bias, shown by color shading states into Free, Slave, and Small groupings, and plotting Popular Vote \
                             (turnout) on the x axis against Electoral College Votes on the y axis. The average Popular Vote tally per Electoral College vote — \
                             that is, the intersection between the axes where the Voter Weight ratio is 1.0 — is plotted as a diagonal line signifying the \
                             nationwide mean. States whose dots appear above and to the left of the nationwide mean line have Voter Weights greater than 1, those \
@@ -261,7 +261,7 @@ content = html.Div([
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([                           
                             html.H4("Voter Weight"),
-                            html.Img(style={"float": "right", "padding-right": "10px"}, src="/static/vwMath/derivingPvpeVw.png", width="400"),
+                            html.Img(style={"float": "right", "padding-right": "10px"}, src="/static/vwMath/derivingPvpeVw.png", width="55%"),
                             html.P(className="card-text", children=[
                                 "Despite small-state bias and slave-state bias deriving from different legal statutes and census formulas, I’m applying the same \
                                 “Voter Weight” calculation to illustrate each in the figures above. Check out the ", dcc.Link("Calculating Voter Weight",
@@ -340,7 +340,7 @@ content = html.Div([
                             html.Br(),
                             html.P(className="card-text", children=[
                                 "That Southern white “Redeemers” disenfranchised the Black electorate through the uneven application of poll taxes, literacy tests, \
-                                grandfather clauses, as well as more direct intimidation and violence for 90-odd years during the Jim Crow era is (a) fucking insane, \
+                                grandfather clauses, as well as more direct intimidation and violence for 90-odd years during the Jim Crow era is (a) f*cking insane, \
                                 horrific, and infuriating, but also (b) not breaking news."
                             ]),
                             html.P(className="card-text", children=[
@@ -395,7 +395,7 @@ content = html.Div([
                     html.Br(),html.Br(),
                     dcc.Graph(id="fig-scatter-bubbles-suppress-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 7: Suppression-state bias, shown by color-shading states by Civil War groupings, and plotting Electoral College votes on \
+                        html.Small("Figure 7: Suppression-state bias, shown by color shading states by Civil War groupings, and plotting Electoral College votes on \
                             the x axis against derived Voter Weight on the y axis, with Popular Vote now represented by the size of each state’s “bubble.” The \
                             national mean is plotted at all points on the x axis where Voter Weight is 1.0 on the y axis, and any bubble above the mean line indicates \
                             a state whose voters — that is, those who were able to vote — wielded disproportionately high Voter Weight in that election. For small \
@@ -430,7 +430,7 @@ content = html.Div([
                 dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
-                            html.H4("Suppression-state visualizations"),
+                            html.H4("Suppression-state bias visualizations"),
                             html.P(className="card-text", children=[
                                 html.B("Figures 6, 8, and 9"), " use the same background axes and maps from above to generate and render Voter Weight data during \
                                 the Jim Crow era, grouping states by their Civil War affiliations."
@@ -453,7 +453,7 @@ content = html.Div([
                     html.Br(),
                     dcc.Graph(id="fig-scatter-dots-suppress-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 6: Suppression-state bias, shown by color-shading states by Civil War groupings, and plotting Popular Vote (turnout) on \
+                        html.Small("Figure 6: Suppression-state bias, shown by color shading states by Civil War groupings, and plotting Popular Vote (turnout) on \
                             the x axis against Electoral College Votes on the y axis. The average Popular Vote tally per Electoral College vote (where the Voter \
                             Weight ratio is 1.0) is plotted as a diagonal line signifying the nationwide mean. States whose dots appear above and to the left of the \
                             nationwide mean line have Voter Weights greater than 1, those whose dots are below and to the right have Voter Weights less than 1."),
@@ -473,7 +473,7 @@ content = html.Div([
                     html.Br(),
                     dcc.Graph(id="fig-bar-suppress-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 8: Suppression-state bias, shown by color-shading states by Civil War groupings, then listing them in descending order \
+                        html.Small("Figure 8: Suppression-state bias, shown by color shading states by Civil War groupings, then listing them in descending order \
                             by Voter Weight. Voter Weights are generally higher in former Confederate states than in Union, Border, or Postbellum states, with \
                             small states still having some of the highest weights."),
                     ]),
@@ -555,7 +555,7 @@ content = html.Div([
                     html.Br(),
                     dcc.Graph(id="fig-map-color-by-vw"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small(children=["Figure 10: States color-shaded by Voter Weight, over the course of 56 presidential elections between 1800 and 2020. Control \
+                        html.Small(children=["Figure 10: States color shaded by Voter Weight, over the course of 56 presidential elections between 1800 and 2020. Control \
                             the year using the slider above, or open an ", dcc.Link("intractive slideshow animation", className="text-white",
                             href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_vw_acw4_1000.html",
                             target="_blank"), " illustrating the full history."]),

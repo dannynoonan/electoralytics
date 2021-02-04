@@ -50,18 +50,18 @@ content = html.Div([
                                 twists and turns in the data. Here’s a short list of the many data ripples that I initially mistook for errors, anomalies, \
                                 or unexplained distortions:",
                                 html.Ul([
-                                    html.Li("the impact of the “Mississippi Plan,” a scheme to introduce discriminatory voting language into every Southern \
+                                    html.Li("The impact of the “Mississippi Plan,” a scheme to introduce discriminatory voting language into every Southern \
                                     state’s constitution, beginning in the 1890s"),
-                                    html.Li("the staggered state-by-state expansion of women’s suffrage (and therefore voter turnout overall) in the early \
+                                    html.Li("The staggered state-by-state expansion of women’s suffrage (and therefore voter turnout overall) in the early \
                                     20th century, prior to the 19th Amendment’s ratification enfranchising women in every state in 1920"),
-                                    html.Li("the “high watermark” of suppression-state bias in the election of 1924 and its proximity to events like the \
+                                    html.Li("The “high watermark” of suppression-state bias in the election of 1924 and its proximity to events like the \
                                     Tulsa Race Massacre in 1921, peak KKK membership in 1924, and the segregationist presidency of Woodrow Wilson"),
-                                    html.Li("the erratic differences in popular voter participation from state to state and year to year in the pre-Jacksonian \
+                                    html.Li("The erratic differences in popular voter participation from state to state and year to year in the pre-Jacksonian \
                                     era, as states experimented with everything from state-wide popular vote to district-level selection to electors being \
                                     appointed by legislatures"),
-                                    html.Li("the cyclical effect of the decennial census and of Electoral College reapportionment catching up to population \
+                                    html.Li("The cyclical effect of the decennial census and of Electoral College reapportionment catching up to population \
                                     swells"),
-                                    html.Li("a curious 120-year uninterrupted streak where Midwestern states appear to have been more democratic than their \
+                                    html.Li("A curious 120-year uninterrupted streak where Midwestern states appear to have been more democratic than their \
                                     Northeastern neighbors (toggle to the “Regional Census” groupings to see, it still has me baffled)"),
                                 ]),
                             ]),
@@ -98,7 +98,7 @@ content = html.Div([
                                 the abolition of slavery couldn’t be more stark."
                             ]),
                             html.P(className="card-text", children=[
-                                html.B("Bottom line:"), html.I(" post-Reconstruction voter disenfranchisement seems to have had less to do with a state’s historic connection to \
+                                html.B("Bottom line:"), html.I(" Post-Reconstruction voter disenfranchisement seems to have had less to do with a state’s historic connection to \
                                 slavery than to the side it fought with in the Civil War."),
                             ]),
                         ]),
@@ -149,7 +149,7 @@ content = html.Div([
                                 "Although my quasi-scientific 40,000’ view of historical Voter Weight doesn’t show any obvious reversal of aggregate positive \
                                 trends in 2016 or 2020 (again: not an actual statistician, I just play one on the internet), it’s worth noting that it took a few \
                                 election cycles after Reconstruction for the Redeemer South’s suppression strategies to translate into pre-war Voter Weight \
-                                levels - only to wildly exceed that antebellum status quo over the course of several generations to follow."
+                                levels — only to wildly exceed that antebellum status quo over the course of several generations to follow."
                             ]),
                             html.P(className="card-text", children=[
                                 "Moreover, if there’s a lesson I’ve gleaned from reading about the Electoral College and racial justice history, it’s that \
