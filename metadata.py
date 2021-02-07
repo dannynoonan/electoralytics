@@ -44,6 +44,8 @@ class Columns():
         self.VOTE_WEIGHT = 'Vote weight'
         self.LOG_VOTE_WEIGHT = 'Vote weight (log)'
         self.AVG_WEIGHT = 'Average weight'
+        self.VOTE_MARGIN = 'Vote margin'
+        self.SWING_WEIGHT = 'Swing weight'
         self.PARTY = 'Party'
         self.POP_PER_EC = 'Pop vote per EC vote'
         # self.POP_PER_EC_SHORT = 'Pop per EC vote'
@@ -118,7 +120,7 @@ GROUP_COLORS = {
     # 'Free (Union)': '#5378BE',
     # 'Slave (Confederate)': '#E3B061',
     # 'Slave (Border)': '#69B190',
-    'Free': '#8072FA',
+    'Free': '#A092FF',
     'Slave': '#FFB6C1',
     # Small
     GROUP_LABEL_SMALL_3: '#A0A0A0',
@@ -131,7 +133,7 @@ GROUP_COLORS = {
     GROUP_LABEL_SMALL_EQ4: '#6d7473',
     # GROUP_LABEL_SMALL_EQ5: '#E0E0E0',
     GROUP_LABEL_SMALL_EQ5: '#61928f',
-    '3 ECV': '#404d4c', 
+    '3 ECV': '#2a2e2e', 
     # 'Small (3 ECV)': '#404d4c', 
     '4-5 ECV': '#6d7473', 
     # 'Small (4-5 ECV)': '#6d7473',

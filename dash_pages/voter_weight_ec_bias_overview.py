@@ -109,7 +109,7 @@ content = html.Div([
                                 using throughout my analysis (explained in detail ", dcc.Link("here", href="/voter-weight-calculation"), ").",
                             ]),
                             html.P(className="card-text", children=[
-                                "In ", html.B("Figure 1"), ", each state is listed in descending order by Voter Weight, and color shading indicates its number \
+                                "In ", html.B("Figure 2"), ", each state is listed in descending order by Voter Weight, and color shading indicates its number \
                                 of votes in the Electoral College. If, in this most recent election, Voter Weight was 3.19 in Wyoming compared with 0.81 in \
                                 neighboring Colorado, that means a vote cast in Cheyenne counted for 4X a vote cast 45 minutes south in Fort Collins. Want to \
                                 make your voice heard in Washington? Move to Wyoming!"
@@ -153,7 +153,7 @@ content = html.Div([
                 dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-map-small-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 0: States shaded by Electoral College votes, derived by adding the state's number of Congressional Representatives \
+                        html.Small("Figure 1: States shaded by Electoral College votes, derived by adding the state's number of Congressional Representatives \
                             (as determined by decennial population census) to its number of Senators (2 per state, regardless of population)"),
                     ]),
                     html.H4("Select year:", className="text-white"),
@@ -172,7 +172,7 @@ content = html.Div([
                     html.Br(),
                     dcc.Graph(id="fig-bar-small-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 1: Small-state bias, shown by color shading states according to Electoral College votes, then listing them in \
+                        html.Small("Figure 2: Small-state bias, shown by color shading states according to Electoral College votes, then listing them in \
                             descending order by Voter Weight."),
                     ]),
                     html.Br(),
@@ -199,7 +199,7 @@ content = html.Div([
                             html.H4("Slave-state bias"),
                             html.P(className="card-text", children=[
                                 "Sticking with the same “Voter Weight” calculation above, but turning the clock back 160 years, we encounter the infamous slave-state \
-                                bias in ", html.B("Figure 2"), ". I’ve added new color shading to states in this second bar plot, using each state’s relationship to \
+                                bias in ", html.B("Figure 3"), ". I’ve added new color shading to states in this second bar plot, using each state’s relationship to \
                                 slavery as a grouping heuristic. For small states I’ve also carried forward color shading based on state size."
                             ]),
                             html.P(className="card-text", children=[
@@ -210,7 +210,7 @@ content = html.Div([
                                 of slave-state bias has measurably greater impact overall."
                             ]),
                             html.P(className="card-text", children=[
-                                html.B("Figure 3"), " rearranges the data from Figure 2 into a scatter plot, crossing each state's Popular Vote (x axis) with its Electoral \
+                                html.B("Figure 4"), " rearranges the data from Figure 3 into a scatter plot, crossing each state's Popular Vote (x axis) with its Electoral \
                                 College votes (y axis). The intersection between the axes where the Voter Weight ratio is 1.0 is plotted as a diagonal line signifying the \
                                 nationwide mean. ", html.I("If every vote in every state counted equally, every state’s dot would be directly on top of that nationwide mean \
                                 line."),
@@ -221,7 +221,7 @@ content = html.Div([
                                 and to the right of the median line have less."
                             ]),
                             html.P(className="card-text", children=[
-                                html.B("Figure 4"), " anchors us geographically by displaying each state's group affiliation on a map. All three figures are controlled \
+                                html.B("Figure 5"), " anchors us geographically by displaying each state's group affiliation on a map. All three figures are controlled \
                                 using the same Year selection slider below."
                             ])
                         ])
@@ -242,7 +242,7 @@ content = html.Div([
                     html.Br(),
                     dcc.Graph(id="fig-bar-slave-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 2: Slave-state bias, shown by color shading states into Free, Slave, and Small groupings, then listing them in \
+                        html.Small("Figure 3: Slave-state bias, shown by color shading states into Free, Slave, and Small groupings, then listing them in \
                             descending order by Voter Weight. Voter Weights are higher in slave states than free states, with small states still having some \
                             of the highest weights."),
                     ]),
@@ -250,7 +250,7 @@ content = html.Div([
                 dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-scatter-dots-slave-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 3: Slave-state bias, shown by color shading states into Free, Slave, and Small groupings, and plotting Popular Vote \
+                        html.Small("Figure 4: Slave-state bias, shown by color shading states into Free, Slave, and Small groupings, and plotting Popular Vote \
                             (turnout) on the x axis against Electoral College Votes on the y axis. The average Popular Vote tally per Electoral College vote — \
                             that is, the intersection between the axes where the Voter Weight ratio is 1.0 — is plotted as a diagonal line signifying the \
                             nationwide mean. States whose dots appear above and to the left of the nationwide mean line have Voter Weights greater than 1, those \
@@ -259,7 +259,7 @@ content = html.Div([
                     html.Br(),
                     dcc.Graph(id="fig-map-slave-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 4: Reference map illustrating which states fit into which group. Areas lacking color shading or hover data \
+                        html.Small("Figure 5: Reference map illustrating which states fit into which group. Areas lacking color shading or hover data \
                             are states that haven’t been admitted to the Union yet."),
                     ]),
                     html.Br(),
@@ -446,7 +446,7 @@ content = html.Div([
                                 national mean. The higher a bubble is above the mean, the greater the weight of individual votes cast in that state."
                             ]),
                             html.P(className="card-text", children=[
-                                "Similar to the ratio-based scatter plots in Figure 3 and Figure 6: if every vote in every state counted equally, every state’s bubble \
+                                "Similar to the ratio-based scatter plots in Figure 4 and Figure 6: if every vote in every state counted equally, every state’s bubble \
                                 in Figure 7 would be directly on top of that nationwide mean line (horizontal in this case)."
                             ]),
                             html.P(className="card-text", children=[

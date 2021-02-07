@@ -55,7 +55,7 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
             pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] >= 14, cols.GROUP] = '14-19 ECV'
             pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] >= 20, cols.GROUP] = '20+ ECV'
             groups = ['3 ECV', '4-5 ECV', '6-8 ECV', '9-13 ECV', '14-19 ECV', '20+ ECV']
-            groups_label = 'Electoral College Votes'
+            groups_label = 'EC Votes (Size)'
 
     # figure title depends on which field the color scale is based on
     if not base_fig_title:
