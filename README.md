@@ -25,17 +25,17 @@ Execution of `run.py` should generate a small amount of command-line output, mos
 
 The electoralytics repo runs off two types of data files: source files and generated files. Source files live in the project's base `/data` directory. Generated files live in the `/data/gen` subdirectory. 
 
-Plotly figures are built off of the generated files in the `/data/gen` subdirectory. Having these figure-backing csv files pre-built minimizes the runtime pandas dataframe transformations necessary to build figures tailored to specific scenarios. Most likely you will only need to interact with the generated files in `/data/gen`, not the source files (though you may not need to interact with either). 
+Plotly figures are built off of the generated files in the `/data/gen` subdirectory. Having these figure-backing csv files pre-built minimizes the runtime pandas dataframe transformations necessary to build figures tailored to specific scenarios. In essence, the source files are the database, while the generated files are indexed views of that data optimized for delivery. 
 
-Generated files are kept up to date in the repo, so you don't need to generate them on your end. But if the transformation process from source data files to generated data files interests you, the transformation process lives in `multi_ring_filebuilder.py` and you may explore its usage by running `./multi_ring_filebuilder.py --help` from the project root. The `multi_ring_filebuilder.py` processes use the source data files (listed next) to write files in `/data/gen` (listed after). Note that the source files themselves are not modified or overwritten by `multi_ring_filebuilder.py`.
+Generated files are kept up-to-date in the repo, you should never need to generate them on your end. But if the transformation process from source data files to generated data files interests you, the transformation process lives in `multi_ring_filebuilder.py` and you may explore its usage by running `./multi_ring_filebuilder.py --help` from the project root. The `multi_ring_filebuilder.py` processes use the source csv files (listed next) to write csv files to `/data/gen` (listed after). Note that the source files themselves are not modified or overwritten by `multi_ring_filebuilder.py`.
 
 Source csv files, containing all historical presidential election data used to generate figure-backing csv files: 
 * `theOneRing.csv` - state-level turnout, electoral college vote, swing margin, and some derived data for every presidential election since 1800
 * `totalsByYear.csv` - national aggregate summary data for every presidential election since 1788
 
 Generated "figure-backing" csv files, containing views of historical presidential election data optimized to build plotly figures: 
-* `stateVoteWeightsPivot.csv` - state-level turnout, ec vote, swing margin, and derived weight data pivoted on election year
-* `groupAggWeightsPivot.csv` - national- and group-level aggregate turnout, ec vote, and derived weight data pivoted on election year
+* `stateVoteWeightsPivot.csv` - state-level turnout, ec vote, swing margin, and derived weight data, pivoted on election year
+* `groupAggWeightsPivot.csv` - national- and group-level aggregate turnout, ec vote, and derived weight data, pivoted on election year
 
 Multiple variations of these two generated files live in subdirectories organized by two criteria:
 * state grouping heuristic:
