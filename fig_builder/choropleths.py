@@ -65,7 +65,7 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
             else:
                 base_fig_title = 'States Grouped By Regional Census'
         else:
-            base_fig_title = 'Voter Weight Per State'
+            base_fig_title = 'States Color Shaded According to Voter Weight'
         
     # set fields and values that differ for static years (frame) vs animations (!frame)
     if frame:
@@ -99,7 +99,7 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
         linear_vals = [float(x) for x in colorbar_labels]
         log_vals = [math.log(t, 2) for t in linear_vals]
         fig.update_layout(
-            coloraxis_colorbar=dict(tickvals=log_vals, ticktext=colorbar_labels, title='VW (log)'))
+            coloraxis_colorbar=dict(tickvals=log_vals, ticktext=colorbar_labels, title='Voter<br>Weight'))
 
     elif color_col == cols.GROUP:
         # while I would prefer the NaNs to declare themselves as such, they don't render nicely as customdata params in hovertemplates
@@ -122,10 +122,10 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
     fig.update_traces(
         hovertemplate="<br>".join([
             "<b>%{customdata[0]}</b> (%{customdata[2]})<br>",
-            "Popular Vote: <b>%{customdata[3]:,}</b>",
+            "Popular Vote (Turnout): <b>%{customdata[3]:,}</b>",
             "Electoral College Votes: <b>%{customdata[4]}</b>",
-            "Voter Weight: <b>%{customdata[5]:.2f}</b>",
             "Popular Vote Per Elector: <b>%{customdata[6]:,}</b>",
+            "Voter Weight: <b>%{customdata[5]:.2f}</b>",
             "Group: <b>%{customdata[1]}</b>",
             "<br><b>Normalized to Nat'l Average:</b>",
             "%{customdata[3]:,} Pop Votes => %{customdata[7]:.2f} EC Votes",

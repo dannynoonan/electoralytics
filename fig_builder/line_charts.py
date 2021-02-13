@@ -151,10 +151,10 @@ def build_vw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_widt
         fig.update_traces(
             hovertemplate="<br>".join([
                 "<b>%{customdata[0]}</b> (%{x})<br></b>",
-                "Popular Vote: <b>%{customdata[3]:,}</b>",
+                "Popular Vote (Turnout): <b>%{customdata[3]:,}</b>",
                 "Electoral College Votes: <b>%{customdata[2]:,}</b>",
-                "Average Voter weight: <b>%{y:.2f}</b>",
                 "Avg Pop Vote Per Elector: <b>%{customdata[4]:,}</b>",
+                "Average Voter weight: <b>%{y:.2f}</b>",
                 "State(s): <b>%{customdata[1]}</b>",
             ])
         )
@@ -162,9 +162,9 @@ def build_vw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_widt
         fig.update_traces(
             hovertemplate="<br>".join([
                 "<b>%{customdata[0]}</b> (%{x})<br></b>",
-                "Combined Popular Vote: <b>%{customdata[3]:,}</b>",
-                "Combined EC Votes: <b>%{customdata[2]:,}</b>",
-                "Average Voter Weight: <b>%{y:.2f}</b>",
+                "Agg Pop Vote (Turnout): <b>%{customdata[3]:,}</b>",
+                "Agg Elec College Votes: <b>%{customdata[2]:,}</b>",
+                "Avg Voter Weight: <b>%{y:.2f}</b>",
                 "States in Group: <b>%{customdata[1]}</b>",
             ])
         )
@@ -235,9 +235,9 @@ def build_total_vote_line_chart(data_obj, fig_width=None, log_y=False):
     fig.update_traces(
         hovertemplate="<br>".join([
             "<b>%{y:.2f}%</b> (%{x})<br>",
-            "Popular Vote: <b>%{customdata[0]:,}</b>",
+            "Popular Vote (Turnout): <b>%{customdata[0]:,}</b>",
             "Total Population: <b>%{customdata[1]:,}</b>",
-            "Total EC Votes: <b>%{customdata[2]}</b>",
+            "Total Elec College Votes: <b>%{customdata[2]}</b>",
             "Avg Pop Vote Per Elector: <b>%{customdata[3]:,}</b>",
             "State Count: <b>%{customdata[4]}</b> (%{customdata[5]} using Pop Vote)</b>",
         ])

@@ -30,15 +30,21 @@ content = voter_weight_comparison_details = html.Div([
                                     html.Br(),
                                     dbc.Card(className="border-success", children=[
                                         dbc.CardBody([
-                                            html.P(className="card-text", children=[
-                                                "Open an ", dcc.Link("intractive slideshow animation", 
-                                                href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_vw_acw4_1000.html",
-                                                target="_blank"), " illustrating the full history for the map above.",
+                                            html.Div(style={"text-align": "center"}, children=[
+                                                html.P(className="card-text", children=[
+                                                    "Map and bar chart of states color shaded by Voter Weight. States in bar chart are also ordered by Voter Weight."
+                                                ]),
                                             ]),
-                                            html.P(className="card-text", style={"float": "right"}, children=[
-                                                "Open an ", dcc.Link("intractive slideshow animation", 
-                                                href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_bar_state_vw_color_by_vw_acw4_900.html",
-                                                target="_blank"), " illustrating the full history for the chart to the right.",
+                                            html.Small(children=[
+                                                "↑ Open an ", dcc.Link("intractive slideshow animation", target="_blank",
+                                                href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_vw_acw4_1000.html"),
+                                                " illustrating every year for the map above",
+                                            ]),
+                                            html.Br(),
+                                            html.Small(className="card-text", style={"float": "right"}, children=[
+                                                "Open an ", dcc.Link("intractive slideshow animation", target="_blank",
+                                                href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_bar_state_vw_color_by_vw_acw4_900.html"),
+                                                " illustrating every year for the chart to the right →",
                                             ]),
                                         ]),
                                     ])
@@ -54,15 +60,20 @@ content = voter_weight_comparison_details = html.Div([
                                     html.Br(),
                                     dbc.Card(className="border-success", children=[
                                         dbc.CardBody([
-                                            html.P(className="card-text", children=[
-                                                "Open an ", dcc.Link("intractive slideshow animation", 
-                                                href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_groups_acw4_1000.html",
-                                                target="_blank"), " illustrating the full history for the map above.",
+                                            html.Div(style={"text-align": "center"}, children=[
+                                                html.P(className="card-text", children=[
+                                                    "Map and bar chart of states color shaded by regional or historical grouping. States in bar chart are ordered by Voter Weight."
+                                                ]),
                                             ]),
-                                            html.P(className="card-text", style={"float": "right"}, children=[
-                                                "Open an ", dcc.Link("intractive slideshow animation", 
-                                                href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_bar_state_vw_color_by_group_acw0_900.html",
-                                                target="_blank"), " illustrating the full history for the chart to the right.",
+                                            html.Small(className="card-text", children=[
+                                                "↑ Open an ", dcc.Link("intractive slideshow animation", target="_blank",
+                                                href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_groups_acw4_1000.html"),
+                                                " illustrating every year for the map above",
+                                            ]),
+                                            html.Small(className="card-text", style={"float": "right"}, children=[
+                                                "Open an ", dcc.Link("intractive slideshow animation", target="_blank",
+                                                href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_bar_state_vw_color_by_group_acw0_900.html"),
+                                                " illustrating every year for the chart to the right →",
                                             ]),
                                         ]),
                                     ])
@@ -96,9 +107,9 @@ content = voter_weight_comparison_details = html.Div([
                                                     is plotted as a diagonal line (labeled 'Nationwide mean')."),
                                                 html.Li("States whose dots appear above and to the left of the nationwide mean line have Voter Weights greater \
                                                     than 1, those whose dots are below and to the right have Voter Weights less than 1."),
-                                                html.Li(["Open an ", dcc.Link("intractive slideshow animation", 
-                                                    href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_scatter_state_vw_dots_acw4_1000.html",
-                                                    target="_blank"), " illustrating the full history for the scatter plot above."]),
+                                                html.Li(["Open an ", dcc.Link("intractive slideshow animation", target="_blank",
+                                                    href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_scatter_state_vw_dots_acw4_1000.html"),
+                                                    " illustrating every year for the scatter plot above."]),
                                             ]),
                                         ]),
                                     ]), 
@@ -111,7 +122,7 @@ content = voter_weight_comparison_details = html.Div([
                                                     logarithmic to space out the entries at lower vote counts."),
                                                 html.Li(["Open an ", dcc.Link("intractive slideshow animation", 
                                                     href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_scatter_state_vw_abbrevs_acw4_1000.html",
-                                                    target="_blank"), " illustrating the full history for the scatter plot above."]),
+                                                    target="_blank"), " illustrating every year for the scatter plot above."]),
                                             ]),
                                         ]),
                                     ]), 
@@ -124,7 +135,7 @@ content = voter_weight_comparison_details = html.Div([
                                                     aggregates the Popular Vote and Electoral College votes for every state from a group into a single dot."),
                                                 html.Li(["Open an ", dcc.Link("intractive slideshow animation", 
                                                     href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_scatter_stategroup_vw_dots_acw4_1000.html",
-                                                    target="_blank"), " illustrating the full history for the scatter plot above."]),
+                                                    target="_blank"), " illustrating every year for the scatter plot above."]),
                                             ]),
                                         ]),
                                     ]),
@@ -143,7 +154,7 @@ content = voter_weight_comparison_details = html.Div([
                                                     apportionment and voter participation."),
                                                 html.Li(["Open an ", dcc.Link("intractive slideshow animation", 
                                                     href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_scatter_state_vw_bubbles_acw4_1000.html",
-                                                    target="_blank"), " illustrating the full history for the scatter plot above."]),
+                                                    target="_blank"), " illustrating every year for the scatter plot above."]),
                                             ]),
                                         ]),
                                     ]),
@@ -165,7 +176,7 @@ content = voter_weight_comparison_details = html.Div([
                                                     aggregates the Popular Vote and Electoral College votes for every state from a group into a single bubble."),
                                                 html.Li(["Open an ", dcc.Link("intractive slideshow animation", 
                                                     href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_scatter_stategroup_vw_bubbles_acw4_1000.html",
-                                                    target="_blank"), " illustrating the full history for the scatter plot above."]),
+                                                    target="_blank"), " illustrating every year for the scatter plot above."]),
                                             ]),
                                         ]),
                                     ]),

@@ -42,7 +42,7 @@ navbar = dbc.Card(className="text-white bg-primary", children=[
             ]),
             dbc.DropdownMenu(label="References / Resources", nav=True, children=[
                 dbc.DropdownMenuItem([html.I(className="fa"), "Project source code"], href='https://github.com/dannynoonan/electoralytics', target="_blank"), 
-                # dbc.DropdownMenuItem([html.I(className="fa"), "Articles, Podcasts, Books"], href='/resources/articles-podcasts-books'),
+                dbc.DropdownMenuItem([html.I(className="fa"), "Wikipedia election data portal"], href='https://en.wikipedia.org/wiki/List_of_United_States_presidential_election_results_by_state', target="_blank"),
             ])
         ])
     ])

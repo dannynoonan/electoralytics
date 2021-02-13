@@ -162,7 +162,7 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
         lin_ticks = [float(x) for x in tick_text]
         log_ticks = [math.log(t, 2) for t in lin_ticks]
         fig.update_layout(
-            coloraxis_colorbar=dict(tickvals=log_ticks, ticktext=tick_text, title='VW (log)'))
+            coloraxis_colorbar=dict(tickvals=log_ticks, ticktext=tick_text, title='Voter<br>Weight'))
     elif color_col == cols.LOG_EC_VOTES:
         tick_text = ['3', '5', '10', '20', '50']
         lin_ticks = [float(x) for x in tick_text]
@@ -184,9 +184,9 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
     # hovertemplate formatting and variable substitution using customdata
     fig.update_traces(
         hovertemplate="<br>".join([
-            "Voter Weight: <b>%{x}</b> (%{y})",
-            "Electoral College Votes: <b>%{customdata[1]}</b><br>",
+            "Voter Weight: <b>%{x}</b> (%{y})</b><br>",
             "Popular Vote: <b>%{customdata[0]:,}</b>",
+            "Electoral College Votes: <b>%{customdata[1]}</b>",
             "Popular Vote Per Elector: <b>%{customdata[2]:,}</b>",
             # "Group: %{customdata[5]}",
             "<br><b>Normalized to Nat'l Average:</b>",
@@ -256,9 +256,9 @@ def build_actual_vs_adjusted_ec_votes_bar(data_obj, groups_dir, max_small, fig_w
         hovertemplate="<br>".join([
             "<b>%{x}</b>*<br>",
             "<b>%{y}</b> (%{customdata[0]}):",
-            "Popular Vote: <b>%{customdata[2]:,}</b>",
-            "Voter Weight: <b>%{customdata[3]:.2f}</b>",
+            "Popular Vote (Turnout): <b>%{customdata[2]:,}</b>",
             "Popular Vote Per Elector: <b>%{customdata[4]:,}</b>",
+            "Voter Weight: <b>%{customdata[3]:.2f}</b>",
             "<br><b>Normalized to Nat'l Average:</b>",
             "%{customdata[2]:,} Pop Votes => %{customdata[6]:.2f} EC Votes",
             "%{customdata[1]} EC Votes => %{customdata[5]:,} Pop Votes",
@@ -323,9 +323,9 @@ def build_actual_vs_adjusted_pop_vote_bar(data_obj, groups_dir, max_small, fig_w
         hovertemplate="<br>".join([
             "<b>%{x:,}</b>*<br>",
             "<b>%{y}</b> (%{customdata[0]}):",
-            "Popular Vote: <b>%{customdata[2]:,}</b>",
-            "Voter Weight: <b>%{customdata[3]:.2f}</b>",
+            "Popular Vote (Turnout): <b>%{customdata[2]:,}</b>",
             "Popular Vote Per Elector: <b>%{customdata[4]:,}</b>",
+            "Voter Weight: <b>%{customdata[3]:.2f}</b>",
             "<br><b>Normalized to Nat'l Average:</b>",
             "%{customdata[2]:,} Pop Votes => %{customdata[6]:.2f} EC Votes",
             "%{customdata[1]} EC Votes => %{customdata[5]:,} Pop Votes",
