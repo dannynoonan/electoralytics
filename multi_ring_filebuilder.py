@@ -97,13 +97,15 @@ totals_by_year = pd.read_csv(dfiles.TOTALS_BY_YEAR)
 ### TRANSFORM CSV DATA ###
 # files to output: 
 # * pivot_on_year 
+# * swing_weight_pivot_on_year
 # * group_aggs_by_year 
 
 
 # initialize new data frames
 pivot_on_year = pd.DataFrame(
     columns=[cols.ABBREV, cols.STATE, cols.GROUP, cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTES_COUNTED_NORM,
-            cols.VOTES_COUNTED_PCT, cols.EC_VOTES_NORM, cols.POP_PER_EC, cols.VOTE_WEIGHT, cols.PARTY])
+            cols.VOTES_COUNTED_PCT, cols.EC_VOTES_NORM, cols.POP_PER_EC, cols.VOTE_WEIGHT, cols.VOTE_MARGIN, cols.SWING_WEIGHT, 
+            cols.PARTY])
 group_aggs_by_year = pd.DataFrame(
     columns=[cols.GROUP, cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTES_COUNTED_NORM, cols.VOTES_COUNTED_PCT, 
             cols.EC_VOTES_NORM, cols.POP_PER_EC, cols.AVG_WEIGHT, cols.STATE_COUNT, cols.STATES_IN_GROUP])
@@ -117,15 +119,17 @@ while year <= YEAR_N:
     ec_votes_col = f'{year} {cols.EC_VOTES}'
     votes_counted_col = f'{year} {cols.VOTES_COUNTED}'
     vote_weight_col = f'{year} {cols.VOTE_WEIGHT}'
-    avg_weight_col = f'{year} {cols.AVG_WEIGHT}'
+    vote_margin_col = f'{year} {cols.VOTE_MARGIN}'
+    swing_weight_col = f'{year} {cols.SWING_WEIGHT}'
     party_col = f'{year} {cols.PARTY}'
 
     # extract electoral college data for year
     year_data = the_one_ring[
-        [cols.ABBREV, cols.STATE, COL_GROUP_SRC, ec_votes_col, votes_counted_col, vote_weight_col, party_col]]
+        [cols.ABBREV, cols.STATE, COL_GROUP_SRC, ec_votes_col, votes_counted_col, vote_weight_col, vote_margin_col, swing_weight_col, party_col]]
     # rename columns and set row keys/index
     year_data.rename(columns={COL_GROUP_SRC: cols.GROUP, ec_votes_col: cols.EC_VOTES, votes_counted_col: cols.VOTES_COUNTED, 
-                            vote_weight_col: cols.VOTE_WEIGHT, party_col: cols.PARTY},
+                            vote_weight_col: cols.VOTE_WEIGHT, vote_margin_col: cols.VOTE_MARGIN, swing_weight_col: cols.SWING_WEIGHT,
+                            party_col: cols.PARTY},
                     inplace=True)
     year_data.set_index(cols.ABBREV, inplace=True)
 
@@ -135,15 +139,18 @@ while year <= YEAR_N:
     year_data = year_data[pd.notnull(year_data[cols.VOTES_COUNTED])]
     # remove states where votes counted is 'Rejected'
     year_data = year_data[year_data[cols.VOTES_COUNTED] != 'Rejected']
-    # set votes counted to 0 where votes counted is 'NoPop'
+    # set votes counted and vote margin to 0 where votes counted is 'NoPop'
     year_data[cols.VOTES_COUNTED][year_data[cols.VOTES_COUNTED] == 'NoPop'] = 0
+    year_data[cols.VOTE_MARGIN][year_data[cols.VOTE_MARGIN] == 'NoPop'] = 0
     
-    # explicitly set type of votes counted data to int (not sure why this isn't automatic)
+    # explicitly set type of votes counted and vote margin to int (not sure why this isn't automatic)
     year_data[[cols.VOTES_COUNTED]] = year_data[[cols.VOTES_COUNTED]].astype(int)
+    #year_data[[cols.VOTE_MARGIN]] = year_data[[cols.VOTE_MARGIN]].astype(int)
 
     # extract US totals data 
     ec_total = year_data.loc['US'][cols.EC_VOTES]
     pop_total = year_data.loc['US'][cols.VOTES_COUNTED]
+    margin_total = year_data.loc['US'][cols.VOTE_MARGIN]
     # calculate average popular vote per EC vote
     pop_per_ec = round(pop_total / ec_total)
     
@@ -169,9 +176,10 @@ while year <= YEAR_N:
     # add placeholder row for any Group that isn't represented 
     for group in GROUPS:
         if len(year_pivot.loc[year_pivot[cols.GROUP] == group]) == 0:
-            year_pivot_bonus = pd.DataFrame([['', '', group, year, 0, 0, 0, 0, 0, 0, 0, '']],
+            year_pivot_bonus = pd.DataFrame([['', '', group, year, 0, 0, 0, 0, 0, 0, 0, 0, 0, '']],
                 columns=[cols.ABBREV, cols.STATE, cols.GROUP, cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTES_COUNTED_NORM,
-                         cols.VOTES_COUNTED_PCT, cols.EC_VOTES_NORM, cols.POP_PER_EC, cols.VOTE_WEIGHT, cols.PARTY])
+                         cols.VOTES_COUNTED_PCT, cols.EC_VOTES_NORM, cols.POP_PER_EC, cols.VOTE_WEIGHT, cols.VOTE_MARGIN, cols.SWING_WEIGHT,
+                         cols.PARTY])
                 # columns=list(year_pivot.columns.values))
             year_pivot = pd.concat([year_pivot, year_pivot_bonus], ignore_index=True, sort=False)
     # append year_pivot to pivot_on_year
