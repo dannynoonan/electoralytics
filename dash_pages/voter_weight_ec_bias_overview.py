@@ -12,7 +12,7 @@ content = html.Div([
         dbc.CardBody([
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Visualizing Jim Crow Voter Suppression: Participation, Apportionment, and “Voter Weight”"),
+                html.H3("Visualizing Jim Crow Voter Suppression: Participation, Apportionment, and Electoral College"),
             ]),
             html.Br(),
             dbc.Row([

@@ -186,3 +186,26 @@ form_input_vw_over_time_line_chart = dbc.FormGroup([
         ]),
     ])
 ])
+
+
+# def make_accordion_item(i, label, images, height):
+#     """
+#     generate reusable accordion elements
+#     https://dash-bootstrap-components.opensource.faculty.ai/docs/components/collapse/
+#     """
+#     html_imgs = []
+#     for img in images:
+#         html_imgs.append(html.Img(src=f"{img}", height=f"{height}", style={"padding": "5px", "padding-top": "10px"}))
+#     return dbc.Card(className="bg-success text-white", children=[
+#         dbc.CardHeader(
+#             html.H2(
+#                 dbc.Button(f"{label}", className="text-white btn-lg", color="link", id=f"group-{i}-toggle")
+#             )
+#         ),
+#         dbc.Collapse(
+#             dbc.CardBody(
+#                 html_imgs
+#             ),
+#             id=f"collapse-{i}",
+#         ),
+#     ])
