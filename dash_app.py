@@ -137,17 +137,17 @@ def toggle_accordion(n1, n2, n3, n4, n5, is_open1, is_open2, is_open3, is_open4,
     Output('fig-scatter-dots-suppress-state-bias', 'figure'),
     Output('fig-scatter-bubbles-suppress-state-bias', 'figure'),
     Output('fig-map-suppress-state-bias', 'figure'),
-    Output('fig-map-color-by-vw', 'figure'),
+    # Output('fig-map-color-by-vw', 'figure'),
     Input('small-state-bias-year-input', 'value'),
     Input('slave-state-bias-year-input', 'value'),
-    Input('suppress-state-bias-year-input', 'value'),    
-    Input('map-color-by-vw-year-input', 'value'))
-def display_voter_weight_ec_bias_intro(small_state_bias_year_input, slave_state_bias_year_input, suppress_state_bias_year_input, map_color_by_vw_year_input):
+    Input('suppress-state-bias-year-input', 'value'))    
+    # Input('map-color-by-vw-year-input', 'value'))
+def display_voter_weight_ec_bias_intro(small_state_bias_year_input, slave_state_bias_year_input, suppress_state_bias_year_input):
     # process input
     small_state_bias_year = int(small_state_bias_year_input)
     slave_state_bias_year = int(slave_state_bias_year_input)
     suppress_state_bias_year = int(suppress_state_bias_year_input)
-    map_color_by_vw_year = int(map_color_by_vw_year_input)
+    # map_color_by_vw_year = int(map_color_by_vw_year_input)
     # fig titles
     title_small_state_bias_bar = 'How Much Does My Vote Count? Small-State Bias<br>States Ordered by Voter Weight, Shaded By Size'
     title_small_state_bias_map = 'States Shaded By Electoral College Votes (i.e. Size/Population)'
@@ -185,10 +185,23 @@ def display_voter_weight_ec_bias_intro(small_state_bias_year_input, slave_state_
         base_fig_title=title_suppress_state_bias_scatter_bubbles)
     fig_map_suppress_state_bias = choropleths.build_vw_by_state_map(
         data_obj, ddirs.ACW, 5, color_col=cols.GROUP, frame=suppress_state_bias_year, show_era=False, alt_groups=['split_small'])
-    fig_map_color_by_vw = choropleths.build_vw_by_state_map(
-        data_obj, ddirs.ACW, 5, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD7, frame=map_color_by_vw_year)
+    # fig_map_color_by_vw = choropleths.build_vw_by_state_map(
+    #     data_obj, ddirs.ACW, 5, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD7, frame=map_color_by_vw_year)
     return (fig_bar_small_state_bias, fig_map_small_state_bias, fig_bar_slave_state_bias, fig_scatter_dots_slave_state_bias, fig_map_slave_state_bias, 
-        fig_bar_suppress_state_bias, fig_scatter_dots_suppress_state_bias, fig_scatter_bubbles_suppress_state_bias, fig_map_suppress_state_bias, fig_map_color_by_vw)
+        fig_bar_suppress_state_bias, fig_scatter_dots_suppress_state_bias, fig_scatter_bubbles_suppress_state_bias, fig_map_suppress_state_bias)
+
+
+############ voter-weight-calculation callbacks
+@app.callback(
+    Output('fig-map-color-by-vw', 'figure'),
+    Input('map-color-by-vw-year-input', 'value'))
+def display_voter_weight_calculation(year_input):
+    # process input
+    year = int(year_input)
+    # generate figs
+    fig_map_color_by_vw = choropleths.build_vw_by_state_map(
+        data_obj, ddirs.ACW, 5, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD7, frame=year)
+    return fig_map_color_by_vw
 
 
 ############ explanation-of-groupings callbacks

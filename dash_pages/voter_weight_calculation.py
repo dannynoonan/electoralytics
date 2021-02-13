@@ -3,7 +3,7 @@ import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 
-from dash_pages.components import navbar
+from dash_pages.components import navbar, data_obj
 
 
 content = html.Div([
@@ -72,6 +72,27 @@ content = html.Div([
                                 ]),
                             ]),
                         ])
+                    ]),
+                    html.Br(),
+                    html.H4("Select year:", className="text-white"),
+                    dcc.Slider(
+                        id="map-color-by-vw-year-input",
+                        min=1800,
+                        max=2020,
+                        step=None,
+                        marks={
+                            int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)', 'color': 'white', 'font-size': '10px'}}
+                            for y in data_obj.all_years 
+                        },
+                        value=1960,
+                    ),
+                    html.Br(),
+                    dcc.Graph(id="fig-map-color-by-vw"),
+                    html.P(className="card-text", style={"padding": "5px"}, children=[
+                        html.Small(children=["States color shaded by Voter Weight, over the course of 56 presidential elections between 1800 and 2020. Control \
+                            the year using the slider above, or open an ", dcc.Link("intractive slideshow animation", className="text-white",
+                            href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_vw_acw4_1000.html",
+                            target="_blank"), " illustrating the full history."]),
                     ]),
                 ]),
                 dbc.Col(md=6, children=[

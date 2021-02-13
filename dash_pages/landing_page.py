@@ -36,10 +36,10 @@ content = html.Div([
                                 given election?"
                             ]),
                             html.P(className="text-white", children=[
-                                "I took a stab at unearthing any scholarly metrics on the topic and didn't find much, so I forged ahead with my own amateur \
-                                mathing. Using a simple, generic formula, aided by python data processing and visualization tools, I’ve attempted an \
-                                apples-to-apples comparison of voter influence per state over time. The slavery vs Jim Crow comparison is at the heart of my \
-                                exploration, but a number of other twists, turns, and trends popped up along the way."
+                                "I took a stab at unearthing any scholarly metrics on the topic and didn't find any publications with the same objective, \
+                                so I forged ahead with my own amateur data wrangling. Using a simple, generic formula, aided by python data processing and \
+                                visualization tools, I’ve attempted an apples-to-apples comparison of voter influence per state over time. The slavery vs \
+                                Jim Crow comparison is at the heart of my exploration, but a number of other twists, turns, and trends popped up along the way."
                             ]),
                             html.H5(className="text-white", children=[
                                 "» Continue to the ", dcc.Link("main article...", href="/voter-weight-electoral-college-bias-overview")
