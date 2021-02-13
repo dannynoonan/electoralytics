@@ -29,20 +29,20 @@ content = html.Div([
                             html.P(className="text-white", children=[
                                 "An ", dcc.Link("October 2020 episode", href="https://www.npr.org/2020/09/30/918717270/the-electoral-college", 
                                 target="_blank"), " of ", html.I("NPR’s Throughline"), " delved into one such manipulation, framing disenfranchisement \
-                                efforts in the Jim Crow South as a “five-fiths” variation on the Constitution’s original three-fifths slave-tabulating \
+                                efforts in the Jim Crow South as a “five-fifths” variation on the Constitution’s original three-fifths slave-tabulating \
                                 logic. In a year of fresh perspectives on racial justice history, not only did this thrust the remote, anachronistic \
                                 history of the three-fifths compromise onto the doorstep of the very recent past, it also prompted me to wonder: is \
                                 there a uniform way to quantify the relative fairness, inequity, or bias enjoyed/exploited by any given state, in any \
                                 given election?"
                             ]),
                             html.P(className="text-white", children=[
-                                "I took a stab at unearthing any scholarly metrics on the topic and came up empty, so I forged ahead with my own amateur \
+                                "I took a stab at unearthing any scholarly metrics on the topic and didn't find much, so I forged ahead with my own amateur \
                                 mathing. Using a simple, generic formula, aided by python data processing and visualization tools, I’ve attempted an \
                                 apples-to-apples comparison of voter influence per state over time. The slavery vs Jim Crow comparison is at the heart of my \
                                 exploration, but a number of other twists, turns, and trends popped up along the way."
                             ]),
                             html.H5(className="text-white", children=[
-                                "» Continue to the ", dcc.Link("Main article...", href="/voter-weight-electoral-college-bias-overview")
+                                "» Continue to the ", dcc.Link("main article...", href="/voter-weight-electoral-college-bias-overview")
                             ]),
                             html.Br(),
 
