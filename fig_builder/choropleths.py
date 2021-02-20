@@ -27,7 +27,10 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
     if not color_col:
         color_col = cols.LOG_VOTE_WEIGHT
 
+    # done in haste, this should probably be integrated into conditionals below
     groups_label = color_col
+    if groups_label == 'Group':
+        groups_label = 'State Grouping'
 
     if not fig_width:
         fig_width = fig_dims.MD6
@@ -69,13 +72,13 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
         
     # set fields and values that differ for static years (frame) vs animations (!frame)
     if frame:
-        fig_title = f'{base_fig_title}: {frame}'
+        fig_title = f'{base_fig_title} ({frame})'
         # oye vey with all the scenarios needing all the sizes
-        if show_era and fig_width > 750:
+        if show_era:
             era = get_era_for_year(frame)
-            fig_title = f'{fig_title} ({era})'
+            fig_title = f'{fig_title}<br>{era}'
     else:
-        fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
+        fig_title = f'{base_fig_title} ({YEAR_0} - {YEAR_N})'
 
     # display metadata common to (or that doesn't interfere with) all display types
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
@@ -92,7 +95,7 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
                             locationmode='USA-states', scope="usa", custom_data=custom_data,
                             hover_name=cols.STATE, hover_data=hover_data, animation_frame=cols.YEAR, # ignored if df is for single year
                             color_continuous_scale=px.colors.diverging.BrBG[::-1], color_continuous_midpoint=0,
-                            height=fig_height)
+                            labels={cols.GROUP: groups_label}, height=fig_height)
         # colorbar labels: calculate log values for weights so I can plot the familiar linear numbers on the color bar
         # TODO pretty sure this works around a plotly choropleth bug, open ticket or post to stackoverflow
         colorbar_labels = ['0.1', '0.2', '0.33', '0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']

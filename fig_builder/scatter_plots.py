@@ -49,7 +49,8 @@ def build_vw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_elem
     pivot_on_year_df.fillna(-1, inplace=True)
 
     # display metadata common to (or that doesn't interfere with) all display types
-    y_axis_title = 'Electoral College Votes Per State'
+    y_axis_title = 'Electoral College Votes'
+    groups_label = 'State Grouping'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.STATE, cols.VOTES_COUNTED, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM]
     # hover_data is the fallback plan for animations where custom_data doesn't work
@@ -66,22 +67,22 @@ def build_vw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_elem
     if frame:
         # for static years, x axis is popular vote counted
         x_axis_col = cols.VOTES_COUNTED
-        x_axis_title = 'Popular Vote Per State'
+        x_axis_title = 'Voter Turnout'
         x_max = round(pivot_on_year_df[cols.VOTES_COUNTED].max() * 1.05)
         # for static years, x_mean_line_max is max EC * population per EC vote 
         totals_by_year_df = data_obj.totals_by_year_df.copy()
         pop_per_ec = totals_by_year_df[totals_by_year_df[cols.YEAR] == frame][cols.POP_PER_EC].item()
         x_mean_line_max = ec_max * pop_per_ec
         # for static years, title is based on frame and show_era
-        fig_title = f'{base_fig_title}: {frame}'
+        fig_title = f'{base_fig_title} ({frame})'
         if show_era:
             era = get_era_for_year(frame)
-            fig_title = f'{fig_title} ({era})'
+            fig_title = f'{fig_title}<br>{era}'
         
     else:
         # for animations, x axis is EC votes normalized - this keeps amplitude of 'reference mean' trace constant
         x_axis_col = cols.EC_VOTES_NORM
-        x_axis_title = 'State EC Votes if Adjusted for Popular Vote' 
+        x_axis_title = 'EC Votes if Adjusted for Voter Turnout' 
         x_max = round(pivot_on_year_df[cols.EC_VOTES_NORM].max())
         # for animations, x_mean_line_max is same max EC Votes
         x_mean_line_max = ec_max
@@ -95,7 +96,7 @@ def build_vw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_elem
                         title=fig_title, custom_data=custom_data, 
                         hover_name=cols.STATE, hover_data=hover_data, animation_frame=cols.YEAR, # ignored if df is for single year
                         color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                        height=fig_height, opacity=0.7, 
+                        labels={cols.GROUP: groups_label}, height=fig_height, opacity=0.7, 
                         range_x=[0,x_max], range_y=[0,ec_max])
         # axis metadata
         fig.update_xaxes(title_text=x_axis_title)
@@ -111,7 +112,7 @@ def build_vw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_elem
                         title=fig_title, custom_data=custom_data, text=cols.ABBREV, 
                         hover_name=cols.STATE, hover_data=hover_data, animation_frame=cols.YEAR, # ignored if df is for single year
                         color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                        height=fig_height, opacity=0.7, 
+                        labels={cols.GROUP: groups_label}, height=fig_height, opacity=0.7, 
                         log_x=True, log_y=True, range_x=range_x, range_y=[2.5,ec_max])
         # axis metadata
         fig.update_xaxes(title_text=f"{x_axis_title} (log)")
@@ -186,6 +187,7 @@ def build_vw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_wi
 
     # display metadata common to (or that doesn't interfere with) all display types
     y_axis_title = 'Electoral College Votes Per State Group'
+    groups_label = "State Grouping"
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.GROUP, cols.VOTES_COUNTED, cols.AVG_WEIGHT, cols.POP_PER_EC, cols.STATE_COUNT, cols.STATES_IN_GROUP, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM]
     # hover_data is the fallback plan for animations where custom_data doesn't work
@@ -199,7 +201,7 @@ def build_vw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_wi
     if frame:
         # for static years, x axis is popular vote counted
         x_axis_col = cols.VOTES_COUNTED
-        x_axis_title = 'Aggregate Popular Vote Per State Group'
+        x_axis_title = 'Aggregate Voter Turnout Per State Group'
         x_max = round(group_aggs_by_year_df[cols.VOTES_COUNTED].max() * 1.05)
         # for static years, x_mean_line_max is max EC * population per EC vote 
         totals_by_year_df = data_obj.totals_by_year_df.copy()
@@ -207,15 +209,15 @@ def build_vw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_wi
         x_mean_line_max = ec_max * pop_per_ec
         # for static years, set specific era title
         era = get_era_for_year(frame)
-        fig_title = f'{base_fig_title}: {frame}'
+        fig_title = f'{base_fig_title} ({frame})'
         if show_era:
             era = get_era_for_year(frame)
-            fig_title = f'{fig_title} ({era})'
+            fig_title = f'{fig_title}<br>{era}'
         
     else:
         # for animations, x axis is EC votes normalized - this keeps amplitude of 'reference mean' trace constant
         x_axis_col = cols.EC_VOTES_NORM
-        x_axis_title = 'EC Votes if Adjusted for Popular Vote' 
+        x_axis_title = 'EC Votes if Adjusted for Voter Turnout' 
         x_max = round(group_aggs_by_year_df[cols.EC_VOTES_NORM].max())
         # for animations, x_mean_line_max is max EC Votes
         x_mean_line_max = ec_max
@@ -227,7 +229,7 @@ def build_vw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_wi
                     title=fig_title, custom_data=custom_data, 
                     hover_name=cols.GROUP, hover_data=hover_data, animation_frame=cols.YEAR, animation_group=cols.GROUP, # ignored if df is for single year
                     color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                    height=fig_height, opacity=0.7, 
+                    labels={cols.GROUP: groups_label}, height=fig_height, opacity=0.7, 
                     range_x=[0,x_max], range_y=[0,ec_max])
         
     # scatterplot dot formatting
@@ -315,6 +317,7 @@ def build_vw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_width
     # display metadata common to (or that doesn't interfere with) all display types
     x_axis_title = 'Electoral College Votes per State'
     y_axis_title = 'Voter Weight Per State (log)'
+    groups_label = 'State Grouping'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.STATE, cols.VOTES_COUNTED, cols.POP_PER_EC, cols.VOTES_COUNTED_PCT, cols.EC_VOTES_NORM, cols.VOTES_COUNTED_NORM]
     # hover_data is the fallback plan for animations where custom_data doesn't work
@@ -326,19 +329,19 @@ def build_vw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_width
     
     # set fields and values that differ for static years (frame) vs animations (!frame)
     if frame:
-        fig_title = f'{base_fig_title}: {frame}'
+        fig_title = f'{base_fig_title} ({frame})'
         if show_era:
             era = get_era_for_year(frame)
-            fig_title = f'{fig_title} ({era})'
+            fig_title = f'{fig_title}<br>{era}'
     else:
-        fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
+        fig_title = f'{base_fig_title} ({YEAR_0} - {YEAR_N})'
 
     # init figure with core properties
     fig = px.scatter(pivot_on_year_df, x=cols.EC_VOTES, y=cols.VOTE_WEIGHT, color=cols.GROUP,  
                     title=fig_title, custom_data=custom_data, size=cols.VOTES_COUNTED_PCT, size_max=80, 
                     hover_name=cols.STATE, hover_data=hover_data, animation_frame=cols.YEAR, # ignored if df is for single year
                     color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                    height=fig_height, opacity=0.5, 
+                    labels={cols.GROUP: groups_label}, height=fig_height, opacity=0.5, 
                     log_y=True, range_x=[0,ec_max], range_y=[weight_min,weight_max])
 
     # scatterplot dot formatting
@@ -415,6 +418,7 @@ def build_vw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fig
     # display metadata common to (or that doesn't interfere with) all display types
     x_axis_title = 'Electoral College Votes Per State Group'
     y_axis_title = 'Voter Weight Per State Group (log)'
+    groups_label = 'State Grouping'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.GROUP, cols.VOTES_COUNTED, cols.POP_PER_EC, cols.VOTES_COUNTED_PCT, cols.STATE_COUNT, cols.STATES_IN_GROUP, 
                 cols.EC_VOTES_NORM, cols.VOTES_COUNTED_NORM]
@@ -429,19 +433,19 @@ def build_vw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fig
 
     # set fields and values that differ for static years (frame) vs animations (!frame)
     if frame:
-        fig_title = f'{base_fig_title}: {frame}'
+        fig_title = f'{base_fig_title} ({frame})'
         if show_era:
             era = get_era_for_year(frame)
-            fig_title = f'{fig_title} ({era})'
+            fig_title = f'{fig_title}<br>{era}'
     else:
-        fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
+        fig_title = f'{base_fig_title} ({YEAR_0} - {YEAR_N})'
 
     # init figure with core properties
     fig = px.scatter(group_aggs_by_year_df, x=cols.EC_VOTES, y=cols.AVG_WEIGHT, color=cols.GROUP, 
                     title=fig_title, custom_data=custom_data, size=cols.VOTES_COUNTED_PCT, size_max=80,  
                     hover_name=cols.GROUP, hover_data=hover_data, animation_frame=cols.YEAR, animation_group=cols.GROUP, # ignored if df is for single year
                     color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                    height=fig_height, opacity=0.5, 
+                    labels={cols.GROUP: groups_label}, height=fig_height, opacity=0.5, 
                     log_y=True, range_x=[0, ec_max], range_y=[weight_min, weight_max])
 
     # scatterplot dot formatting

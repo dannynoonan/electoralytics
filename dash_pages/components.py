@@ -26,7 +26,8 @@ url_bar_and_content_div = html.Div([
 navbar = dbc.Card(className="text-white bg-primary", children=[
     dbc.CardBody([
         html.Br(),
-        html.H2("Electoralytics - Visualizing Historical Presidential Election Data", id="nav-pills", style={"text-align": "center"}),
+        html.H2("Electoralytics", id="nav-pills"),
+        html.H5("Exploring imbalance, inequity, and bias in US political representation"),
         html.Hr(className="border-light"),
         dbc.Nav(className="nav nav-pills", children=[
             dbc.NavItem(dbc.NavLink("Home", href="/")),

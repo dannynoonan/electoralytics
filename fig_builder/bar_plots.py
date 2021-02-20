@@ -27,6 +27,8 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
         color_col = cols.GROUP
 
     groups_label = color_col
+    if groups_label == 'Group':
+        groups_label = 'State Grouping'
 
     # if frame is set, extract single-year data
     if frame:
@@ -81,12 +83,12 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
 
     # display metadata
     if frame:
-        fig_title = f'{base_fig_title}: {frame}'
+        fig_title = f'{base_fig_title} ({frame})'
         if show_era:
             era = get_era_for_year(frame)
-            fig_title = f'{fig_title} ({era})'
+            fig_title = f'{fig_title}<br>{era}'
     else:
-        fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
+        fig_title = f'{base_fig_title} ({YEAR_0} - {YEAR_N})'
     x_axis_title = 'Voter Weight (log)'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames    
     custom_data = [cols.VOTES_COUNTED, cols.EC_VOTES, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM, cols.GROUP]
@@ -111,7 +113,7 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
                     custom_data=custom_data, hover_name=cols.VOTE_WEIGHT, hover_data=hover_data,
                     text=cols.EC_VOTES, animation_frame=cols.YEAR, # ignored if df is for single year
                     color_continuous_scale=color_continuous_scale, color_continuous_midpoint=color_continuous_midpoint,
-                    # labels={cols.GROUP: groups_label}, 
+                    labels={cols.GROUP: groups_label}, 
                     range_x=[vw_min,vw_max], log_x=True, height=fig_height)
 
     elif color_col in [cols.GROUP, cols.PARTY]:
@@ -223,13 +225,13 @@ def build_actual_vs_adjusted_ec_votes_bar(data_obj, groups_dir, max_small, fig_w
     # display metadata
     base_fig_title = "EC Votes: 'Actual' vs 'Adjusted for Turnout'" 
     if frame:
-        fig_title = f'{base_fig_title}: {frame}'
+        fig_title = f'{base_fig_title} ({frame})'
         if show_era:
             era = get_era_for_year(frame)
-            fig_title = f'{fig_title} ({era})'
+            fig_title = f'{fig_title}<br>{era}'
     else:
-        fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
-    x_axis_title = 'Actual EC Votes / EC Votes if Adjusted for Popular Vote'
+        fig_title = f'{base_fig_title} ({YEAR_0} - {YEAR_N})'
+    x_axis_title = 'Actual EC Votes / EC Votes if Adjusted for Voter Turnout'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM]
     # set color sequence
@@ -289,14 +291,14 @@ def build_actual_vs_adjusted_pop_vote_bar(data_obj, groups_dir, max_small, fig_w
     melted_vote_count_pivot_df.loc[pd.isnull(melted_vote_count_pivot_df['Popular Vote*']), 'Popular Vote*'] = 0.000000000001  # causes problems if set to 0
 
     # display metadata
-    base_fig_title = "Popular Vote: 'Actual' vs 'Adjusted for Voter Weight'"
+    base_fig_title = "Voter Turnout: 'Actual' vs 'Adjusted for Voter Weight'"
     if frame:
-        fig_title = f'{base_fig_title}: {frame}'
+        fig_title = f'{base_fig_title} ({frame})'
         if show_era:
             era = get_era_for_year(frame)
-            fig_title = f'{fig_title} ({era})'
+            fig_title = f'{fig_title}<br>{era}'
     else:
-        fig_title = f'{base_fig_title}: {YEAR_0} - {YEAR_N}'
+        fig_title = f'{base_fig_title} ({YEAR_0} - {YEAR_N})'
     x_axis_title = 'Actual Pop Vote / Pop Vote if Adjusted for Voter Weight'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.YEAR, cols.EC_VOTES, cols.VOTES_COUNTED, cols.VOTE_WEIGHT, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM]

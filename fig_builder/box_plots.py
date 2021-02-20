@@ -30,11 +30,12 @@ def build_vw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame, fig
     fig_height = fig_dims.crt(fig_width)
 
     # display metadata
+    groups_label = 'State Grouping'
     base_fig_title = 'Voter Weight Ranges Across State Groups'
-    fig_title = f'{base_fig_title}: {frame}'
+    fig_title = f'{base_fig_title} ({frame})'
     if show_era:
         era = get_era_for_year(frame)
-        fig_title = f'{fig_title} ({era})'
+        fig_title = f'{fig_title}<br>{era}'
     y_axis_title = 'Voter Weight'
 
     # box plot
@@ -44,7 +45,7 @@ def build_vw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame, fig
     # init figure with core properties
     fig = px.box(pivot, color=cols.GROUP, title=fig_title, 
                 color_discrete_map=GROUP_COLORS, category_orders={cols.GROUP: groups},
-                height=fig_height, log_y=True)
+                labels={cols.GROUP: groups_label}, height=fig_height, log_y=True)
 
     # axis metadata
     fig.update_xaxes(title_text='')

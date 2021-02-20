@@ -81,49 +81,48 @@ def display_page(pathname):
 
 ############ landing-page callbacks
 @app.callback(
-    # Output('fig-scatter-dots-ec-bias', 'figure'),
-    Output('fig-bar-ec-bias', 'figure'),
-    # Output('fig-map-color-by-vw-landing', 'figure'),
-    Input('ec-bias-year-input', 'value'))
-def display_landing_page(ec_bias_year_input):
+    Output('fig-bar-slavery-jimcrow-vw-bias', 'figure'),
+    Output('fig-scatter-dots-slavery-jimcrow-vw-bias', 'figure'),
+    Input('year-input-slavery-jimcrow-vw-bias-bar', 'value'),
+    Input('year-input-slavery-jimcrow-vw-bias-scatter-dots', 'value'))
+def display_landing_page(bar_year_input, scatter_year_input):
     # process input
-    ec_bias_year = int(ec_bias_year_input)
+    bar_year = int(bar_year_input)
+    scatter_year = int(scatter_year_input)
     # fig titles
-    title_ec_bias_bar = "States With the Lowest Turnout Per Electoral College Vote<br>Descending Order by 'Voter Weight'"
-    # title_ec_bias_scatter_dots = 'Electoral College Bias<br>State EC Votes x Voter Turnout'
+    bar_title = "How much did each person’s vote count in each state?"
+    scatter_title = "How did each state’s Electoral College apportionment<br>compare to its voter turnout?"
     # generate figs
-    # fig_scatter_dots_ec_bias = scatter_plots.build_vw_by_state_scatter_dots(
-    #     data_obj, ddirs.ACW, 4, frame=ec_bias_year, show_era=False, base_fig_title=title_ec_bias_scatter_dots)
-    fig_bar_ec_bias = bar_plots.build_vw_by_state_bar(
-        data_obj, ddirs.ACW, 4, frame=ec_bias_year, color_col=cols.GROUP, show_era=False, base_fig_title=title_ec_bias_bar, fig_height=850)
-    # fig_map_color_by_vw = choropleths.build_vw_by_state_map(
-    #     data_obj, ddirs.ACW, 4, color_col=cols.LOG_VOTE_WEIGHT, frame=ec_bias_year)
-    return fig_bar_ec_bias
+    fig_bar_slavery_jimcrow_vw_bias = bar_plots.build_vw_by_state_bar(
+        data_obj, ddirs.ACW, 4, frame=bar_year, color_col=cols.GROUP, show_era=False, base_fig_title=bar_title, fig_height=850)
+    fig_scatter_dots_slavery_jimcrow_vw_bias = scatter_plots.build_vw_by_state_scatter_dots(
+        data_obj, ddirs.ACW, 4, frame=scatter_year, show_era=False, base_fig_title=scatter_title)
+    return fig_bar_slavery_jimcrow_vw_bias, fig_scatter_dots_slavery_jimcrow_vw_bias
 
 # landing-page callbacks cont'd: accordion
-@app.callback(
-    [Output(f"collapse-{i}", "is_open") for i in range(1, 6)],
-    [Input(f"group-{i}-toggle", "n_clicks") for i in range(1, 6)],
-    [State(f"collapse-{i}", "is_open") for i in range(1, 6)])
-def toggle_accordion(n1, n2, n3, n4, n5, is_open1, is_open2, is_open3, is_open4, is_open5):
-    ctx = dash.callback_context
+# @app.callback(
+#     [Output(f"collapse-{i}", "is_open") for i in range(1, 6)],
+#     [Input(f"group-{i}-toggle", "n_clicks") for i in range(1, 6)],
+#     [State(f"collapse-{i}", "is_open") for i in range(1, 6)])
+# def toggle_accordion(n1, n2, n3, n4, n5, is_open1, is_open2, is_open3, is_open4, is_open5):
+#     ctx = dash.callback_context
 
-    if not ctx.triggered:
-        return False, False, False, False, False
-    else:
-        button_id = ctx.triggered[0]["prop_id"].split(".")[0]
+#     if not ctx.triggered:
+#         return False, False, False, False, False
+#     else:
+#         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
 
-    if button_id == "group-1-toggle" and n1:
-        return not is_open1, False, False, False, False
-    elif button_id == "group-2-toggle" and n2:
-        return False, not is_open2, False, False, False
-    elif button_id == "group-3-toggle" and n3:
-        return False, False, not is_open3, False, False
-    elif button_id == "group-4-toggle" and n4:
-        return False, False, False, not is_open4, False
-    elif button_id == "group-5-toggle" and n5:
-        return False, False, False, False, not is_open5
-    return False, False, False, False, False
+#     if button_id == "group-1-toggle" and n1:
+#         return not is_open1, False, False, False, False
+#     elif button_id == "group-2-toggle" and n2:
+#         return False, not is_open2, False, False, False
+#     elif button_id == "group-3-toggle" and n3:
+#         return False, False, not is_open3, False, False
+#     elif button_id == "group-4-toggle" and n4:
+#         return False, False, False, not is_open4, False
+#     elif button_id == "group-5-toggle" and n5:
+#         return False, False, False, False, not is_open5
+#     return False, False, False, False, False
 
 
 ############ voter-weight-electoral-college-bias-overview callbacks
