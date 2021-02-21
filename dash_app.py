@@ -9,8 +9,8 @@ import pandas as pd
 import plotly.express as px
 
 from dash_pages import (
-    components, electoral_college_intro, explanation_of_groupings, landing_page, voter_weight_calculation, 
-    voter_weight_conclusions, voter_weight_ec_bias_overview, voter_weight_figure_vault, voter_weight_timeline_viz)
+    components, electoral_college_intro, explanation_of_groupings, home_page, voter_weight_landing, voter_weight_calculation, 
+    voter_weight_conclusions, voter_weight_main, voter_weight_figure_vault, voter_weight_timeline_viz)
 from data_processor.data_objects import DataObject
 from data_processor.functions import map_to_subdir
 from fig_builder import bar_plots, box_plots, choropleths, line_charts, scatter_plots
@@ -46,8 +46,9 @@ app.validation_layout = dbc.Container(fluid=True, children=[
     components.url_bar_and_content_div,
 
     ## Body
-    landing_page.content,
-    voter_weight_ec_bias_overview.content,
+    home_page.content,
+    voter_weight_landing.content,
+    voter_weight_main.content,
     voter_weight_calculation.content,
     explanation_of_groupings.content,
     voter_weight_conclusions.content,
@@ -61,8 +62,10 @@ app.validation_layout = dbc.Container(fluid=True, children=[
 @app.callback(Output('page-content', 'children'),
               Input('url', 'pathname'))
 def display_page(pathname):
-    if pathname == "/voter-weight-electoral-college-bias-overview":
-        return voter_weight_ec_bias_overview.content
+    if pathname == "/voter-weight-landing":
+        return voter_weight_landing.content
+    elif pathname == "/voter-weight-electoral-college-bias-overview":
+        return voter_weight_main.content
     elif pathname == "/voter-weight-calculation":
         return voter_weight_calculation.content
     elif pathname == "/explanation-of-groupings":
@@ -76,10 +79,10 @@ def display_page(pathname):
     elif pathname == "/electoral-college-intro":
         return electoral_college_intro.content
     else:
-        return landing_page.content
+        return home_page.content
 
 
-############ landing-page callbacks
+############ voter-weight-landing callbacks
 @app.callback(
     Output('fig-bar-slavery-jimcrow-vw-bias', 'figure'),
     Output('fig-scatter-dots-slavery-jimcrow-vw-bias', 'figure'),
@@ -99,31 +102,6 @@ def display_landing_page(bar_year_input, scatter_year_input):
         data_obj, ddirs.ACW, 4, frame=scatter_year, show_era=False, base_fig_title=scatter_title)
     return fig_bar_slavery_jimcrow_vw_bias, fig_scatter_dots_slavery_jimcrow_vw_bias
 
-# landing-page callbacks cont'd: accordion
-# @app.callback(
-#     [Output(f"collapse-{i}", "is_open") for i in range(1, 6)],
-#     [Input(f"group-{i}-toggle", "n_clicks") for i in range(1, 6)],
-#     [State(f"collapse-{i}", "is_open") for i in range(1, 6)])
-# def toggle_accordion(n1, n2, n3, n4, n5, is_open1, is_open2, is_open3, is_open4, is_open5):
-#     ctx = dash.callback_context
-
-#     if not ctx.triggered:
-#         return False, False, False, False, False
-#     else:
-#         button_id = ctx.triggered[0]["prop_id"].split(".")[0]
-
-#     if button_id == "group-1-toggle" and n1:
-#         return not is_open1, False, False, False, False
-#     elif button_id == "group-2-toggle" and n2:
-#         return False, not is_open2, False, False, False
-#     elif button_id == "group-3-toggle" and n3:
-#         return False, False, not is_open3, False, False
-#     elif button_id == "group-4-toggle" and n4:
-#         return False, False, False, not is_open4, False
-#     elif button_id == "group-5-toggle" and n5:
-#         return False, False, False, False, not is_open5
-#     return False, False, False, False, False
-
 
 ############ voter-weight-electoral-college-bias-overview callbacks
 @app.callback(
@@ -141,7 +119,7 @@ def display_landing_page(bar_year_input, scatter_year_input):
     Input('slave-state-bias-year-input', 'value'),
     Input('suppress-state-bias-year-input', 'value'))    
     # Input('map-color-by-vw-year-input', 'value'))
-def display_voter_weight_ec_bias_intro(small_state_bias_year_input, slave_state_bias_year_input, suppress_state_bias_year_input):
+def display_voter_weight_main(small_state_bias_year_input, slave_state_bias_year_input, suppress_state_bias_year_input):
     # process input
     small_state_bias_year = int(small_state_bias_year_input)
     slave_state_bias_year = int(slave_state_bias_year_input)

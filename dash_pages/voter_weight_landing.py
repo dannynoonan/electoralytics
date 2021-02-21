@@ -8,37 +8,26 @@ from dash_pages.components import navbar, data_obj
 
 content = html.Div([
     navbar,
-    dbc.Card(className="border-primary bg-success", children=[
+    dbc.Card(className="border-primary bg-dark", children=[
         dbc.CardBody([
             html.Br(),
             dbc.Row([
                 dbc.Col(md=3),
                 dbc.Col(md=6, children=[
-                    dbc.Card(className="bg-primary lead", children=[
+                    dbc.Card(className="border-success lead", style={"font-family": "times-new-roman"}, children=[
                         dbc.CardBody([
-                            html.H3("Welcome to Electoralytics", className="text-white"),
-                            html.P(className="text-white", children=[
-                                "Inside you’ll find an exploration of the imbalances built into the US electoral system, described through \
-                                simple equations and illustrated through data visualizations. This first project, of what I hope will be many, is \
-                                a deep dive into Electoral College data to illustrate the effects of disenfranchisement in the Jim Crow South as \
-                                compared to the pre-Civil War era of slavery."
-                            ]),
-                        ]),
-                    ]),
-                    html.Br(),
-                    dbc.Card(className="bg-primary lead", children=[
-                        dbc.CardBody([
-                            html.H3("American voter enfranchisement: A zero-sum game", className="text-white"),
-                            html.P(className="text-white", children=[
+                            html.H3("American voter enfranchisement: A zero-sum game"),
+                            html.P("Feb 12, 2021", style={"font-family": "arial", "font-size": "10pt"}),
+                            html.P(children=[
                                 "Apart from a brief hopeful period between the Civil War and the end of Reconstruction, the disenfranchisement of \
                                 Southern Blacks in the US’s first 190 years was nearly absolute. During slavery, Blacks were unable to vote entirely, \
                                 while during the Jim Crow era, poll taxes, literacy tests, and violent intimidation were nearly as effective at \
-                                stymying the Black vote. In both periods, the disenfranchisement of Southern Blacks fed directly into the \
-                                “hyper-enfranchisement” of Southern whites. Because the Electoral College grants voting influence based on ", 
-                                html.I("population"), " rather than ", html.I("participation"), ", Black disenfranchisement resulted in Southern \
-                                whites gaining significantly more power, per voter, than any other demographic anywhere else in the US."
+                                stymying the Black vote. Because the Electoral College grants voting influence based on population rather than \
+                                participation, the disenfranchisement of Southern Blacks fed directly into the “hyper-enfranchisement” of Southern \
+                                whites in both periods. This resulted in Southern whites holding significantly more power, per voter, than any other \
+                                demographic anywhere else in the US."
                             ]),
-                            html.P(className="text-white", children=[
+                            html.P(children=[
                                 "I first became interested in quantifying disenfranchisement in relation to hyper-enfranchisement after an ",
                                 dcc.Link("October 2020 episode", href="https://www.npr.org/2020/09/30/918717270/the-electoral-college", 
                                 target="_blank"), " of ", html.I("NPR’s Throughline"), ". The podcast framed Jim Crow voter suppression as a \
@@ -50,8 +39,8 @@ content = html.Div([
                                 given state, which (absent other factors) is inversely proportional to the degree of voter disenfranchisement in that \
                                 state."
                             ]),
-                            html.H3("Visualizing Voter Weight by state / by year", className="text-white"),
-                            html.P(className="text-white", children=[
+                            html.H3("Visualizing Voter Weight by state / by year"),
+                            html.P(children=[
                                 "The first figure below illustrates the hyper-enfranchisement of voters in certain states relative to others by \
                                 displaying them in descending order by Voter Weight, shading them in terms of their Civil War grouping (more info \
                                 about state groupings ", dcc.Link("here", href="/explanation-of-groupings"), "). This figure, as with all figures on \
@@ -59,48 +48,58 @@ content = html.Div([
                                 calculation. Move the “Select year” slider to bring a different election year into focus. Note that if every vote in \
                                 every state counted equally, all of the Voter Weights would be 1.0 and each bar in the chart would be the same length."
                             ]),
-                            html.H4("Select year:", className="text-white"),
-                            dcc.Slider(
-                                id="year-input-slavery-jimcrow-vw-bias-bar",
-                                min=1832,
-                                max=1964,
-                                step=None,
-                                marks={
-                                    int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)', 'color': 'white'}}
-                                    for y in data_obj.all_years if y >= 1832 and y <= 1964
-                                },
-                                value=1920,
-                            ),
-                            html.Br(),
-                            dcc.Graph(id="fig-bar-slavery-jimcrow-vw-bias"),
-                            html.Br(),
-                            html.P(className="text-white", children=[
+                        ])
+                    ]),
+                    html.Br(),
+                    html.H4("Select year:", className="text-white"),
+                    dcc.Slider(
+                        id="year-input-slavery-jimcrow-vw-bias-bar",
+                        min=1832,
+                        max=1964,
+                        step=None,
+                        marks={
+                            int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)', 'color': 'white'}}
+                            for y in data_obj.all_years if y >= 1832 and y <= 1964
+                        },
+                        value=1920,
+                    ),
+                    html.Br(),
+                    dcc.Graph(id="fig-bar-slavery-jimcrow-vw-bias"),
+                    html.Br(),
+                    dbc.Card(className="border-success lead", style={"font-family": "times-new-roman"}, children=[
+                        dbc.CardBody([
+                            html.P(children=[
                                 "In the next figure you can see the relationship between voter turnout (x axis) and Electoral College votes (y axis) in \
                                 determining Voter Weight. The diagonal line indicates the national mean, where the Voter Weight ratio is 1.0. If every \
                                 vote in every state counted equally, every state’s dot would fall on this nationwide mean line."
                             ]),
-                            html.H4("Select year:", className="text-white"),
-                            dcc.Slider(
-                                id="year-input-slavery-jimcrow-vw-bias-scatter-dots",
-                                min=1832,
-                                max=1964,
-                                step=None,
-                                marks={
-                                    int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)', 'color': 'white'}}
-                                    for y in data_obj.all_years if y >= 1832 and y <= 1964
-                                },
-                                value=1920,
-                            ),
-                            html.Br(),
-                            dcc.Graph(id="fig-scatter-dots-slavery-jimcrow-vw-bias"),
-                            html.Br(),
-                            html.P(className="text-white", children=[
+                         ])
+                    ]),
+                    html.Br(),  
+                    html.H4("Select year:", className="text-white"),
+                    dcc.Slider(
+                        id="year-input-slavery-jimcrow-vw-bias-scatter-dots",
+                        min=1832,
+                        max=1964,
+                        step=None,
+                        marks={
+                            int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)', 'color': 'white'}}
+                            for y in data_obj.all_years if y >= 1832 and y <= 1964
+                        },
+                        value=1920,
+                    ),
+                    html.Br(),
+                    dcc.Graph(id="fig-scatter-dots-slavery-jimcrow-vw-bias"),
+                    html.Br(),
+                    dbc.Card(className="border-success lead", style={"font-family": "times-new-roman"}, children=[
+                        dbc.CardBody([
+                            html.P(children=[
                                 "The rest of the site, beginning with the ", dcc.Link("complete article", 
                                 href="/voter-weight-electoral-college-bias-overview"), ", further explores the biases and vulnerabilities built into our \
                                 electoral apportionment system, aided by interactive maps, figures, and animations."
                             ]),
-                            html.H3("A note on methods", className="text-white"),
-                            html.P(className="text-white", children=[
+                            html.H3("A note on methods"),
+                            html.P(children=[
                                 "All presidential election data was compiled from this ", 
                                 dcc.Link("Wikipedia portal", href="https://en.wikipedia.org/wiki/List_of_United_States_presidential_election_results_by_state", 
                                 target="_blank"), " and is managed in csv files ", dcc.Link(" here", 
@@ -114,8 +113,8 @@ content = html.Div([
                                 href="/voter-weight-calculation"), " page, and source code for the overall project is available in the ",
                                 dcc.Link("electoralytics repo", href="https://github.com/dannynoonan/electoralytics", target="_blank"), " on github."
                             ]),
-                            html.H3("Want to dig deeper?", className="text-white"),
-                            html.P(className="text-white", children=[
+                            html.H3("Want to dig deeper?"),
+                            html.P(children=[
                                 html.Ul(children=[
                                     html.Li(
                                         dcc.Link("Read the full article", href="/voter-weight-electoral-college-bias-overview")

@@ -32,7 +32,8 @@ navbar = dbc.Card(className="text-white bg-primary", children=[
         dbc.Nav(className="nav nav-pills", children=[
             dbc.NavItem(dbc.NavLink("Home", href="/")),
             dbc.DropdownMenu(label="Visualizing Electoral College Bias", nav=True, children=[
-                dbc.DropdownMenuItem([html.I(className="fa"), "Intro to Voter Weight And Electoral College Bias"], href='/voter-weight-electoral-college-bias-overview', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "American voter enfranchisement: A zero-sum game"], href='/voter-weight-landing', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Visualizing Jim Crow voter suppression"], href='/voter-weight-electoral-college-bias-overview', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "Calculating Voter Weight"], href='/voter-weight-calculation', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "Explanation of State Groupings"], href='/explanation-of-groupings', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "Discussion and Conclusions"], href='/voter-weight-conclusions', target="_blank"), 
