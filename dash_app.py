@@ -62,9 +62,9 @@ app.validation_layout = dbc.Container(fluid=True, children=[
 @app.callback(Output('page-content', 'children'),
               Input('url', 'pathname'))
 def display_page(pathname):
-    if pathname == "/voter-weight-landing":
+    if pathname == "/voter-weight-electoral-college-bias-intro":
         return voter_weight_landing.content
-    elif pathname == "/voter-weight-electoral-college-bias-overview":
+    elif pathname == "/voter-weight-electoral-college-bias-main":
         return voter_weight_main.content
     elif pathname == "/voter-weight-calculation":
         return voter_weight_calculation.content
@@ -82,7 +82,7 @@ def display_page(pathname):
         return home_page.content
 
 
-############ voter-weight-landing callbacks
+############ voter-weight-electoral-college-bias-intro
 @app.callback(
     Output('fig-bar-slavery-jimcrow-vw-bias', 'figure'),
     Output('fig-scatter-dots-slavery-jimcrow-vw-bias', 'figure'),
@@ -103,7 +103,7 @@ def display_landing_page(bar_year_input, scatter_year_input):
     return fig_bar_slavery_jimcrow_vw_bias, fig_scatter_dots_slavery_jimcrow_vw_bias
 
 
-############ voter-weight-electoral-college-bias-overview callbacks
+############ voter-weight-electoral-college-bias-main callbacks
 @app.callback(
     Output('fig-bar-small-state-bias', 'figure'),
     Output('fig-map-small-state-bias', 'figure'),

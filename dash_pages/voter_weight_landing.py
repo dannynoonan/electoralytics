@@ -96,7 +96,7 @@ content = html.Div([
                         dbc.CardBody([
                             html.P(children=[
                                 "The rest of the site, beginning with the ", dcc.Link("complete article", 
-                                href="/voter-weight-electoral-college-bias-overview"), ", further explores the biases and vulnerabilities built into our \
+                                href="/voter-weight-electoral-college-bias-main"), ", further explores the biases and vulnerabilities built into our \
                                 electoral apportionment system, aided by interactive maps, figures, and animations."
                             ]),
                             html.H3("A note on methods"),
@@ -118,7 +118,7 @@ content = html.Div([
                             html.P(children=[
                                 html.Ul(children=[
                                     html.Li(
-                                        dcc.Link("Read the full article", href="/voter-weight-electoral-college-bias-overview")
+                                        dcc.Link("Read the full article", href="/voter-weight-electoral-college-bias-main")
                                     ),
                                     html.Li(
                                         dcc.Link("See an annotated timeline of voter weight trends", href="/voter-weight-timeline-visualization")

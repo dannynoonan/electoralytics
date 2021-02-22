@@ -24,7 +24,7 @@ content = html.Div([
                                 compared to the pre-Civil War era of slavery."
                             ]),
                             html.A(className="list-group-item list-group-item-action flex-column align-items-start bg-primary", 
-                                href="/voter-weight-landing", children=[
+                                href="/voter-weight-electoral-college-bias-intro", children=[
                                 html.H4(className="mb-1 text-success", children=[
                                     "[2-12-2021] American voter enfranchisement: A zero-sum game",
                                 ]),

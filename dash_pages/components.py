@@ -32,8 +32,8 @@ navbar = dbc.Card(className="text-white bg-primary", children=[
         dbc.Nav(className="nav nav-pills", children=[
             dbc.NavItem(dbc.NavLink("Home", href="/")),
             dbc.DropdownMenu(label="Visualizing Jim Crow voter suppression", nav=True, children=[
-                dbc.DropdownMenuItem([html.I(className="fa"), "American voter enfranchisement: A zero-sum game"], href='/voter-weight-landing', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Apportionment, participation, and Electoral College bias"], href='/voter-weight-electoral-college-bias-overview', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "American voter enfranchisement: A zero-sum game"], href='/voter-weight-electoral-college-bias-intro', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Apportionment, participation, and Electoral College bias"], href='/voter-weight-electoral-college-bias-main', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "Annotated timeline charting Voter Weight trends"], href='/voter-weight-timeline-visualization', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "Calculating Voter Weight"], href='/voter-weight-calculation', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "Explanation of state groupings"], href='/explanation-of-groupings', target="_blank"), 
