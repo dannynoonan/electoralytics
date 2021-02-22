@@ -88,6 +88,7 @@ def build_vw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_widt
 
     # display metadata
     fig_title = 'Average Voter Weight Per Ballot Cast For Each Presidential Election'
+    groups_label = 'State Grouping'
     if display_groups:
         fig_title = f"{fig_title}, Grouped By Region"
     if trace_count >= MAX_TRACE_COUNT:
@@ -115,7 +116,8 @@ def build_vw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_widt
     # init figure with core properties
     fig = px.line(group_aggs_by_year_df, x=cols.YEAR, y=cols.AVG_WEIGHT, color=cols.GROUP, title=fig_title, 
                     color_discrete_map=group_colors, category_orders={cols.GROUP: groups}, custom_data=custom_data,
-                    width=fig_width, height=fig_height, line_shape='spline', log_y=log_y)
+                    labels={cols.GROUP: groups_label}, width=fig_width, height=fig_height, 
+                    line_shape='spline', log_y=log_y)
     
     # include dots marking data points in each trace
     for i in range(len(fig.data)):

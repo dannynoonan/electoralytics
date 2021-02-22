@@ -33,12 +33,12 @@ navbar = dbc.Card(className="text-white bg-primary", children=[
             dbc.NavItem(dbc.NavLink("Home", href="/")),
             dbc.DropdownMenu(label="Visualizing Jim Crow voter suppression", nav=True, children=[
                 dbc.DropdownMenuItem([html.I(className="fa"), "American voter enfranchisement: A zero-sum game"], href='/voter-weight-landing', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Main Aricle"], href='/voter-weight-electoral-college-bias-overview', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Annotated Timeline Charting Voter Weight Trends"], href='/voter-weight-timeline-visualization', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Apportionment, participation, and Electoral College bias"], href='/voter-weight-electoral-college-bias-overview', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Annotated timeline charting Voter Weight trends"], href='/voter-weight-timeline-visualization', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "Calculating Voter Weight"], href='/voter-weight-calculation', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Explanation of State Groupings"], href='/explanation-of-groupings', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Discussion and Conclusions"], href='/voter-weight-conclusions', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "The Vault: 220 Years of Maps, Charts, & Figures"], href='/voter-weight-figure-vault', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Explanation of state groupings"], href='/explanation-of-groupings', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Discussion and conclusions"], href='/voter-weight-conclusions', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "The vault: 220 years of maps, charts, & figures"], href='/voter-weight-figure-vault', target="_blank"), 
             ]),
             dbc.DropdownMenu(label="References / Resources", nav=True, children=[
                 dbc.DropdownMenuItem([html.I(className="fa"), "Project source code"], href='https://github.com/dannynoonan/electoralytics', target="_blank"), 

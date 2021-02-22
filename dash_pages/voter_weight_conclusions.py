@@ -34,8 +34,8 @@ content = html.Div([
                             ]),
                             html.P(className="card-text", children=[
                                 "In the two decades following Reconstruction, the voter suppression effect in former Confederate states appears to have \
-                                ticked up to levels matching the antebellum Voter Weight status quo, followed by a period of ", html.I("significant"),
-                                " amplification during the first five decades of the 20th century."
+                                ticked up to levels matching the antebellum hyper-enfranchisement status quo, followed by a period of ", 
+                                html.I("significant"), " amplification during the first five decades of the 20th century."
                             ]),
                             html.P(className="card-text", children=[
                                 "These aren’t rigorously-defensible scholarly claims, they’re layperson interpretations of a data set that’s much easier \
@@ -109,7 +109,7 @@ content = html.Div([
                         dbc.CardBody([
                             html.H4("Other interpretations of Voter Weight trends and Electoral College bias", className="card-title"),
                             html.P(className="card-text", children=[
-                                "To avoid wrapping every comment in a caveat, I’ve been fairly loose in my pronouncements that higher Voter Weights correlate \
+                                "To avoid wrapping every comment in a caveat, I’ve been fairly loose in my pronouncements that hyper-enfranchisement correlates \
                                 to higher levels of voter suppression, so I wanted to rattle off a few things that most certainly also have an effect on a \
                                 state’s Voter Weight metric:",
                                 html.Ul([
@@ -117,8 +117,8 @@ content = html.Div([
                                         a non-competitive one-party regional bloc (in part due to the wild success of their voter suppression tactics), the fact \
                                         that down-ballot winners were a foregone conclusion may have further depressed turnout"),
                                     html.Li("Other eligibility factors such as age, gender, incarceration status, felony record, etc vary from state to state"),
-                                    html.Li("Census apportionment is decennial, so EC influence always lags a few years behind a population explosion, lowering \
-                                        the Voter Weight in fast-growing states near the end of the decade"),
+                                    html.Li("Census apportionment is decennial, so Electoral College influence always lags a few years behind a population \
+                                        explosion, lowering the Voter Weight in fast-growing states near the end of the decade"),
                                     html.Li("Census apportionment in states with a higher percentage of undocumented residents who can’t legally vote increases \
                                         Voter Weight in that state. This is generally regarded as to the benefit, not the detriment, of those who are tabulated \
                                         but not enfranchised, but this creates a “five-fifths” type effect nonetheless."),
@@ -148,8 +148,8 @@ content = html.Div([
                             html.P(className="card-text", children=[
                                 "Although my quasi-scientific 40,000’ view of historical Voter Weight doesn’t show any obvious reversal of aggregate positive \
                                 trends in 2016 or 2020 (again: not an actual statistician, I just play one on the internet), it’s worth noting that it took a few \
-                                election cycles after Reconstruction for the Redeemer South’s suppression strategies to translate into pre-war Voter Weight \
-                                levels — only to wildly exceed that antebellum status quo over the course of several generations to follow."
+                                election cycles after Reconstruction for the Redeemer South’s suppression strategies to translate into pre-war \
+                                hyper-enfranchisement levels — only to wildly exceed that antebellum status quo over the course of several generations to follow."
                             ]),
                             html.P(className="card-text", children=[
                                 "Moreover, if there’s a lesson I’ve gleaned from reading about the Electoral College and racial justice history, it’s that \
@@ -163,6 +163,38 @@ content = html.Div([
                                 there will be attempts to disenfranchise based on race, ranging from the subtle to the obvious, the innovative to the familiar. \
                                 As antiquated an institution as the Electoral College is, as many tricks as have already been tried, past methods of manipulation \
                                 should always be viewed as prologue to future attempts."
+                            ]),
+                            html.Br(),
+                            html.H4("Hyper-enfranchisement: the power and megaphone to sustain itself", className="card-title"),
+                            html.P(className="card-text", children=[
+                                "The three-fifths compromise, that infamously dehumanizing fraction baked into the Constitution, would have been worse for the \
+                                plight of slaves if it had been five-fifths. This was actually what Southern slave-owners wanted: fully-counted slaves whose census \
+                                tabulation would result in greater congressional and Electoral College influence for Southern states, i.e. Southern white voters and \
+                                the institution of slavery."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "After slavery was abolished and a dozen hopeful years of Reconstruction had fizzled out, the Southern white dream of fully-counted \
+                                yet disenfranchised Blacks was finally realized, via Jim Crow voter suppression. Thus the paradoxical interaction between citizenship \
+                                status, representational apportionment, and voter participation converged in the unforgiving calculus of the Electoral College to \
+                                create two distinct, self-sustaining systems of Southern white electoral dominance nationally: one lasting for eight decades during \
+                                slavery, and another lasting for nearly nine decades of Jim Crow."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "By the 1970s, scarcely two decades—separated by 100 years—had passed where Southern Blacks enjoyed any measurable degree of \
+                                enfranchisement in the US, or where Southern whites weren't disproportionately dominant (per capita) in national politics. The \
+                                self-perpetuating nature of these two expansive periods, where one demographic built its disproportionate national influence on the \
+                                disenfranchisement of another, warrants intense retrospective scrutiny. Not only are there grounds for re-examination of hundreds \
+                                of government programs, pieces of legislation, legal appointments and judgments, etc that may have been geared toward preserving \
+                                the parasitic status quo of hyper-enfranchised Southern whites over disenfranchised Blacks, but there’s also the fact that the \
+                                disproportionate influence of Southern whites likely resulted in the national export of ideas connected to these ill-gotten \
+                                political gains."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "The ubiquitous embrace of Lost Cause mythology in films like ", html.I("Birth of a Nation"), " and ", html.I("Gone With the Wind"), 
+                                ", the flying of the Confederate flag at Nascar rallies in Northern and Western states - these are just the obvious ones, but it \
+                                stands to reason that the larger megaphones enjoyed by Southern whites at the expense of their Black populations have propagated \
+                                countless artifacts into the national character that are directly associated to the expansive racism undergirding and sustaining \
+                                Southern white dominance."
                             ]),
                         ])
                     ])

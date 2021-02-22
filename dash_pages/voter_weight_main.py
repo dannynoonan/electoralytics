@@ -148,11 +148,16 @@ content = html.Div([
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
                             html.P(className="card-text", style={"font-style": "italic"}, children=[
-                                "The figures above, the figures below, and every other figure in this publication use presidential election data accessible via this ",
-                                dcc.Link("Wikipedia portal", href="https://en.wikipedia.org/wiki/List_of_United_States_presidential_election_results_by_state", 
-                                target="_blank"), ". A consolidated version of that data (what I’m using to power this website) is available in csv format in the ",
-                                dcc.Link("data/ directory", href="https://github.com/dannynoonan/electoralytics/tree/master/data", target="_blank"), " of the ",
-                                dcc.Link("electoralytics repo", href="https://github.com/dannynoonan/electoralytics", target="_blank"), " on github."
+                                "The figures above, the figures below, and every other figure in this publication are interactive. Move the “Select year” slider to \
+                                bring a different election year into focus. Highlight a portion of the figure to zoom in, then double-click to reset to the original \
+                                scale. Roll over any bar in the chart to see the factors that contribute to its Voter Weight calculation."
+                            ]),
+                            html.P(className="card-text", style={"font-style": "italic"}, children=[ 
+                                "All figures use presidential election data accessible via this ", dcc.Link("Wikipedia portal", 
+                                href="https://en.wikipedia.org/wiki/List_of_United_States_presidential_election_results_by_state", target="_blank"), ". A consolidated \
+                                version of that data (what I’m using to power this website) is available in csv format in the ", dcc.Link("data/ directory", 
+                                href="https://github.com/dannynoonan/electoralytics/tree/master/data", target="_blank"), " of the ", dcc.Link("electoralytics repo", 
+                                href="https://github.com/dannynoonan/electoralytics", target="_blank"), " on github."
                             ]),
                         ]),
                     ]),
@@ -404,8 +409,8 @@ content = html.Div([
                         dbc.CardBody([
                             html.H4("Five-fifths and then some"),
                             html.P(className="card-text", children=[
-                                "If the range of Voter Weights seems more extreme in this era than it did in the other two time periods, well... that’s because it \
-                                is. Highlighting just one example: If Voter Weight in 1940 was 7.5 in South Carolina compared with 0.96 in Connecticut, that means \
+                                "If the hyper-enfranchisement effect seems more extreme in this era than it did in the other two time periods, well... that’s because \
+                                it is. Highlighting just one example: If Voter Weight in 1940 was 7.5 in South Carolina compared with 0.96 in Connecticut, that means \
                                 pound-for-pound it would take 7-8 votes cast in Connecticut to equal the influence of a single vote cast in South Carolina. This \
                                 represents a staggering disparity in the influence of individual voters—that is, those permitted to vote—in these states."
                             ]),

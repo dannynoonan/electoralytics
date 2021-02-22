@@ -23,8 +23,20 @@ content = html.Div([
                                 a deep dive into Electoral College data to illustrate the effects of disenfranchisement in the Jim Crow South as \
                                 compared to the pre-Civil War era of slavery."
                             ]),
-                            html.H4(children=[
-                                dcc.Link("[2/12/2021] American voter enfranchisement: A zero-sum game", href="/voter-weight-landing")
+                            html.A(className="list-group-item list-group-item-action flex-column align-items-start bg-primary", 
+                                href="/voter-weight-landing", children=[
+                                html.H4(className="mb-1 text-success", children=[
+                                    "[2-12-2021] American voter enfranchisement: A zero-sum game",
+                                ]),
+                                html.Img(src="/static/screenshots/barFreeSlaveSmall1852.png", height="255", style={"padding": "5px", "padding-top": "10px"}),
+                                html.Img(src="/static/screenshots/mapFreeSlaveSmall1852.png", height="255", style={"padding": "5px", "padding-top": "10px"}),
+                                html.Img(src="/static/screenshots/scatterDotsFreeSlaveSmall1852.png", height="255", style={"padding": "5px", "padding-top": "10px"}),
+                                html.Br(),
+                                html.Img(src="/static/screenshots/barAcw1920.png", height="263", style={"padding": "5px", "padding-top": "10px"}),
+                                html.Img(src="/static/screenshots/scatterBubblesAcw1920.png", height="263", style={"padding": "5px", "padding-top": "10px"}),
+                                html.Img(src="/static/screenshots/boxAcw1920.png", height="263", style={"padding": "5px", "padding-top": "10px"}),
+                                html.Br(),
+                                html.Img(src="/static/screenshots/lineChartGroupVwSince1800.png", height="410", style={"padding": "5px", "padding-top": "10px"}),
                             ]),
                         ]),
                     ]),
