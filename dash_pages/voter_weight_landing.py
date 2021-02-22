@@ -44,9 +44,10 @@ content = html.Div([
                                 "The first figure below illustrates the hyper-enfranchisement of voters in certain states relative to others by \
                                 displaying them in descending order by Voter Weight, shading them in terms of their Civil War grouping (more info \
                                 about state groupings ", dcc.Link("here", href="/explanation-of-groupings"), "). This figure, as with all figures on \
-                                the site, is interactive. Roll over any bar in the chart to see the factors that contribute to its Voter Weight \
-                                calculation. Move the “Select year” slider to bring a different election year into focus. Note that if every vote in \
-                                every state counted equally, all of the Voter Weights would be 1.0 and each bar in the chart would be the same length."
+                                the site, is interactive. Move the “Select year” slider to bring a different election year into focus. Highlight a \
+                                portion of the figure to zoom in, then double-click to reset to the original scale. Roll over any bar in the chart to \
+                                see the factors that contribute to its Voter Weight calculation. Note that if every vote in every state counted \
+                                equally, all of the Voter Weights would be 1.0 and each bar in the chart would be the same length."
                             ]),
                         ])
                     ]),

@@ -37,59 +37,28 @@ content = html.Div([
                                         two votes for its two Senators, proportionally favoring smaller states with fewer Representatives"]),
                                     html.Li(children=[html.B("Slave-state bias"), ": The “three-fifths compromise,” which ended with the abolition of slavery in \
                                         1865, but had lingering effects on Southern whites' sense of electoral entitlement for decades to follow"]),
-                                    html.Li(children=[html.B("Suppression-state bias"), ": An idea not explicitly prescribed by the Constitution, but measurable \
-                                        using the same basic formulas that reveal the other two"])
+                                    html.Li(children=[html.B("Suppression-state bias"), ": The increased influence of voters in states that actively prevent \
+                                        legally eligible and census tabulated citizens from voting, as took place for many decades in the Jim Crow South"])
                                 ]),
                             ]),
-                            # html.P(className="card-text", children=[
-                            #     "The first two were baked into the Constitution from the get-go, the type of simple quantifiable anecdotes guaranteed \
-                            #     to appear on AP American History exams and on Trivial Pursuit cards. But the focus of this article is on the third: suppression-state \
-                            #     bias."
-                            # ]),
                             html.P(className="card-text", children=[
-                                "The small-state and slave-state biases are well-known, baked into the Constitution from the get-go, the type of simple quantifiable \
-                                anecdotes you'd expect on an American History exam or in a game of Trivial Pursuit. And the idea of suppression-state bias typically \
-                                isn't examined in the context of the Electoral College, but the intersection of racial justice history and electoral politics in \
-                                recent media and discussion has brought these ideas into closer proximity."
+                                "Each of these biases directly amplify the influence of one subset of the population, resulting in the “hyper-enfranchisement” of \
+                                certain voters relative to others. The small-state and slave-state biases are well-known, baked into the Constitution from the \
+                                get-go, the type of simple quantifiable anecdotes you'd expect on an American History exam or in a game of Trivial Pursuit. By \
+                                contrast, the oversized national influence of Southern whites resulting from Black voter suppression in the Jim Crow South is a \
+                                marginal anecdote when compared to the direct and devastating effects of that voter suppression."
                             ]),
                             html.P(className="card-text", children=[
                                 "In particular, the suggestion that Jim Crow voter suppression actually conferred ", html.I("greater"), " influence to Southern whites ", 
-                                html.I("after"), " the end of slavery than the three-fifths compromise had during slavery was something I'd never encountered until \
-                                the weeks leading up to the 2020 election. This hypothesis seemed easy enough to quantify and visualize, motivating me to attempt an \
-                                apples-to-apples comparison between each type of bias, examining which of the three has introduced the greatest distortion in voter \
-                                influence over time."
+                                html.I("after"), " the end of slavery than the three-fifths compromise had during slavery was a historical paradox I'd never \
+                                encountered until the weeks leading up to the 2020 election. This hypothesis seemed easy enough to quantify and visualize, motivating \
+                                me to attempt an apples-to-apples comparison between each type of hyper-enfranchisement bias, examining which of the three has \
+                                introduced the greatest distortion in voter influence over time."
                             ]),
-                            # html.P(className="card-text", children=[
-                            #     "The history of voter suppression in the Jim Crow South is well-known, but it typically isn't examined in the context of the \
-                            #     Electoral College, and I've never seen it directly compared or quantified against the other two “built-in” Electoral College biases. \
-                            #     The convergence of racial justice and electoral politics last fall, where I first encountered the suggestion that Southern whites \
-                            #     actually ", html.I("increased"), " their Electoral College advantage in the years after ", html.I("after"), " slavery, motivated \
-                            #     me to attempt an apples-to-apples comparison between all three biases, uniformly illustrating their effects side by side."
-                            # ]),
-                            # html.P(className="card-text", children=[
-                            #     "The first two are old-school, baked into the Constitution from the get-go, the type of simple quantifiable anecdotes guaranteed \
-                            #     to appear on AP American History exams and on Trivial Pursuit cards. But the focus of this article is on the third, whose causes \
-                            #     and history are also well-known, though typically aren't examined in the context of the Electoral College. The idea to even \
-                            #     connect them together was first planted in me by the oh-so-2020 convergence of racial justice and electoral politics in this ", 
-                            #     dcc.Link(html.I("NPR Throughline"), target="_blank", href="https://www.npr.org/2020/09/30/918717270/the-electoral-college"), 
-                            #     dcc.Link(" podcast", target="_blank", href="https://www.npr.org/2020/09/30/918717270/the-electoral-college", " about the history \
-                            #     of the Electoral College, embedded below. The episode makes the provocative suggestion that the Electoral College was \
-                            #     manipulated to even greater advantage for Southern whites after the slave-state bias rendered moot,  me to attempt an apples-to-apples comparison, uniformly illustrating the effects of all three \
-                            #     side by side."
-                            # ]),
-                            # html.P(className="card-text", children=[
-                            #     "I could tell early on that the results were more pronounced than expected, so I took the plunge and have made a thorough effort \
-                            #     at breathing life into the podcast's provacative idea, using historical data available on ", dcc.Link("Wikipedia", target="_blank", 
-                            #     href="https://en.wikipedia.org/wiki/List_of_United_States_presidential_election_results_by_state"), " and some flashy python data \
-                            #     visualization tech (for the geeks: namely ", dcc.Link("pandas", target="_blank", 
-                            #     href="https://towardsdatascience.com/a-quick-introduction-to-the-pandas-python-library-f1b678f34673"), ", ", 
-                            #     dcc.Link("plotly express", href="https://medium.com/plotly/introducing-plotly-express-808df010143d", target="_blank"), ", and ", 
-                            #     dcc.Link("dash", href="https://medium.com/plotly/introducing-dash-5ecf7191b503", target="_blank"), ")."
-                            # ]),
                             html.Br(),
                             html.H4("Small-state bias"),
                             html.P(className="card-text", children=[
-                                "In recent years, the idea that voters in smaller states have greater influence on national elections than voters in more \
+                                "In the 21st century, the idea that voters in smaller states have greater influence on national elections than voters in more \
                                 populous states has drawn its share of ire."
                             ]),
                             html.P(className="card-text", children=[
@@ -98,9 +67,9 @@ content = html.Div([
                                 dcc.Link("Great Compromise", href="https://en.wikipedia.org/wiki/Connecticut_Compromise", target="_blank"), ". And just as every \
                                 state sends the same number of Senators to DC, even the smallest states receive the same +2 Senator “bicameral boost” in their \
                                 Electoral College vote count, hence the “3-vote-minimum” for even the least populous states (see ", html.B("Figure 1"), "). The \
-                                effect of the +2 boost tapers off as states increase in population and Electoral College apportionment, but if a state’s \
-                                population garners it only 1 or 2 Congressional Representatives then that +2 Senator boost easily doubles or triples the \
-                                relative impact of that state’s voters."
+                                hyper-enfranchisement effect of the +2 boost tapers off as states increase in population and Electoral College apportionment, but \
+                                if a state’s population garners it only 1 or 2 Congressional Representatives then that +2 Senator boost easily doubles or triples \
+                                the relative impact of that state’s voters."
                             ]),
                             html.P(className="card-text", children=[
                                 "This “small-state bias” is often calculated by comparing the ratio of each state’s ", html.I("population"), " to its Electoral \
@@ -210,10 +179,10 @@ content = html.Div([
                                 of slave-state bias has measurably greater impact overall."
                             ]),
                             html.P(className="card-text", children=[
-                                html.B("Figure 5"), " rearranges the data from Figure 3 into a scatter plot, crossing each state's Popular Vote (x axis) with its Electoral \
-                                College votes (y axis). The intersection between the axes where the Voter Weight ratio is 1.0 is plotted as a diagonal line signifying the \
-                                nationwide mean. ", html.I("If every vote in every state counted equally, every state’s dot would be directly on top of that nationwide mean \
-                                line."),
+                                html.B("Figure 5"), " rearranges the data from Figure 3 into a scatter plot, crossing each state's voter turnout (x axis) with its \
+                                Electoral College votes (y axis). The intersection between the axes where the Voter Weight ratio is 1.0 is plotted as a diagonal line \
+                                signifying the nationwide mean. ", html.I("If every vote in every state counted equally, every state’s dot would be directly on top of \
+                                that nationwide mean line."),
                             ]),
                             html.P(className="card-text", children=[
                                 "To the extent that some state’s voters have greater impact than others (through favorable Electoral College apportionment, depressed \
@@ -284,11 +253,11 @@ content = html.Div([
                     html.Br(),
                     dcc.Graph(id="fig-scatter-dots-slave-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 5: Slave-state bias, shown by color shading states into Free, Slave, and Small groupings, and plotting Popular Vote \
-                            (turnout) on the x axis against Electoral College Votes on the y axis. The average Popular Vote tally per Electoral College vote — \
-                            that is, the intersection between the axes where the Voter Weight ratio is 1.0 — is plotted as a diagonal line signifying the \
-                            nationwide mean. States whose dots appear above and to the left of the nationwide mean line have Voter Weights greater than 1, those \
-                            whose dots are below and to the right have Voter Weights less than 1."),
+                        html.Small("Figure 5: Slave-state bias, shown by color shading states into Free, Slave, and Small groupings, and plotting voter turnout \
+                            on the x axis against Electoral College Votes on the y axis. The average voter turnout per Electoral College vote — that is, the \
+                            intersection between the axes where the Voter Weight ratio is 1.0 — is plotted as a diagonal line signifying the nationwide mean. \
+                            States whose dots appear above and to the left of the nationwide mean line have Voter Weights greater than 1, those whose dots are \
+                            below and to the right have Voter Weights less than 1."),
                     ]),
                 ])
             ]),
@@ -375,8 +344,8 @@ content = html.Div([
                             html.P(className="card-text", children=[
                                 "Considering our 21st century grumbling about how small-state bias amplifies the voice of an Alaska voter at the expense of a \
                                 California voter, and the stomach-churning 18th-19th century slave-state bias which amplified the voice of a Virginia slave-owner \
-                                relative to a New York merchant, I was very curious how this third category of electoral bias during Jim Crow — let’s call it \
-                                “suppression-state bias” — would stack up against those other two."
+                                relative to a New York merchant, I was very curious how this third category of hyper-enfranchisement bias in the Jim Crow South \
+                                would stack up against those other two."
                             ]),
                             html.Br(),
                             html.H4("Grouping heuristic"),
@@ -407,7 +376,7 @@ content = html.Div([
                             ]),
                             html.P(className="card-text", children=[
                                 html.B("Figure 7"), " plots each state’s Electoral College votes on the x axis, plots the derived Voter Weight on the y axis, and \
-                                now represents Popular Vote turnout as the size of each state’s “bubble.” The horizontal line at 1.0 on the y axis corresponds to the \
+                                now represents voter turnout as the size of each state’s “bubble.” The horizontal line at 1.0 on the y axis corresponds to the \
                                 national mean. The higher a bubble is above the mean, the greater the weight of individual votes cast in that state."
                             ]),
                             html.P(className="card-text", children=[
@@ -415,7 +384,7 @@ content = html.Div([
                                 in Figure 7 would be directly on top of that nationwide mean line (horizontal in this case)."
                             ]),
                             html.P(className="card-text", children=[
-                                "For those states in Figure 7 whose Electoral Vote counts (x values) and Popular Votes (bubble sizes) are very low, a high Voter \
+                                "For those states in Figure 7 whose Electoral College vote counts (x values) and voter turnout (bubble sizes) are very low, a high Voter \
                                 Weight can be explained by small-state bias. For the rest, another bias is at play."
                             ]),
                         ])
@@ -424,7 +393,7 @@ content = html.Div([
                     dcc.Graph(id="fig-scatter-bubbles-suppress-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
                         html.Small("Figure 7: Suppression-state bias, shown by color shading states by Civil War groupings, and plotting Electoral College votes on \
-                            the x axis against derived Voter Weight on the y axis, with Popular Vote now represented by the size of each state’s “bubble.” The \
+                            the x axis against derived Voter Weight on the y axis, with voter turnout now represented by the size of each state’s “bubble.” The \
                             national mean is plotted at all points on the x axis where Voter Weight is 1.0 on the y axis, and any bubble above the mean line indicates \
                             a state whose voters — that is, those who were able to vote — wielded disproportionately high Voter Weight in that election. For small \
                             bubbles with low EC vote counts, high Voter Weight can be explained by small-state bias. For larger bubbles, we are looking at \
@@ -486,9 +455,9 @@ content = html.Div([
                 dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-scatter-dots-suppress-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 6: Suppression-state bias, shown by color shading states by Civil War groupings, and plotting Popular Vote (turnout) on \
-                            the x axis against Electoral College Votes on the y axis. The average Popular Vote tally per Electoral College vote (where the Voter \
-                            Weight ratio is 1.0) is plotted as a diagonal line signifying the nationwide mean. States whose dots appear above and to the left of the \
+                        html.Small("Figure 6: Suppression-state bias, shown by color shading states by Civil War groupings, and plotting voter turnout on the x \
+                            axis against Electoral College Votes on the y axis. The average voter turnout tally per Electoral College vote (where the Voter Weight \
+                            ratio is 1.0) is plotted as a diagonal line signifying the nationwide mean. States whose dots appear above and to the left of the \
                             nationwide mean line have Voter Weights greater than 1, those whose dots are below and to the right have Voter Weights less than 1."),
                     ]),
                     html.H4("Select year:", className="text-white"),
@@ -537,13 +506,6 @@ content = html.Div([
                                 Weight data. It’s a lot to absorb, but it’s configurable, so strip it down to the studs and build it back up however you’d like, \
                                 comparing any combination of states or groups over any time period you’d like to zoom in on."
                             ]),
-                            # html.P(className="card-text", children=[
-                            #     "Following that, there are four other sections to this presentation that are here for you to dig into:",
-                            #     html.Li(children=[dcc.Link("How Voter Weight is calculated", href="/voter-weight-calculation")]), 
-                            #     html.Li(children=[dcc.Link("How the state groupings break down", href="/explanation-of-groupings")]), 
-                            #     html.Li(children=[dcc.Link("The full vault of year-by-year data visualizations", href="/voter-weight-figure-vault")]),
-                            #     html.Li(children=[dcc.Link("Discussion and Conclusions", href="/voter-weight-conclusions")]),
-                            # ])
                         ])
                     ])
                 ]),
@@ -557,25 +519,6 @@ content = html.Div([
                                 html.Li(children=[dcc.Link("The full vault of year-by-year data visualizations", href="/voter-weight-figure-vault")]),
                                 html.Li(children=[dcc.Link("Discussion and Conclusions", href="/voter-weight-conclusions")]),
                             ])
-                #     html.H4("Select year:", className="text-white"),
-                #     dcc.Slider(
-                #         id="map-color-by-vw-year-input",
-                #         min=1800,
-                #         max=2020,
-                #         step=None,
-                #         marks={
-                #             int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)', 'color': 'white'}}
-                #             for y in data_obj.all_years 
-                #         },
-                #         value=1960,
-                #     ),
-                #     html.Br(),
-                #     dcc.Graph(id="fig-map-color-by-vw"),
-                #     html.P(className="card-text", style={"padding": "5px"}, children=[
-                #         html.Small(children=["Figure 10: States color shaded by Voter Weight, over the course of 56 presidential elections between 1800 and 2020. Control \
-                #             the year using the slider above, or open an ", dcc.Link("intractive slideshow animation", className="text-white",
-                #             href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_vw_acw4_1000.html",
-                #             target="_blank"), " illustrating the full history."]),
                         ])
                     ]),
                 ]),

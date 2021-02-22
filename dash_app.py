@@ -126,14 +126,14 @@ def display_voter_weight_main(small_state_bias_year_input, slave_state_bias_year
     suppress_state_bias_year = int(suppress_state_bias_year_input)
     # map_color_by_vw_year = int(map_color_by_vw_year_input)
     # fig titles
-    title_small_state_bias_bar = 'How Much Does My Vote Count? Small-State Bias<br>States Ordered by Voter Weight, Shaded By Size'
-    title_small_state_bias_map = 'States Shaded By Electoral College Votes (i.e. Size/Population)'
-    title_slave_state_bias_bar = 'Whose Vote Counted More? Slave-State Bias<br>Free vs Slave vs Small States, Ordered by Voter Weight'
-    title_slave_state_bias_scatter_dots = 'Slave-State Bias<br>Free vs Slave vs Small States, EC Votes x Voter Turnout'
-    title_slave_state_bias_map = 'Free States vs Slave States vs Small States'
-    title_suppress_state_bias_bar = 'Whose Vote Counted More? Suppression-State Bias<br>States Shaded By Civil War Alliance, Ordered by Voter Weight'
-    title_suppress_state_bias_scatter_dots = 'Suppression-State Bias<br>States Shaded By Civil War Alliance, EC Votes x Voter Turnout'
-    title_suppress_state_bias_scatter_bubbles = 'Suppression-State Bias<br>States Shaded By Civil War Alliance, EC Votes x Voter Weight'
+    title_small_state_bias_bar = 'Whose vote counted more? Small-state bias<br>States ordered by Voter Weight, shaded by size'
+    title_small_state_bias_map = 'States shaded by Electoral College votes (i.e. size/population)'
+    title_slave_state_bias_bar = 'Whose vote counted more? Slave-State Bias<br>Free vs slave vs small states, ordered by Voter Weight'
+    title_slave_state_bias_scatter_dots = 'Slave-state bias<br>Free vs slave vs small states, EC votes x voter turnout'
+    title_slave_state_bias_map = 'Free states vs slave states vs small states'
+    title_suppress_state_bias_bar = 'Whose vote counted more? Suppression-state bias<br>States shaded by Civil War grouping, ordered by Voter Weight'
+    title_suppress_state_bias_scatter_dots = 'Suppression-state bias<br>States shaded by Civil War grouping, EC votes x voter turnout'
+    title_suppress_state_bias_scatter_bubbles = 'Suppression-state bias<br>States shaded by Civil War grouping, EC votes x Voter Weight'
     # title_suppress_state_bias_map = 'States Shaded By Civil War Alliance'
     # generate figs
     fig_bar_small_state_bias = bar_plots.build_vw_by_state_bar(
