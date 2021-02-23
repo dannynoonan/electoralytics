@@ -165,7 +165,7 @@ content = html.Div([
                                 should always be viewed as prologue to future attempts."
                             ]),
                             html.Br(),
-                            html.H4("Hyper-enfranchisement: the power and megaphone to sustain itself", className="card-title"),
+                            html.H4("Hyper-enfranchisement: Implications and interpretation", className="card-title"),
                             html.P(className="card-text", children=[
                                 "The three-fifths compromise, that infamously dehumanizing fraction baked into the Constitution, would have been worse for the \
                                 plight of slaves if it had been five-fifths. This was actually what Southern slave-owners wanted: fully-counted slaves whose census \
@@ -174,27 +174,29 @@ content = html.Div([
                             ]),
                             html.P(className="card-text", children=[
                                 "After slavery was abolished and a dozen hopeful years of Reconstruction had fizzled out, the Southern white dream of fully-counted \
-                                yet disenfranchised Blacks was finally realized, via Jim Crow voter suppression. Thus the paradoxical interaction between citizenship \
-                                status, representational apportionment, and voter participation converged in the unforgiving calculus of the Electoral College to \
-                                create two distinct, self-sustaining systems of Southern white electoral dominance nationally: one lasting for eight decades during \
-                                slavery, and another lasting for nearly nine decades of Jim Crow."
+                                yet disenfranchised Blacks was finally realized, via Jim Crow voter suppression. The paradoxical interaction between citizenship \
+                                status, representational apportionment, and voter participation converged to enable a level of Electoral College manipulation almost \
+                                unfathomable in its scale. The result was that even more political influence was siphoned from the toil of freed Black citizens into \
+                                the ballots of Southern whites than had previously been siphoned from Black slaves. This latter period of five-fifths \
+                                hyper-enfranchisement under Jim Crow lasted roughly 90 years, compared to not quite 80 years of three-fifths slavery under the \
+                                Constitution."
                             ]),
                             html.P(className="card-text", children=[
-                                "By the 1970s, scarcely two decades—separated by 100 years—had passed where Southern Blacks enjoyed any measurable degree of \
-                                enfranchisement in the US, or where Southern whites weren't disproportionately dominant (per capita) in national politics. The \
-                                self-perpetuating nature of these two expansive periods, where one demographic built its disproportionate national influence on the \
-                                disenfranchisement of another, warrants intense retrospective scrutiny. Not only are there grounds for re-examination of hundreds \
-                                of government programs, pieces of legislation, legal appointments and judgments, etc that may have been geared toward preserving \
-                                the parasitic status quo of hyper-enfranchised Southern whites over disenfranchised Blacks, but there’s also the fact that the \
-                                disproportionate influence of Southern whites likely resulted in the national export of ideas connected to these ill-gotten \
-                                political gains."
+                                "By the time of the nation's bicentennial in 1976, scarcely two decades—occurring in two different centuries—had passed where \
+                                Southern Blacks enjoyed any measurable degree of enfranchisement, or where the representation of Southern whites in national \
+                                politics wasn't wildly inflated relative to their population. The means by which the imbalances of these eras were perpetuated \
+                                warrant intense retrospective scrutiny. Not only are there grounds for re-examination of hundreds of government programs, pieces \
+                                of legislation, legal appointments and judgments, etc that may have been geared toward preserving the parasitic status quo of \
+                                Southern whites silencing and extracting influence from their Black populations, but the disproportionate influence of Southern \
+                                whites nationally likely resulted in the outsized export and nationwide adoption of ideas, symbols, and narratives directly or \
+                                indirectly linked to these ill-gotten political gains."
                             ]),
                             html.P(className="card-text", children=[
                                 "The ubiquitous embrace of Lost Cause mythology in films like ", html.I("Birth of a Nation"), " and ", html.I("Gone With the Wind"), 
-                                ", the flying of the Confederate flag at Nascar rallies in Northern and Western states - these are just the obvious ones, but it \
-                                stands to reason that the larger megaphones enjoyed by Southern whites at the expense of their Black populations have propagated \
-                                countless artifacts into the national character that are directly associated to the expansive racism undergirding and sustaining \
-                                Southern white dominance."
+                                ", the flying of the Confederate flag at Nascar rallies in Northern and Western states - these are just the obvious examples, but \
+                                it stands to reason that the larger megaphones enjoyed by Southern whites at the expense of their Black populations have propagated \
+                                countless artifacts into the national character, artifacts directly associated to the expansive racism that undergirded and \
+                                sustained Southern white political dominance for most of the US's first two centuries."
                             ]),
                         ])
                     ])

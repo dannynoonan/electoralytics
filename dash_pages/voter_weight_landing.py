@@ -30,7 +30,7 @@ content = html.Div([
                             html.P(children=[
                                 "I first became interested in quantifying disenfranchisement in relation to hyper-enfranchisement after an ",
                                 dcc.Link("October 2020 episode", href="https://www.npr.org/2020/09/30/918717270/the-electoral-college", 
-                                target="_blank"), " of ", html.I("NPR’s Throughline"), ". The podcast framed Jim Crow voter suppression as a \
+                                target="_blank"), " of NPR’s ", html.I("Throughline"), ". The podcast framed Jim Crow voter suppression as a \
                                 “five-fifths” variation on the three-fifths compromise, that infamous slave-tabulation ratio etched into the \
                                 Constitution. The suggestion that the two eras might be quantified side by side prompted me to work out a generic \
                                 formula for comparing them, by measuring the relative influence of voters in any given state, in any given year, \

@@ -26,7 +26,7 @@ content = html.Div([
                             html.A(className="list-group-item list-group-item-action flex-column align-items-start bg-primary", 
                                 href="/voter-weight-electoral-college-bias-intro", children=[
                                 html.H4(className="mb-1 text-success", children=[
-                                    "[2-12-2021] American voter enfranchisement: A zero-sum game",
+                                    "[2-12-2021] American voter enfranchisement: A zero-sum game (", html.I("Click to read article"), ")",
                                 ]),
                                 html.Img(src="/static/screenshots/barFreeSlaveSmall1852.png", height="255", style={"padding": "5px", "padding-top": "10px"}),
                                 html.Img(src="/static/screenshots/mapFreeSlaveSmall1852.png", height="255", style={"padding": "5px", "padding-top": "10px"}),
