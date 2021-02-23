@@ -185,18 +185,16 @@ content = html.Div([
                                 "By the time of the nation's bicentennial in 1976, scarcely two decades—occurring in two different centuries—had passed where \
                                 Southern Blacks enjoyed any measurable degree of enfranchisement, or where the representation of Southern whites in national \
                                 politics wasn't wildly inflated relative to their population. The means by which the imbalances of these eras were perpetuated \
-                                warrant intense retrospective scrutiny. Not only are there grounds for re-examination of hundreds of government programs, pieces \
-                                of legislation, legal appointments and judgments, etc that may have been geared toward preserving the parasitic status quo of \
-                                Southern whites silencing and extracting influence from their Black populations, but the disproportionate influence of Southern \
-                                whites nationally likely resulted in the outsized export and nationwide adoption of ideas, symbols, and narratives directly or \
-                                indirectly linked to these ill-gotten political gains."
+                                have potentially far-reaching implications. How many government programs, pieces of legislation, legal judgments and the like \
+                                were cultivated with intent to perpetuate a status quo grounded in Southern whites silencing and extracting political influence from \
+                                their Black populations? How many ideologies and narratives, designed to maintain entrenched Southern white interests or linked \
+                                to ill-gotten political gains, were amplified and exported to the rest of the country?"
                             ]),
                             html.P(className="card-text", children=[
-                                "The ubiquitous embrace of Lost Cause mythology in films like ", html.I("Birth of a Nation"), " and ", html.I("Gone With the Wind"), 
-                                ", the flying of the Confederate flag at Nascar rallies in Northern and Western states - these are just the obvious examples, but \
-                                it stands to reason that the larger megaphones enjoyed by Southern whites at the expense of their Black populations have propagated \
-                                countless artifacts into the national character, artifacts directly associated to the expansive racism that undergirded and \
-                                sustained Southern white political dominance for most of the US's first two centuries."
+                                "The ubiquitous embrace of Lost Cause mythology in the early 20th century, the flying of the Confederate flag at events in Northern \
+                                and Western states in the late 20th century - these are just the most obvious examples, but it stands to reason that the larger \
+                                megaphones and greater voting influence enjoyed by Southern whites at the expense of their Black populations have propagated \
+                                countless artifacts into the national character during 200 years of outsized Southern white influence."
                             ]),
                         ])
                     ])
