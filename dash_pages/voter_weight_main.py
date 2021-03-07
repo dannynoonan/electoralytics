@@ -33,10 +33,11 @@ content = html.Div([
                                 imbalances between the influence of individual voters. In this article I explore three types of Electoral College imbalance, \
                                 rooted in the push and pull between state apportionment and voter participation, that are emergent in historical election data:",
                                 html.Ul([
-                                    html.Li(children=[html.B("Small-state bias"), ": Prescribed in the Constitution's bicameral design, where every state gets \
-                                        two votes for its two Senators, proportionally favoring smaller states with fewer Representatives"]),
-                                    html.Li(children=[html.B("Slave-state bias"), ": The “three-fifths compromise,” which ended with the abolition of slavery in \
-                                        1865, but had lingering effects on Southern whites' sense of electoral entitlement for decades to follow"]),
+                                    html.Li(children=[html.B("Small-state bias"), ": Every state, regardless of population, gets two Electoral College votes for \
+                                        its two Senators, proportionally favoring smaller states with fewer Representatives"]),
+                                    html.Li(children=[html.B("Slave-state bias"), ": Although slaves couldn't vote, the “three-fifths compromise” included them \
+                                        in the basis for Congressional and Electoral College representation, thereby amplifying the influence of Southern whites \
+                                        who effectively voted on their behalf"]),
                                     html.Li(children=[html.B("Suppression-state bias"), ": The increased influence of voters in states that actively prevent \
                                         legally eligible and census tabulated citizens from voting, as took place for many decades in the Jim Crow South"])
                                 ]),
@@ -45,15 +46,22 @@ content = html.Div([
                                 "Each of these biases directly amplify the influence of one subset of the population, resulting in the “hyper-enfranchisement” of \
                                 certain voters relative to others. The small-state and slave-state biases are well-known, baked into the Constitution from the \
                                 get-go, the type of simple quantifiable anecdotes you'd expect on an American History exam or in a game of Trivial Pursuit. By \
-                                contrast, the oversized national influence of Southern whites resulting from Black voter suppression in the Jim Crow South is a \
-                                marginal anecdote when compared to the direct and devastating effects of that voter suppression."
+                                contrast, the oversized national influence of Southern whites resulting from Black voter suppression in the Jim Crow South is \
+                                not nearly as well-known."
                             ]),
                             html.P(className="card-text", children=[
-                                "In particular, the suggestion that Jim Crow voter suppression actually conferred ", html.I("greater"), " influence to Southern whites ", 
-                                html.I("after"), " the end of slavery than the three-fifths compromise had during slavery was a historical paradox I'd never \
-                                encountered until the weeks leading up to the 2020 election. This hypothesis seemed easy enough to quantify and visualize, motivating \
-                                me to attempt an apples-to-apples comparison between each type of hyper-enfranchisement bias, examining which of the three has \
-                                introduced the greatest distortion in voter influence over time."
+                                "In a certain respect, historical apathy toward suppression-state bias makes sense: Compared to the direct and devastating \
+                                effects of Jim Crow voter suppression on the Black population, the hyper-enfranchisement of the Southern whites who perpetrated \
+                                that suppression hardly registers as a corollary anecdote. However, the role that the inflated national influence of Southern \
+                                whites had in perpetuating its own dominance feels like a critical component—if not ", html.I("the"), " principal \
+                                factor—contributing to the longevity and totality of Jim Crow voter suppression."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "Indeed, while slavery survived 75 years after ratification of the US Constitution, Black voter suppression in the Jim Crow South \
+                                endured for nearly 90 years after the end of Reconstruction. And this may not be the only metric by which the Jim Crow Era \
+                                eclipsed the antebellum period. By quantitatively comparing these biases head-to-head, this project explores the idea that Jim \
+                                Crow voter suppression may paradoxically have conferred ", html.I("greater"), " influence to Southern whites ", html.I("after"), 
+                                " the abolition of slavery than the three-fifths compromise did before the Civil War and emancipation."
                             ]),
                             html.Br(),
                             html.H4("Small-state bias"),
