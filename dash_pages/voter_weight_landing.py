@@ -21,8 +21,9 @@ content = html.Div([
                             html.P(children=[
                                 "Apart from a brief hopeful period between the Civil War and the end of Reconstruction, the disenfranchisement of \
                                 Southern Blacks in the US’s first 190 years was nearly absolute. During slavery, Blacks were unable to vote entirely, \
-                                while during the Jim Crow era, poll taxes, literacy tests, and violent intimidation were nearly as effective at \
-                                stymying the Black vote. Because the Electoral College grants voting influence based on population rather than \
+                                while during the Jim Crow era, “Southern Blacks were made electorally invisible, whether through restrictive \
+                                practices like poll taxes and literacy tests or by campaigns of terrorism and state-sanctioned murder.”", 
+                                html.Sup("1"), " Because the Electoral College grants voting influence based on population rather than \
                                 participation, the disenfranchisement of Southern Blacks fed directly into the “hyper-enfranchisement” of Southern \
                                 whites in both periods. This resulted in Southern whites holding significantly more power, per voter, than any other \
                                 demographic anywhere else in the US."

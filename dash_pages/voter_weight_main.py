@@ -30,8 +30,9 @@ content = html.Div([
                             ]),
                             html.P(className="card-text", children=[
                                 "These factors originated in an effort to balance out the influence of each state, but one of their effects has been to create \
-                                imbalances between the influence of individual voters. In this article I explore three types of Electoral College imbalance, \
-                                rooted in the push and pull between state apportionment and voter participation, that are emergent in historical election data:",
+                                imbalances between the influence of individual voters. In the coming sections I explore three types of Electoral College \
+                                imbalance, rooted in the push and pull between state apportionment and voter participation, that are emergent in historical \
+                                election data:",
                                 html.Ul([
                                     html.Li(children=[html.B("Small-state bias"), ": Every state, regardless of population, gets two Electoral College votes for \
                                         its two Senators, proportionally favoring smaller states with fewer Representatives"]),
@@ -43,25 +44,26 @@ content = html.Div([
                                 ]),
                             ]),
                             html.P(className="card-text", children=[
-                                "Each of these biases directly amplify the influence of one subset of the population, resulting in the “hyper-enfranchisement” of \
-                                certain voters relative to others. The small-state and slave-state biases are well-known, baked into the Constitution from the \
-                                get-go, the type of simple quantifiable anecdotes you'd expect on an American History exam or in a game of Trivial Pursuit. By \
-                                contrast, the oversized national influence of Southern whites resulting from Black voter suppression in the Jim Crow South is \
-                                not nearly as well-known."
+                                "Each of these biases directly amplify the influence of one state's (or region's) voters over another's, resulting in the \
+                                “hyper-enfranchisement” of certain voters relative to others. The small-state and slave-state biases are well-known, baked into \
+                                the Constitution from the get-go, the type of simple quantifiable anecdotes you'd expect on an American History exam or in a \
+                                game of Trivial Pursuit. By contrast, the bias amplifying Southern white voters as a direct result of their suppression of \
+                                Black voters in the Jim Crow South is not as widely discussed."
                             ]),
                             html.P(className="card-text", children=[
-                                "In a certain respect, historical apathy toward suppression-state bias makes sense: Compared to the direct and devastating \
+                                "In a certain respect, historical disinterest in suppression-state bias makes sense: Compared to the direct and devastating \
                                 effects of Jim Crow voter suppression on the Black population, the hyper-enfranchisement of the Southern whites who perpetrated \
-                                that suppression hardly registers as a corollary anecdote. However, the role that the inflated national influence of Southern \
-                                whites had in perpetuating its own dominance feels like a critical component—if not ", html.I("the"), " principal \
+                                that suppression (that is, the amplified national influence Southern whites experienced by suppressing regional Black voter \
+                                turnout) hardly registers as a corollary anecdote. However, the role that the inflated national influence of Southern whites \
+                                had in perpetuating its own regional dominance feels like a critical component—if not ", html.I("the"), " principal \
                                 factor—contributing to the longevity and totality of Jim Crow voter suppression."
                             ]),
                             html.P(className="card-text", children=[
-                                "Indeed, while slavery survived 75 years after ratification of the US Constitution, Black voter suppression in the Jim Crow South \
-                                endured for nearly 90 years after the end of Reconstruction. And this may not be the only metric by which the Jim Crow Era \
-                                eclipsed the antebellum period. By quantitatively comparing these biases head-to-head, this project explores the idea that Jim \
-                                Crow voter suppression may paradoxically have conferred ", html.I("greater"), " influence to Southern whites ", html.I("after"), 
-                                " the abolition of slavery than the three-fifths compromise did before the Civil War and emancipation."
+                                "Indeed, while slavery survived fewer than 80 years after ratification of the Constitution, Black voter suppression in the Jim \
+                                Crow South endured for nearly 90 years after the end of Reconstruction. And this may not be the only metric by which the Jim \
+                                Crow Era eclipsed the antebellum period. By quantitatively comparing these biases head-to-head, this project explores the idea \
+                                that Jim Crow voter suppression may paradoxically have conferred ", html.I("greater"), " influence to Southern whites ", 
+                                html.I("after"), " the abolition of slavery than the three-fifths compromise did before the Civil War and emancipation."
                             ]),
                             html.Br(),
                             html.H4("Small-state bias"),
