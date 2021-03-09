@@ -9,8 +9,8 @@ import pandas as pd
 import plotly.express as px
 
 from dash_pages import (
-    components, electoral_college_intro, explanation_of_groupings, home_page, voter_weight_landing, voter_weight_calculation, 
-    voter_weight_conclusions, voter_weight_main, voter_weight_figure_vault, voter_weight_timeline_viz)
+    components, home_page, electoral_college_intro, voter_weight_landing, voter_weight_page1, voter_weight_page2, voter_weight_page3, 
+    voter_weight_conclusions, voter_weight_calculation, explanation_of_groupings, voter_weight_figure_vault, voter_weight_timeline_viz)
 from data_processor.data_objects import DataObject
 from data_processor.functions import map_to_subdir
 from fig_builder import bar_plots, box_plots, choropleths, line_charts, scatter_plots
@@ -48,7 +48,9 @@ app.validation_layout = dbc.Container(fluid=True, children=[
     ## Body
     home_page.content,
     voter_weight_landing.content,
-    voter_weight_main.content,
+    voter_weight_page1.content,
+    voter_weight_page2.content,
+    voter_weight_page3.content,
     voter_weight_calculation.content,
     explanation_of_groupings.content,
     voter_weight_conclusions.content,
@@ -64,8 +66,12 @@ app.validation_layout = dbc.Container(fluid=True, children=[
 def display_page(pathname):
     if pathname == "/voter-weight-electoral-college-bias-intro":
         return voter_weight_landing.content
-    elif pathname == "/voter-weight-electoral-college-bias-main":
-        return voter_weight_main.content
+    elif pathname == "/voter-weight-electoral-college-bias-page1":
+        return voter_weight_page1.content
+    elif pathname == "/voter-weight-electoral-college-bias-page2":
+        return voter_weight_page2.content
+    elif pathname == "/voter-weight-electoral-college-bias-page3":
+        return voter_weight_page3.content
     elif pathname == "/voter-weight-calculation":
         return voter_weight_calculation.content
     elif pathname == "/explanation-of-groupings":
@@ -103,45 +109,93 @@ def display_landing_page(bar_year_input, scatter_year_input):
     return fig_bar_slavery_jimcrow_vw_bias, fig_scatter_dots_slavery_jimcrow_vw_bias
 
 
-############ voter-weight-electoral-college-bias-main callbacks
+############ voter-weight-electoral-college-bias-page1 callbacks
+@app.callback(
+    Output('fig-map-color-by-ecv', 'figure'),
+    Output('fig-map-color-by-vw2', 'figure'),
+    Output('fig-line-vw-timeline-short', 'figure'),
+    Input('map-year-input', 'value'),
+    Input('groupings-input', 'value'),
+    Input('max-small-input', 'value'),
+    [Input('multi-state-input-short', 'value')],
+    Input('y-axis-input', 'value'),
+    [Input('show-hide-input-short', 'value')])
+def display_voter_weight_page1(map_year_input, groupings_input, max_small_input, state_abbrevs, y_axis_input, show_hide_input):
+    # process input
+    map_year = int(map_year_input)
+    max_small = int(max_small_input)
+    if y_axis_input == 'log':
+        log_y = True
+    else:
+        log_y = False
+    if not show_hide_input:
+        show_groups = False
+        show_events = False
+        show_eras = False
+    else:
+        if 'show_groups' in show_hide_input:
+            show_groups = True
+        else:
+            show_groups = False
+        if 'show_events' in show_hide_input:
+            show_events = True
+        else:
+            show_events = False
+        if 'show_eras' in show_hide_input:
+            show_eras = True
+        else:
+            show_eras = False
+    # fig titles
+    title_map_color_by_ecv = 'States shaded by Electoral College votes (i.e. size/population)'
+    # generate figs
+    fig_map_color_by_ecv = choropleths.build_vw_by_state_map(
+        data_obj, ddirs.CENSUS, 5, color_col=cols.GROUP, frame=map_year, show_era=False, alt_groups=['ecv_only'], 
+        base_fig_title=title_map_color_by_ecv)
+    fig_map_color_by_vw = choropleths.build_vw_by_state_map(
+        data_obj, ddirs.ACW, 5, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD7, frame=map_year)
+    fig_line_vw_timeline = line_charts.build_vw_by_state_group_line_chart(
+        data_obj, groupings_input, max_small, fig_width=fig_dims.MD12, state_abbrevs=state_abbrevs, log_y=log_y, 
+        display_groups=show_groups, display_events=show_events, display_eras=show_eras, year_0=1840, year_n=2000)
+    return fig_map_color_by_ecv, fig_map_color_by_vw, fig_line_vw_timeline
+
+# voter-weight-electoral-college-bias-page1 callbacks cont'd: clear-all-input
+@app.callback(
+    Output('multi-state-input-short', 'value'),
+    [Input('clear-all-input', 'n_clicks')])
+def clear_canvas_1(n_clicks):
+    return []
+
+@app.callback(
+    Output('show-hide-input-short', 'value'),
+    [Input('clear-all-input', 'n_clicks')])
+def clear_canvas_2(n_clicks):
+    if n_clicks and int(n_clicks) > 0:
+        return []
+    else:
+        return ['show_groups','show_events','show_eras']
+
+
+############ voter-weight-electoral-college-bias-page2 callbacks
 @app.callback(
     Output('fig-bar-small-state-bias', 'figure'),
-    Output('fig-map-small-state-bias', 'figure'),
     Output('fig-bar-slave-state-bias', 'figure'),
     Output('fig-scatter-dots-slave-state-bias', 'figure'),
     Output('fig-map-slave-state-bias', 'figure'),
-    Output('fig-bar-suppress-state-bias', 'figure'),
-    Output('fig-scatter-dots-suppress-state-bias', 'figure'),
-    Output('fig-scatter-bubbles-suppress-state-bias', 'figure'),
-    Output('fig-map-suppress-state-bias', 'figure'),
-    # Output('fig-map-color-by-vw', 'figure'),
     Input('small-state-bias-year-input', 'value'),
-    Input('slave-state-bias-year-input', 'value'),
-    Input('suppress-state-bias-year-input', 'value'))    
-    # Input('map-color-by-vw-year-input', 'value'))
-def display_voter_weight_main(small_state_bias_year_input, slave_state_bias_year_input, suppress_state_bias_year_input):
+    Input('slave-state-bias-year-input', 'value'))
+def display_voter_weight_page2(small_state_bias_year_input, slave_state_bias_year_input):
     # process input
     small_state_bias_year = int(small_state_bias_year_input)
     slave_state_bias_year = int(slave_state_bias_year_input)
-    suppress_state_bias_year = int(suppress_state_bias_year_input)
-    # map_color_by_vw_year = int(map_color_by_vw_year_input)
     # fig titles
     title_small_state_bias_bar = 'Whose vote counted more? Small-state bias<br>States ordered by Voter Weight, shaded by size'
-    title_small_state_bias_map = 'States shaded by Electoral College votes (i.e. size/population)'
     title_slave_state_bias_bar = 'Whose vote counted more? Slave-State Bias<br>Free vs slave vs small states, ordered by Voter Weight'
     title_slave_state_bias_scatter_dots = 'Slave-state bias<br>Free vs slave vs small states, EC votes x voter turnout'
     title_slave_state_bias_map = 'Free states vs slave states vs small states'
-    title_suppress_state_bias_bar = 'Whose vote counted more? Suppression-state bias<br>States shaded by Civil War grouping, ordered by Voter Weight'
-    title_suppress_state_bias_scatter_dots = 'Suppression-state bias<br>States shaded by Civil War grouping, EC votes x voter turnout'
-    title_suppress_state_bias_scatter_bubbles = 'Suppression-state bias<br>States shaded by Civil War grouping, EC votes x Voter Weight'
-    # title_suppress_state_bias_map = 'States Shaded By Civil War Alliance'
     # generate figs
     fig_bar_small_state_bias = bar_plots.build_vw_by_state_bar(
         data_obj, ddirs.CENSUS, 5, color_col=cols.GROUP, frame=small_state_bias_year, show_era=False, alt_groups=['ecv_only'], 
         base_fig_title=title_small_state_bias_bar)
-    fig_map_small_state_bias = choropleths.build_vw_by_state_map(
-        data_obj, ddirs.CENSUS, 5, color_col=cols.GROUP, frame=small_state_bias_year, show_era=False, alt_groups=['ecv_only'], 
-        base_fig_title=title_small_state_bias_map)
     fig_bar_slave_state_bias = bar_plots.build_vw_by_state_bar(
         data_obj, ddirs.ACW, 5, frame=slave_state_bias_year, color_col=cols.GROUP, show_era=False, alt_groups=['slave_free', 'split_small'], 
         base_fig_title=title_slave_state_bias_bar, fig_width=fig_dims.MD6, fig_height=fig_dims.MD6)
@@ -151,6 +205,24 @@ def display_voter_weight_main(small_state_bias_year_input, slave_state_bias_year
     fig_map_slave_state_bias = choropleths.build_vw_by_state_map(
         data_obj, ddirs.ACW, 5, color_col=cols.GROUP, frame=slave_state_bias_year, show_era=False, alt_groups=['slave_free', 'split_small'], 
         base_fig_title=title_slave_state_bias_map)
+    return fig_bar_small_state_bias, fig_bar_slave_state_bias, fig_scatter_dots_slave_state_bias, fig_map_slave_state_bias
+
+
+############ voter-weight-electoral-college-bias-page3 callbacks
+@app.callback(
+    Output('fig-bar-suppress-state-bias', 'figure'),
+    Output('fig-scatter-dots-suppress-state-bias', 'figure'),
+    Output('fig-scatter-bubbles-suppress-state-bias', 'figure'),
+    Output('fig-map-suppress-state-bias', 'figure'),
+    Input('suppress-state-bias-year-input', 'value'))    
+def display_voter_weight_page3(suppress_state_bias_year_input):
+    # process input
+    suppress_state_bias_year = int(suppress_state_bias_year_input)
+    # fig titles
+    title_suppress_state_bias_bar = 'Whose vote counted more? Suppression-state bias<br>States shaded by Civil War grouping, ordered by Voter Weight'
+    title_suppress_state_bias_scatter_dots = 'Suppression-state bias<br>States shaded by Civil War grouping, EC votes x voter turnout'
+    title_suppress_state_bias_scatter_bubbles = 'Suppression-state bias<br>States shaded by Civil War grouping, EC votes x Voter Weight'
+    # generate figs
     fig_bar_suppress_state_bias = bar_plots.build_vw_by_state_bar(
         data_obj, ddirs.ACW, 5, frame=suppress_state_bias_year, color_col=cols.GROUP, show_era=False, alt_groups=['split_small'], 
         base_fig_title=title_suppress_state_bias_bar)
@@ -162,10 +234,7 @@ def display_voter_weight_main(small_state_bias_year_input, slave_state_bias_year
         base_fig_title=title_suppress_state_bias_scatter_bubbles)
     fig_map_suppress_state_bias = choropleths.build_vw_by_state_map(
         data_obj, ddirs.ACW, 5, color_col=cols.GROUP, frame=suppress_state_bias_year, show_era=False, alt_groups=['split_small'])
-    # fig_map_color_by_vw = choropleths.build_vw_by_state_map(
-    #     data_obj, ddirs.ACW, 5, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD7, frame=map_color_by_vw_year)
-    return (fig_bar_small_state_bias, fig_map_small_state_bias, fig_bar_slave_state_bias, fig_scatter_dots_slave_state_bias, fig_map_slave_state_bias, 
-        fig_bar_suppress_state_bias, fig_scatter_dots_suppress_state_bias, fig_scatter_bubbles_suppress_state_bias, fig_map_suppress_state_bias)
+    return fig_bar_suppress_state_bias, fig_scatter_dots_suppress_state_bias, fig_scatter_bubbles_suppress_state_bias, fig_map_suppress_state_bias
 
 
 ############ voter-weight-calculation callbacks
@@ -247,13 +316,13 @@ def display_voter_weight_timeline_viz(groupings_input, max_small_input, state_ab
 @app.callback(
     Output('multi-state-input', 'value'),
     [Input('clear-all-input', 'n_clicks')])
-def clear_canvas_1(n_clicks):
+def clear_canvas_3(n_clicks):
     return []
 
 @app.callback(
     Output('show-hide-input', 'value'),
     [Input('clear-all-input', 'n_clicks')])
-def clear_canvas_2(n_clicks):
+def clear_canvas_4(n_clicks):
     if n_clicks and int(n_clicks) > 0:
         return []
     else:

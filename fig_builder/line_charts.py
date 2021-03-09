@@ -20,7 +20,7 @@ GRID_COLOR = '#DDDDDD'
 
 
 def build_vw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_width=None, fig_height=None, state_abbrevs=None, log_y=False, 
-                                        display_groups=True, display_eras=True, display_events=True):
+                                        display_groups=True, display_eras=True, display_events=True, year_0=None, year_n=None):
     """
     generate px.line chart layering aggregate voter weight data per state group over 220 year historical timeline, annotated with historical 
     event metadata, with option to add individual states to the voter weight timeline comparison
@@ -39,6 +39,11 @@ def build_vw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_widt
         fig_width = fig_dims.MD6
     if not fig_height:
         fig_height = 700
+
+    if not year_0:
+        year_0 = YEAR_0
+    if not year_n:
+        year_n = YEAR_N
 
     # if we're hiding groups, drop everything from df except Nat'l Average data
     if not display_groups:
@@ -128,8 +133,8 @@ def build_vw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_widt
     fig.update_yaxes(title_text=y_axis_title, gridcolor=GRID_COLOR)
     # have x axis ticks every 20 years from YEAR_0-YEAR_N, inclusive of YEAR_N
     tick_span = 20
-    x_axis_ticks = dict(tickmode='array', tickvals=[x for x in range(YEAR_0, YEAR_N+tick_span, tick_span)])
-    fig.update_layout(xaxis_range=[YEAR_0, YEAR_N], yaxis_range=[avg_weight_min, avg_weight_max], plot_bgcolor='white', xaxis=x_axis_ticks)
+    x_axis_ticks = dict(tickmode='array', tickvals=[x for x in range(year_0, year_n+tick_span, tick_span)])
+    fig.update_layout(xaxis_range=[year_0, year_n], yaxis_range=[avg_weight_min, avg_weight_max], plot_bgcolor='white', xaxis=x_axis_ticks)
     if trace_count <= TRACE_MAX_FOR_HOVERMODE_X:
         fig.update_layout(hovermode="x")
 
@@ -140,7 +145,7 @@ def build_vw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_widt
         shapes.extend(event_markers)
     # if display_eras, add shaded blocks and labels designating eras
     if display_eras:
-        era_blocks = build_and_annotate_era_blocks(fig, ERAS, YEAR_0, orig_avg_weight_min, orig_avg_weight_max, y_max2=avg_weight_max)
+        era_blocks = build_and_annotate_era_blocks(fig, ERAS, year_0, orig_avg_weight_min, orig_avg_weight_max, y_max2=avg_weight_max)
         shapes.extend(era_blocks)
     fig.update_layout(shapes=shapes)
 

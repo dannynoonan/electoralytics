@@ -33,11 +33,13 @@ navbar = dbc.Card(className="text-white bg-primary", children=[
             dbc.NavItem(dbc.NavLink("Home", href="/")),
             dbc.DropdownMenu(label="Visualizing Jim Crow voter suppression", nav=True, children=[
                 dbc.DropdownMenuItem([html.I(className="fa"), "[Intro] American voter enfranchisement: A zero-sum game"], href='/voter-weight-electoral-college-bias-intro', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "[Main] Apportionment, participation, and Electoral College bias"], href='/voter-weight-electoral-college-bias-main', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Annotated timeline charting Voter Weight trends"], href='/voter-weight-timeline-visualization', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "[Part 1] Apportionment, participation, and Electoral College bias"], href='/voter-weight-electoral-college-bias-page1', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "[Part 2] Small-state bias and slave-state bias: As the framers intended"], href='/voter-weight-electoral-college-bias-page2', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "[Part 3] Reconstruction, Redemption, and suppression-state bias"], href='/voter-weight-electoral-college-bias-page3', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "[Part 4] Discussion and conclusions"], href='/voter-weight-conclusions', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "Calculating Voter Weight"], href='/voter-weight-calculation', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "Explanation of state groupings"], href='/explanation-of-groupings', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Discussion and conclusions"], href='/voter-weight-conclusions', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Annotated timeline charting Voter Weight trends"], href='/voter-weight-timeline-visualization', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "The vault: 220 years of maps, charts, & figures"], href='/voter-weight-figure-vault', target="_blank"), 
             ]),
             dbc.DropdownMenu(label="References / Resources", nav=True, children=[
@@ -140,6 +142,89 @@ form_input_vw_over_time_line_chart = dbc.FormGroup([
         dbc.Col(md=2, style={'textAlign': 'center'}, children=[
             dcc.Checklist(
                 id="show-hide-input",
+                className="text-white", 
+                options=[
+                    {'label': 'State Groups', 'value': 'show_groups'},
+                    {'label': 'Events', 'value': 'show_events'},
+                    {'label': 'Eras', 'value': 'show_eras'}
+                ],
+                value=['show_groups','show_events','show_eras'],
+                inputStyle={"margin-left": "4px", "margin-right": "4px"}
+            )
+        ]),
+        dbc.Col(md=2, children=[
+            dcc.Dropdown(
+                id="groupings-input", 
+                options=[
+                    {'label': 'Civil War', 'value': ddirs.ACW},
+                    {'label': 'Regional Census', 'value': ddirs.CENSUS}
+                ], 
+                value=ddirs.ACW
+            )
+        ]),
+        dbc.Col(md=2, children=[
+            dcc.Dropdown(
+                id="max-small-input", 
+                options=[
+                    {'label': 'No Small Group', 'value': '0'},
+                    {'label': '3 EC Votes', 'value': '3'},
+                    {'label': '3 - 4 EC Votes', 'value': '4'},
+                    {'label': '3 - 5 EC Votes', 'value': '5'},
+                ], 
+                value="4"
+            )
+        ]),
+        dbc.Col(md=2, style={'textAlign': 'left'}, children=[
+            dcc.RadioItems(
+                id="y-axis-input",
+                className="text-white", 
+                options=[
+                    {'label': 'Linear', 'value': 'linear'},
+                    {'label': 'Log', 'value': 'log'}
+                ],
+                value='linear',
+                inputStyle={"margin-left": "4px", "margin-right": "4px"}
+            )
+        ]),
+    ])
+])
+
+
+form_input_line_vw_timeline_short = dbc.FormGroup([
+    html.Br(),
+    dbc.Row([
+        dbc.Col(md=2),
+        dbc.Col(md=2, className="text-white", children=[
+            html.H5("Display individual states:")
+        ]),
+        dbc.Col(md=2, className="text-white", children=[
+            html.H5("Show / Hide:")
+        ]),
+        dbc.Col(md=2, className="text-white", children=[
+            html.H5("State Grouping Heuristic:")
+        ]),
+        dbc.Col(md=2, className="text-white", children=[
+            html.H5("Extract Small Group?")
+        ]),
+        dbc.Col(md=2, className="text-white", children=[
+            html.H5("Y axis scale:")
+        ]),
+    ]),
+    dbc.Row([
+        dbc.Col(md=2, style={'textAlign': 'center'}, children=[
+            dbc.Button("Clear canvas", id="clear-all-input", className="mr-2 bg-primary")
+        ]),
+        dbc.Col(md=2, style={'textAlign': 'left'}, children=[
+            dcc.Dropdown(
+                id="multi-state-input-short",
+                options=[{'label': state, 'value': abbrev} for abbrev, state in data_obj.abbrevs_to_states.items()],
+                multi=True,
+                value=''
+            )
+        ]),
+        dbc.Col(md=2, style={'textAlign': 'center'}, children=[
+            dcc.Checklist(
+                id="show-hide-input-short",
                 className="text-white", 
                 options=[
                     {'label': 'State Groups', 'value': 'show_groups'},
