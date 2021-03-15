@@ -10,19 +10,39 @@ content = html.Div([
     navbar,
     dbc.Card(className="bg-success", children=[
         dbc.CardBody([
+            html.Div(children=[
+                html.Ul(className="pagination pagination-lg justify-content-center", children=[
+                    html.Li(className="page-item flex", style={"width": "50%"}, children=[
+                        html.A(className="page-link", href="/voter-weight-electoral-college-bias-intro", children=[
+                            "← Intro: American voter enfranchisement: A zero-sum game"
+                        ])
+                    ]),
+                    html.Li(className="page-item flex", style={"width": "20%"}),
+                    html.Li(className="page-item flex", style={"width": "50%", "text-align": "right"}, children=[
+                        html.A(className="page-link", href="/voter-weight-electoral-college-bias-page2", children=[
+                            "Part 2: Small-state bias and slave-state bias: As the framers intended →"
+                        ])
+                    ]),
+                ])
+            ]),
+            html.Hr(className="border-light"),
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Visualizing Jim Crow Voter Suppression: Apportionment, Participation, and Electoral College Bias"),
+                html.H3("Part 1: Electoral College bias basics"),
             ]),
             html.Br(),
             dbc.Row([
                 dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
-                            html.Div(className="card-text lead", style={"margin-left": "50px", "margin-right": "50px", "font-style": "italic"}, children=[
-                                html.P("“From the nature of man we may be sure, that those who have power in their hands will not give it up while they can retain \
-                                    it. On the contrary we know they will always when they can rather increase it.”"),
-                                html.P("—George Mason, during the Consitutional Convention in 1787")
+                            html.Div(className="card-text lead", style={"margin-left": "50px", "margin-right": "50px"}, children=[
+                                html.P(style={"font-style": "italic"}, children=[
+                                    "The Electoral College was neither an exercise in applied Platonism nor an experiment in indirect government based on \
+                                    elitist distrust of the masses. It was merely a jerry-rigged improvisation which has subsequently been endowed with a high \
+                                    theoretical content… The future was left to cope with the problem of what to do with this Rube Goldberg mechanism.",
+                                    dcc.Link(href="/sources-notes", children=[html.Sup("3")]),
+                                ]),
+                                html.P(children=["—John Roche, ", html.I("“The Founding Fathers: A Reform Caucus in Action”")])
                             ]),
                             html.Br(),
                             html.H4("Different states, different weights"),
@@ -96,46 +116,12 @@ content = html.Div([
                                 ]),
                             ]),
                             html.P(className="card-text", children=[
-                                "An interactive map shading each state according to Voter Weight in every presidential election since 1800 is shown at the bottom of \
-                                the ", dcc.Link("Calculating Voter Weight", href="/voter-weight-calculation"), " page."
+                                "The color shading for each state in ", html.B("Figure 2"), " corresponds to that state's Voter Weight in a given presidential \
+                                election. Adjust the 'Select Year' slider above the figure to toggle between different election years."
                             ])
                         ])
                     ]),
                     html.Br(),
-                    dbc.Card(className="border-success", children=[
-                        dbc.CardBody([
-                            html.P(className="card-text", children=[
-                                html.B("Next section >> "), dcc.Link("Part 2: Small-state bias and slave-state bias: As the founders intended", 
-                                href="/voter-weight-electoral-college-bias-page2")
-                            ]),
-                            html.P(children=[
-                                html.Ul(children=[
-                                    html.Li(
-                                        dcc.Link("Intro: Hyper-enfranchisement and the Electoral College", href="/voter-weight-electoral-college-bias-intro")
-                                    ),
-                                    html.Li("Part 1: Electoral College bias breakdown"),
-                                    html.Li(
-                                        dcc.Link("Part 2: Small-state bias and slave-state bias: As the framers intended", href="/voter-weight-electoral-college-bias-page2")
-                                    ),
-                                    html.Li(
-                                        dcc.Link("Part 3: Reconstruction, Redemption, and suppression-state bias", href="/voter-weight-electoral-college-bias-page3")
-                                    ),
-                                    html.Li(
-                                        dcc.Link("Part 4: Conclusions and Discussion", href="/voter-weight-conclusions")
-                                    ),
-                                    html.Li(
-                                        dcc.Link("Deep dive into calculating Voter Weight", href="/voter-weight-calculation")
-                                    ),
-                                    html.Li(
-                                        dcc.Link("Deep dive into state grouping heuristics", href="/explanation-of-groupings")
-                                    ),
-                                    html.Li(
-                                        dcc.Link("Roll-up of interactive maps, figures, and charts", href="/voter-weight-figure-vault")
-                                    ),
-                                ])
-                            ]),
-                        ]),
-                    ]),
                 ]),
                 dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-map-color-by-ecv"),
@@ -164,13 +150,29 @@ content = html.Div([
                             href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_vw_acw4_1000.html"), 
                             " illustrating the full history."]),
                     ]),
+                    dbc.Card(className="border-success", children=[
+                        dbc.CardBody([
+                            html.P(className="card-text", style={"font-style": "italic"}, children=[
+                                "The figures above, the figures below, and every other figure in this publication are interactive. Move the “Select year” slider to \
+                                bring a different election year into focus. Highlight a portion of the figure to zoom in, then double-click to reset to the original \
+                                scale. Roll over any bar in the chart to see the factors that contribute to its Voter Weight calculation."
+                            ]),
+                            html.P(className="card-text", style={"font-style": "italic"}, children=[ 
+                                "All figures use presidential election data accessible via this ", dcc.Link("Wikipedia portal", 
+                                href="https://en.wikipedia.org/wiki/List_of_United_States_presidential_election_results_by_state", target="_blank"), ". A consolidated \
+                                version of that data (what I’m using to power this website) is available in csv format in the ", dcc.Link("data/ directory", 
+                                href="https://github.com/dannynoonan/electoralytics/tree/master/data", target="_blank"), " of the ", dcc.Link("electoralytics repo", 
+                                href="https://github.com/dannynoonan/electoralytics", target="_blank"), " on github."
+                            ]),
+                        ]),
+                    ]),
                 ]),
             ]),
             html.Br(),
             html.Hr(className="border-light"),
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Regional hyper-enfranchisement trends over time"),
+                html.H3("Hyper-enfranchisement levels over time, aggregated by region / Civil War alliance"),
             ]),
             html.Br(),
             dbc.Row([
@@ -180,6 +182,22 @@ content = html.Div([
                 ])
             ]),
             html.Br(),
+            html.Hr(className="border-light"),
+            html.Div(children=[
+                html.Ul(className="pagination pagination-lg justify-content-center", children=[
+                    html.Li(className="page-item flex", style={"width": "50%"}, children=[
+                        html.A(className="page-link", href="/voter-weight-electoral-college-bias-intro", children=[
+                            "← Intro: Hyper-enfranchisement and the Electoral College"
+                        ])
+                    ]),
+                    html.Li(className="page-item flex", style={"width": "20%"}),
+                    html.Li(className="page-item flex", style={"width": "50%", "text-align": "right"}, children=[
+                        html.A(className="page-link", href="/voter-weight-electoral-college-bias-page2", children=[
+                            "Part 2: Small-state bias and slave-state bias: As the framers intended →"
+                        ])
+                    ]),
+                ])
+            ]),
         ]),
     ]),
 ])

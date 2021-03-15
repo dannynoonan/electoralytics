@@ -157,21 +157,21 @@ def build_vw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_widt
     if trace_count <= TRACE_MAX_FOR_EXPANDED_HOVERDATA or trace_count > TRACE_MAX_FOR_HOVERMODE_X:
         fig.update_traces(
             hovertemplate="<br>".join([
-                "<b>%{customdata[0]}</b> (%{x})<br></b>",
+                "<b>%{customdata[0]}</b> (%{x})</b>",
+                "<b>→ Average Voter Weight: %{y:.2f}</b><br>",
                 "Popular Vote (Turnout): <b>%{customdata[3]:,}</b>",
                 "Electoral College Votes: <b>%{customdata[2]:,}</b>",
                 "Avg Pop Vote Per Elector: <b>%{customdata[4]:,}</b>",
-                "Average Voter weight: <b>%{y:.2f}</b>",
                 "State(s): <b>%{customdata[1]}</b>",
             ])
         )
     else:
         fig.update_traces(
             hovertemplate="<br>".join([
-                "<b>%{customdata[0]}</b> (%{x})<br></b>",
+                "<b>%{customdata[0]}</b> (%{x})</b>",
+                "<b>→ Avg Voter Weight: %{y:.2f}</b><br>",
                 "Agg Pop Vote (Turnout): <b>%{customdata[3]:,}</b>",
                 "Agg Elec College Votes: <b>%{customdata[2]:,}</b>",
-                "Avg Voter Weight: <b>%{y:.2f}</b>",
                 "States in Group: <b>%{customdata[1]}</b>",
             ])
         )

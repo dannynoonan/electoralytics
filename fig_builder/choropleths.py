@@ -122,18 +122,46 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
         apply_animation_settings(fig, base_fig_title)
 
     # hovertemplate formatting and variable substitution using customdata
-    fig.update_traces(
-        hovertemplate="<br>".join([
-            "<b>%{customdata[0]}</b> (%{customdata[2]})<br>",
-            "Popular Vote (Turnout): <b>%{customdata[3]:,}</b>",
-            "Electoral College Votes: <b>%{customdata[4]}</b>",
-            "Popular Vote Per Elector: <b>%{customdata[6]:,}</b>",
-            "Voter Weight: <b>%{customdata[5]:.2f}</b>",
-            "Group: <b>%{customdata[1]}</b>",
-            "<br><b>Normalized to Nat'l Average:</b>",
-            "%{customdata[3]:,} Pop Votes => %{customdata[7]:.2f} EC Votes",
-            "%{customdata[4]} EC Votes => %{customdata[8]:,} Pop Votes",
-        ])
-    )
+    if color_col == cols.LOG_VOTE_WEIGHT:
+        fig.update_traces(
+            hovertemplate="<br>".join([
+                "<b>%{customdata[0]}</b> (%{customdata[2]})",
+                "<b>→ Voter Weight: %{customdata[5]:.2f}</b><br>",
+                "Popular Vote (Turnout): <b>%{customdata[3]:,}</b>",
+                "Electoral College Votes: <b>%{customdata[4]}</b>",
+                "Popular Vote Per Elector: <b>%{customdata[6]:,}</b>",
+                "Group: <b>%{customdata[1]}</b>",
+                "<br><b>Normalized to Nat'l Average:</b>",
+                "%{customdata[3]:,} Pop Votes => %{customdata[7]:.2f} EC Votes",
+                "%{customdata[4]} EC Votes => %{customdata[8]:,} Pop Votes",
+            ])
+        )
+    elif alt_groups and ('ecv_only' in alt_groups):
+        fig.update_traces(
+            hovertemplate="<br>".join([
+                "%{customdata[0]} (%{customdata[2]}): <b>%{customdata[4]} EC Votes</b><br>",
+                "Popular Vote (Turnout): <b>%{customdata[3]:,}</b>",
+                "Popular Vote Per Elector: <b>%{customdata[6]:,}</b>",
+                "Voter Weight: <b>%{customdata[5]:.2f}</b>",
+                "Group: <b>%{customdata[1]}</b>",
+                "<br><b>Normalized to Nat'l Average:</b>",
+                "%{customdata[3]:,} Pop Votes => %{customdata[7]:.2f} EC Votes",
+                "%{customdata[4]} EC Votes => %{customdata[8]:,} Pop Votes",
+            ])
+        )
+    else:
+        fig.update_traces(
+            hovertemplate="<br>".join([
+                "<b>%{customdata[0]}</b> (%{customdata[2]})<br>",
+                "Popular Vote (Turnout): <b>%{customdata[3]:,}</b>",
+                "Electoral College Votes: <b>%{customdata[4]}</b>",
+                "Popular Vote Per Elector: <b>%{customdata[6]:,}</b>",
+                "Voter Weight: <b>%{customdata[5]:.2f}</b>",
+                "Group: <b>%{customdata[1]}</b>",
+                "<br><b>Normalized to Nat'l Average:</b>",
+                "%{customdata[3]:,} Pop Votes => %{customdata[7]:.2f} EC Votes",
+                "%{customdata[4]} EC Votes => %{customdata[8]:,} Pop Votes",
+            ])
+        )
 
     return fig

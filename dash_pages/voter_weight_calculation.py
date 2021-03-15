@@ -10,15 +10,40 @@ content = html.Div([
     navbar,
     dbc.Card(className="bg-success", children=[
         dbc.CardBody([
+            html.Div(children=[
+                html.Ul(className="pagination pagination-lg justify-content-center", children=[
+                    html.Li(className="page-item flex", style={"width": "50%"}, children=[
+                        html.A(className="page-link", href="/voter-weight-conclusions", children=[
+                            "← Part 4: Conclusions and Discussion"
+                        ])
+                    ]),
+                    html.Li(className="page-item flex", style={"width": "20%"}),
+                    html.Li(className="page-item flex", style={"width": "50%", "text-align": "right"}, children=[
+                        html.A(className="page-link", href="/voter-weight-timeline-visualization", children=[
+                            "Appendix 2: Annotated Timeline Charting Voter Weight Trends →"
+                        ])
+                    ]),
+                ])
+            ]),
+            html.Hr(className="border-light"),
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Calculating “Voter Weight” Per State"),
+                html.H3("Appendix 1: Calculating “Voter Weight” Per State"),
             ]),
             html.Br(),
             dbc.Row([
                 dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
+                            html.Div(className="card-text lead", style={"margin-left": "50px", "margin-right": "50px"}, children=[
+                                html.P(style={"font-style": "italic"}, children=[
+                                    "Because each state gets its prescribed number of electors based on total population, not on how many of its residents \
+                                    cast a ballot, there is no incentive to expand the electorate.",
+                                    dcc.Link(href="/sources-notes", children=[html.Sup("21")]),
+                                ]),
+                                html.P(children=["—Jesse Wegman, ", html.I("“Let the People Pick the President”")])
+                            ]),
+                            html.Br(),
                             html.H4("Ratios and averages", className="card-title"),
                             html.P(className="card-text", children=[
                                 "“Small-state bias,” “slave-state bias,” and this idea of “suppression-state bias” all derive from different legal statutes, \
@@ -58,7 +83,7 @@ content = html.Div([
                                 measure these types of voter influence disparities, but it certainly is ", html.I("a"), " way is to measure them.",                            
                             ]),
                             html.Br(),
-                            html.H4("Implications / true meaning of Voter Weight", className="card-title"),
+                            html.H4("Implications / literal meaning of Voter Weight", className="card-title"),
                             html.P(className="card-text", children=[
                                 "A couple general observations about Voter Weight:",
                                 html.Ul(children=[
@@ -144,9 +169,26 @@ content = html.Div([
                                 suppression-state bias goes beyond “five-fifths.”",
                             ]),
                         ])
-                    ])
+                    ]),
                 ]),
-            ])
+            ]),
+            html.Br(),
+            html.Hr(className="border-light"),
+            html.Div(children=[
+                html.Ul(className="pagination pagination-lg justify-content-center", children=[
+                    html.Li(className="page-item flex", style={"width": "50%"}, children=[
+                        html.A(className="page-link", href="/voter-weight-conclusions", children=[
+                            "← Part 4: Conclusions and Discussion"
+                        ])
+                    ]),
+                    html.Li(className="page-item flex", style={"width": "20%"}),
+                    html.Li(className="page-item flex", style={"width": "50%", "text-align": "right"}, children=[
+                        html.A(className="page-link", href="/voter-weight-timeline-visualization", children=[
+                            "Appendix 2: Annotated Timeline Charting Voter Weight Trends →"
+                        ])
+                    ]),
+                ])
+            ]),
         ])
     ])
 ])

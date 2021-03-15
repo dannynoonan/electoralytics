@@ -32,19 +32,20 @@ navbar = dbc.Card(className="text-white bg-primary", children=[
         dbc.Nav(className="nav nav-pills", children=[
             dbc.NavItem(dbc.NavLink("Home", href="/")),
             dbc.DropdownMenu(label="Visualizing Jim Crow voter suppression", nav=True, children=[
-                dbc.DropdownMenuItem([html.I(className="fa"), "[Intro] American voter enfranchisement: A zero-sum game"], href='/voter-weight-electoral-college-bias-intro', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "[Part 1] Apportionment, participation, and Electoral College bias"], href='/voter-weight-electoral-college-bias-page1', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "[Part 2] Small-state bias and slave-state bias: As the framers intended"], href='/voter-weight-electoral-college-bias-page2', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "[Part 3] Reconstruction, Redemption, and suppression-state bias"], href='/voter-weight-electoral-college-bias-page3', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "[Part 4] Discussion and conclusions"], href='/voter-weight-conclusions', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Calculating Voter Weight"], href='/voter-weight-calculation', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Explanation of state groupings"], href='/explanation-of-groupings', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Annotated timeline charting Voter Weight trends"], href='/voter-weight-timeline-visualization', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Intro: American voter enfranchisement: A zero-sum game"], href='/voter-weight-electoral-college-bias-intro', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Part 1: Electoral College bias basics"], href='/voter-weight-electoral-college-bias-page1', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Part 2: Small-state bias and slave-state bias: As the framers intended"], href='/voter-weight-electoral-college-bias-page2', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Part 3: Reconstruction, Redemption, and suppression-state bias"], href='/voter-weight-electoral-college-bias-page3', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Part 4: Discussion and conclusions"], href='/voter-weight-conclusions', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Appendix 1: Calculating Voter Weight"], href='/voter-weight-calculation', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Appendix 2: Annotated timeline charting Voter Weight trends"], href='/voter-weight-timeline-visualization', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Appendix 3: Explanation of state groupings"], href='/explanation-of-groupings', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "The vault: 220 years of maps, charts, & figures"], href='/voter-weight-figure-vault', target="_blank"), 
             ]),
             dbc.DropdownMenu(label="References / Resources", nav=True, children=[
-                dbc.DropdownMenuItem([html.I(className="fa"), "Project source code"], href='https://github.com/dannynoonan/electoralytics', target="_blank"), 
+                dbc.DropdownMenuItem([html.I(className="fa"), "Sources / Notes"], href='/sources-notes', target="_blank"), 
                 dbc.DropdownMenuItem([html.I(className="fa"), "Wikipedia election data portal"], href='https://en.wikipedia.org/wiki/List_of_United_States_presidential_election_results_by_state', target="_blank"),
+                dbc.DropdownMenuItem([html.I(className="fa"), "Project source code"], href='https://github.com/dannynoonan/electoralytics', target="_blank"), 
             ])
         ])
     ])
@@ -61,7 +62,7 @@ year_slider_and_groups_selection = dbc.FormGroup([
             html.H5("State Grouping Heuristic:")
         ]),
         dbc.Col(md=2, className="text-white", children=[
-            html.H5("Extract Small Group?")
+            html.H5("Extract Small States?")
         ])
     ]),
     dbc.Row([

@@ -10,6 +10,17 @@ content = voter_weight_comparison_details = html.Div([
     navbar,
     dbc.Card(className="bg-success", children=[
         dbc.CardBody([
+            html.Div(children=[
+                html.Ul(className="pagination pagination-lg justify-content-center", children=[
+                    html.Li(className="page-item flex", style={"width": "50%"}, children=[
+                        html.A(className="page-link", href="/explanation-of-groupings", children=[
+                            "← Appendix 3: Explanation of State Aggregate Groupings"
+                        ])
+                    ]),
+                    html.Li(className="page-item flex", style={"width": "50%"}),
+                ])
+            ]),
+            html.Hr(className="border-light"),
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
                 html.H3("The Vault: 220 Years of Electoral College Bias Revealed in Figures and Maps"),
@@ -185,7 +196,19 @@ content = voter_weight_comparison_details = html.Div([
                         ]),
                     ]),
                 ]),
-            ])
+            ]),
+            html.Br(),
+            html.Hr(className="border-light"),
+            html.Div(children=[
+                html.Ul(className="pagination pagination-lg justify-content-center", children=[
+                    html.Li(className="page-item flex", style={"width": "50%"}, children=[
+                        html.A(className="page-link", href="/explanation-of-groupings", children=[
+                            "← Appendix 3: Explanation of State Aggregate Groupings"
+                        ])
+                    ]),
+                    html.Li(className="page-item flex", style={"width": "50%"}),
+                ])
+            ]),
         ])
     ])
 ])

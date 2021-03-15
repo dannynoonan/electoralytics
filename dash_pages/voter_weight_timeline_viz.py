@@ -10,9 +10,25 @@ content = html.Div([
     navbar,
     dbc.Card(className="bg-success", children=[
         dbc.CardBody([
+            html.Div(children=[
+                html.Ul(className="pagination pagination-lg justify-content-center", children=[
+                    html.Li(className="page-item flex", style={"width": "50%"}, children=[
+                        html.A(className="page-link", href="/voter-weight-calculation", children=[
+                            "← Appendix 1: Calculating “Voter Weight” Per State"
+                        ])
+                    ]),
+                    html.Li(className="page-item flex", style={"width": "20%"}),
+                    html.Li(className="page-item flex", style={"width": "50%", "text-align": "right"}, children=[
+                        html.A(className="page-link", href="/explanation-of-groupings", children=[
+                            "Appendix 3: Explanation of State Aggregate Groupings →"
+                        ])
+                    ]),
+                ])
+            ]),
+            html.Hr(className="border-light"),
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Annotated Timeline Charting Voter Weight Trends: 1800 - 2020"),
+                html.H3("Appendix 2: Annotated Timeline Charting Voter Weight Trends: 1800 - 2020"),
             ]),
             html.Br(),
             dbc.Row([
@@ -130,6 +146,22 @@ content = html.Div([
                 ])
             ]),
             html.Br(),
+            html.Hr(className="border-light"),
+            html.Div(children=[
+                html.Ul(className="pagination pagination-lg justify-content-center", children=[
+                    html.Li(className="page-item flex", style={"width": "50%"}, children=[
+                        html.A(className="page-link", href="/voter-weight-calculation", children=[
+                            "← Appendix 1: Calculating “Voter Weight” Per State"
+                        ])
+                    ]),
+                    html.Li(className="page-item flex", style={"width": "20%"}),
+                    html.Li(className="page-item flex", style={"width": "50%", "text-align": "right"}, children=[
+                        html.A(className="page-link", href="/explanation-of-groupings", children=[
+                            "Appendix 3: Explanation of State Aggregate Groupings →"
+                        ])
+                    ]),
+                ])
+            ]),
         ])
     ])
 ])

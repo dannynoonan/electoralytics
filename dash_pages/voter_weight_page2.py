@@ -10,15 +10,41 @@ content = html.Div([
     navbar,
     dbc.Card(className="bg-success", children=[
         dbc.CardBody([
+            html.Div(children=[
+                html.Ul(className="pagination pagination-lg justify-content-center", children=[
+                    html.Li(className="page-item flex", style={"width": "50%"}, children=[
+                        html.A(className="page-link", href="/voter-weight-electoral-college-bias-page1", children=[
+                            "← Part 1: Electoral College bias basics"
+                        ])
+                    ]),
+                    html.Li(className="page-item flex", style={"width": "20%"}),
+                    html.Li(className="page-item flex", style={"width": "50%", "text-align": "right"}, children=[
+                        html.A(className="page-link", href="/voter-weight-electoral-college-bias-page3", children=[
+                            "Part 3: Reconstruction, Redemption, and suppression-state bias →"
+                        ])
+                    ]),
+                ])
+            ]),
+            html.Hr(className="border-light"),
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Visualizing Jim Crow Voter Suppression: Apportionment, Participation, and Electoral College Bias"),
+                html.H3("Part 2: Small-state bias and slave-state bias: As the framers intended"),
             ]),
             html.Br(),
             dbc.Row([
                 dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
+                            html.Div(className="card-text lead", style={"margin-left": "50px", "margin-right": "50px"}, children=[
+                                html.P(style={"font-style": "italic"}, children=[
+                                    "The Electoral College was not grounded in the principle that the votes of all individuals should count equally. The \
+                                    framers, acting out of perceived political necessity, chose to give extra weight to the votes of two groups of citizens: \
+                                    inhabitants of small states and white residents of states that had slavery.",
+                                    dcc.Link(href="/sources-notes", children=[html.Sup("4")]),
+                                ]),
+                                html.P(children=["—Alexander Keyssar, ", html.I("“Why Do We Still Have the Electoral College?”")])
+                            ]),
+                            html.Br(),
                             html.H4("Small-state bias"),
                             html.P(className="card-text", children=[
                                 "In the 21st century, the idea that voters in smaller states have greater influence on national elections than voters in more \
@@ -29,10 +55,10 @@ content = html.Div([
                                 + Senators (2 per state regardless of population), the same bicameral balance that was part of the Constitutional Convention’s ", 
                                 dcc.Link("Great Compromise", href="https://en.wikipedia.org/wiki/Connecticut_Compromise", target="_blank"), ". And just as every \
                                 state sends the same number of Senators to DC, even the smallest states receive the same +2 Senator “bicameral boost” in their \
-                                Electoral College vote count, hence the “3-vote-minimum” for even the least populous states (see ", html.B("Figure 1"), "). The \
-                                hyper-enfranchisement effect of the +2 boost tapers off as states increase in population and Electoral College apportionment, but \
-                                if a state’s population garners it only 1 or 2 Congressional Representatives then that +2 Senator boost easily doubles or triples \
-                                the relative impact of that state’s voters."
+                                Electoral College vote count, hence the “3-vote-minimum” for even the least populous states. The hyper-enfranchisement effect of \
+                                the +2 boost tapers off as states increase in population and Electoral College apportionment, but if a state’s population \
+                                garners it only 1 or 2 Congressional Representatives then that +2 Senator boost easily doubles or triples the relative impact of \
+                                that state’s voters."
                             ]),
                             html.P(className="card-text", children=[
                                 "This “small-state bias” is often calculated by comparing the ratio of each state’s ", html.I("population"), " to its Electoral \
@@ -165,40 +191,40 @@ content = html.Div([
                             are states that haven’t been admitted to the Union yet."),
                     ]),
                     html.Br(),
-                    dbc.Card(className="border-success", children=[
-                        dbc.CardBody([
-                            html.P(className="card-text", children=[
-                                html.B("Next section >> "), dcc.Link("Part 3: Reconstruction, Redemption, and suppression-state bias", 
-                                href="/voter-weight-electoral-college-bias-page3")
-                            ]),
-                            html.P(children=[
-                                html.Ul(children=[
-                                    html.Li(
-                                        dcc.Link("Intro: Hyper-enfranchisement and the Electoral College", href="/voter-weight-electoral-college-bias-intro")
-                                    ),
-                                    html.Li(
-                                        dcc.Link("Part 1: Electoral College bias breakdown", href="/voter-weight-electoral-college-bias-page1")
-                                    ),
-                                    html.Li("Part 2: Small-state bias and slave-state bias: As the framers intended"),
-                                    html.Li(
-                                        dcc.Link("Part 3: Reconstruction, Redemption, and suppression-state bias", href="/voter-weight-electoral-college-bias-page3")
-                                    ),
-                                    html.Li(
-                                        dcc.Link("Part 4: Conclusions and Discussion", href="/voter-weight-conclusions")
-                                    ),
-                                    html.Li(
-                                        dcc.Link("Deep dive into calculating Voter Weight", href="/voter-weight-calculation")
-                                    ),
-                                    html.Li(
-                                        dcc.Link("Deep dive into state grouping heuristics", href="/explanation-of-groupings")
-                                    ),
-                                    html.Li(
-                                        dcc.Link("Roll-up of interactive maps, figures, and charts", href="/voter-weight-figure-vault")
-                                    ),
-                                ])
-                            ]),
-                        ]),
-                    ])
+                    # dbc.Card(className="border-success", children=[
+                    #     dbc.CardBody([
+                    #         html.P(className="card-text", children=[
+                    #             html.B("Next section >> "), dcc.Link("Part 3: Reconstruction, Redemption, and suppression-state bias", 
+                    #             href="/voter-weight-electoral-college-bias-page3")
+                    #         ]),
+                    #         html.P(children=[
+                    #             html.Ul(children=[
+                    #                 html.Li(
+                    #                     dcc.Link("Intro: Hyper-enfranchisement and the Electoral College", href="/voter-weight-electoral-college-bias-intro")
+                    #                 ),
+                    #                 html.Li(
+                    #                     dcc.Link("Part 1: Electoral College bias breakdown", href="/voter-weight-electoral-college-bias-page1")
+                    #                 ),
+                    #                 html.Li("Part 2: Small-state bias and slave-state bias: As the framers intended"),
+                    #                 html.Li(
+                    #                     dcc.Link("Part 3: Reconstruction, Redemption, and suppression-state bias", href="/voter-weight-electoral-college-bias-page3")
+                    #                 ),
+                    #                 html.Li(
+                    #                     dcc.Link("Part 4: Conclusions and Discussion", href="/voter-weight-conclusions")
+                    #                 ),
+                    #                 html.Li(
+                    #                     dcc.Link("Deep dive into calculating Voter Weight", href="/voter-weight-calculation")
+                    #                 ),
+                    #                 html.Li(
+                    #                     dcc.Link("Deep dive into state grouping heuristics", href="/explanation-of-groupings")
+                    #                 ),
+                    #                 html.Li(
+                    #                     dcc.Link("Roll-up of interactive maps, figures, and charts", href="/voter-weight-figure-vault")
+                    #                 ),
+                    #             ])
+                    #         ]),
+                    #     ]),
+                    # ])
                 ]),
                 dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-bar-slave-state-bias"),
@@ -228,6 +254,22 @@ content = html.Div([
                             intersection between the axes where the Voter Weight ratio is 1.0 — is plotted as a diagonal line signifying the nationwide mean. \
                             States whose dots appear above and to the left of the nationwide mean line have Voter Weights greater than 1, those whose dots are \
                             below and to the right have Voter Weights less than 1."),
+                    ]),
+                ])
+            ]),
+            html.Hr(className="border-light"),
+            html.Div(children=[
+                html.Ul(className="pagination pagination-lg justify-content-center", children=[
+                    html.Li(className="page-item flex", style={"width": "50%"}, children=[
+                        html.A(className="page-link", href="/voter-weight-electoral-college-bias-page1", children=[
+                            "← Part 1: Electoral College bias basics"
+                        ])
+                    ]),
+                    html.Li(className="page-item flex", style={"width": "20%"}),
+                    html.Li(className="page-item flex", style={"width": "50%", "text-align": "right"}, children=[
+                        html.A(className="page-link", href="/voter-weight-electoral-college-bias-page3", children=[
+                            "Part 3: Reconstruction, Redemption, and suppression-state bias →"
+                        ])
                     ]),
                 ])
             ]),

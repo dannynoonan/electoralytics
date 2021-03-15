@@ -10,15 +10,88 @@ content = html.Div([
     navbar,
     dbc.Card(className="bg-success", children=[
         dbc.CardBody([
+            html.Div(children=[
+                html.Ul(className="pagination pagination-lg justify-content-center", children=[
+                    html.Li(className="page-item flex", style={"width": "50%"}, children=[
+                        html.A(className="page-link", href="/voter-weight-electoral-college-bias-page3", children=[
+                            "← Part 3: Reconstruction, Redemption, and suppression-state bias"
+                        ])
+                    ]),
+                    html.Li(className="page-item flex", style={"width": "20%"}),
+                    html.Li(className="page-item flex", style={"width": "50%", "text-align": "right"}, children=[
+                        html.A(className="page-link", href="/voter-weight-calculation", children=[
+                            "Appendix 1: Calculating Voter Weight →"
+                        ])
+                    ]),
+                ])
+            ]),
+            html.Hr(className="border-light"),
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Visualizing Jim Crow Voter Suppression: Discussion & Conclusions"),
+                html.H3("Part 4: Conclusions and Discussion"),
             ]),
             html.Br(),
             dbc.Row([
                 dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
+                            html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px", "font-size": "13pt"}, children=[
+                                html.P(style={"font-style": "italic"}, children=[
+                                    "By 1890 the disenfranchisement of African-Americans was well underway, and by the early years of the twentieth century it was \
+                                    complete.", dcc.Link(href="/sources-notes", children=[html.Sup("18")]),
+                                ]),
+                                html.P(children=["—Alexander Keyssar, ", html.I("“Why Do We Still Have the Electoral College?”")])
+                            ]),
+                            html.Br(),
+                            html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px", "font-size": "13pt"}, children=[
+                                html.P(style={"font-style": "italic"}, children=[
+                                    "By the 1940s… registration among voting-age Black citizens hovered around 3 percent… In the 11 Presidential elections held \
+                                    between 1908 and 1948, 44 percent of all minority votes in the country were not represented by a single electoral vote.",
+                                    dcc.Link(href="/sources-notes", children=[html.Sup("19")]),
+                                ]),
+                                html.P(children=["—Jesse Wegman, ", html.I("“Let the People Pick the President”")])
+                            ]),
+                            html.Br(),
+                            html.H4("Old story, new angle"),
+                            html.Img(src="/static/stockImages/voter-intimidation-1876.jpg", style={"float": "right", "padding-left": "10px"}, width="50%"),
+                            html.P(className="card-text", children=[
+                                "Depending on your familiarity with racial voter suppression in the century following the Civil War, you may or may not be surprised \
+                                that the small-state and slave-state biases mathematically-prescribed in the Constitution—that is, the apportionment imbalances that \
+                                have made it onto every AP American History exam since the arrival of the Number 2 pencil—might in fact pale in comparison to other \
+                                permutations of sustained, systemic electoral inequity."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "The bigger story here, of course, isn’t that Southern states’ (white) voters counted for more than Northern and Western states’ \
+                                (predominantly white) voters. The bigger story is that hundreds of thousands of Southern Blacks were prevented from voting \
+                                altogether, through the uneven application of poll taxes, literacy tests, grandfather clauses, as well as more direct intimidation \
+                                and violence for 90-odd years during the Jim Crow era."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "However, these graphs illustrate that the villainous cackling of turn-of-the-century Southern racist political scheming didn’t \
+                                simply end with racial disenfranchisement. Under an Electoral College system that grants influence based on population rather than \
+                                participation, voter suppression has a corollary effect — and another perverse incentive — at the national level: it amplifies \
+                                precisely those voices responsible for suppressing their local voter turnout, relative to the voices of voters in states not \
+                                engaged in systemic voter suppression."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "I don’t mean to get out over my skis on the notion of intent. The question of which nefarious objectives out of an assortment of \
+                                plausible nefarious objectives motivated white supremacist voter suppression in the postbellum South is well beyond my purview - \
+                                leave that to the historians and social scientists."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "Whether a side-effect of racist voter suppression or an intentional strategy unto itself, Southern white elites appear to have \
+                                maintained, and even increased, their disproportionate influence over national-level politics throughout the Jim Crow Era. This \
+                                despite the abolition of slavery, the nullification of the three-fifths compromise, and their total military and political defeat \
+                                in the Civil War. And they couldn't have done it without the Electoral College, since a pure national popular vote would have \
+                                simply diluted their states' lower turnouts among the much higher participation levels in states holding fair, egalitarian, and \
+                                democratic elections during the same time period."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "Regardless of underlying intent, the disconnect between census population and voter participation is seared into the historical \
+                                record, offering a way to compare and quantify democratic and anti-democratic behavior over time - and to potentially infer \
+                                correlation or causation between specific external factors and Voter Weight trends."
+                            ]),
+                            html.Br(),
                             html.H4("Passing the eye test", className="card-title"),
                             html.P(className="card-text", children=[
                                 "Being neither a historian nor a statistician, there probably isn’t much I should presume to “conclude” from this \
@@ -66,6 +139,30 @@ content = html.Div([
                                 ]),
                             ]),
                             html.Br(),
+                            html.H4("Other interpretations of Voter Weight trends and Electoral College bias", className="card-title"),
+                            html.P(className="card-text", children=[
+                                "To avoid wrapping every comment in a caveat, I’ve been fairly loose in my pronouncements that hyper-enfranchisement correlates \
+                                to higher levels of voter suppression, so I wanted to rattle off a few things that most certainly also have an effect on a \
+                                state’s Voter Weight metric:",
+                                html.Ul([
+                                    html.Li("Voter apathy, and hence lower voter participation. Since the “solid south” of the early 20th century was effectively \
+                                        a non-competitive one-party regional bloc (in part due to the wild success of their voter suppression tactics), the fact \
+                                        that down-ballot winners were a foregone conclusion may have further depressed turnout"),
+                                    html.Li("Other eligibility factors such as age, gender, incarceration status, felony record, etc vary from state to state"),
+                                    html.Li("Census apportionment is decennial, so Electoral College influence always lags a few years behind a population \
+                                        explosion, lowering the Voter Weight in fast-growing states near the end of the decade"),
+                                    html.Li("Census apportionment in states with a higher percentage of undocumented residents who can’t legally vote increases \
+                                        Voter Weight in that state. This is generally regarded as to the benefit, not the detriment, of those who are tabulated \
+                                        but not enfranchised, but this creates a “five-fifths” type effect nonetheless."),
+                                ]),
+                            ]),
+                            html.Br(),
+                        ]),
+                    ]),
+                ]),
+                dbc.Col(md=6, children=[
+                    dbc.Card(className="border-success", children=[
+                        dbc.CardBody([
                             html.H4("Border states", className="card-title"),
                             html.P(className="card-text", children=[
                                 "Earlier I described my reasoning for creating a Border state group, consisting of slave states that had stayed in the \
@@ -77,8 +174,8 @@ content = html.Div([
                                 "At the moment, my knowledge of Reconstruction, Redemption, Reconciliation, and Jim Crow is almost entirely limited to a \
                                 North vs South narrative, excluding the details of Border and Western states. Caveats aside: knowing little to nothing of \
                                 the ", html.I("details"), " of post-Reconstruction enfranchisement practices in Border states, it sure looks to me as \
-                                though those practices led to much higher voter participation (and, by inverse relationship, lower influence of individual \
-                                voters) than that of Confederate slave states."
+                                though those practices led to much higher voter participation (and, by inverse relationship, little to no \
+                                hyper-enfranchisement of individual voters) than that of Confederate slave states."
                             ]),
                             html.P(className="card-text", children=[
                                 "In fact, from the 40,000’ view enabled by these data visualizations, post-war voter turnout in Union-loyal former-slave \
@@ -100,29 +197,6 @@ content = html.Div([
                             html.P(className="card-text", children=[
                                 html.B("Bottom line:"), html.I(" Post-Reconstruction voter disenfranchisement seems to have had less to do with a state’s historic connection to \
                                 slavery than to the side it fought with in the Civil War."),
-                            ]),
-                        ]),
-                    ]),
-                ]),
-                dbc.Col(md=6, children=[
-                    dbc.Card(className="border-success", children=[
-                        dbc.CardBody([
-                            html.H4("Other interpretations of Voter Weight trends and Electoral College bias", className="card-title"),
-                            html.P(className="card-text", children=[
-                                "To avoid wrapping every comment in a caveat, I’ve been fairly loose in my pronouncements that hyper-enfranchisement correlates \
-                                to higher levels of voter suppression, so I wanted to rattle off a few things that most certainly also have an effect on a \
-                                state’s Voter Weight metric:",
-                                html.Ul([
-                                    html.Li("Voter apathy, and hence lower voter participation. Since the “solid south” of the early 20th century was effectively \
-                                        a non-competitive one-party regional bloc (in part due to the wild success of their voter suppression tactics), the fact \
-                                        that down-ballot winners were a foregone conclusion may have further depressed turnout"),
-                                    html.Li("Other eligibility factors such as age, gender, incarceration status, felony record, etc vary from state to state"),
-                                    html.Li("Census apportionment is decennial, so Electoral College influence always lags a few years behind a population \
-                                        explosion, lowering the Voter Weight in fast-growing states near the end of the decade"),
-                                    html.Li("Census apportionment in states with a higher percentage of undocumented residents who can’t legally vote increases \
-                                        Voter Weight in that state. This is generally regarded as to the benefit, not the detriment, of those who are tabulated \
-                                        but not enfranchised, but this creates a “five-fifths” type effect nonetheless."),
-                                ]),
                             ]),
                             html.Br(),
                             html.H4("The Voting Rights Act of 1965", className="card-title"),
@@ -182,24 +256,50 @@ content = html.Div([
                                 Constitution."
                             ]),
                             html.P(className="card-text", children=[
-                                "By the time of the nation's bicentennial in 1976, scarcely two decades—occurring in two different centuries—had passed where \
-                                Southern Blacks enjoyed any measurable degree of enfranchisement, or where the representation of Southern whites in national \
-                                politics wasn't wildly inflated relative to their population. The means by which the imbalances of these eras were perpetuated \
+                                "From Jesse Wegman’s 2019 book ", html.I("Let the People Pick the President"), ": “[The Fourteenth Amendment] was the official \
+                                eradication of the three-fifths clause: if you prevent eligible voters from voting, you don’t get to count them toward your \
+                                representation in Congress… That, at any rate, was the hope. As of 2020, Section 2 of the Fourteenth Amendment has never been \
+                                enforced.”", dcc.Link(href="/sources-notes", children=[html.Sup("20")]), " Neither the clear suffrage mandate of the Fifteenth Amendment, nor the language tying voter disenfranchisement to reduced \
+                                representation in the Fourteenth Amendment, prevented institutionalized Jim Crow voter suppression. The impediments to legal voting \
+                                concocted by Southern Redeemers in the wake of Reconstuction went unchallenged for a full century after the Civil War. During the \
+                                Jim Crow interim, again quoting Wegman: “One of the great ironies of American history is that the end of slavery actually made \
+                                the white power structures in the former slave states stronger.”", dcc.Link(href="/sources-notes", children=[html.Sup("14")]),
+                            ]),
+                            html.P(className="card-text", children=[
+                                "The means by which the staggering electoral imbalances of the pre-war slavery era and the post-war Jim Crow era were perpetuated \
                                 have potentially far-reaching implications. How many government programs, pieces of legislation, legal judgments and the like \
                                 were cultivated with intent to perpetuate a status quo grounded in Southern whites silencing and extracting political influence from \
                                 their Black populations? How many ideologies and narratives, designed to maintain entrenched Southern white interests or linked \
                                 to ill-gotten political gains, were amplified and exported to the rest of the country?"
                             ]),
                             html.P(className="card-text", children=[
-                                "The ubiquitous embrace of Lost Cause mythology in the early 20th century, the flying of the Confederate flag at events in Northern \
-                                and Western states in the late 20th century - these are just the most obvious examples, but it stands to reason that the larger \
-                                megaphones and greater voting influence enjoyed by Southern whites at the expense of their Black populations have propagated \
-                                countless artifacts into the national character during 200 years of outsized Southern white influence."
+                                "The ubiquitous embrace of Lost Cause mythology in the early 20th century, the prevalence of Sambo caricatures, the national \
+                                expansion of the Georgia-born KKK, the flying of the Confederate flag at events in Northern and Western states in the late 20th \
+                                century - these are just the most obvious examples, but it stands to reason that the larger megaphones and greater voting influence \
+                                enjoyed by Southern whites at the expense of their Black populations have propagated countless artifacts into the national \
+                                character during 200 years of outsized Southern white influence."
                             ]),
                         ])
                     ])
                 ])
-            ])
+            ]),
+            html.Br(),
+            html.Hr(className="border-light"),
+            html.Div(children=[
+                html.Ul(className="pagination pagination-lg justify-content-center", children=[
+                    html.Li(className="page-item flex", style={"width": "50%"}, children=[
+                        html.A(className="page-link", href="/voter-weight-electoral-college-bias-page3", children=[
+                            "← Part 3: Reconstruction, Redemption, and suppression-state bias"
+                        ])
+                    ]),
+                    html.Li(className="page-item flex", style={"width": "20%"}),
+                    html.Li(className="page-item flex", style={"width": "50%", "text-align": "right"}, children=[
+                        html.A(className="page-link", href="/voter-weight-calculation", children=[
+                            "Appendix 1: Calculating Voter Weight →"
+                        ])
+                    ]),
+                ])
+            ]),
         ])
     ])
 ])

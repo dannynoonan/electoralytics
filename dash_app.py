@@ -10,7 +10,8 @@ import plotly.express as px
 
 from dash_pages import (
     components, home_page, electoral_college_intro, voter_weight_landing, voter_weight_page1, voter_weight_page2, voter_weight_page3, 
-    voter_weight_conclusions, voter_weight_calculation, explanation_of_groupings, voter_weight_figure_vault, voter_weight_timeline_viz)
+    voter_weight_conclusions, voter_weight_calculation, explanation_of_groupings, voter_weight_figure_vault, voter_weight_timeline_viz,
+    sources_notes)
 from data_processor.data_objects import DataObject
 from data_processor.functions import map_to_subdir
 from fig_builder import bar_plots, box_plots, choropleths, line_charts, scatter_plots
@@ -84,6 +85,8 @@ def display_page(pathname):
         return voter_weight_figure_vault.content
     elif pathname == "/electoral-college-intro":
         return electoral_college_intro.content
+    elif pathname == "/sources-notes":
+        return sources_notes.content
     else:
         return home_page.content
 
@@ -146,7 +149,7 @@ def display_voter_weight_page1(map_year_input, groupings_input, max_small_input,
         else:
             show_eras = False
     # fig titles
-    title_map_color_by_ecv = 'States shaded by Electoral College votes (i.e. size/population)'
+    title_map_color_by_ecv = 'States shaded by number of Electoral College votes'
     # generate figs
     fig_map_color_by_ecv = choropleths.build_vw_by_state_map(
         data_obj, ddirs.CENSUS, 5, color_col=cols.GROUP, frame=map_year, show_era=False, alt_groups=['ecv_only'], 

@@ -15,9 +15,25 @@ content = html.Div([
     navbar,
     dbc.Card(className="bg-success", children=[
         dbc.CardBody([
+            html.Div(children=[
+                html.Ul(className="pagination pagination-lg justify-content-center", children=[
+                    html.Li(className="page-item flex", style={"width": "50%"}, children=[
+                        html.A(className="page-link", href="/voter-weight-timeline-visualization", children=[
+                            "← Appendix 2: Annotated Timeline Charting Voter Weight Trends"
+                        ])
+                    ]),
+                    html.Li(className="page-item flex", style={"width": "20%"}),
+                    html.Li(className="page-item flex", style={"width": "50%", "text-align": "right"}, children=[
+                        html.A(className="page-link", href="/voter-weight-figure-vault", children=[
+                            "The Vault: 220 Years of Maps, Charts, and Figures →"
+                        ])
+                    ]),
+                ])
+            ]),
+            html.Hr(className="border-light"),
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Explanation of State Aggregate Groupings"),
+                html.H3("Appendix 3: Explanation of State Aggregate Groupings"),
             ]),
             html.Br(),
             dbc.Row([
@@ -31,7 +47,7 @@ content = html.Div([
                             int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)', 'color': 'white'}}
                             for y in vicennial_years
                         },
-                        value=2020,
+                        value=1800,
                     )
                 ]), 
                 dbc.Col(md=2, className="text-white", style={'textAlign': 'right'}, children=[
@@ -133,7 +149,24 @@ content = html.Div([
                         ]),
                     ])
                 ])
-            ])
+            ]),
+            html.Br(),
+            html.Hr(className="border-light"),
+            html.Div(children=[
+                html.Ul(className="pagination pagination-lg justify-content-center", children=[
+                    html.Li(className="page-item flex", style={"width": "50%"}, children=[
+                        html.A(className="page-link", href="/voter-weight-calculation", children=[
+                            "← Appendix 1: Calculating “Voter Weight” Per State"
+                        ])
+                    ]),
+                    html.Li(className="page-item flex", style={"width": "20%"}),
+                    html.Li(className="page-item flex", style={"width": "50%", "text-align": "right"}, children=[
+                        html.A(className="page-link", href="/voter-weight-figure-vault", children=[
+                            "The Vault: 220 Years of Maps, Charts, and Figures →"
+                        ])
+                    ]),
+                ])
+            ]),
         ])
     ])
 ])

@@ -18,37 +18,40 @@ content = html.Div([
                         dbc.CardBody([
                             html.H3("American voter enfranchisement: A zero-sum game"),
                             html.P("Feb 12, 2021", style={"font-family": "arial", "font-size": "10pt"}),
+                            html.Img(src="/static/stockImages/the_first_vote_loc.jpg", style={"float": "right", "padding-left": "10px"}, width="40%"),
                             html.P(children=[
                                 "Apart from a brief hopeful period between the Civil War and the end of Reconstruction, the disenfranchisement of \
                                 Southern Blacks in the US’s first 190 years was nearly absolute. During slavery, Blacks were unable to vote entirely, \
                                 while during the Jim Crow era, “Southern Blacks were made electorally invisible, whether through restrictive \
                                 practices like poll taxes and literacy tests or by campaigns of terrorism and state-sanctioned murder.”", 
-                                html.Sup("1"), " Because the Electoral College grants voting influence based on population rather than \
+                                dcc.Link(href="/sources-notes", children=[html.Sup("1")]), " Because the Electoral College grants voting influence based on population rather than \
                                 participation, the disenfranchisement of Southern Blacks fed directly into the “hyper-enfranchisement” of Southern \
-                                whites in both periods. This resulted in Southern whites holding significantly more power, per voter, than any other \
-                                demographic anywhere else in the US."
+                                whites in both periods. This resulted in ", html.Span(style={"font-weight":"bold"}, children=["Southern whites holding \
+                                significantly more power, per voter, than any other demographic anywhere else in the US."])
                             ]),
                             html.P(children=[
                                 "I first became interested in quantifying disenfranchisement in relation to hyper-enfranchisement after an ",
                                 dcc.Link("October 2020 episode", href="https://www.npr.org/2020/09/30/918717270/the-electoral-college", 
-                                target="_blank"), " of NPR’s ", html.I("Throughline"), ". The podcast framed Jim Crow voter suppression as a \
-                                “five-fifths” variation on the three-fifths compromise, that infamous slave-tabulation ratio etched into the \
-                                Constitution. The suggestion that the two eras might be quantified side by side prompted me to work out a generic \
-                                formula for comparing them, by measuring the relative influence of voters in any given state, in any given year, \
-                                using the ratio of each state’s voter turnout to its Electoral College votes. The resulting “", dcc.Link("Voter Weight", 
+                                target="_blank"), " of NPR’s ", html.I("Throughline"), dcc.Link(href="/sources-notes", children=[html.Sup("2")]),
+                                ". The podcast framed Jim Crow voter suppression as a “five-fifths” variation on the three-fifths compromise, that \
+                                infamous slave-tabulation ratio etched into the Constitution. The suggestion that the two eras might be quantified \
+                                side by side prompted me to work out a generic formula for comparing them, by measuring the relative influence of \
+                                voters in any given state, in any given year, using the ratio of each state’s voter turnout to its Electoral College \
+                                votes. The resulting ", html.Span(style={"font-weight":"bold"}, children=["“", dcc.Link("Voter Weight", 
                                 href="/voter-weight-calculation"), "” metric measures the degree of hyper-enfranchisement experienced by voters in a \
-                                given state, which (absent other factors) is inversely proportional to the degree of voter disenfranchisement in that \
-                                state."
+                                given state"]), ", which (absent other factors) is inversely proportional to the degree of voter disenfranchisement \
+                                in that state."
                             ]),
                             html.H3("Visualizing Voter Weight by state / by year"),
                             html.P(children=[
                                 "The first figure below illustrates the hyper-enfranchisement of voters in certain states relative to others by \
                                 displaying them in descending order by Voter Weight, shading them in terms of their Civil War grouping (more info \
                                 about state groupings ", dcc.Link("here", href="/explanation-of-groupings"), "). This figure, as with all figures on \
-                                the site, is interactive. Move the “Select year” slider to bring a different election year into focus. Highlight a \
-                                portion of the figure to zoom in, then double-click to reset to the original scale. Roll over any bar in the chart to \
-                                see the factors that contribute to its Voter Weight calculation. Note that if every vote in every state counted \
-                                equally, all of the Voter Weights would be 1.0 and each bar in the chart would be the same length."
+                                the site, is interactive. ", html.Span(style={"font-style":"italic","text-decoration":"underline"}, 
+                                children=["Move the “Select year” slider to bring a different election year into focus"]), ". Highlight a portion of \
+                                the figure to zoom in, then double-click to reset to the original scale. Roll over any bar in the chart to see the \
+                                factors that contribute to its Voter Weight calculation. Note that if every vote in every state counted equally, all \
+                                of the Voter Weights would be 1.0 and each bar in the chart would be the same length."
                             ]),
                         ])
                     ]),
@@ -119,19 +122,16 @@ content = html.Div([
                             html.P(children=[
                                 html.Ul(children=[
                                     html.Li(
-                                        dcc.Link("Read the full article", href="/voter-weight-electoral-college-bias-page1")
+                                        dcc.Link("→ Continue to the next section: “Electoral College bias basics”", href="/voter-weight-electoral-college-bias-page1")
                                     ),
                                     html.Li(
-                                        dcc.Link("See an annotated timeline of voter weight trends", href="/voter-weight-timeline-visualization")
+                                        dcc.Link("→ Learn about the math behind voter weight", href="/voter-weight-calculation")
                                     ),
                                     html.Li(
-                                        dcc.Link("Learn about the math behind voter weight", href="/voter-weight-calculation")
+                                        dcc.Link("→ Get the breakdown of state grouping heuristics used throughout the site", href="/explanation-of-groupings")
                                     ),
                                     html.Li(
-                                        dcc.Link("Get the breakdown of state grouping heuristics used throughout the site", href="/explanation-of-groupings")
-                                    ),
-                                    html.Li(
-                                        dcc.Link("Reveal Electoral College bias through interactive maps, charts and more", href="/voter-weight-figure-vault")
+                                        dcc.Link("→ Reveal Electoral College bias through interactive maps, charts and more", href="/voter-weight-figure-vault")
                                     ),
                                 ])
                             ]),
