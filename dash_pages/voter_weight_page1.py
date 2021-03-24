@@ -28,7 +28,7 @@ content = html.Div([
             html.Hr(className="border-light"),
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Part 1: Electoral College bias basics"),
+                html.H3("Part 1: Electoral equality for states, not voters"),
             ]),
             html.Br(),
             dbc.Row([
@@ -55,10 +55,12 @@ content = html.Div([
                                 the Electoral College apportionment granted to that state, and (b) how many people turn out to vote in that state."
                             ]),
                             html.P(className="card-text", children=[
-                                "These factors originated in an effort to balance out the influence of each state, but one of their effects has been to create \
-                                imbalances between the influence of individual voters. In the coming sections I explore three types of Electoral College \
-                                imbalance, rooted in the push and pull between state apportionment and voter participation, that are emergent in historical \
-                                election data:",
+                                "Pre-allocating representational influence to states, rather than simply tallying the ballots of individual citizens who turn \
+                                out to vote, originated in part from an effort to balance out the influence of each state.", dcc.Link(href="/sources-notes", 
+                                children=[html.Sup("4")]), " And to a certain extent this goal of balancing state-level influence was achieved, but with the \
+                                side-effect of creating imbalances between the influence of individual voters. In the coming sections I explore three types of \
+                                Electoral College imbalance, rooted in the push and pull between state apportionment and voter participation, that are emergent \
+                                in historical election data:",
                                 html.Ul([
                                     html.Li(children=[html.B("Small-state bias"), ": Every state, regardless of population, gets two Electoral College votes for \
                                         its two Senators, proportionally favoring smaller states with fewer Representatives"]),
@@ -99,25 +101,32 @@ content = html.Div([
                             html.H4("Voter Weight"),
                             html.Img(style={"float": "right", "padding-right": "10px"}, src="/static/vwMath/derivingPvpeVw.png", width="55%"),
                             html.P(className="card-text", children=[
-                                "Despite small-state bias and slave-state bias deriving from different legal statutes and census formulas, I’m applying the same \
-                                “Voter Weight” calculation to illustrate each in the figures above. Check out the ", dcc.Link("Calculating Voter Weight",
-                                href="/voter-weight-calculation"), " section for a detailed breakdown of the math behind this metric."
+                                "Although the various Electoral College biases derive from different legal statutes and census formulas, in the pages ahead I’ll \
+                                be applying the same “Voter Weight” calculation to illustrate each bias side by side. Check out the ", 
+                                dcc.Link("Calculating Voter Weight", href="/voter-weight-calculation"), " section for a detailed breakdown of the math behind \
+                                this metric."
                             ]),
                             html.P(className="card-text", children=[
-                                "A couple of top line observations for now:",
+                                "A couple of top-line observations for now:",
                                 html.Ul(children=[
-                                    html.Li("Voter Weight is a zero sum game: in aggregate all weights average out to 1.0, so an increase in one state must be offset \
-                                        by a decrease in another"),
+                                    html.Li("Voter Weight is a zero sum game: in aggregate all weights average out to 1.0, so an increase in one state must be \
+                                        offset by a decrease in another"),
                                     html.Li("While a higher Voter Weight benefits those to whom it directly applies, it is ultimately a marker of anti-democratic \
                                         outcomes that favor one population over another"),
-                                    html.Li("Regardless of which factors of apportionment or participation are responsible for shifts or distortions in Voter Weight, \
-                                        the resulting comparison is apples-to-apples — that is, the same calculation can be applied regardless of underlying bias / \
-                                        combination of biases")
+                                    html.Li("Regardless of which factors of apportionment or participation are responsible for shifts or distortions in Voter \
+                                        Weight, the resulting comparison is apples-to-apples — that is, the same calculation can be applied regardless of \
+                                        underlying bias / combination of biases")
                                 ]),
                             ]),
                             html.P(className="card-text", children=[
                                 "The color shading for each state in ", html.B("Figure 2"), " corresponds to that state's Voter Weight in a given presidential \
                                 election. Adjust the 'Select Year' slider above the figure to toggle between different election years."
+                            ]),
+                            html.P(className="card-text", children=[
+                                html.B("Figure 3"), " below provides an interactive overview of Voter Weight measurements over time, with states grouped by \
+                                Civil War alliance or census region (choose via pulldown menu). You may also select individual states to display their Voter \
+                                Weight trend lines superimposed against one other. This figure jumps ahead a bit in terms of what's been discussed, but gives \
+                                a preview of patterns and trends we'll be exploring in the coming pages."
                             ])
                         ])
                     ]),
@@ -179,9 +188,25 @@ content = html.Div([
                 dbc.Col(md=12, children=[
                     form_input_line_vw_timeline_short,
                     dcc.Graph(id="fig-line-vw-timeline-short"),
+                    html.P(className="card-text", style={"padding": "5px", "font-size":"10pt"}, children=[
+                        "Figure 3: Voter Weight trends as a function of time, spanning every US presidential election between 1840 and 2000.",
+                        html.Ul([
+                            html.Li("Using the legend to the right you can hide group-level trend lines one at a time, and using the “Show / Hide State Groups” \
+                            dropdown menu above you can hide the group-level trend lines en masse."),
+                            html.Li("Using the dropdown menu above the chart, you can select individual states to compare. These can be overlaid onto group-level data \
+                            or viewed separately."),
+                            html.Li("Background colors, markers, and text annotations denoting significant events and eras are there to add context, relating to African \
+                            American rights and to voting rights generally. These can also be hidden using the checkboxes above the chart."),
+                            html.Li("If things get too cluttered, you can assemble a comparison from scratch by hitting the “Clear canvas” button to start fresh. \
+                            Toggling from “linear” to “log” scale for Vote Weight (Y axis) can help de-clutter trend lines in the lower registers as well."),
+                            html.Li("When you first load the page, it displays aggregate/average data at the state-group level (with “Civil War” grouping selected), but \
+                            you can toggle between grouping states by their Civil War affiliations or their Regional Census designation."),
+                            html.Li("You can also specify the Electoral College vote threshold at which states are extracted into the “Small” group to reduce the \
+                            effects of small-state bias in the trend lines.")
+                        ]),
+                    ]),
                 ])
             ]),
-            html.Br(),
             html.Hr(className="border-light"),
             html.Div(children=[
                 html.Ul(className="pagination pagination-lg justify-content-center", children=[

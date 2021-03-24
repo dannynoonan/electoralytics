@@ -14,7 +14,7 @@ content = html.Div([
                 html.Ul(className="pagination pagination-lg justify-content-center", children=[
                     html.Li(className="page-item flex", style={"width": "50%"}, children=[
                         html.A(className="page-link", href="/voter-weight-electoral-college-bias-page1", children=[
-                            "← Part 1: Electoral College bias basics"
+                            "← Part 1: Electoral equality for states, not voters"
                         ])
                     ]),
                     html.Li(className="page-item flex", style={"width": "20%"}),

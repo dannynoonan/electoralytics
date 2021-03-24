@@ -52,24 +52,13 @@ content = html.Div([
                                 Southerner) the freedmen’s nascent elevation out of slavery was not part and parcel with evolution into active political \
                                 participant. But a combination of factors, ranging from the noble and moral to the practical and political, would ultimately \
                                 galvanize popular support behind the movement for Black enfranchisement. Beginning with speeches and publications from Northern \
-                                Blacks and former slaves, bolstered by the tireless evangelism and implacability of Congressional abolitionists, the message of \
-                                empowering and stabilizing Black equality via suffrage steadily moved the nation from a position of wide skepticism to one of \
-                                broad support in the years immediately following the Civil War."
-                            ]),
-                            html.P(className="card-text", children=[
-                                "The oratory of Wendell Phillips at the annual meeting of the Massachusetts Anti-Slavery Society in 1865 captures the spirit \
-                                being promulgated from the “radical” Republican wing at the time:"
-                            ]),
-                            html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px"}, children=[
-                                html.P(style={"font-style": "italic"}, children=[
-                                    "Our philosophy of government since the 4th of July, 1776, is that no class is safe, no freedom is real, no emancipation is \
-                                    effectual which does not place in the hands of the man himself the power to protect his own rights.",
-                                    dcc.Link(href="/sources-notes", children=[html.Sup("6")]),
-                                ]),
+                                Blacks and former slaves, bolstered by the tireless evangelism and implacability of white abolitionist publishers and \
+                                politicians, the message of empowering and stabilizing Black equality via suffrage steadily moved the nation from a position of \
+                                wide skepticism to one of broad support in the years immediately following the Civil War."
                             ]),
                             html.P(className="card-text", children=[
                                 "Out front on pro-suffrage messaging was Frederick Douglass, emphasizing the the essential humanity and security conferred by \
-                                enfranchising free Blacks:"
+                                enfranchising free Blacks to the Massachusetts Anti-Slavery Society in 1865:"
                             ]),
                             html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px"}, children=[
                                 html.P(style={"font-style": "italic"}, children=[
@@ -97,21 +86,21 @@ content = html.Div([
                                     dcc.Link(href="/sources-notes", children=[html.Sup("9")]),
                                 ]),
                             ]),
-                            html.P(className="card-text", children=[
-                                "But the moral justice and egalitarian ethics were only one part of the total argument, at least from the vantage point of Republican \
-                                legislators. Beyond the soaring rhetoric and appeals to rational humanity, the basic math of Congressional and Electoral College \
-                                representation ultimately played a central role in accelerating expanded suffrage as well. This tied directly to the prewar status \
-                                quo: with freedmen now counted as full citizens rather than three-fifths chattel slaves, Southern states lay poised to receive even \
-                                greater political influence vis-a-vis Congressional and Electoral College representation than they’d had prior to the Civil War. \
-                                Absent any buffer or hedge against this, allowing Southern representatives back into Congress risked the reversal of all political \
-                                and legislative gains made since the war."
-                            ]),
                         ])
                     ])
                 ]),
                 dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
+                            html.P(className="card-text", children=[
+                                "But the moral justice and egalitarian ethics were only one part of the total argument, at least from the vantage point of Republican \
+                                legislators. Beyond the soaring rhetoric and appeals to rational humanity, the basic math of Congressional and Electoral College \
+                                representation ultimately played a central role in accelerating expanded suffrage as well. This tied directly to the prewar status \
+                                quo: with freedmen now counted as full citizens rather than three-fifths chattel slaves, Southern states lay poised to receive even \
+                                greater political influence vis-à-vis Congressional and Electoral College representation than they’d had prior to the Civil War. \
+                                Absent any buffer or hedge against this, allowing Southern representatives back into Congress risked the reversal of all political \
+                                and legislative gains made since the war."
+                            ]),
                             html.P(className="card-text", children=[
                                 "For a time, two paths were pursued through Constitutional Amendment:",
                                 html.Ol(children=[
@@ -121,23 +110,9 @@ content = html.Div([
                                 ])
                             ]),
                             html.P(className="card-text", children=[
-                                "W.E.B. Du Bois lays it out plainly, emphasizing the coalition between Northern industry and what he called the “abolitionist-democracy” \
-                                movement, the two core Unionist Republican factions whose aligned agendas brought Black enfranchisement to the fore:"
-                            ]),
-                            html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px"}, children=[
-                                html.P(style={"font-style": "italic"}, children=[
-                                    "When the South went beyond reason and truculently demanded not simply its old political power but increased political power based \
-                                    on disfranchised Negroes, which it openly threatened to use for the revision of the tariff, for the repudiation of the national \
-                                    debt, for the disestablishing of the national banks, and for putting the new corporate form of industry under strict state \
-                                    regulation and rule, Northern industry was frightened and began to move towards… endowed Negro education, legal civil rights, and \
-                                    eventually even votes for Negroes to offset the Southern threat of economic attack.",
-                                    dcc.Link(href="/sources-notes", children=[html.Sup("10")]),
-                                ]),
-                            ]),
-                            html.P(className="card-text", children=[
                                 "This statement from the ", dcc.Link("Congressional Joint Committee on Reconstruction", target="_blank",
                                 href="https://en.wikipedia.org/wiki/United_States_Congressional_Joint_Committee_on_Reconstruction"), " in 1866 lays out the basic dilemma, \
-                                as well as their inclination to consider reduced representation to non-compliant states as an alternative to the enfranchisement of \
+                                hinting at their willingness to consider reduced representation to non-compliant states as an alternative to full enfranchisement of \
                                 former slaves:"
                             ]),
                             html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px"}, children=[
@@ -164,27 +139,16 @@ content = html.Div([
                                 ]),
                             ]),
                             html.P(className="card-text", children=[
-                                "Prior to the Civil War, full deference to states to prescribe their own voting restrictions was a “settled” Constitutional matter, \
-                                so this nascent attempt to link a state’s embrace of expanded franchise with its Electoral College influence and Congressional \
-                                representation was fairly radical. Indeed Section 2 appears to have been one of the most contested parts of the sprawling Fourteenth \
-                                Amendment, but the advent of universal Black male suffrage in the Fifteenth Amendment ultimately overshadowed any of the nuances of \
-                                enfranchisement and apportionment by plainly asserting that every man would be counted, and every man would be allowed to vote - \
-                                period, end of story."
+                                "Prior to the Civil War, deference to “state sovereignty” was presumed as it related to voting restrictions, so this nascent attempt \
+                                to link a state’s embrace of expanded franchise with its Electoral College influence and Congressional representation was fairly \
+                                radical. Indeed Section 2 appears to have been one of the most contested parts of the sprawling Fourteenth Amendment, but the advent \
+                                of universal Black male suffrage in the Fifteenth Amendment ultimately overshadowed any of the nuances of enfranchisement and \
+                                apportionment laid out in the Fourteenth by plainly asserting that every man would be counted, and every man would be allowed to \
+                                vote - period."
                             ]),
                             html.P(className="card-text", children=[
                                 "Thus, after several twists and convulsions, Northern consensus arrived at a hybrid moral-political solution: retain political \
-                                influence in the South by extending suffrage to four million Union-loyal freedmen. Ultimately, unflinching Congressional stalwarts \
-                                like Charles Sumner, here voicing his disagreement with concessions on race built into the Fourteenth Amendment, would win the day \
-                                with passage of the Fifteenth Amendment:"
-                            ]),
-                            html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px"}, children=[
-                                html.P(style={"font-style": "italic"}, children=[
-                                    "I have fought a long battle with slavery; and I confess my solicitude when I see any thing that looks like concession to it... \
-                                    From the beginning of our history the country has been afflicted with compromise. It is by compromise that human rights have \
-                                    been abandoned… The country needs repose after all its trials, and repose... cannot be found by inserting in your constitution \
-                                    the disfranchisement of a race.",
-                                    dcc.Link(href="/sources-notes", children=[html.Sup("13")]),
-                                ]),
+                                influence in the South by extending suffrage to Union-loyal Southern Blacks."
                             ]),
                         ])
                     ])
@@ -204,21 +168,21 @@ content = html.Div([
                                 html.P(children=["—Jesse Wegman, ", html.I("“Let the People Pick the President”")])
                             ]),
                             html.Br(),
-                            html.H4("Voter suppression as a “five-fifths” scheme"),
+                            html.H4("Reconstruction Amendments in practice"),
                             html.P(className="card-text", children=[
                                 "The voting and legal protections of the Fourteenth and Fifteenth Amendments led to a true flourishing of multi-racial democracy \
                                 during Reconstruction. Even prior to their passage and ratification, the Congressional Reconstruction Acts of 1867 set every former \
-                                Confederate state on a path toward a greatly expanded electorate. Compared with a total of 721,191 (white) voters \in 1860, the \
+                                Confederate state on a path toward a greatly expanded electorate. Compared with a total of 721,191 (white) voters in 1860, the \
                                 combined turnout at the constitutional conventions of 1867 nearly doubled this figure at 1,363,640, of which more than half the \
-                                participants were Black."
+                                participants were Black.", dcc.Link(href="/sources-notes", children=[html.Sup("??")]),
                             ]),
                             html.P(className="card-text", children=[
-                                "But the era was short-lived, as even the most radical abolitionists feared it might be. William Lloyd Garrison’s early qualms \
-                                regarding federally-imposed enfranchisement, expressed here as published in ", html.I("The Liberator"), " in 1864, were eerily prescient:"
+                                "But the era was short-lived, as even the most radical abolitionists feared it might be. Concerns regarding federally-imposed \
+                                enfranchisement, such as these published by William Lloyd Garrison in ", html.I("The Liberator"), " in 1864, were eerily prescient:"
                             ]),
                             html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px"}, children=[
                                 html.P(style={"font-style": "italic"}, children=[
-                                    "Nor, if the freed blacks were admitted to the polls by… fiat, do I see any permanent advantage likely to be secured by it; \
+                                    "If the freed blacks were admitted to the polls by… fiat, [I do not] see any permanent advantage likely to be secured by it; \
                                     for, submitted to as a necessity from the outset, as soon as the state was organized and left to manage its own affairs, the \
                                     white population, with their superior… wealth and power, would unquestionably alter the franchise in accordance with their \
                                     prejudices, and exclude those thus summarily brought to the polls. Coercion would gain nothing. In other words… universal \
@@ -227,15 +191,16 @@ content = html.Div([
                                 ]),
                             ]),
                             html.P(className="card-text", children=[
-                                "Garrison wasn’t the only politically-engaged Northern abolitionist to discern the potential for voting rights to be rolled back \
-                                in the aftermath of Reconstruction. His trepidation reflected the concerns of legislators who foresaw the challenge of holding the \
-                                fragile multi-racial democratic experiment together. In theory, the Fifteenth Amendment would guarantee Black suffrage, and the \
-                                Fourteenth Amendment would operate as a fail-safe to prevent Southern whites from both disenfranchising their Black citizens and \
-                                siphoning the influence afforded by counting those Black citizens as fully five-fifths rather than three-fifths in the census."
+                                "Garrison's trepidation that voting rights may not be secure in the aftermath of Reconstruction was widely felt. And in theory, \
+                                if the Fifteenth Amendment should fail to guarantee Black suffrage, the Fourteenth Amendment would operate as a fail-safe to at \
+                                least prevent Southern whites from both disenfranchising their Black citizens ", html.I("and"), " siphoning the influence \
+                                afforded their states by counting those Black citizens as fully five-fifths rather than three-fifths in the census."
                             ]),
                             html.P(className="card-text", children=[
                                 "In practice, however, it would be nearly a century before either amendment was utilized to this effect."
                             ]),
+                            html.Br(),
+                            html.H4("Voter suppression as a “five-fifths” scheme"),
                             html.P(className="card-text", children=[
                                 "A recent episode of ", html.I("NPR’s Throughline"), " (the original inspiration for this project!) explores the end of \
                                 Reconstruction, the rise of Black voter suppression, and its effects in terms of Electoral College influence. The show's hosts, \
@@ -288,12 +253,12 @@ content = html.Div([
                                 for the next 90-odd years that would ultimately far exceed that which they had enjoyed during slavery."
                             ]),
                             html.P(className="card-text", children=[
-                                "Hearing the overview laid out in the ", html.I("Throughline"), " episode was the first time I’d considered that suppressing the Black \
-                                vote had been part-and-parcel with Southern whites not just retaining, but actually ", html.I("increasing"), " their disproportionate \
-                                pre-war influence on national elections, as compared to voters in other states. Did the warped racist logic driving Southern Redeemers \
-                                to shamelessly, systematically, and violently prevent their Black populations from voting between the end of Reconstruction in 1877 \
-                                and the signing of the Voting Rights Act in 1965 reflect a sense of lingering electoral entitlement, an expectation that the same \
-                                preferential treatment for enshrined in the three-fifths clause of the Constitution?",
+                                "Listening to this ", html.I("Throughline"), " episode was the first time I’d considered that suppressing the Black vote had been \
+                                part-and-parcel with Southern whites not just retaining, but actually ", html.I("increasing"), " their disproportionate pre-war \
+                                influence on national elections. To what extent did the warped racist logic driving Southern Redeemers to shamelessly, systematically, \
+                                and violently prevent their Black populations from voting between the end of Reconstruction in 1877 and the signing of the Voting \
+                                Rights Act in 1965 reflect a sense of lingering electoral entitlement, an expectation that the same preferential treatment enshrined \
+                                in the three-fifths clause of the Constitution?",
                             ]),
                         ])
                     ])

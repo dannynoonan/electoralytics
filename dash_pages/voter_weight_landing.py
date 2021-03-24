@@ -20,24 +20,31 @@ content = html.Div([
                             html.P("Feb 12, 2021", style={"font-family": "arial", "font-size": "10pt"}),
                             html.Img(src="/static/stockImages/the_first_vote_loc.jpg", style={"float": "right", "padding-left": "10px"}, width="40%"),
                             html.P(children=[
-                                "Apart from a brief hopeful period between the Civil War and the end of Reconstruction, the disenfranchisement of \
-                                Southern Blacks in the US’s first 190 years was nearly absolute. During slavery, Blacks were unable to vote entirely, \
-                                while during the Jim Crow era, “Southern Blacks were made electorally invisible, whether through restrictive \
-                                practices like poll taxes and literacy tests or by campaigns of terrorism and state-sanctioned murder.”", 
-                                dcc.Link(href="/sources-notes", children=[html.Sup("1")]), " Because the Electoral College grants voting influence based on population rather than \
-                                participation, the disenfranchisement of Southern Blacks fed directly into the “hyper-enfranchisement” of Southern \
-                                whites in both periods. This resulted in ", html.Span(style={"font-weight":"bold"}, children=["Southern whites holding \
-                                significantly more power, per voter, than any other demographic anywhere else in the US."])
+                                "Apart from a brief hopeful period between the Civil War and the end of Reconstruction, the disenfranchisement of Southern \
+                                Blacks in the US’s first 190 years was nearly absolute. Before emancipation, enslaved Blacks were prevented from voting but \
+                                counted as three-fifths of a person in the census, amplifying the national influence of their owners. During the Jim Crow \
+                                era, federal law gave Southern Blacks full representation and voting rights, but they were “made electorally invisible, \
+                                whether through restrictive practices like poll taxes and literacy tests or by campaigns of terrorism and state-sanctioned \
+                                murder.”", dcc.Link(href="/sources-notes", children=[html.Sup("1")]),
+                            ]),
+                            html.P(children=[
+                                "Because the Electoral College grants voting influence based on population rather than participation, the disenfranchisement \
+                                of Southern Blacks fed directly into the “hyper-enfranchisement” of Southern whites in both periods. As a result, for most \
+                                of America's first two centuries, ", html.Span(style={"font-weight":"bold"}, children=["Southern whites held significantly \
+                                more power, per voter, than any other demographic anywhere else in the US."]), " The augmented pre-war influence of Southern \
+                                white voters became known as the “Slave Power,” notorious for its focus on protecting and perpetuating the institution from \
+                                which it derived its power, and for the infamous three-fifths clause that padded its influence. Similarly during Jim Crow, \
+                                the collective influence of Southern whites became known as the “Solid South,” also notorious for impeding Civil Rights \
+                                legislation and relinquishing its racist hold on power - but less known for being propped up by a mathematical bias."
                             ]),
                             html.P(children=[
                                 "I first became interested in quantifying disenfranchisement in relation to hyper-enfranchisement after an ",
-                                dcc.Link("October 2020 episode", href="https://www.npr.org/2020/09/30/918717270/the-electoral-college", 
-                                target="_blank"), " of NPR’s ", html.I("Throughline"), dcc.Link(href="/sources-notes", children=[html.Sup("2")]),
-                                ". The podcast framed Jim Crow voter suppression as a “five-fifths” variation on the three-fifths compromise, that \
-                                infamous slave-tabulation ratio etched into the Constitution. The suggestion that the two eras might be quantified \
-                                side by side prompted me to work out a generic formula for comparing them, by measuring the relative influence of \
-                                voters in any given state, in any given year, using the ratio of each state’s voter turnout to its Electoral College \
-                                votes. The resulting ", html.Span(style={"font-weight":"bold"}, children=["“", dcc.Link("Voter Weight", 
+                                dcc.Link("October 2020 episode", href="https://www.npr.org/2020/09/30/918717270/the-electoral-college", target="_blank"), 
+                                " of NPR’s ", html.I("Throughline"), ", framed Jim Crow voter suppression as a “five-fifths” variation on the three-fifths \
+                                compromise.", dcc.Link(href="/sources-notes", children=[html.Sup("2")]), " The suggestion that the two eras might be \
+                                quantified side by side prompted me to work out a generic formula for comparing them, by measuring the relative \
+                                influence of voters in any given state, in any given year, using the ratio of each state’s voter turnout to its \
+                                Electoral College votes. The resulting ", html.Span(style={"font-weight":"bold"}, children=["“", dcc.Link("Voter Weight", 
                                 href="/voter-weight-calculation"), "” metric measures the degree of hyper-enfranchisement experienced by voters in a \
                                 given state"]), ", which (absent other factors) is inversely proportional to the degree of voter disenfranchisement \
                                 in that state."
@@ -120,20 +127,17 @@ content = html.Div([
                             ]),
                             html.H3("Want to dig deeper?"),
                             html.P(children=[
-                                html.Ul(children=[
-                                    html.Li(
-                                        dcc.Link("→ Continue to the next section: “Electoral College bias basics”", href="/voter-weight-electoral-college-bias-page1")
-                                    ),
-                                    html.Li(
-                                        dcc.Link("→ Learn about the math behind voter weight", href="/voter-weight-calculation")
-                                    ),
-                                    html.Li(
-                                        dcc.Link("→ Get the breakdown of state grouping heuristics used throughout the site", href="/explanation-of-groupings")
-                                    ),
-                                    html.Li(
-                                        dcc.Link("→ Reveal Electoral College bias through interactive maps, charts and more", href="/voter-weight-figure-vault")
-                                    ),
-                                ])
+                                dcc.Link("→ Continue to Part 1: “Electoral equality for states, not voters”", href="/voter-weight-electoral-college-bias-page1"),
+                                html.Br(),
+                                dcc.Link("→ Jump ahead to Part 2: “Small-state bias and slave-state bias”", href="/voter-weight-electoral-college-bias-page2"),
+                                html.Br(),
+                                dcc.Link("→ Jump ahead to Part 3: “Reconstruction, Redemption, and suppression-state bias”", href="/voter-weight-electoral-college-bias-page3"),
+                                html.Br(),
+                                dcc.Link("→ Learn about the math behind voter weight", href="/voter-weight-calculation"),
+                                html.Br(),
+                                dcc.Link("→ Get the breakdown of state grouping heuristics used throughout the site", href="/explanation-of-groupings"),
+                                html.Br(),
+                                dcc.Link("→ Reveal Electoral College bias through interactive maps, charts and more", href="/voter-weight-figure-vault"),
                             ]),
                         ]),
                     ]),
