@@ -28,7 +28,7 @@ content = html.Div([
             html.Hr(className="border-light"),
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Part 1: Electoral equality for states, not voters"),
+                html.H3("Part 1: Electoral College basics: Equality for states, not for voters"),
             ]),
             html.Br(),
             dbc.Row([
@@ -80,11 +80,10 @@ content = html.Div([
                             ]),
                             html.P(className="card-text", children=[
                                 "In a certain respect, historical disinterest in suppression-state bias makes sense: Compared to the direct and devastating \
-                                effects of Jim Crow voter suppression on the Black population, the hyper-enfranchisement of the Southern whites who perpetrated \
-                                that suppression (that is, the amplified national influence Southern whites experienced by suppressing regional Black voter \
-                                turnout) hardly registers as a corollary anecdote. However, the role that the inflated national influence of Southern whites \
-                                had in perpetuating its own regional dominance feels like a critical component—if not ", html.I("the"), " principal \
-                                factor—contributing to the longevity and totality of Jim Crow voter suppression."
+                                effects of Jim Crow voter suppression on the Black population, the amplified national influence Southern whites experienced by \
+                                suppressing regional Black voter turnout hardly registers as a corollary anecdote. However, the role that the inflated national \
+                                influence of Southern whites had in perpetuating its own regional dominance feels like a critical component—if not ", 
+                                html.I("the"), " principal factor—contributing to the longevity and totality of Jim Crow voter suppression."
                             ]),
                             html.P(className="card-text", children=[
                                 "Indeed, while slavery survived fewer than 80 years after ratification of the Constitution, Black voter suppression in the Jim \
@@ -101,10 +100,9 @@ content = html.Div([
                             html.H4("Voter Weight"),
                             html.Img(style={"float": "right", "padding-right": "10px"}, src="/static/vwMath/derivingPvpeVw.png", width="55%"),
                             html.P(className="card-text", children=[
-                                "Although the various Electoral College biases derive from different legal statutes and census formulas, in the pages ahead I’ll \
-                                be applying the same “Voter Weight” calculation to illustrate each bias side by side. Check out the ", 
-                                dcc.Link("Calculating Voter Weight", href="/voter-weight-calculation"), " section for a detailed breakdown of the math behind \
-                                this metric."
+                                "Although each Electoral College bias derives from distinct legal statutes and census formulas, in the pages ahead I’ll be \
+                                applying the same “Voter Weight” calculation to illustrate each bias side by side. Check out the ", dcc.Link("Calculating \
+                                Voter Weight", href="/voter-weight-calculation"), " section for a detailed breakdown of the math behind this metric."
                             ]),
                             html.P(className="card-text", children=[
                                 "A couple of top-line observations for now:",

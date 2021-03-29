@@ -14,13 +14,13 @@ content = html.Div([
                 html.Ul(className="pagination pagination-lg justify-content-center", children=[
                     html.Li(className="page-item flex", style={"width": "50%"}, children=[
                         html.A(className="page-link", href="/voter-weight-electoral-college-bias-page1", children=[
-                            "← Part 1: Electoral equality for states, not voters"
+                            "← Part 1: Electoral College basics: Equality for states, not for voters"
                         ])
                     ]),
                     html.Li(className="page-item flex", style={"width": "20%"}),
                     html.Li(className="page-item flex", style={"width": "50%", "text-align": "right"}, children=[
                         html.A(className="page-link", href="/voter-weight-electoral-college-bias-page3", children=[
-                            "Part 3: Reconstruction, Redemption, and suppression-state bias →"
+                            "Part 3: Reconstruction and Black voting rights →"
                         ])
                     ]),
                 ])
@@ -55,10 +55,11 @@ content = html.Div([
                                 + Senators (2 per state regardless of population), the same bicameral balance that was part of the Constitutional Convention’s ", 
                                 dcc.Link("Great Compromise", href="https://en.wikipedia.org/wiki/Connecticut_Compromise", target="_blank"), ". And just as every \
                                 state sends the same number of Senators to DC, even the smallest states receive the same +2 Senator “bicameral boost” in their \
-                                Electoral College vote count, hence the “3-vote-minimum” for even the least populous states. The hyper-enfranchisement effect of \
-                                the +2 boost tapers off as states increase in population and Electoral College apportionment, but if a state’s population \
-                                garners it only 1 or 2 Congressional Representatives then that +2 Senator boost easily doubles or triples the relative impact of \
-                                that state’s voters."
+                                Electoral College vote count, hence the “3-vote-minimum” for even the least populous states (see ", html.B("Figure 1"), " on the ",
+                                dcc.Link("previous page", href="/voter-weight-electoral-college-bias-page1"), "). The hyper-enfranchisement effect of the +2 \
+                                boost tapers off as states increase in population and Electoral College apportionment, but if a state’s population garners it \
+                                only 1 or 2 Congressional Representatives then that +2 Senator boost easily doubles or triples the relative impact of the voters \
+                                in that state."
                             ]),
                             html.P(className="card-text", children=[
                                 "This “small-state bias” is often calculated by comparing the ratio of each state’s ", html.I("population"), " to its Electoral \
@@ -163,9 +164,15 @@ content = html.Div([
                             html.P(className="card-text", children=[
                                 "Highlighting an example: If Voter Weight in 1852 was 2.24 in Alabama (9 Electoral College votes) compared with 0.78 in Illinois \
                                 (11 Electoral College votes), that means pound-for-pound it would take ~3 votes cast in Illinois to equal the influence of a \
-                                single vote cast in Alabama. States benefitting from the small-state boost, whether free states or slave states, still rise to \
-                                the top of the Voter Weight rankings, but since the larger slave states send more electors to the Electoral College the magnitude \
-                                of slave-state bias has measurably greater impact overall."
+                                single vote cast in Alabama. This same trend applies to each slave state (shaded in pink) compared to each free state (shaded in \
+                                purple) in Figure 3. This chart makes it easy to see how, aided by the three-fifths compromise, the “Slave Power” of the South \
+                                was able to retain the political representation needed to assert and perpetuate slaveholder interests, despite a voting \
+                                population much smaller than that in the North."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "States benefitting from the small-state boost, whether free states or slave states, still rise to the top of the Voter Weight \
+                                rankings, but since the larger slave states send more electors to the Electoral College the magnitude of slave-state bias has \
+                                measurably greater impact overall."
                             ]),
                             html.P(className="card-text", children=[
                                 html.B("Figure 5"), " rearranges the data from Figure 3 into a scatter plot, crossing each state's voter turnout (x axis) with its \
@@ -268,7 +275,7 @@ content = html.Div([
                     html.Li(className="page-item flex", style={"width": "20%"}),
                     html.Li(className="page-item flex", style={"width": "50%", "text-align": "right"}, children=[
                         html.A(className="page-link", href="/voter-weight-electoral-college-bias-page3", children=[
-                            "Part 3: Reconstruction, Redemption, and suppression-state bias →"
+                            "Part 3: Reconstruction and Black voting rights →"
                         ])
                     ]),
                 ])

@@ -19,8 +19,8 @@ content = html.Div([
                     ]),
                     html.Li(className="page-item flex", style={"width": "20%"}),
                     html.Li(className="page-item flex", style={"width": "50%", "text-align": "right"}, children=[
-                        html.A(className="page-link", href="/voter-weight-conclusions", children=[
-                            "Part 4: Conclusions and Discussion →"
+                        html.A(className="page-link", href="/voter-weight-electoral-college-bias-page4", children=[
+                            "Part 4: Suppression-state bias →"
                         ])
                     ]),
                 ])
@@ -28,7 +28,7 @@ content = html.Div([
             html.Hr(className="border-light"),
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Part 3: Reconstruction, Redemption, and suppression-state bias"),
+                html.H3("Part 3: Reconstruction and Black voting rights"),
             ]),
             html.Br(),
             dbc.Row([
@@ -44,21 +44,21 @@ content = html.Div([
                                 html.P("—George Mason, at the Constitutional Convention in 1787")
                             ]),
                             html.Br(),
-                            html.H4("Reconstruction and Black voting rights"),
+                            html.H4("Black suffrage: Equality, security, morality"),
                             html.P(className="card-text", children=[
                                 "The enfranchisement of former slaves has a feeling of logical inevitability in hindsight, but during the late 1860s Black \
                                 suffrage was anything but a certainty. Native Americans, recently arrived Chinese and Europeans, and most notably the entire \
                                 population of American women did not yet have the vote, so in the mind of the white Northerner (to say nothing of the white \
-                                Southerner) the freedmen’s nascent elevation out of slavery was not part and parcel with evolution into active political \
+                                Southerner) the freedmen’s nascent elevation out of slavery was not part-and-parcel with his evolution into active political \
                                 participant. But a combination of factors, ranging from the noble and moral to the practical and political, would ultimately \
-                                galvanize popular support behind the movement for Black enfranchisement. Beginning with speeches and publications from Northern \
-                                Blacks and former slaves, bolstered by the tireless evangelism and implacability of white abolitionist publishers and \
-                                politicians, the message of empowering and stabilizing Black equality via suffrage steadily moved the nation from a position of \
-                                wide skepticism to one of broad support in the years immediately following the Civil War."
+                                galvanize popular support behind the movement for Black enfranchisement."
                             ]),
                             html.P(className="card-text", children=[
-                                "Out front on pro-suffrage messaging was Frederick Douglass, emphasizing the the essential humanity and security conferred by \
-                                enfranchising free Blacks to the Massachusetts Anti-Slavery Society in 1865:"
+                                "Beginning with speeches and publications from Northern Blacks and former slaves, bolstered by the tireless evangelism and \
+                                implacability of white abolitionist publishers and politicians, the message of empowering and stabilizing Black equality via \
+                                suffrage steadily moved the Union-loyal states from a position of wide skepticism to one of broad support. Out front on \
+                                pro-suffrage messaging was Frederick Douglass, emphasizing the the essential humanity and security conferred by enfranchising \
+                                free Blacks to the Massachusetts Anti-Slavery Society in 1865:"
                             ]),
                             html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px"}, children=[
                                 html.P(style={"font-style": "italic"}, children=[
@@ -73,7 +73,7 @@ content = html.Div([
                                 "This argument for the practical necessity of suffrage for freedmen was echoed in German-born Carl Schurz’s ", 
                                 dcc.Link("field report on post-war conditions in the South", target="_blank", 
                                 href="https://wwnorton.com/college/history/america9/brief/docs/CSchurz-South_Report-1865.pdf"), ". In his view, Black \
-                                enfranchisement would be “the best permanent protection against oppressive class-legislation, as wellas against individual \
+                                enfranchisement would be “the best permanent protection against oppressive class-legislation, as well as against individual \
                                 persecution.”", dcc.Link(href="/sources-notes", children=[html.Sup("8")]), " The argument for Black suffrage as a shield against \
                                 regional racial tyranny was further amplified by Black Southerners such as John F. Cook, descendent of an affluent free Black family \
                                 in New Orleans:"
@@ -92,9 +92,10 @@ content = html.Div([
                 dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
+                            html.H4("Black suffrage: The political argument"),
                             html.P(className="card-text", children=[
-                                "But the moral justice and egalitarian ethics were only one part of the total argument, at least from the vantage point of Republican \
-                                legislators. Beyond the soaring rhetoric and appeals to rational humanity, the basic math of Congressional and Electoral College \
+                                "From the vantage point of Northern legislators, moral justice and egalitarian ethics were only part of the total argument for Black \
+                                suffrage. Beyond the soaring rhetoric and appeals to rational humanity, the basic math of Congressional and Electoral College \
                                 representation ultimately played a central role in accelerating expanded suffrage as well. This tied directly to the prewar status \
                                 quo: with freedmen now counted as full citizens rather than three-fifths chattel slaves, Southern states lay poised to receive even \
                                 greater political influence vis-à-vis Congressional and Electoral College representation than they’d had prior to the Civil War. \
@@ -127,7 +128,7 @@ content = html.Div([
                             html.P(className="card-text", children=[
                                 "And indeed, language along these lines ends up making it into ", dcc.Link("Section 2 of the Fourteenth Amendment", target="_blank",
                                 href="https://en.wikipedia.org/wiki/Fourteenth_Amendment_to_the_United_States_Constitution#Section_2:_Apportionment_of_Representatives"),
-                                ":"
+                                ", also known as the “reduction clause:”"
                             ]),
                             html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px"}, children=[
                                 html.P(style={"font-style": "italic"}, children=[
@@ -140,11 +141,11 @@ content = html.Div([
                             ]),
                             html.P(className="card-text", children=[
                                 "Prior to the Civil War, deference to “state sovereignty” was presumed as it related to voting restrictions, so this nascent attempt \
-                                to link a state’s embrace of expanded franchise with its Electoral College influence and Congressional representation was fairly \
-                                radical. Indeed Section 2 appears to have been one of the most contested parts of the sprawling Fourteenth Amendment, but the advent \
-                                of universal Black male suffrage in the Fifteenth Amendment ultimately overshadowed any of the nuances of enfranchisement and \
-                                apportionment laid out in the Fourteenth by plainly asserting that every man would be counted, and every man would be allowed to \
-                                vote - period."
+                                to link a state’s embrace of expanded franchise with its Electoral College influence and Congressional representation was a radical \
+                                shift. Indeed Section 2 appears to have been one of the most contested parts of the sprawling Fourteenth Amendment,",
+                                dcc.Link(href="/sources-notes", children=[html.Sup("TODO")]), " but the advent of universal Black male suffrage in the Fifteenth \
+                                Amendment ultimately overshadowed any of the nuances of enfranchisement and apportionment laid out in the Fourteenth by plainly \
+                                asserting that all freedmen would be counted, and all freedmen would be allowed to vote - period."
                             ]),
                             html.P(className="card-text", children=[
                                 "Thus, after several twists and convulsions, Northern consensus arrived at a hybrid moral-political solution: retain political \
@@ -156,6 +157,7 @@ content = html.Div([
             ]),
             html.Br(),
             html.Hr(className="border-light"),
+            html.Br(),
             dbc.Row([
                 dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
@@ -174,7 +176,7 @@ content = html.Div([
                                 during Reconstruction. Even prior to their passage and ratification, the Congressional Reconstruction Acts of 1867 set every former \
                                 Confederate state on a path toward a greatly expanded electorate. Compared with a total of 721,191 (white) voters in 1860, the \
                                 combined turnout at the constitutional conventions of 1867 nearly doubled this figure at 1,363,640, of which more than half the \
-                                participants were Black.", dcc.Link(href="/sources-notes", children=[html.Sup("??")]),
+                                participants were Black.", dcc.Link(href="/sources-notes", children=[html.Sup("TODO")]),
                             ]),
                             html.P(className="card-text", children=[
                                 "But the era was short-lived, as even the most radical abolitionists feared it might be. Concerns regarding federally-imposed \
@@ -191,13 +193,16 @@ content = html.Div([
                                 ]),
                             ]),
                             html.P(className="card-text", children=[
-                                "Garrison's trepidation that voting rights may not be secure in the aftermath of Reconstruction was widely felt. And in theory, \
-                                if the Fifteenth Amendment should fail to guarantee Black suffrage, the Fourteenth Amendment would operate as a fail-safe to at \
-                                least prevent Southern whites from both disenfranchising their Black citizens ", html.I("and"), " siphoning the influence \
-                                afforded their states by counting those Black citizens as fully five-fifths rather than three-fifths in the census."
+                                "Garrison's trepidation that voting rights may not be secure in the aftermath of Reconstruction was widely felt. Legislators were \
+                                not naive to these concerns, and the Reconstruction amendments anticipated them with a political fail-safe mechanism: The Fifteenth \
+                                amendment was unambiguous in its language prohibiting race-based voting restriction, but if Southern whites succeeded in evading \
+                                the Fifteenth and disenfranchising their Black citizens then the Fourteenth amendment's reduction clause would kick in, preventing \
+                                those states from reaping the representational benefits of fully-counted Black citizens. Given the choice to embrace multi-racial \
+                                voter access or accept reduced national influence, the expectation was that former Confederate states would choose not to give up \
+                                their influence."
                             ]),
                             html.P(className="card-text", children=[
-                                "In practice, however, it would be nearly a century before either amendment was utilized to this effect."
+                                "In practice, however, it would be nearly a century before the voting provisions of either amendment were meaningfully enforced."
                             ]),
                             html.Br(),
                             html.H4("Voter suppression as a “five-fifths” scheme"),
@@ -246,7 +251,7 @@ content = html.Div([
                             ]),
                             html.Br(),
                             html.P(className="card-text", children=[
-                                "By the late 1870s, Southern white “Redeemer” governments were siphoning influence from disenfranchised Black electorates in nearly \
+                                "By the 1880s and 1890s, Southern white “Redeemer” governments were siphoning influence from disenfranchised Black electorates in \
                                 every Southern state, flouting the Reconstruction Amendments through the legally spurious application of poll taxes, literacy tests, \
                                 grandfather clauses, as well as more direct intimidation and violence. Every former Confederate state would follow a similar template \
                                 of racial voter suppression, with whites silencing the voices of their Black citizens while enjoying a degree of hyper-enfranchisement \
@@ -258,154 +263,10 @@ content = html.Div([
                                 influence on national elections. To what extent did the warped racist logic driving Southern Redeemers to shamelessly, systematically, \
                                 and violently prevent their Black populations from voting between the end of Reconstruction in 1877 and the signing of the Voting \
                                 Rights Act in 1965 reflect a sense of lingering electoral entitlement, an expectation that the same preferential treatment enshrined \
-                                in the three-fifths clause of the Constitution?",
+                                in the three-fifths clause of the Constitution should elevate the influence of Southern whites going into the 20th century?",
                             ]),
                         ])
                     ])
-                ])
-            ]),
-            html.Br(),
-            html.Hr(className="border-light"),
-            html.Br(),
-            dbc.Row([
-                dbc.Col(md=6, children=[
-                    dbc.Card(className="border-success", children=[
-                        dbc.CardBody([
-                            html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px", "font-size": "12pt"}, children=[
-                                html.P(style={"font-style": "italic"}, children=[
-                                    "By 1900… gains under the Thirteenth, Fourteenth, and Fifteenth Amendments and various Reconstruction Acts had largely disappeard \
-                                    in the former Confederacy. Not only had the US Supreme Court in 1896 validated “separate but equal” in Plessy v. Ferguson, but \
-                                    the right to vote had become a distant memory for a huge percentage of Southern black people. Because black voters could have an \
-                                    enormous impact on election outcomes—some 90 percent of all African Americans live in the South in 1900—just as they \
-                                    demonstrated during Reconstruction, it was of the utmost importance to rob them of the possibility of voting in Southern \
-                                    elections. And robbed they were.", dcc.Link(href="/sources-notes", children=[html.Sup("16")]),
-                                ]),
-                                html.P(children=["—Henry Louis Gates, Jr., ", html.I("“Stony the Road: Reconstruction, White Supremacy, and the Rise of Jim Crow”")])
-                            ]),
-                            html.Br(),
-                            html.H4("Suppression-state bias groupings"),
-                            html.P(className="card-text", children=[
-                                "Considering our 21st century grumbling about how small-state bias amplifies the voice of an Alaska voter at the expense of a \
-                                California voter, and the stomach-churning 18th-19th century slave-state bias which amplified the voice of a Virginia slave-owner \
-                                relative to a New York merchant, I was very curious how this third category of hyper-enfranchisement bias in the Jim Crow South \
-                                would stack up against those other two."
-                            ]),
-                            html.P(className="card-text", children=[
-                                "Choosing a state grouping heuristic that would correlate with voter suppression practices during Jim Crow wasn’t quite as \
-                                straight-forward as grouping by slave states vs free states. Most slave states seceded to join the Confederacy during the Civil War, \
-                                but a small handful of “Border” states, where slavery was legal, remained loyal to the Union."
-                            ]),
-                            html.P(className="card-text", children=[
-                                "I was curious what would be more predictive of a state’s tendency toward post-war voter suppression: the fact that they’d been a \
-                                slave state, or their political alliance (and military defeat) with the Confederacy. In a sense, the Border states function as a \
-                                control group for examining that question."
-                            ]),
-                            html.P(className="card-text", children=[
-                                "With that in mind, I grouped states into Union (free), Confederate (slave), and Border (slave-Union) state groups, using the familiar \
-                                blue and butternut uniform colors to identify the first two. I also retained the “Small” group used above, and added a “Postbellum” \
-                                group for states admitted to the Union after the Civil War."
-                            ]),
-                            html.P(className="card-text", children=[
-                                "Maps and more details about these Civil War groupings as well as alternative Regional Census groupings are in the ", 
-                                dcc.Link("Explanation of Groupings", href="/explanation-of-groupings"), " section."
-                            ]),
-                            html.Br(),
-                            html.H4("Suppression-state bias visualizations"),
-                            html.P(className="card-text", children=[
-                                html.B("Figures 6, 8, and 9"), " recycle the same axes and mapping parameters from above to generate and render Voter Weight data during \
-                                the Jim Crow era, this time grouping states by their Civil War affiliations."
-                            ]),
-                            html.P(className="card-text", children=[
-                                html.B("Figure 7"), " plots each state’s Electoral College votes on the x axis, plots the derived Voter Weight on the y axis, and \
-                                now represents voter turnout as the size of each state’s “bubble.” The horizontal line at 1.0 on the y axis corresponds to the \
-                                national mean. The higher a bubble is above the mean, the greater the weight of individual votes cast in that state."
-                            ]),
-                            html.P(className="card-text", children=[
-                                "Similar to the ratio-based scatter plots in Figure 5 and Figure 6: if every vote in every state counted equally, every state’s bubble \
-                                in Figure 7 would be directly on top of that nationwide mean line (horizontal in this case)."
-                            ]),
-                            html.P(className="card-text", children=[
-                                "For those states in Figure 7 whose Electoral College vote counts (x values) and voter turnout (bubble sizes) are very low, a high Voter \
-                                Weight can be explained by small-state bias. For the rest, another bias is at play."
-                            ]),
-                        ])
-                    ]),
-                    html.Br(),html.Br(),
-                    dcc.Graph(id="fig-scatter-bubbles-suppress-state-bias"),
-                    html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 7: Suppression-state bias, shown by color shading states by Civil War groupings, and plotting Electoral College votes on \
-                            the x axis against derived Voter Weight on the y axis, with voter turnout now represented by the size of each state’s “bubble.” The \
-                            national mean is plotted at all points on the x axis where Voter Weight is 1.0 on the y axis, and any bubble above the mean line indicates \
-                            a state whose voters — that is, those who were able to vote — wielded disproportionately high Voter Weight in that election. For small \
-                            bubbles with low EC vote counts, high Voter Weight can be explained by small-state bias. For larger bubbles, we are looking at \
-                            suppression-state bias."),
-                    ]),
-                    html.Br(),
-                    dbc.Card(className="border-success", children=[
-                        dbc.CardBody([
-                            html.H4("Five-fifths and then some"),
-                            html.P(className="card-text", children=[
-                                "It doesn’t take a degree in advanced statistics to discern from these charts that the hyper-enfranchisement effect evident in former \
-                                Confederate states during the Jim Crow Era dwarfs the other biases we’ve explored so far. Highlighting just one example: If Voter \
-                                Weight in 1940 was 7.5 in South Carolina compared with 0.96 in Connecticut, that means pound-for-pound it would take 7-8 votes cast \
-                                in Connecticut to equal the influence of a single vote cast in South Carolina. This represents a staggering disparity in the influence \
-                                of individual voters—that is, those permitted to vote—in these states."
-                            ]),
-                            html.P(className="card-text", children=[
-                                "Absent the factors of state size (both state’s populations earned them 8 Electoral College votes) or slavery (abolished a full 75 \
-                                years prior) the bias revealed in this bar graph has no explanation in Electoral apportionment “originalist” logic. Nothing accounts \
-                                for this disparity other than staggering differences in voter participation, almost certainly tied to massive institutional voter \
-                                suppression."
-                            ]),
-                            html.Br(),
-                            html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px", "font-size": "12pt"}, children=[
-                                html.P(style={"font-style": "italic"}, children=[
-                                    "During the first decades of the twentieth century, white southerners were wielding more influence in national politics than \
-                                    they had before the Civil War. After the abolition of slavery and the “three-fifths” clause, African-Americans counted fully \
-                                    toward representation, and southern states consequently gained additional seats in the House of Representatives and votes in \
-                                    the Electoral College. Yet once blacks were again denied the right to vote, white Democrats effectively became the \
-                                    beneficiaries of an unwritten “five-fifths” clause: they wielded national power on their own behalf and in the name of the \
-                                    region’s entire African-American population.", dcc.Link(href="/sources-notes", children=[html.Sup("17")]),
-                                ]),
-                                html.P(children=["—Alexander Keyssar, ", html.I("“Why Do We Still Have the Electoral College?”")])
-                            ]),
-                        ])
-                    ]),
-                    html.Br(),
-                ]),
-                dbc.Col(md=6, children=[
-                    dcc.Graph(id="fig-scatter-dots-suppress-state-bias"),
-                    html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 6: Suppression-state bias, shown by color shading states by Civil War groupings, and plotting voter turnout on the x \
-                            axis against Electoral College Votes on the y axis. The average voter turnout tally per Electoral College vote (where the Voter Weight \
-                            ratio is 1.0) is plotted as a diagonal line signifying the nationwide mean. States whose dots appear above and to the left of the \
-                            nationwide mean line have Voter Weights greater than 1, those whose dots are below and to the right have Voter Weights less than 1."),
-                    ]),
-                    html.H4("Select year:", className="text-white"),
-                    dcc.Slider(
-                        id="suppress-state-bias-year-input",
-                        min=1880,
-                        max=1960,
-                        step=None,
-                        marks={
-                            int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)', 'color': 'white'}}
-                            for y in data_obj.all_years if y >= 1880 and y <= 1960
-                        },
-                        value=1940,
-                    ),
-                    html.Br(),
-                    dcc.Graph(id="fig-bar-suppress-state-bias"),
-                    html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 8: Suppression-state bias, shown by color shading states by Civil War groupings, then listing them in descending order \
-                            by Voter Weight. Voter Weights are generally higher in former Confederate states than in Union, Border, or Postbellum states, with \
-                            small states still having some of the highest weights."),
-                    ]),
-                    html.Br(),
-                    dcc.Graph(id="fig-map-suppress-state-bias"),
-                    html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 9: Reference map illustrating which states fit into which group. Areas lacking color shading or hover data are states \
-                            that haven’t been admitted to the Union yet."),
-                    ]),
                 ])
             ]),
             html.Br(),
@@ -419,8 +280,8 @@ content = html.Div([
                     ]),
                     html.Li(className="page-item flex", style={"width": "20%"}),
                     html.Li(className="page-item flex", style={"width": "50%", "text-align": "right"}, children=[
-                        html.A(className="page-link", href="/voter-weight-conclusions", children=[
-                            "Part 4: Conclusions and Discussion →"
+                        html.A(className="page-link", href="/voter-weight-electoral-college-bias-page4", children=[
+                            "Part 4: Suppression-state bias →"
                         ])
                     ]),
                 ])

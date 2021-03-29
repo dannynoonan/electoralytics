@@ -32,22 +32,21 @@ content = html.Div([
                                 of Southern Blacks fed directly into the “hyper-enfranchisement” of Southern whites in both periods. As a result, for most \
                                 of America's first two centuries, ", html.Span(style={"font-weight":"bold"}, children=["Southern whites held significantly \
                                 more power, per voter, than any other demographic anywhere else in the US."]), " The augmented pre-war influence of Southern \
-                                white voters became known as the “Slave Power,” notorious for its focus on protecting and perpetuating the institution from \
+                                white voters became known as the “Slave Power,” notorious for its focus on protecting and expanding the institution from \
                                 which it derived its power, and for the infamous three-fifths clause that padded its influence. Similarly during Jim Crow, \
-                                the collective influence of Southern whites became known as the “Solid South,” also notorious for impeding Civil Rights \
-                                legislation and relinquishing its racist hold on power - but less known for being propped up by a mathematical bias."
+                                the collective influence of Southern whites became known as the “Solid South,” also notorious for obstructing Civil Rights \
+                                legislation and perpetuating its racist hold on power - but not as well known for any mathematical bias playing to its advantage."
                             ]),
                             html.P(children=[
-                                "I first became interested in quantifying disenfranchisement in relation to hyper-enfranchisement after an ",
-                                dcc.Link("October 2020 episode", href="https://www.npr.org/2020/09/30/918717270/the-electoral-college", target="_blank"), 
-                                " of NPR’s ", html.I("Throughline"), ", framed Jim Crow voter suppression as a “five-fifths” variation on the three-fifths \
-                                compromise.", dcc.Link(href="/sources-notes", children=[html.Sup("2")]), " The suggestion that the two eras might be \
-                                quantified side by side prompted me to work out a generic formula for comparing them, by measuring the relative \
-                                influence of voters in any given state, in any given year, using the ratio of each state’s voter turnout to its \
+                                "I first became interested in comparing disenfranchisement in relation to hyper-enfranchisement during these two periods \
+                                after an ", dcc.Link("October 2020 episode", href="https://www.npr.org/2020/09/30/918717270/the-electoral-college", 
+                                target="_blank"), " of NPR’s ", html.I("Throughline"), ", which framed Jim Crow voter suppression as a “five-fifths” \
+                                variation on the three-fifths compromise.", dcc.Link(href="/sources-notes", children=[html.Sup("2")]), " The suggestion that \
+                                the two eras might be quantified side by side prompted me to work out a generic formula for comparing them, by measuring the \
+                                relative influence of voters in any given state, in any given year, using the ratio of each state’s voter turnout to its \
                                 Electoral College votes. The resulting ", html.Span(style={"font-weight":"bold"}, children=["“", dcc.Link("Voter Weight", 
-                                href="/voter-weight-calculation"), "” metric measures the degree of hyper-enfranchisement experienced by voters in a \
-                                given state"]), ", which (absent other factors) is inversely proportional to the degree of voter disenfranchisement \
-                                in that state."
+                                href="/voter-weight-calculation"), "” metric measures the degree of hyper-enfranchisement experienced by voters in a given \
+                                state"]), ", which (absent other factors) is inversely proportional to the degree of voter disenfranchisement in that state."
                             ]),
                             html.H3("Visualizing Voter Weight by state / by year"),
                             html.P(children=[
@@ -106,7 +105,7 @@ content = html.Div([
                     dbc.Card(className="border-success lead", style={"font-family": "times-new-roman"}, children=[
                         dbc.CardBody([
                             html.P(children=[
-                                "The rest of the site, beginning with the ", dcc.Link("complete article", 
+                                "The rest of the site, beginning with ", dcc.Link("Part 1: Electoral College basics", 
                                 href="/voter-weight-electoral-college-bias-page1"), ", further explores the biases and vulnerabilities built into our \
                                 electoral apportionment system, aided by interactive maps, figures, and animations."
                             ]),
@@ -127,13 +126,15 @@ content = html.Div([
                             ]),
                             html.H3("Want to dig deeper?"),
                             html.P(children=[
-                                dcc.Link("→ Continue to Part 1: “Electoral equality for states, not voters”", href="/voter-weight-electoral-college-bias-page1"),
+                                dcc.Link("→ Continue to Part 1: “Electoral College basics: Equality for states, not for voters”", href="/voter-weight-electoral-college-bias-page1"),
                                 html.Br(),
-                                dcc.Link("→ Jump ahead to Part 2: “Small-state bias and slave-state bias”", href="/voter-weight-electoral-college-bias-page2"),
+                                dcc.Link("→ Jump ahead to Part 2: “Small-state bias and slave-state bias: As the framers intended”", href="/voter-weight-electoral-college-bias-page2"),
                                 html.Br(),
-                                dcc.Link("→ Jump ahead to Part 3: “Reconstruction, Redemption, and suppression-state bias”", href="/voter-weight-electoral-college-bias-page3"),
+                                dcc.Link("→ Jump ahead to Part 3: “Reconstruction and Black voting rights”", href="/voter-weight-electoral-college-bias-page3"),
                                 html.Br(),
-                                dcc.Link("→ Learn about the math behind voter weight", href="/voter-weight-calculation"),
+                                dcc.Link("→ Jump ahead to Part 4: “Suppression-state bias”", href="/voter-weight-electoral-college-bias-page4"),
+                                html.Br(),
+                                dcc.Link("→ Learn about the math behind “Voter weight”", href="/voter-weight-calculation"),
                                 html.Br(),
                                 dcc.Link("→ Get the breakdown of state grouping heuristics used throughout the site", href="/explanation-of-groupings"),
                                 html.Br(),
@@ -145,6 +146,17 @@ content = html.Div([
                 dbc.Col(md=3),
             ]),
             html.Br(),
-        ])
+            html.Hr(className="border-light"),
+            html.Div(children=[
+                html.Ul(className="pagination pagination-lg justify-content-center", children=[
+                    html.Li(className="page-item flex", style={"width": "60%"}),
+                    html.Li(className="page-item flex", style={"width": "40%", "text-align": "right"}, children=[
+                        html.A(className="page-link", href="/voter-weight-electoral-college-bias-page1", children=[
+                            "Part 1: Electoral College basics: Equality for states, not for voters →"
+                        ])
+                    ]),
+                ])
+            ]),
+        ]),
     ]),
 ])

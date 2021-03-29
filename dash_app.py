@@ -9,9 +9,9 @@ import pandas as pd
 import plotly.express as px
 
 from dash_pages import (
-    components, home_page, electoral_college_intro, voter_weight_landing, voter_weight_page1, voter_weight_page2, voter_weight_page3, 
+    components, home_page, voter_weight_landing, voter_weight_page1, voter_weight_page2, voter_weight_page3, voter_weight_page4,
     voter_weight_conclusions, voter_weight_calculation, explanation_of_groupings, voter_weight_figure_vault, voter_weight_timeline_viz,
-    sources_notes)
+    sources_notes, electoral_college_intro, )
 from data_processor.data_objects import DataObject
 from data_processor.functions import map_to_subdir
 from fig_builder import bar_plots, box_plots, choropleths, line_charts, scatter_plots
@@ -52,6 +52,7 @@ app.validation_layout = dbc.Container(fluid=True, children=[
     voter_weight_page1.content,
     voter_weight_page2.content,
     voter_weight_page3.content,
+    voter_weight_page4.content,
     voter_weight_calculation.content,
     explanation_of_groupings.content,
     voter_weight_conclusions.content,
@@ -73,6 +74,8 @@ def display_page(pathname):
         return voter_weight_page2.content
     elif pathname == "/voter-weight-electoral-college-bias-page3":
         return voter_weight_page3.content
+    elif pathname == "/voter-weight-electoral-college-bias-page4":
+        return voter_weight_page4.content
     elif pathname == "/voter-weight-calculation":
         return voter_weight_calculation.content
     elif pathname == "/explanation-of-groupings":
@@ -211,14 +214,14 @@ def display_voter_weight_page2(small_state_bias_year_input, slave_state_bias_yea
     return fig_bar_small_state_bias, fig_bar_slave_state_bias, fig_scatter_dots_slave_state_bias, fig_map_slave_state_bias
 
 
-############ voter-weight-electoral-college-bias-page3 callbacks
+############ voter-weight-electoral-college-bias-page4 callbacks
 @app.callback(
     Output('fig-bar-suppress-state-bias', 'figure'),
     Output('fig-scatter-dots-suppress-state-bias', 'figure'),
     Output('fig-scatter-bubbles-suppress-state-bias', 'figure'),
     Output('fig-map-suppress-state-bias', 'figure'),
     Input('suppress-state-bias-year-input', 'value'))    
-def display_voter_weight_page3(suppress_state_bias_year_input):
+def display_voter_weight_page4(suppress_state_bias_year_input):
     # process input
     suppress_state_bias_year = int(suppress_state_bias_year_input)
     # fig titles
