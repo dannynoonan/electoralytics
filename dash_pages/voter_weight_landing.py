@@ -20,22 +20,19 @@ content = html.Div([
                             html.P("Feb 12, 2021", style={"font-family": "arial", "font-size": "10pt"}),
                             html.Img(src="/static/stockImages/the_first_vote_loc.jpg", style={"float": "right", "padding-left": "10px"}, width="40%"),
                             html.P(children=[
-                                "Apart from a brief hopeful period between the Civil War and the end of Reconstruction, the disenfranchisement of Southern \
-                                Blacks in the US’s first 190 years was nearly absolute. Before emancipation, enslaved Blacks were prevented from voting but \
-                                counted as three-fifths of a person in the census, amplifying the national influence of their owners. During the Jim Crow \
-                                era, federal law gave Southern Blacks full representation and voting rights, but they were “made electorally invisible, \
-                                whether through restrictive practices like poll taxes and literacy tests or by campaigns of terrorism and state-sanctioned \
-                                murder.”", dcc.Link(href="/sources-notes", children=[html.Sup("1")]),
+                                "Apart from a brief hopeful period between the Civil War and the end of Reconstruction, the disenfranchisement of Southern Blacks in the \
+                                US’s first 190 years was nearly absolute. Before emancipation, enslaved Blacks were prevented from voting entirely, while during the Jim \
+                                Crow era, poll taxes, literacy tests, and violent intimidation were nearly as effective at suppressing the Black vote.", 
+                                dcc.Link(href="/sources-notes", children=[html.Sup("1")]), " Because the Electoral College grants voting influence based on population in \
+                                rather than participation, the disenfranchisement of Southern Blacks fed directly into the “hyper-enfranchisement” of Southern whites \
+                                both periods. As a result, for most of America's first two centuries, ", html.Span(style={"font-weight":"bold"}, 
+                                children=["Southern whites held significantly more power, per voter, than any other demographic anywhere else in the US."])
                             ]),
                             html.P(children=[
-                                "Because the Electoral College grants voting influence based on population rather than participation, the disenfranchisement \
-                                of Southern Blacks fed directly into the “hyper-enfranchisement” of Southern whites in both periods. As a result, for most \
-                                of America's first two centuries, ", html.Span(style={"font-weight":"bold"}, children=["Southern whites held significantly \
-                                more power, per voter, than any other demographic anywhere else in the US."]), " The augmented pre-war influence of Southern \
-                                white voters became known as the “Slave Power,” notorious for its focus on protecting and expanding the institution from \
-                                which it derived its power, and for the infamous three-fifths clause that padded its influence. Similarly during Jim Crow, \
-                                the collective influence of Southern whites became known as the “Solid South,” also notorious for obstructing Civil Rights \
-                                legislation and perpetuating its racist hold on power - but not as well known for any mathematical bias playing to its advantage."
+                                "The augmented pre-war influence of Southern white voters became known as the “Slave Power,” notorious for its focus on protecting and \
+                                expanding the institution from which it derived its power, and for the infamous “three-fifths clause” that padded its influence. Similarly \
+                                during Jim Crow, the collective influence of Southern whites became known as the “Solid South,” also notorious for obstructing Civil \
+                                Rights legislation and perpetuating its racist hold on power - but not as well known for any mathematical bias playing to its advantage."
                             ]),
                             html.P(children=[
                                 "I first became interested in comparing disenfranchisement in relation to hyper-enfranchisement during these two periods \

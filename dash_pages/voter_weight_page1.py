@@ -80,10 +80,10 @@ content = html.Div([
                             ]),
                             html.P(className="card-text", children=[
                                 "In a certain respect, historical disinterest in suppression-state bias makes sense: Compared to the direct and devastating \
-                                effects of Jim Crow voter suppression on the Black population, the amplified national influence Southern whites experienced by \
-                                suppressing regional Black voter turnout hardly registers as a corollary anecdote. However, the role that the inflated national \
-                                influence of Southern whites had in perpetuating its own regional dominance feels like a critical component—if not ", 
-                                html.I("the"), " principal factor—contributing to the longevity and totality of Jim Crow voter suppression."
+                                effects of Jim Crow voter suppression on the Black population, the amplified national influence Southern whites experienced as \
+                                a result of that suppression barely registers as corollary anecdote. However, the role that the inflated national influence \
+                                of Southern whites had in perpetuating its own regional dominance feels like a critical component—if not ", html.I("the"), 
+                                " principal factor—contributing to the longevity and totality of Jim Crow voter suppression."
                             ]),
                             html.P(className="card-text", children=[
                                 "Indeed, while slavery survived fewer than 80 years after ratification of the Constitution, Black voter suppression in the Jim \
@@ -117,7 +117,7 @@ content = html.Div([
                                 ]),
                             ]),
                             html.P(className="card-text", children=[
-                                "The color shading for each state in ", html.B("Figure 2"), " corresponds to that state's Voter Weight in a given presidential \
+                                "The color shading for each state in ", html.B("Figure 1"), " and ", html.B("Figure 2"), " corresponds to that state's Voter Weight in a given presidential \
                                 election. Adjust the 'Select Year' slider above the figure to toggle between different election years."
                             ]),
                             html.P(className="card-text", children=[
@@ -131,10 +131,13 @@ content = html.Div([
                     html.Br(),
                 ]),
                 dbc.Col(md=6, children=[
-                    dcc.Graph(id="fig-map-color-by-ecv"),
+                    dcc.Graph(id="fig-map-color-by-vw2"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 1: States shaded by Electoral College votes, derived by adding the state's number of Congressional Representatives \
-                            (as determined by decennial population census) to its number of Senators (2 per state, regardless of population)"),
+                        html.Small(children=["Figure 1: States color shaded by Voter Weight, or degree of hyper-enfranchisement, over the course of 56 presidential \
+                            elections between 1800 and 2020. Control the year using the slider above, or open an ", dcc.Link("intractive slideshow animation", 
+                            className="text-white", target="_blank",
+                            href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_vw_acw4_1000.html"), 
+                            " illustrating the full history."]),
                     ]),
                     html.H4("Select year:", className="text-white"),
                     dcc.Slider(
@@ -149,14 +152,15 @@ content = html.Div([
                         value=1960,
                     ),
                     html.Br(),
-                    dcc.Graph(id="fig-map-color-by-vw2"),
+                    dcc.Graph(id="fig-bar-color-by-vw"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
                         html.Small(children=["Figure 2: States color shaded by Voter Weight, or degree of hyper-enfranchisement, over the course of 56 presidential \
                             elections between 1800 and 2020. Control the year using the slider above, or open an ", dcc.Link("intractive slideshow animation", 
                             className="text-white", target="_blank",
-                            href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_vw_acw4_1000.html"), 
+                            href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_bar_state_vw_color_by_vw_acw4_900.html"), 
                             " illustrating the full history."]),
                     ]),
+                    html.Br(),
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
                             html.P(className="card-text", style={"font-style": "italic"}, children=[

@@ -19,8 +19,8 @@ content = html.Div([
                     ]),
                     html.Li(className="page-item flex", style={"width": "20%"}),
                     html.Li(className="page-item flex", style={"width": "50%", "text-align": "right"}, children=[
-                        html.A(className="page-link", href="/voter-weight-conclusions", children=[
-                            "Part 5: Conclusions and Discussion →"
+                        html.A(className="page-link", href="/voter-weight-results", children=[
+                            "Part 5: Results and Observations →"
                         ])
                     ]),
                 ])
@@ -125,46 +125,6 @@ content = html.Div([
                                 html.P(children=["—Alexander Keyssar, ", html.I("“Why Do We Still Have the Electoral College?”")])
                             ]),
                             html.Br(),
-                            html.H4("Old story, new angle"),
-                            html.Img(src="/static/stockImages/voter-intimidation-1876.jpg", style={"float": "right", "padding-left": "10px"}, width="50%"),
-                            html.P(className="card-text", children=[
-                                "Depending on your familiarity with racial voter suppression in the century following the Civil War, you may or may not be surprised \
-                                that the small-state and slave-state biases mathematically-prescribed in the Constitution—that is, the apportionment imbalances that \
-                                have made it onto every AP American History exam since the arrival of the Number 2 pencil—might in fact pale in comparison to other \
-                                permutations of sustained, systemic electoral inequity."
-                            ]),
-                            html.P(className="card-text", children=[
-                                "The bigger story here, of course, isn’t that Southern states’ (white) voters counted for more than Northern and Western states’ \
-                                (predominantly white) voters. The bigger story is that hundreds of thousands of Southern Blacks were prevented from voting \
-                                altogether, through the uneven application of poll taxes, literacy tests, grandfather clauses, as well as more direct intimidation \
-                                and violence for 90-odd years during the Jim Crow era."
-                            ]),
-                            html.P(className="card-text", children=[
-                                "However, these graphs illustrate that the villainous cackling of turn-of-the-century Southern racist political scheming didn’t \
-                                simply end with racial disenfranchisement. Under an Electoral College system that grants influence based on population rather than \
-                                participation, voter suppression has a corollary effect — and another perverse incentive — at the national level: it amplifies \
-                                precisely those voices responsible for suppressing their local voter turnout, relative to the voices of voters in states not \
-                                engaged in systemic voter suppression."
-                            ]),
-                            html.P(className="card-text", children=[
-                                "I don’t mean to get out over my skis on the notion of intent. The question of which nefarious objectives out of an assortment of \
-                                plausible nefarious objectives motivated white supremacist voter suppression in the postbellum South is well beyond my purview - \
-                                leave that to the historians and social scientists."
-                            ]),
-                            html.P(className="card-text", children=[
-                                "Whether a side-effect of racist voter suppression or an intentional strategy unto itself, Southern white elites appear to have not \
-                                just maintained, but significantly increased, their disproportionate influence over national-level politics during the Jim Crow \
-                                Era. This despite the abolition of slavery, the nullification of the three-fifths compromise, and their total military and \
-                                political defeat in the Civil War. And they couldn't have done it without the Electoral College, since a pure national popular vote \
-                                would have simply diluted their states' lower turnouts among the much higher participation levels in states holding fair, \
-                                egalitarian, and democratic elections during the same time period."
-                            ]),
-                            html.P(className="card-text", children=[
-                                "Regardless of underlying intent, the disconnect between census population and voter participation is seared into the historical \
-                                record, offering a way to compare and quantify democratic and anti-democratic behavior over time - and to potentially infer \
-                                correlation or causation between specific external factors and Voter Weight trends."
-                            ]),
-                            html.Br(),
                         ])
                     ]),
                     html.Br(),
@@ -226,8 +186,8 @@ content = html.Div([
                     ]),
                     html.Li(className="page-item flex", style={"width": "20%"}),
                     html.Li(className="page-item flex", style={"width": "50%", "text-align": "right"}, children=[
-                        html.A(className="page-link", href="/voter-weight-conclusions", children=[
-                            "Part 5: Conclusions and Discussion →"
+                        html.A(className="page-link", href="/voter-weight-results", children=[
+                            "Part 5: Results and Observations →"
                         ])
                     ]),
                 ])

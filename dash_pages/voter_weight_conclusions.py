@@ -13,8 +13,8 @@ content = html.Div([
             html.Div(children=[
                 html.Ul(className="pagination pagination-lg justify-content-center", children=[
                     html.Li(className="page-item flex", style={"width": "50%"}, children=[
-                        html.A(className="page-link", href="/voter-weight-electoral-college-bias-page4", children=[
-                            "← Part 4: Suppression-state bias"
+                        html.A(className="page-link", href="/voter-weight-results", children=[
+                            "← Part 5: Results and obervations"
                         ])
                     ]),
                     html.Li(className="page-item flex", style={"width": "20%"}),
@@ -28,7 +28,7 @@ content = html.Div([
             html.Hr(className="border-light"),
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Part 5: Conclusions and Discussion"),
+                html.H3("Part 6: Conclusions and Discussion"),
             ]),
             html.Br(),
             dbc.Row([
@@ -37,19 +37,11 @@ content = html.Div([
                         dbc.CardBody([
                             html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px", "font-size": "13pt"}, children=[
                                 html.P(style={"font-style": "italic"}, children=[
-                                    "By 1890 the disenfranchisement of African-Americans was well underway, and by the early years of the twentieth century it was \
-                                    complete.", dcc.Link(href="/sources-notes", children=[html.Sup("18")]),
+                                    "In a Republic of equal citizens, votes should generally count equally, lest government be captured by an entrenched, \
+                                    self-perpetuating oligarchy within the electorate.",
+                                    dcc.Link(href="/sources-notes", children=[html.Sup("TODO")]),
                                 ]),
-                                html.P(children=["—Alexander Keyssar, ", html.I("“Why Do We Still Have the Electoral College?”")])
-                            ]),
-                            html.Br(),
-                            html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px", "font-size": "13pt"}, children=[
-                                html.P(style={"font-style": "italic"}, children=[
-                                    "By the 1940s… registration among voting-age Black citizens hovered around 3 percent… In the 11 Presidential elections held \
-                                    between 1908 and 1948, 44 percent of all minority votes in the country were not represented by a single electoral vote.",
-                                    dcc.Link(href="/sources-notes", children=[html.Sup("19")]),
-                                ]),
-                                html.P(children=["—Jesse Wegman, ", html.I("“Let the People Pick the President”")])
+                                html.P(children=["—Akhil Reed Amar, summarizing Justice Hugo Black, ", html.I("“The Law of the Land: A Grand Tour of our Constitutional Republic”")])
                             ]),
                             html.Br(),
                             html.H4("Hyper-enfranchisement: Implications and interpretation", className="card-title"),
@@ -57,7 +49,7 @@ content = html.Div([
                                 "The three-fifths compromise, that infamously dehumanizing fraction baked into the Constitution, would have been worse for the \
                                 plight of slaves if it had been five-fifths. This was actually what Southern slave-owners wanted: fully-counted slaves whose census \
                                 tabulation would result in greater congressional and Electoral College influence for Southern states, i.e. Southern white voters and \
-                                the institution of slavery."
+                                the institution of slavery.", dcc.Link(href="/sources-notes", children=[html.Sup("TODO")])
                             ]),
                             html.P(className="card-text", children=[
                                 "After slavery was abolished and a dozen hopeful years of Reconstruction had fizzled out, the Southern white dream of fully-counted \
@@ -69,19 +61,18 @@ content = html.Div([
                                 Constitution."
                             ]),
                             html.P(className="card-text", children=[
-                                "The Fourteenth Amendment formally ended the three-fifths clause, not by enfranchising Blacks, but by reducing the congressional \
-                                representation (and Electoral College votes) of states that disenfranchised their eligible voters. At least, that’s how it was laid \
-                                out on paper. In actuality, the reduction clause of the Fourteenth Amendment has never been enforced.", dcc.Link(href="/sources-notes", 
-                                children=[html.Sup("TODO")]), " Neither the crystal clear suffrage mandate of the Fifteenth Amendment nor the Fourteenth Amendment’s \
-                                threat of reduced representation prevented Southern states from charging full steam ahead with Jim Crow voter suppression, most of \
-                                which went unchallenged for nearly a century."
+                                "The reduction clause of the Fourteenth Amendment formally ended the three-fifths clause, not by enfranchising Blacks, but by \
+                                reducing the congressional representation (and Electoral College votes) of states that disenfranchised their eligible voters. But \
+                                the reduction clause of the Fourteenth Amendment has never been enforced,", dcc.Link(href="/sources-notes", children=[html.Sup("TODO")]), 
+                                " so neither the crystal clear suffrage mandate of the Fifteenth Amendment nor the Fourteenth Amendment’s threat of reduced \
+                                representation prevented Southern states from pursuing a total assault on Black voting rights for nearly a century."
                             ]),
                             html.Br(),
                             html.H4("How the ‘Slave Power’ perpetuated slavery", className="card-title"),
                             html.P(className="card-text", children=[
                                 "A common argument tactic is to point out how long ago the Jim Crow Era was, how much has changed since then, even to suggest that \
                                 highlighting these abuses perpetuates the problems caused by them. Let’s address that head-on. What effects might nine decades of \
-                                Southern white votes countring for 3x, 4x, even as much as a 7x-8x their Northern and Western counterparts’ votes have had on \
+                                Southern white votes counting for 3x, 4x, even as much as a 7x-8x their Northern and Western counterparts’ votes have had on \
                                 present day laws, policies, and institutions, or on American culture and belief systems generally?"
                             ]),
                             html.P(className="card-text", children=[
@@ -89,12 +80,12 @@ content = html.Div([
                                 within the South and across America as a whole. Despite being home to less than a third of the country’s free population, \
                                 significant majorities of high-level representatives and appointments went to Southern slaveholders:",
                                 html.Ul([
-                                    html.Li("10 of the first 17 Presidents, serving ~13 of the first 20 terms"),
-                                    html.Li("21 of the first 33 Speakers of the House"),
-                                    html.Li("18 of the first 31 Supreme Court justices (including a majority of those who ruled on the infamous 1857 Dred Scott \
-                                        decision)"),
-                                    html.Li("14 of the first 19 Attorneys General"),
-                                    html.Li("84 of the first 134 Foreign Ministers"),
+                                    html.Li("10 of the first 17 Presidents, serving ~13 of the first 20 terms were Southerner slaveholders"),
+                                    html.Li("21 of the first 33 Speakers of the House were Southerner slaveholders"),
+                                    html.Li("18 of the first 31 Supreme Court justices were Southerner slaveholders (including a majority of those who ruled on \
+                                        the infamous 1857 Dred Scott decision)"),
+                                    html.Li("14 of the first 19 Attorneys General were Southerner slaveholders"),
+                                    html.Li("84 of the first 134 Foreign Ministers were Southerner slaveholders"),
                                 ])
                             ]),
                             html.P(className="card-text", children=[
@@ -128,14 +119,18 @@ content = html.Div([
                                 communities in the North by the mid nineteenth century. Recalling the hostile and at times violent reactions of Northern crowds to \
                                 the anti-slavery conventions he participated in in free states like Vermont, Rhode Island, and Indiana in the 1840s, he himself could \
                                 hardly reconcile the change these communities would undergo in their full-throated denouncement and disavowal of slavery mere decades \
-                                later. To Douglass, the pernicious influence of the Slave Power was so great it had effectively cast a spell on the Northernern mind, \
-                                twisting it into accepting a status quo it would handily reject and recoil from when it eventually came to its senses."
+                                later. ", dcc.Link(href="/sources-notes", children=[html.Sup("TODO")]), " To Douglass, the pernicious influence of the Slave Power \
+                                was so great it had effectively cast a spell on the Northernern mind, twisting it into accepting a status quo it would reject and \
+                                recoil from when it came to its senses in the 1860s and 1870s."
                             ]),
                             html.P(className="card-text", children=[
                                 "Northern complicity aside, the electoral boost that Southern whites extracted from their slaves was highly effective at perpetuating \
                                 the Slave Power, preserving and even expanding its disproportionate influence, in a self-sustaining feedback loop. It also set the \
                                 table for the Civil War, which is what it took for the South to realize that their artificially inflated political power was not the \
-                                same as actual man-for-man physical, industrial, or military power."
+                                same as actual man-for-man physical, industrial, or military power. And even after that cataclysmic collision, which left 620,000 \
+                                dead, ignited a multi-year amendment Constitutional amendment process, and kicked off a 12-year military occupation, the \
+                                disproportionate impact of prewar slaveholding policies and politicians remains deeply woven into the fabric of American institutional \
+                                memory and identity to this day."
                             ]),
                             html.Br(),
                         ]),
@@ -144,29 +139,34 @@ content = html.Div([
                 dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
-                            html.H4("Was there an analogous ‘Jim Crow Power’?", className="card-title"),
+                            html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px", "font-size": "13pt"}, children=[
+                                html.P(style={"font-style": "italic"}, children=[
+                                    "By the 1940s… registration among voting-age Black citizens hovered around 3 percent… In the 11 Presidential elections held \
+                                    between 1908 and 1948, 44 percent of all minority votes in the country were not represented by a single electoral vote.",
+                                    dcc.Link(href="/sources-notes", children=[html.Sup("19")]),
+                                ]),
+                                html.P(children=["—Jesse Wegman, ", html.I("“Let the People Pick the President”")])
+                            ]),
+                            html.Br(),
+                            html.H4("Was there an analogous ‘Jim Crow Power’ perpetuating Jim Crow?", className="card-title"),
                             html.P(className="card-text", children=[
                                 "Turning our attention back to the Jim Crow Era, longer by a decade than the post-colonial period of slavery, and even more \
                                 mathematically skewed to amplify the voting power of Southern whites: To what degree and in what form was the South’s reactionary \
                                 white supremacist agenda manifest and exported nationwide when it was reincarnated post-Reconstruction?"
                             ]),
                             html.P(className="card-text", children=[
-                                "The divisions between North and South weren’t as cut and dry after Reconstruction as they had been prior to the war, but once again \
-                                Southern whites had a ‘peculiar’ social and economic status quo they were desperate to protect. How many federal appointments, \
-                                government programs, legal precedents, or pieces of national legislation passed during this era were cultivated with intent to \
-                                perpetuate a status quo grounded in Southern whites silencing and extracting political influence from their Black populations? How \
-                                many ideologies and narratives, designed to maintain entrenched Southern white interests but promoted as ‘heritage’ or as bedrock \
-                                American virtues, were amplified and exported to the rest of the country during those nine decades? How many coalitions were built, \
-                                compromises brokered, and principles abandoned in service of a hyper-enfranchised faction whose hold on power depended on the \
-                                perpetuation and expansion of white supremacist ideology? And how many of the laws, institutions, and ideologies crafted in this \
-                                reactionary white supremacist crucible continue to endure and thrive, at the national level, to this day?"
+                                "The most well-known achievement of Southern white legislators during the Jim Crow era is what was prevented from being achieved: \
+                                nationwide Civil Rights legislation. Georgia Senator Richard Russell’s notorious use of the filibuster to block legislation from the \
+                                1930s through the 1960s (echoing Calhoun’s usage of the filibuster to protect slavery a century prior) exemplifies the potency of \
+                                the “Solid South,” what we might call the “Jim Crow Power” to emphasize the greater degree of national influence enjoyed by Southern \
+                                voters. Russel isn’t even the best-known white supremacist Southern Senator to use the filibuster in this way, but his longevity in \
+                                the Senate gave him a hand in obstructing everything from the 1938 Wagner-Van Nuys Anti-Lynching Bill up to the doorstep of the 1964 \
+                                Civil Rights Act, when his protégé Lyndon Johnson finally broke the decades-long white supremacist stranglehold on the Senate."
                             ]),
                             html.P(className="card-text", children=[
-                                "Georgia Senator Richard Russell’s notorious use of the filibuster to block Civil Rights legislation from the 1930s through the 1960s \
-                                (echoing Calhoun’s usage of the filibuster to protect slavery a century prior) exemplifies the potency of Jim Crow Power. Workplace \
-                                to over a thousand senate staffers today, the Russell Senate Office Building continues to symbolically enshrine Senator Russell’s \
-                                white supremacist and legislative obstructionist legacy - but most examples of Jim Crow’s holdover effect are both less symbolic and \
-                                more insidiously relevant in everyday life. Among them:",
+                                "Today, the Russell Senate Office Building is workplace to over a thousand senate staffers, and continues to symbolically enshrine \
+                                the Senator’s legacy of white supremacy and legislative obstructionism. But most examples of Jim Crow’s holdover effect are both \
+                                less symbolic and more insidiously relevant in everyday life. Among them:",
                                 html.Ul([
                                     html.Li("Segregated neighborhoods carving up nearly every American city today trace back overwhelmingly to the FHA’s and HOLC’s \
                                         racist redlining and lending practices beginning in the 1930s, while “spot” rezoning to permit toxic sites adjacent to Black \
@@ -174,19 +174,25 @@ content = html.Div([
                                         depressed housing value"),
                                     html.Li("The present day exclusion of agricultural, food service, and domestic workers from minimum wage, unemployment, and \
                                         other New Deal-era benefits and protections, and even modern-day tipping in lieu of proper workplace compensation, derive \
-                                        from Southern politicians plotting ways to minimize Black labor costs in the Jim Crow South"),
+                                        from Southern politicians and entrepreneurs seeking to minimize wages for Black labor in the Jim Crow South"),
                                     html.Li("The exponential disparities in drug war targeting and sentencing, from racial profiling in traffic stops and \
                                         stop-and-frisk encounters to wild disparities in sentencing for crack vs cocaine possession, backed by the normalization of \
                                         militarized police violence toward unarmed Black citizens, bears striking resemblance to Slave patrols, the enforcement of \
                                         Black Codes, the violent suppression of the Southern segregationist status quo, and the paltry legal defense available to \
                                         Black citizens during Jim Crow"),
+                                    html.Li(children=["Although illegal in much of the country, by the 1950s school segregation was widespread enough that the Supreme \
+                                        Court had its pick of venues, selecting Kansas as its lead case in ", html.I("Brown v. Board of Education"), ". In doing so, \
+                                        the court was able to go after school segregation without singling out the South, effectively using the ubiquity of this \
+                                        Southern export to go after the institution without directly attacking its Southern proponents."
+                                    ])
                                 ])
                             ]),
                             html.P(className="card-text", children=[
-                                "At a cultural level, the ubiquitous embrace of ‘Lost Cause’ mythology, media saturation of Sambo caricatures and Tarzan-esque tropes, \
-                                the national expansion of the KKK and tepid public reaction to lynchings, the fervent embrace of the Eugenics movement and its \
-                                present-day relics like the SAT, and Confederate flags flying at events in Northern and Western states are just a few of the most \
-                                obvious examples. But concealed behind these brazen expressions of white supremacy are decades of legislated, bureaucratic, \
+                                "At a cultural level, this country continues to deal with its once ubiquitous embrace of ‘Lost Cause’ mythology, with media saturation \
+                                of Sambo caricatures and Tarzan-esque tropes, with the legacy of 25% of eligible (white men) enrolled in the KKK and the country's \
+                                tepid reaction to public lynchings, with the scientific community's fervent embrace of the Eugenics movement and its present-day relics \
+                                like the SAT, and with Confederate flags flying at events in Northern and Western states (to say nothing of Southern states that were \
+                                once part of the actual Confederacy). But behind these brazen expressions of white supremacy are decades of legislated, bureaucratic, \
                                 institutional racism, all normalized after generations of unchallenged precedent and repetition, and all born out of a political system \
                                 that granted its most avowed white supremacist element 3x-8x the influence of other white voters, while silencing its African-American \
                                 voices altogether."
@@ -203,6 +209,30 @@ content = html.Div([
                                 of the country, and the fact that the effects of this second period are less cut-and-dry, not as widely known or documented, not part \
                                 of school curriculums, etc possibly just speaks to their continuing pernicious effect on American society."
                             ]),
+                            html.P(className="card-text", children=[
+                                "The divisions between North and South weren’t as cut-and-dried after Reconstruction as they had been prior to the war, but once \
+                                again Southern whites had a ‘peculiar’ social and economic status quo they were desperate to protect. How many federal appointments, \
+                                government programs, legal precedents, or pieces of national legislation passed during this era were cultivated with intent to \
+                                perpetuate a status quo grounded in Southern whites silencing and extracting political influence from their Black populations? How \
+                                many ideologies and narratives, designed to maintain entrenched Southern white interests but promoted as ‘heritage’ or as bedrock \
+                                American virtues, were amplified and exported to the rest of the country during those nine decades? How many coalitions were built, \
+                                compromises brokered, and principles abandoned in service of a hyper-enfranchised faction whose hold on power depended on the \
+                                perpetuation and expansion of white supremacist ideology? And how many of the laws, institutions, and ideologies crafted in this \
+                                reactionary white supremacist crucible continue to endure and thrive, at the national level, to this day?"
+                            ]),
+                            html.P(className="card-text", children=[
+                                "The question I’m asking isn’t whether Southern whites had a white supremacist agenda, or whether a Southern white legislators used \
+                                their power to perpetuate white supremacy, or even whether the white supremacist messaging emanating from South politicians had an \
+                                effect on people and policies in other states. Clearly it did, and no doubt that agenda was received favorably by like-minded white \
+                                supremacists in other parts of the country. No, the question I’m asking is: How much was that Southern white supremacist message \
+                                amplified by America’s unique system of representation, where political influence derives from census population rather than voter \
+                                turnout, giving the most power to the voters who do the best job of preventing their neighbors from voting? And what if the number \
+                                of legislators (and electoral college votes) coming from former Confederate states had reflected that suppressed turnout? How \
+                                differently might America’s 20th century have unfolded if the South had sent, say, three quarters as many congressmen to the House \
+                                between 1900 and 1960? How about two thirds? Half? Without doing all the math, it certainly appears that many if not most Southern \
+                                states easily could have had their representation cut in two, if not cut in four or even six or eight, based on how few people \
+                                voted - i.e. how many people were prevented from voting."
+                            ]),
                             html.Br(),
                         ])
                     ])
@@ -212,70 +242,6 @@ content = html.Div([
             html.Hr(className="border-light"),
             html.Br(),
             dbc.Row([
-                dbc.Col(md=6, children=[
-                    dbc.Card(className="border-success", children=[
-                        dbc.CardBody([
-                            html.H4("A few things that stood out", className="card-title"),
-                            html.P(className="card-text", children=[
-                                "It’s been interesting pausing to research events and periods along the way, attempting to interpret underlying causes of \
-                                twists and turns in the data. Here’s a short list of the many data ripples that I initially mistook for errors, anomalies, \
-                                or unexplained distortions:",
-                                html.Ul([
-                                    html.Li("The impact of the “Mississippi Plan,” a scheme to introduce discriminatory voting language into every Southern \
-                                    state’s constitution, beginning in the 1890s"),
-                                    html.Li("The staggered state-by-state expansion of women’s suffrage (and therefore voter turnout overall) in the early \
-                                    20th century, prior to the 19th Amendment’s ratification enfranchising women in every state in 1920"),
-                                    html.Li("The “high watermark” of suppression-state bias in the election of 1924 and its proximity to events like the \
-                                    Tulsa Race Massacre in 1921, peak KKK membership in 1924, and the segregationist presidency of Woodrow Wilson"),
-                                    html.Li("The erratic differences in popular voter participation from state to state and year to year in the pre-Jacksonian \
-                                    era, as states experimented with everything from state-wide popular vote to district-level selection to electors being \
-                                    appointed by legislatures"),
-                                    html.Li("The cyclical effect of the decennial census and of Electoral College reapportionment catching up to population \
-                                    swells"),
-                                    html.Li("A curious 120-year uninterrupted streak where Midwestern states appear to have been more democratic than their \
-                                    Northeastern neighbors (toggle to the “Regional Census” groupings to see, it still has me baffled)"),
-                                ]),
-                            ]),
-                            html.Br(),
-                            html.H4("Border states", className="card-title"),
-                            html.P(className="card-text", children=[
-                                "Earlier I described my reasoning for creating a Border state group, consisting of slave states that had stayed in the \
-                                Union rather than seceding to join the Confederacy. The idea was that this might serve as a control group, for determining \
-                                which factor was more predictive of a state’s subsequent embrace of voter suppression tactics: (a) its relationship to \
-                                slavery prior to the war, or (b) the side it had fought with in the war."
-                            ]),
-                            html.P(className="card-text", children=[
-                                "At the moment, my knowledge of Reconstruction, Redemption, Reconciliation, and Jim Crow is almost entirely limited to a \
-                                North vs South narrative, excluding the details of Border and Western states. Caveats aside: knowing little to nothing of \
-                                the ", html.I("details"), " of post-Reconstruction enfranchisement practices in Border states, it sure looks to me as \
-                                though those practices led to much higher voter participation (and, by inverse relationship, little to no \
-                                hyper-enfranchisement of individual voters) than that of Confederate slave states."
-                            ]),
-                            html.P(className="card-text", children=[
-                                "In fact, from the 40,000’ view enabled by these data visualizations, post-war voter turnout in Union-loyal former-slave \
-                                states appears almost indistinguishable from voter participation in Union-loyal free states. I’d be reaching way out of my \
-                                lane to interpret this here, but suffice to say I think this has fascinating implications."
-                            ]),
-                            html.P(className="card-text", children=[
-                                "One last thought, with respect to demographics. It’s true that, when the Civil War began, Union-loyal Border states like \
-                                Kentucky, Maryland, and Missouri had somewhat fewer slaves per capita than their Confederate counterparts to the south. But \
-                                these were not anecdotally slave “ish” states: more than 425K Blacks were enslaved in these three states per the ",
-                                dcc.Link("1860 census", href="https://www.census.gov/history/pdf/ApportionmentInformation-1860Census.pdf", target="_blank"), 
-                                "."
-                            ]),
-                            html.P(className="card-text", children=[
-                                "In absolute terms, Kentucky had more people enslaved than Texas, Missouri had more slaves than Arkansas, and Maryland had \
-                                more slaves than Florida. Yet the differences in the voter enfranchisement practices in these states a full 100 years after \
-                                the abolition of slavery couldn’t be more stark."
-                            ]),
-                            html.P(className="card-text", children=[
-                                html.B("Bottom line:"), html.I(" Post-Reconstruction voter disenfranchisement seems to have had less to do with a state’s historic connection to \
-                                slavery than to the side it fought with in the Civil War."),
-                            ]),
-                            html.Br(),
-                        ]),
-                    ]),
-                ]),
                 dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
@@ -299,6 +265,13 @@ content = html.Div([
                                 vis-à-vis their ", html.I("Shelby County v. Holder"), " ruling actually presents a very real threat to the durability of positive \
                                 historical trends."
                             ]),
+                            html.Br(),      
+                        ]),
+                    ]),
+                ]),
+                dbc.Col(md=6, children=[
+                    dbc.Card(className="border-success", children=[
+                        dbc.CardBody([
                             html.P(className="card-text", children=[
                                 "Although my quasi-scientific 40,000’ view of historical Voter Weight doesn’t show any obvious reversal of aggregate positive \
                                 trends in 2016 or 2020 (again: not an actual statistician, I just play one on the internet), it’s worth noting that it took a few \
@@ -319,24 +292,6 @@ content = html.Div([
                                 should always be viewed as prologue to future attempts."
                             ]),
                             html.Br(),
-                            html.H4("Other interpretations of Voter Weight trends and Electoral College bias", className="card-title"),
-                            html.P(className="card-text", children=[
-                                "To avoid wrapping every comment in a caveat, I’ve been fairly loose in my pronouncements that hyper-enfranchisement correlates \
-                                to higher levels of voter suppression, so I wanted to rattle off a few things that most certainly also have an effect on a \
-                                state’s Voter Weight metric:",
-                                html.Ul([
-                                    html.Li("Voter apathy, and hence lower voter participation. Since the “solid south” of the early 20th century was effectively \
-                                        a non-competitive one-party regional bloc (in part due to the wild success of their voter suppression tactics), the fact \
-                                        that down-ballot winners were a foregone conclusion may have further depressed turnout"),
-                                    html.Li("Other eligibility factors such as age, gender, incarceration status, felony record, etc vary from state to state"),
-                                    html.Li("Census apportionment is decennial, so Electoral College influence always lags a few years behind a population \
-                                        explosion, lowering the Voter Weight in fast-growing states near the end of the decade"),
-                                    html.Li("Census apportionment in states with a higher percentage of undocumented residents who can’t legally vote increases \
-                                        Voter Weight in that state. This is generally regarded as to the benefit, not the detriment, of those who are tabulated \
-                                        but not enfranchised, but this creates a “five-fifths” type effect nonetheless."),
-                                ]),
-                            ]),
-                            html.Br(),
                         ]),
                     ]),
                 ]),
@@ -346,8 +301,8 @@ content = html.Div([
             html.Div(children=[
                 html.Ul(className="pagination pagination-lg justify-content-center", children=[
                     html.Li(className="page-item flex", style={"width": "50%"}, children=[
-                        html.A(className="page-link", href="/voter-weight-electoral-college-bias-page4", children=[
-                            "← Part 4: Suppression-state bias"
+                        html.A(className="page-link", href="/voter-weight-results", children=[
+                            "← Part 5: Results and obervations"
                         ])
                     ]),
                     html.Li(className="page-item flex", style={"width": "20%"}),

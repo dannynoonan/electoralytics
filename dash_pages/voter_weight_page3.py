@@ -56,9 +56,9 @@ content = html.Div([
                             html.P(className="card-text", children=[
                                 "Beginning with speeches and publications from Northern Blacks and former slaves, bolstered by the tireless evangelism and \
                                 implacability of white abolitionist publishers and politicians, the message of empowering and stabilizing Black equality via \
-                                suffrage steadily moved the Union-loyal states from a position of wide skepticism to one of broad support. Out front on \
-                                pro-suffrage messaging was Frederick Douglass, emphasizing the the essential humanity and security conferred by enfranchising \
-                                free Blacks to the Massachusetts Anti-Slavery Society in 1865:"
+                                suffrage steadily moved the Union-loyal states from a position of wide skepticism to one of broad support in the years immediately \
+                                following the war. Out front on pro-suffrage messaging was Frederick Douglass, emphasizing the the essential humanity and security \
+                                conferred by enfranchising free Blacks to the Massachusetts Anti-Slavery Society in 1865:"
                             ]),
                             html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px"}, children=[
                                 html.P(style={"font-style": "italic"}, children=[

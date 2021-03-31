@@ -14,7 +14,7 @@ content = html.Div([
                 html.Ul(className="pagination pagination-lg justify-content-center", children=[
                     html.Li(className="page-item flex", style={"width": "50%"}, children=[
                         html.A(className="page-link", href="/voter-weight-conclusions", children=[
-                            "← Part 4: Conclusions and Discussion"
+                            "← Part 6: Conclusions and interpretation"
                         ])
                     ]),
                     html.Li(className="page-item flex", style={"width": "20%"}),
@@ -178,7 +178,7 @@ content = html.Div([
                 html.Ul(className="pagination pagination-lg justify-content-center", children=[
                     html.Li(className="page-item flex", style={"width": "50%"}, children=[
                         html.A(className="page-link", href="/voter-weight-conclusions", children=[
-                            "← Part 4: Conclusions and Discussion"
+                            "← Part 6: Conclusions and interpretation"
                         ])
                     ]),
                     html.Li(className="page-item flex", style={"width": "20%"}),

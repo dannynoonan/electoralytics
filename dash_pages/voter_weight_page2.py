@@ -55,11 +55,10 @@ content = html.Div([
                                 + Senators (2 per state regardless of population), the same bicameral balance that was part of the Constitutional Convention’s ", 
                                 dcc.Link("Great Compromise", href="https://en.wikipedia.org/wiki/Connecticut_Compromise", target="_blank"), ". And just as every \
                                 state sends the same number of Senators to DC, even the smallest states receive the same +2 Senator “bicameral boost” in their \
-                                Electoral College vote count, hence the “3-vote-minimum” for even the least populous states (see ", html.B("Figure 1"), " on the ",
-                                dcc.Link("previous page", href="/voter-weight-electoral-college-bias-page1"), "). The hyper-enfranchisement effect of the +2 \
-                                boost tapers off as states increase in population and Electoral College apportionment, but if a state’s population garners it \
-                                only 1 or 2 Congressional Representatives then that +2 Senator boost easily doubles or triples the relative impact of the voters \
-                                in that state."
+                                Electoral College vote count, hence the “3-vote-minimum” for even the least populous states (see ", html.B("Figure 1"), "). The \
+                                hyper-enfranchisement effect of the +2 boost tapers off as states increase in population and Electoral College apportionment, but \
+                                if a state’s population garners it only 1 or 2 Congressional Representatives then that +2 Senator boost easily doubles or triples \
+                                the relative impact of the voters in that state."
                             ]),
                             html.P(className="card-text", children=[
                                 "This “small-state bias” is often calculated by comparing the ratio of each state’s ", html.I("population"), " to its Electoral \
@@ -110,6 +109,11 @@ content = html.Div([
                     ])                  
                 ]),
                 dbc.Col(md=6, children=[
+                    dcc.Graph(id="fig-map-color-by-ecv"),
+                    html.P(className="card-text", style={"padding": "5px"}, children=[
+                        html.Small("Figure 1: States shaded by Electoral College votes, derived by adding the state's number of Congressional Representatives \
+                            (as determined by decennial population census) to its number of Senators (2 per state, regardless of population)"),
+                    ]),
                     html.H4("Select year:", className="text-white"),
                     dcc.Slider(
                         id="small-state-bias-year-input",
@@ -129,7 +133,6 @@ content = html.Div([
                         html.Small("Figure 2: Small-state bias, shown by color shading states according to Electoral College votes, then listing them in \
                             descending order by Voter Weight."),
                     ]),
-                    html.Br(),
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
                             html.P(className="card-text", style={"font-style": "italic"}, children=[
@@ -198,40 +201,6 @@ content = html.Div([
                             are states that haven’t been admitted to the Union yet."),
                     ]),
                     html.Br(),
-                    # dbc.Card(className="border-success", children=[
-                    #     dbc.CardBody([
-                    #         html.P(className="card-text", children=[
-                    #             html.B("Next section >> "), dcc.Link("Part 3: Reconstruction, Redemption, and suppression-state bias", 
-                    #             href="/voter-weight-electoral-college-bias-page3")
-                    #         ]),
-                    #         html.P(children=[
-                    #             html.Ul(children=[
-                    #                 html.Li(
-                    #                     dcc.Link("Intro: Hyper-enfranchisement and the Electoral College", href="/voter-weight-electoral-college-bias-intro")
-                    #                 ),
-                    #                 html.Li(
-                    #                     dcc.Link("Part 1: Electoral College bias breakdown", href="/voter-weight-electoral-college-bias-page1")
-                    #                 ),
-                    #                 html.Li("Part 2: Small-state bias and slave-state bias: As the framers intended"),
-                    #                 html.Li(
-                    #                     dcc.Link("Part 3: Reconstruction, Redemption, and suppression-state bias", href="/voter-weight-electoral-college-bias-page3")
-                    #                 ),
-                    #                 html.Li(
-                    #                     dcc.Link("Part 4: Conclusions and Discussion", href="/voter-weight-conclusions")
-                    #                 ),
-                    #                 html.Li(
-                    #                     dcc.Link("Deep dive into calculating Voter Weight", href="/voter-weight-calculation")
-                    #                 ),
-                    #                 html.Li(
-                    #                     dcc.Link("Deep dive into state grouping heuristics", href="/explanation-of-groupings")
-                    #                 ),
-                    #                 html.Li(
-                    #                     dcc.Link("Roll-up of interactive maps, figures, and charts", href="/voter-weight-figure-vault")
-                    #                 ),
-                    #             ])
-                    #         ]),
-                    #     ]),
-                    # ])
                 ]),
                 dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-bar-slave-state-bias"),
@@ -240,7 +209,6 @@ content = html.Div([
                             descending order by Voter Weight. Voter Weights are higher in slave states than free states, with small states still having some \
                             of the highest weights."),
                     ]),
-                    html.Br(),
                     html.H4("Select year:", className="text-white"),
                     dcc.Slider(
                         id="slave-state-bias-year-input",
