@@ -187,7 +187,7 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
     fig.update_traces(
         hovertemplate="<br>".join([
             "Voter Weight: <b>%{x}</b> (%{y})</b><br>",
-            "Popular Vote: <b>%{customdata[0]:,}</b>",
+            "Popular Vote (Turnout): <b>%{customdata[0]:,}</b>",
             "Electoral College Votes: <b>%{customdata[1]}</b>",
             "Popular Vote Per Elector: <b>%{customdata[2]:,}</b>",
             # "Group: %{customdata[5]}",

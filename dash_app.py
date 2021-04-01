@@ -239,7 +239,7 @@ def display_voter_weight_page4(suppress_state_bias_year_input):
     # generate figs
     fig_bar_suppress_state_bias = bar_plots.build_vw_by_state_bar(
         data_obj, ddirs.ACW, 5, frame=suppress_state_bias_year, color_col=cols.GROUP, show_era=False, alt_groups=['split_small'], 
-        base_fig_title=title_suppress_state_bias_bar)
+        fig_width=fig_dims.MD5, base_fig_title=title_suppress_state_bias_bar)
     fig_scatter_dots_suppress_state_bias = scatter_plots.build_vw_by_state_scatter_dots(
         data_obj, ddirs.ACW, 5, frame=suppress_state_bias_year, show_era=False, alt_groups=['split_small'], 
         base_fig_title=title_suppress_state_bias_scatter_dots)

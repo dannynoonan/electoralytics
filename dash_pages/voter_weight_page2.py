@@ -14,7 +14,7 @@ content = html.Div([
                 html.Ul(className="pagination pagination-lg justify-content-center", children=[
                     html.Li(className="page-item flex", style={"width": "50%"}, children=[
                         html.A(className="page-link", href="/voter-weight-electoral-college-bias-page1", children=[
-                            "← Part 1: Electoral College basics: Equality for states, not for voters"
+                            "← Part 1: Electoral College bias: Equality for states, not for voters"
                         ])
                     ]),
                     html.Li(className="page-item flex", style={"width": "20%"}),
@@ -104,9 +104,26 @@ content = html.Div([
                             ]),
                             html.P(className="card-text", children=[
                                 "Presumably..."
-                            ]),                    
+                            ]),   
                         ])
-                    ])                  
+                    ]),
+                    html.Br(),   
+                    dbc.Card(className="border-success", children=[
+                        dbc.CardBody([
+                            html.P(className="card-text", style={"font-style": "italic"}, children=[
+                                "The figures to the right, the figures below, and every other figure in this publication are interactive. Move the “Select year” slider \
+                                to bring a different election year into focus. Highlight a portion of the figure to zoom in, then double-click to reset to the original \
+                                scale. Roll over any bar in the chart to see the factors that contribute to its Voter Weight calculation."
+                            ]),
+                            html.P(className="card-text", style={"font-style": "italic"}, children=[ 
+                                "All figures use presidential election data accessible via this ", dcc.Link("Wikipedia portal", 
+                                href="https://en.wikipedia.org/wiki/List_of_United_States_presidential_election_results_by_state", target="_blank"), ". A consolidated \
+                                version of that data (what I’m using to power this website) is available in csv format in the ", dcc.Link("data/ directory", 
+                                href="https://github.com/dannynoonan/electoralytics/tree/master/data", target="_blank"), " of the ", dcc.Link("electoralytics repo", 
+                                href="https://github.com/dannynoonan/electoralytics", target="_blank"), " on github."
+                            ]),
+                        ]),
+                    ]),                                
                 ]),
                 dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-map-color-by-ecv"),
@@ -132,22 +149,6 @@ content = html.Div([
                     html.P(className="card-text", style={"padding": "5px"}, children=[
                         html.Small("Figure 2: Small-state bias, shown by color shading states according to Electoral College votes, then listing them in \
                             descending order by Voter Weight."),
-                    ]),
-                    dbc.Card(className="border-success", children=[
-                        dbc.CardBody([
-                            html.P(className="card-text", style={"font-style": "italic"}, children=[
-                                "The figures above, the figures below, and every other figure in this publication are interactive. Move the “Select year” slider to \
-                                bring a different election year into focus. Highlight a portion of the figure to zoom in, then double-click to reset to the original \
-                                scale. Roll over any bar in the chart to see the factors that contribute to its Voter Weight calculation."
-                            ]),
-                            html.P(className="card-text", style={"font-style": "italic"}, children=[ 
-                                "All figures use presidential election data accessible via this ", dcc.Link("Wikipedia portal", 
-                                href="https://en.wikipedia.org/wiki/List_of_United_States_presidential_election_results_by_state", target="_blank"), ". A consolidated \
-                                version of that data (what I’m using to power this website) is available in csv format in the ", dcc.Link("data/ directory", 
-                                href="https://github.com/dannynoonan/electoralytics/tree/master/data", target="_blank"), " of the ", dcc.Link("electoralytics repo", 
-                                href="https://github.com/dannynoonan/electoralytics", target="_blank"), " on github."
-                            ]),
-                        ]),
                     ]),
                 ]),
             ]),
@@ -237,7 +238,7 @@ content = html.Div([
                 html.Ul(className="pagination pagination-lg justify-content-center", children=[
                     html.Li(className="page-item flex", style={"width": "50%"}, children=[
                         html.A(className="page-link", href="/voter-weight-electoral-college-bias-page1", children=[
-                            "← Part 1: Electoral College bias basics"
+                            "← Part 1: Electoral College bias: Equality for states, not for voters"
                         ])
                     ]),
                     html.Li(className="page-item flex", style={"width": "20%"}),

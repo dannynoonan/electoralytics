@@ -35,6 +35,79 @@ content = html.Div([
                 dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
+                            html.H4("Voter suppression as a “five-fifths” scheme"),
+                            html.P(className="card-text", children=[
+                                "A recent episode of ", html.I("NPR’s Throughline"), " (the original inspiration for this project!) explores the end of \
+                                Reconstruction, the rise of Black voter suppression, and its effects in terms of Electoral College influence. The show's hosts, \
+                                joined by Yale Professor and noted constitutional scholar Akhil Reed Amar, lay out how the three-fifths compromise was effectively \
+                                replaced by an even ", html.I("less"), " equitable permutation of that infamous inaugural Electoral College bias. Part of their \
+                                “(mis)Representative Democracy” series, the full episode is 58 minutes, but this ",  dcc.Link("5-minute video snippet", 
+                                href="https://www.npr.org/2020/09/30/918717270/the-electoral-college", target="_blank"), " gets to the heart of what caught my \
+                                attention:"
+                            ]),
+                            html.Iframe(id="jw_embed", width="100%", height="423", 
+                                src="https://www.npr.org/embedded-video?storyId=918717270&mediaId=930549092&jwMediaType=null"),
+                        ])
+                    ])
+                ]),
+                dbc.Col(md=6, children=[
+                    dbc.Card(className="border-success", children=[
+                        dbc.CardBody([
+                            html.P(className="card-text", children=[
+                                "If you aren't able to watch or listen to the clip, this section gets to the essence:"
+                            ]),
+                            html.Div(style={"margin-left": "50px", "margin-right": "50px", "font-style": "italic"}, children=[
+                                html.P(className="card-text", children=[
+                                    "After the Civil War and the passage of the 13th amendment abolishing slavery, [southern states’] resistance to direct election \
+                                    [as an alternative to the Electoral College] only grew stronger."
+                                ]),
+                                html.P(className="card-text", children=[
+                                    "It's the “oh, crap” moment, because now we've gotten rid of slavery. So what happens to three-fifths? It becomes ", 
+                                    html.B("FIVE"), "-fifths, because now technically everyone is free."
+                                ]),
+                                html.P(className="card-text", children=[
+                                    "Suddenly, former slaves were fully counted in their populations. And now, the former Confederacy wielded even more power. \
+                                    Because the Electoral College system rewards population over participation, southern states started to systematically keep \
+                                    Black citizens from voting."
+                                ]),
+                                html.P(className="card-text", children=[
+                                    "So actually, the South is going to have more seats in the Electoral College than ever before, more seats in the House of \
+                                    Representatives, and they're not letting their people vote."
+                                ]),
+                                html.P(className="card-text", children=[
+                                    "By suppressing Black voters, the southern states actually got a better deal when the three-fifths compromise ended.",
+                                    dcc.Link(href="/sources-notes", children=[html.Sup("2")]),
+                                ])
+                            ]),
+                            html.Br(),
+                            html.P(className="card-text", children=[
+                                "By the 1880s and 1890s, Southern white “Redeemer” governments were siphoning influence from disenfranchised Black electorates in \
+                                every Southern state, flouting the Reconstruction Amendments through the legally spurious application of poll taxes, literacy tests, \
+                                grandfather clauses, as well as more direct intimidation and violence.", dcc.Link(href="/sources-notes", children=[html.Sup("1")]),
+                                " Every former Confederate state would follow a similar template of racial voter suppression, with whites silencing the voices of \
+                                their Black citizens while enjoying a degree of hyper-enfranchisement for the next 90-odd years that would ultimately far exceed \
+                                that which they had enjoyed during slavery."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "Listening to this ", html.I("Throughline"), " episode was the first time I’d considered that suppressing the Black vote had been \
+                                part-and-parcel with Southern whites not just retaining, but actually ", html.I("increasing"), " their disproportionate pre-war \
+                                influence on national elections. This realization begs the question: To what extent did the warped racist logic driving Southern \
+                                Redeemers to shamelessly, systematically, and violently prevent their Black populations from voting between the end of \
+                                Reconstruction in 1877 and the signing of the Voting Rights Act in 1965 reflect a sense of lingering electoral entitlement, an \
+                                expectation that the same preferential treatment enshrined in the three-fifths clause of the Constitution should elevate the \
+                                influence of Southern whites going into the 20th century?",
+                            ]),
+                        ])
+                    ])
+                ])
+            ]),
+            html.Br(),
+            html.Hr(className="border-light"),
+            html.Br(),
+            dbc.Row([
+                dbc.Col(md=6, children=[
+                    dbc.Card(className="border-success", children=[
+                        dbc.CardBody([
                             html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px", "font-size": "12pt"}, children=[
                                 html.P(style={"font-style": "italic"}, children=[
                                     "By 1900… gains under the Thirteenth, Fourteenth, and Fifteenth Amendments and various Reconstruction Acts had largely disappeard \
@@ -42,7 +115,7 @@ content = html.Div([
                                     the right to vote had become a distant memory for a huge percentage of Southern black people. Because black voters could have an \
                                     enormous impact on election outcomes—some 90 percent of all African Americans live in the South in 1900—just as they \
                                     demonstrated during Reconstruction, it was of the utmost importance to rob them of the possibility of voting in Southern \
-                                    elections. And robbed they were.", dcc.Link(href="/sources-notes", children=[html.Sup("16")]),
+                                    elections. And robbed they were.", dcc.Link(href="/sources-notes", children=[html.Sup("17")]),
                                 ]),
                                 html.P(children=["—Henry Louis Gates, Jr., ", html.I("“Stony the Road: Reconstruction, White Supremacy, and the Rise of Jim Crow”")])
                             ]),
@@ -120,7 +193,7 @@ content = html.Div([
                                     toward representation, and southern states consequently gained additional seats in the House of Representatives and votes in \
                                     the Electoral College. Yet once blacks were again denied the right to vote, white Democrats effectively became the \
                                     beneficiaries of an unwritten “five-fifths” clause: they wielded national power on their own behalf and in the name of the \
-                                    region’s entire African-American population.", dcc.Link(href="/sources-notes", children=[html.Sup("17")]),
+                                    region’s entire African-American population.", dcc.Link(href="/sources-notes", children=[html.Sup("18")]),
                                 ]),
                                 html.P(children=["—Alexander Keyssar, ", html.I("“Why Do We Still Have the Electoral College?”")])
                             ]),

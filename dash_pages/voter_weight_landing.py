@@ -22,11 +22,12 @@ content = html.Div([
                             html.P(children=[
                                 "Apart from a brief hopeful period between the Civil War and the end of Reconstruction, the disenfranchisement of Southern Blacks in the \
                                 US’s first 190 years was nearly absolute. Before emancipation, enslaved Blacks were prevented from voting entirely, while during the Jim \
-                                Crow era, poll taxes, literacy tests, and violent intimidation were nearly as effective at suppressing the Black vote.", 
-                                dcc.Link(href="/sources-notes", children=[html.Sup("1")]), " Because the Electoral College grants voting influence based on population in \
-                                rather than participation, the disenfranchisement of Southern Blacks fed directly into the “hyper-enfranchisement” of Southern whites \
-                                both periods. As a result, for most of America's first two centuries, ", html.Span(style={"font-weight":"bold"}, 
-                                children=["Southern whites held significantly more power, per voter, than any other demographic anywhere else in the US."])
+                                Crow era “Southern Blacks were made electorally invisible, whether through restrictive voting practices like poll taxes and literacy tests \
+                                or by campaigns of terrorism and state-sanctioned murder.”", dcc.Link(href="/sources-notes", children=[html.Sup("1")]), " Because the \
+                                Electoral College grants voting influence based on population rather than participation, the disenfranchisement of Southern Blacks fed \
+                                directly into the “hyper-enfranchisement” of Southern whites both periods. As a result, for most of America's first two centuries, ", 
+                                html.Span(style={"font-weight":"bold"}, children=["Southern whites held significantly more power, per voter, than any other demographic \
+                                anywhere else in the US."])
                             ]),
                             html.P(children=[
                                 "The augmented pre-war influence of Southern white voters became known as the “Slave Power,” notorious for its focus on protecting and \
@@ -39,7 +40,7 @@ content = html.Div([
                                 after an ", dcc.Link("October 2020 episode", href="https://www.npr.org/2020/09/30/918717270/the-electoral-college", 
                                 target="_blank"), " of NPR’s ", html.I("Throughline"), ", which framed Jim Crow voter suppression as a “five-fifths” \
                                 variation on the three-fifths compromise.", dcc.Link(href="/sources-notes", children=[html.Sup("2")]), " The suggestion that \
-                                the two eras might be quantified side by side prompted me to work out a generic formula for comparing them, by measuring the \
+                                the two eras might be quantified side-by-side prompted me to work out a generic formula for comparing them, by measuring the \
                                 relative influence of voters in any given state, in any given year, using the ratio of each state’s voter turnout to its \
                                 Electoral College votes. The resulting ", html.Span(style={"font-weight":"bold"}, children=["“", dcc.Link("Voter Weight", 
                                 href="/voter-weight-calculation"), "” metric measures the degree of hyper-enfranchisement experienced by voters in a given \
@@ -102,7 +103,7 @@ content = html.Div([
                     dbc.Card(className="border-success lead", style={"font-family": "times-new-roman"}, children=[
                         dbc.CardBody([
                             html.P(children=[
-                                "The rest of the site, beginning with ", dcc.Link("Part 1: Electoral College basics", 
+                                "The rest of the site, beginning with ", dcc.Link("Part 1: Electoral College bias", 
                                 href="/voter-weight-electoral-college-bias-page1"), ", further explores the biases and vulnerabilities built into our \
                                 electoral apportionment system, aided by interactive maps, figures, and animations."
                             ]),
@@ -123,7 +124,7 @@ content = html.Div([
                             ]),
                             html.H3("Want to dig deeper?"),
                             html.P(children=[
-                                dcc.Link("→ Continue to Part 1: “Electoral College basics: Equality for states, not for voters”", href="/voter-weight-electoral-college-bias-page1"),
+                                dcc.Link("→ Continue to Part 1: “Electoral College bias: Equality for states, not for voters”", href="/voter-weight-electoral-college-bias-page1"),
                                 html.Br(),
                                 dcc.Link("→ Jump ahead to Part 2: “Small-state bias and slave-state bias: As the framers intended”", href="/voter-weight-electoral-college-bias-page2"),
                                 html.Br(),

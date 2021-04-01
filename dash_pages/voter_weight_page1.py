@@ -28,7 +28,7 @@ content = html.Div([
             html.Hr(className="border-light"),
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Part 1: Electoral College basics: Equality for states, not for voters"),
+                html.H3("Part 1: Electoral College bias: Equality for states, not for voters"),
             ]),
             html.Br(),
             dbc.Row([

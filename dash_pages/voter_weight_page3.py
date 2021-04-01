@@ -32,9 +32,14 @@ content = html.Div([
             ]),
             html.Br(),
             dbc.Row([
+                dbc.Col(md=3),
                 dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
+                            html.P(className="card-text", children=[
+                                html.I(children=["Note: If you're feeling totally solid on your Reconstruction history and just wanna skip ahead to more charts and \
+                                data, leapfrog on over to ", dcc.Link("Part 4: Suppression-state bias", href="/voter-weight-electoral-college-bias-page4"), "."])
+                            ]),
                             html.Div(className="card-text lead", style={"margin-left": "50px", "margin-right": "50px"}, children=[
                                 html.P(style={"font-style": "italic"}, children=[
                                     "From the nature of man we may be sure, that those who have power in their hands will not give it up while they can retain \
@@ -46,12 +51,12 @@ content = html.Div([
                             html.Br(),
                             html.H4("Black suffrage: Equality, security, morality"),
                             html.P(className="card-text", children=[
-                                "The enfranchisement of former slaves has a feeling of logical inevitability in hindsight, but during the late 1860s Black \
-                                suffrage was anything but a certainty. Native Americans, recently arrived Chinese and Europeans, and most notably the entire \
-                                population of American women did not yet have the vote, so in the mind of the white Northerner (to say nothing of the white \
-                                Southerner) the freedmen’s nascent elevation out of slavery was not part-and-parcel with his evolution into active political \
-                                participant. But a combination of factors, ranging from the noble and moral to the practical and political, would ultimately \
-                                galvanize popular support behind the movement for Black enfranchisement."
+                                "The enfranchisement of former slaves has a feeling of logical inevitability in hindsight, but during the late 1860s Black suffrage \
+                                was anything but a certainty. Native Americans, recently arrived Chinese and Europeans, and most notably the entire population\
+                                of American women did not yet have the vote, so in the mind of the white Northerner (to say nothing of the white Southerner) the \
+                                freedmen’s nascent elevation out of slavery was not part-and-parcel with his evolution into active political participant.", 
+                                dcc.Link(href="/sources-notes", children=[html.Sup("6")]), " But a combination of factors, ranging from the noble and moral to the \
+                                practical and political, would ultimately galvanize popular support behind the movement for Black enfranchisement."
                             ]),
                             html.P(className="card-text", children=[
                                 "Beginning with speeches and publications from Northern Blacks and former slaves, bolstered by the tireless evangelism and \
@@ -86,10 +91,11 @@ content = html.Div([
                                     dcc.Link(href="/sources-notes", children=[html.Sup("9")]),
                                 ]),
                             ]),
-                        ])
-                    ])
-                ]),
-                dbc.Col(md=6, children=[
+                        ]),
+                    ]),
+                    html.Br(),
+                # ]),
+                # dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
                             html.H4("Black suffrage: The political argument"),
@@ -100,10 +106,10 @@ content = html.Div([
                                 quo: with freedmen now counted as full citizens rather than three-fifths chattel slaves, Southern states lay poised to receive even \
                                 greater political influence vis-à-vis Congressional and Electoral College representation than they’d had prior to the Civil War. \
                                 Absent any buffer or hedge against this, allowing Southern representatives back into Congress risked the reversal of all political \
-                                and legislative gains made since the war."
+                                and legislative gains made since the war.", dcc.Link(href="/sources-notes", children=[html.Sup("10")]),
                             ]),
                             html.P(className="card-text", children=[
-                                "For a time, two paths were pursued through Constitutional Amendment:",
+                                "By the late 1860s, two paths were being pursued through Constitutional Amendment:",
                                 html.Ol(children=[
                                     html.Li("Give all male citizens over 21 the right to vote, and count every citizen in each state’s basis for representation"),
                                     html.Li("Permit each state to determine its own voting eligibility, but incentivize them toward franchise inclusivity by reducing \
@@ -143,7 +149,7 @@ content = html.Div([
                                 "Prior to the Civil War, deference to “state sovereignty” was presumed as it related to voting restrictions, so this nascent attempt \
                                 to link a state’s embrace of expanded franchise with its Electoral College influence and Congressional representation was a radical \
                                 shift. Indeed Section 2 appears to have been one of the most contested parts of the sprawling Fourteenth Amendment,",
-                                dcc.Link(href="/sources-notes", children=[html.Sup("TODO")]), " but the advent of universal Black male suffrage in the Fifteenth \
+                                dcc.Link(href="/sources-notes", children=[html.Sup("13")]), " but the advent of universal Black male suffrage in the Fifteenth \
                                 Amendment ultimately overshadowed any of the nuances of enfranchisement and apportionment laid out in the Fourteenth by plainly \
                                 asserting that all freedmen would be counted, and all freedmen would be allowed to vote - period."
                             ]),
@@ -151,15 +157,15 @@ content = html.Div([
                                 "Thus, after several twists and convulsions, Northern consensus arrived at a hybrid moral-political solution: retain political \
                                 influence in the South by extending suffrage to Union-loyal Southern Blacks."
                             ]),
-                        ])
-                    ])
-                ])
-            ]),
-            html.Br(),
-            html.Hr(className="border-light"),
-            html.Br(),
-            dbc.Row([
-                dbc.Col(md=6, children=[
+                        ]),
+                    ]),
+            #     ])
+            # ]),
+                    html.Br(),
+            # html.Hr(className="border-light"),
+            # html.Br(),
+            # dbc.Row([
+            #     dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
                             html.Div(className="card-text lead", style={"margin-left": "50px", "margin-right": "50px"}, children=[
@@ -176,7 +182,7 @@ content = html.Div([
                                 during Reconstruction. Even prior to their passage and ratification, the Congressional Reconstruction Acts of 1867 set every former \
                                 Confederate state on a path toward a greatly expanded electorate. Compared with a total of 721,191 (white) voters in 1860, the \
                                 combined turnout at the constitutional conventions of 1867 nearly doubled this figure at 1,363,640, of which more than half the \
-                                participants were Black.", dcc.Link(href="/sources-notes", children=[html.Sup("TODO")]),
+                                participants were Black.", dcc.Link(href="/sources-notes", children=[html.Sup("15")]),
                             ]),
                             html.P(className="card-text", children=[
                                 "But the era was short-lived, as even the most radical abolitionists feared it might be. Concerns regarding federally-imposed \
@@ -189,7 +195,7 @@ content = html.Div([
                                     white population, with their superior… wealth and power, would unquestionably alter the franchise in accordance with their \
                                     prejudices, and exclude those thus summarily brought to the polls. Coercion would gain nothing. In other words… universal \
                                     suffrage will be hard to win and to hold without general preparation of feeling and sentiment.",
-                                    dcc.Link(href="/sources-notes", children=[html.Sup("15")]),
+                                    dcc.Link(href="/sources-notes", children=[html.Sup("16")]),
                                 ]),
                             ]),
                             html.P(className="card-text", children=[
@@ -205,69 +211,11 @@ content = html.Div([
                                 "In practice, however, it would be nearly a century before the voting provisions of either amendment were meaningfully enforced."
                             ]),
                             html.Br(),
-                            html.H4("Voter suppression as a “five-fifths” scheme"),
-                            html.P(className="card-text", children=[
-                                "A recent episode of ", html.I("NPR’s Throughline"), " (the original inspiration for this project!) explores the end of \
-                                Reconstruction, the rise of Black voter suppression, and its effects in terms of Electoral College influence. The show's hosts, \
-                                joined by Yale Professor and noted constitutional scholar Akhil Reed Amar, lay out how the three-fifths compromise was effectively \
-                                replaced by an even ", html.I("less"), " equitable permutation of that infamous inaugural Electoral College bias. Part of their \
-                                “(mis)Representative Democracy” series, the full episode is 58 minutes, but this ",  dcc.Link("5-minute video snippet", 
-                                href="https://www.npr.org/2020/09/30/918717270/the-electoral-college", target="_blank"), " gets to the heart of what caught my \
-                                attention:"
-                            ]),
+                            
                         ])
                     ])
                 ]),
-                dbc.Col(md=6, children=[
-                    dbc.Card(className="border-success", children=[
-                        dbc.CardBody([
-                            html.Iframe(id="jw_embed", width="100%", height="423", 
-                                src="https://www.npr.org/embedded-video?storyId=918717270&mediaId=930549092&jwMediaType=null"),
-                            html.P(className="card-text", children=[
-                                "If you aren't able to watch or listen to the clip, this section gets to the essence:"
-                            ]),
-                            html.Div(style={"margin-left": "50px", "margin-right": "50px", "font-style": "italic"}, children=[
-                                html.P(className="card-text", children=[
-                                    "After the Civil War and the passage of the 13th amendment abolishing slavery, [southern states’] resistance to direct election \
-                                    [as an alternative to the Electoral College] only grew stronger."
-                                ]),
-                                html.P(className="card-text", children=[
-                                    "It's the “oh, crap” moment, because now we've gotten rid of slavery. So what happens to three-fifths? It becomes ", 
-                                    html.B("FIVE"), "-fifths, because now technically everyone is free."
-                                ]),
-                                html.P(className="card-text", children=[
-                                    "Suddenly, former slaves were fully counted in their populations. And now, the former Confederacy wielded even more power. \
-                                    Because the Electoral College system rewards population over participation, southern states started to systematically keep \
-                                    Black citizens from voting."
-                                ]),
-                                html.P(className="card-text", children=[
-                                    "So actually, the South is going to have more seats in the Electoral College than ever before, more seats in the House of \
-                                    Representatives, and they're not letting their people vote."
-                                ]),
-                                html.P(className="card-text", children=[
-                                    "By suppressing Black voters, the southern states actually got a better deal when the three-fifths compromise ended.",
-                                    dcc.Link(href="/sources-notes", children=[html.Sup("2")]),
-                                ])
-                            ]),
-                            html.Br(),
-                            html.P(className="card-text", children=[
-                                "By the 1880s and 1890s, Southern white “Redeemer” governments were siphoning influence from disenfranchised Black electorates in \
-                                every Southern state, flouting the Reconstruction Amendments through the legally spurious application of poll taxes, literacy tests, \
-                                grandfather clauses, as well as more direct intimidation and violence. Every former Confederate state would follow a similar template \
-                                of racial voter suppression, with whites silencing the voices of their Black citizens while enjoying a degree of hyper-enfranchisement \
-                                for the next 90-odd years that would ultimately far exceed that which they had enjoyed during slavery."
-                            ]),
-                            html.P(className="card-text", children=[
-                                "Listening to this ", html.I("Throughline"), " episode was the first time I’d considered that suppressing the Black vote had been \
-                                part-and-parcel with Southern whites not just retaining, but actually ", html.I("increasing"), " their disproportionate pre-war \
-                                influence on national elections. To what extent did the warped racist logic driving Southern Redeemers to shamelessly, systematically, \
-                                and violently prevent their Black populations from voting between the end of Reconstruction in 1877 and the signing of the Voting \
-                                Rights Act in 1965 reflect a sense of lingering electoral entitlement, an expectation that the same preferential treatment enshrined \
-                                in the three-fifths clause of the Constitution should elevate the influence of Southern whites going into the 20th century?",
-                            ]),
-                        ])
-                    ])
-                ])
+                dbc.Col(md=3),
             ]),
             html.Br(),
             html.Hr(className="border-light"),
