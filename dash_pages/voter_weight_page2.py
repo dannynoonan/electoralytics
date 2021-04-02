@@ -35,7 +35,7 @@ content = html.Div([
                 dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
-                            html.Div(className="card-text lead", style={"margin-left": "50px", "margin-right": "50px"}, children=[
+                            html.Div(className="card-text lead", style={"margin-left": "50px", "margin-right": "50px", "font-size": "13pt"}, children=[
                                 html.P(style={"font-style": "italic"}, children=[
                                     "The Electoral College was not grounded in the principle that the votes of all individuals should count equally. The \
                                     framers, acting out of perceived political necessity, chose to give extra weight to the votes of two groups of citizens: \
@@ -73,8 +73,13 @@ content = html.Div([
                                 of votes in the Electoral College. If, in this most recent election, Voter Weight was 3.19 in Wyoming compared with 0.81 in \
                                 neighboring Colorado, that means a vote cast in Cheyenne counted for 4X a vote cast 45 minutes south in Fort Collins. Want to \
                                 make your voice heard in Washington? Move to Wyoming!"
-                            ]),
-                            html.Br(),
+                            ]), 
+                        ])
+                    ]),                               
+                ]),
+                dbc.Col(md=6, children=[
+                    dbc.Card(className="border-success", children=[
+                        dbc.CardBody([
                             html.H4("A note about swing states and “winner-take-all”"),
                             html.P(className="card-text", children=[
                                 "Astute critics of this crude voter influence metric will be quick to point out that it completely ignores the reality of \
@@ -107,9 +112,37 @@ content = html.Div([
                             ]),
                             html.P(className="card-text", children=[
                                 "Presumably..."
-                            ]),   
+                            ]), 
                         ])
-                    ]),                               
+                    ]), 
+                ]),
+            ]),
+            html.Br(),
+            dbc.Row([
+                dbc.Col(md=12, children=[
+                    html.H4("Select year:", className="text-white"),
+                    dcc.Slider(
+                        id="small-state-bias-year-input",
+                        className="text-white",
+                        min=1980,
+                        max=2020,
+                        step=None,
+                        marks={
+                            int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)', 'color': 'white'}}
+                            for y in data_obj.all_years if y >= 1980
+                        },
+                        value=2020,
+                    ),
+                ])                   
+            ]),
+            html.Br(),
+            dbc.Row([
+                dbc.Col(md=6, children=[
+                    dcc.Graph(id="fig-bar-small-state-bias"),
+                    html.P(className="card-text", style={"padding": "5px"}, children=[
+                        html.Small("Figure 2: Small-state bias, shown by color shading states according to Electoral College votes, then listing them in \
+                            descending order by Voter Weight."),
+                    ]),
                 ]),
                 dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-map-color-by-ecv"),
@@ -117,26 +150,7 @@ content = html.Div([
                         html.Small("Figure 1: States shaded by Electoral College votes, derived by adding the state's number of Congressional Representatives \
                             (as determined by decennial population census) to its number of Senators (2 per state, regardless of population)"),
                     ]),
-                    html.H4("Select year:", className="text-white"),
-                    dcc.Slider(
-                        id="small-state-bias-year-input",
-                        className="text-white",
-                        min=2000,
-                        max=2020,
-                        step=None,
-                        marks={
-                            int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)', 'color': 'white'}}
-                            for y in data_obj.all_years if y >= 2000
-                        },
-                        value=2020,
-                    ),
-                    html.Br(),
-                    dcc.Graph(id="fig-bar-small-state-bias"),
-                    html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 2: Small-state bias, shown by color shading states according to Electoral College votes, then listing them in \
-                            descending order by Voter Weight."),
-                    ]),
-                    html.Br(),   
+                    html.Br(), 
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
                             html.P(className="card-text", style={"font-style": "italic"}, children=[
@@ -153,7 +167,7 @@ content = html.Div([
                             ]),
                         ]),
                     ]), 
-                ]),
+                ]), 
             ]),
             html.Br(),
             html.Hr(className="border-light"),
@@ -198,34 +212,8 @@ content = html.Div([
                             ]),
                         ])
                     ]),
-                    html.Br(),html.Br(),
-                    dcc.Graph(id="fig-map-slave-state-bias"),
-                    html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 4: Reference map illustrating which states fit into which group. Areas lacking color shading or hover data \
-                            are states that haven’t been admitted to the Union yet."),
-                    ]),
-                    html.Br(),
                 ]),
-                dbc.Col(md=6, children=[
-                    dcc.Graph(id="fig-bar-slave-state-bias"),
-                    html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 3: Slave-state bias, shown by color shading states into Free, Slave, and Small groupings, then listing them in \
-                            descending order by Voter Weight. Voter Weights are higher in slave states than free states, with small states still having some \
-                            of the highest weights."),
-                    ]),
-                    html.H4("Select year:", className="text-white"),
-                    dcc.Slider(
-                        id="slave-state-bias-year-input",
-                        min=1828,
-                        max=1860,
-                        step=None,
-                        marks={
-                            int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)', 'color': 'white'}}
-                            for y in data_obj.all_years if y >= 1828 and y <= 1860
-                        },
-                        value=1852,
-                    ),
-                    html.Br(),
+                dbc.Col(md=6, children=[    
                     dcc.Graph(id="fig-scatter-dots-slave-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
                         html.Small("Figure 5: Slave-state bias, shown by color shading states into Free, Slave, and Small groupings, and plotting voter turnout \
@@ -236,6 +224,41 @@ content = html.Div([
                     ]),
                 ])
             ]),
+            dbc.Row([
+                dbc.Col(md=12, children=[
+                    html.H4("Select year:", className="text-white"),
+                    dcc.Slider(
+                        id="slave-state-bias-year-input",
+                        min=1820,
+                        max=1860,
+                        step=None,
+                        marks={
+                            int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)', 'color': 'white'}}
+                            for y in data_obj.all_years if y >= 1820 and y <= 1860
+                        },
+                        value=1852,
+                    ),
+                ]),
+            ]),
+            html.Br(),
+            dbc.Row([
+                dbc.Col(md=6, children=[
+                    dcc.Graph(id="fig-bar-slave-state-bias"),
+                    html.P(className="card-text", style={"padding": "5px"}, children=[
+                        html.Small("Figure 3: Slave-state bias, shown by color shading states into Free, Slave, and Small groupings, then listing them in \
+                            descending order by Voter Weight. Voter Weights are higher in slave states than free states, with small states still having some \
+                            of the highest weights."),
+                    ]),
+                ]),
+                dbc.Col(md=6, children=[
+                    dcc.Graph(id="fig-map-slave-state-bias"),
+                    html.P(className="card-text", style={"padding": "5px"}, children=[
+                        html.Small("Figure 4: Reference map illustrating which states fit into which group. Areas lacking color shading or hover data \
+                            are states that haven’t been admitted to the Union yet."),
+                    ]),
+                ])
+            ]),
+            html.Br(),
             html.Hr(className="border-light"),
             html.Div(children=[
                 html.Ul(className="pagination pagination-lg justify-content-center", children=[

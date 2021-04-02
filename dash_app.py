@@ -186,17 +186,19 @@ def clear_canvas_2(n_clicks):
 
 ############ voter-weight-electoral-college-bias-page2 callbacks
 @app.callback(
-    Output('fig-map-color-by-ecv', 'figure'),
     Output('fig-bar-small-state-bias', 'figure'),
+    Output('fig-map-color-by-ecv', 'figure'),
     Output('fig-bar-slave-state-bias', 'figure'),
-    Output('fig-scatter-dots-slave-state-bias', 'figure'),
     Output('fig-map-slave-state-bias', 'figure'),
+    Output('fig-scatter-dots-slave-state-bias', 'figure'),
     Input('small-state-bias-year-input', 'value'),
     Input('slave-state-bias-year-input', 'value'))
+    # Input('slave-state-bias-year-input-scatter', 'value'))
 def display_voter_weight_page2(small_state_bias_year_input, slave_state_bias_year_input):
     # process input
     small_state_bias_year = int(small_state_bias_year_input)
     slave_state_bias_year = int(slave_state_bias_year_input)
+    # slave_state_bias_year_scatter = int(slave_state_bias_year_input_scatter)
     # fig titles
     title_map_color_by_ecv = 'States shaded by number of Electoral College votes'
     title_small_state_bias_bar = 'Whose vote counted more? Small-state bias<br>States ordered by Voter Weight, shaded by size'
@@ -213,13 +215,13 @@ def display_voter_weight_page2(small_state_bias_year_input, slave_state_bias_yea
     fig_bar_slave_state_bias = bar_plots.build_vw_by_state_bar(
         data_obj, ddirs.ACW, 5, frame=slave_state_bias_year, color_col=cols.GROUP, show_era=False, alt_groups=['slave_free', 'split_small'], 
         base_fig_title=title_slave_state_bias_bar, fig_width=fig_dims.MD5, fig_height=fig_dims.MD5)
-    fig_scatter_dots_slave_state_bias = scatter_plots.build_vw_by_state_scatter_dots(
-        data_obj, ddirs.ACW, 5, frame=slave_state_bias_year, show_era=False, alt_groups=['slave_free', 'split_small'], 
-        base_fig_title=title_slave_state_bias_scatter_dots)
     fig_map_slave_state_bias = choropleths.build_vw_by_state_map(
         data_obj, ddirs.ACW, 5, color_col=cols.GROUP, frame=slave_state_bias_year, show_era=False, alt_groups=['slave_free', 'split_small'], 
         base_fig_title=title_slave_state_bias_map)
-    return fig_map_color_by_ecv, fig_bar_small_state_bias, fig_bar_slave_state_bias, fig_scatter_dots_slave_state_bias, fig_map_slave_state_bias
+    fig_scatter_dots_slave_state_bias = scatter_plots.build_vw_by_state_scatter_dots(
+        data_obj, ddirs.ACW, 5, frame=slave_state_bias_year, show_era=False, alt_groups=['slave_free', 'split_small'], 
+        base_fig_title=title_slave_state_bias_scatter_dots)
+    return fig_bar_small_state_bias, fig_map_color_by_ecv, fig_bar_slave_state_bias, fig_map_slave_state_bias, fig_scatter_dots_slave_state_bias
 
 
 ############ voter-weight-electoral-college-bias-page4 callbacks

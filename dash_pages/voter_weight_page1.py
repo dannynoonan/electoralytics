@@ -35,7 +35,7 @@ content = html.Div([
                 dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
-                            html.Div(className="card-text lead", style={"margin-left": "50px", "margin-right": "50px"}, children=[
+                            html.Div(className="card-text lead", style={"margin-left": "50px", "margin-right": "50px", "font-size": "13pt"}, children=[
                                 html.P(style={"font-style": "italic"}, children=[
                                     "The Electoral College was neither an exercise in applied Platonism nor an experiment in indirect government based on \
                                     elitist distrust of the masses. It was merely a jerry-rigged improvisation which has subsequently been endowed with a high \
@@ -54,6 +54,7 @@ content = html.Div([
                                 html.I("BOHHH"), "-ring), here the weight of each individual vote depends on the state from which it is cast. Specifically: (a) \
                                 the Electoral College apportionment granted to that state, and (b) how many people turn out to vote in that state."
                             ]),
+                            html.Img(src="/static/stockImages/census-1790.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, width="35%"),
                             html.P(className="card-text", children=[
                                 "Pre-allocating representational influence to states, rather than simply tallying the ballots of individual citizens who turn \
                                 out to vote, originated in part from an effort to balance out the influence of each state.", dcc.Link(href="/sources-notes", 
@@ -71,7 +72,6 @@ content = html.Div([
                                         legally eligible and census tabulated citizens from voting, as took place for many decades in the Jim Crow South"])
                                 ]),
                             ]),
-                            html.Img(src="/static/stockImages/census-1790.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, width="40%"),
                             html.P(className="card-text", children=[
                                 "Each of these biases directly amplify the influence of one state's (or region's) voters over another's, resulting in the \
                                 “hyper-enfranchisement” of certain voters relative to others. The small-state and slave-state biases are well-known, baked into \
@@ -79,6 +79,12 @@ content = html.Div([
                                 game of Trivial Pursuit. By contrast, the bias amplifying Southern white voters as a direct result of their suppression of \
                                 Black voters in the Jim Crow South is not as widely discussed."
                             ]),
+                        ]),
+                    ]),
+                ]),
+                dbc.Col(md=6, children=[
+                    dbc.Card(className="border-success", children=[
+                        dbc.CardBody([
                             html.P(className="card-text", children=[
                                 "In a certain respect, historical disinterest in suppression-state bias makes sense: Compared to the direct and devastating \
                                 effects of Jim Crow voter suppression on the Black population, the amplified national influence Southern whites experienced as \
@@ -93,11 +99,7 @@ content = html.Div([
                                 that Jim Crow voter suppression may paradoxically have conferred ", html.I("greater"), " influence to Southern whites ", 
                                 html.I("after"), " the abolition of slavery than the three-fifths compromise did before the Civil War and emancipation."
                             ]),
-                        ])
-                    ]),
-                    html.Br(),
-                    dbc.Card(className="border-success", children=[
-                        dbc.CardBody([                           
+                            html.Br(),
                             html.H4("Voter Weight"),
                             html.Img(style={"float": "right", "padding-right": "10px"}, src="/static/vwMath/derivingPvpeVw.png", width="55%"),
                             html.P(className="card-text", children=[
@@ -127,19 +129,13 @@ content = html.Div([
                                 superimposing each of their Voter Weight trend lines simultaneously. This figure jumps ahead a bit in terms of what's been \
                                 discussed so far, but gives a preview of patterns and trends we'll be exploring in the coming pages."
                             ])
-                        ])
+                        ]),                      
                     ]),
-                    html.Br(),
                 ]),
-                dbc.Col(md=6, children=[
-                    dcc.Graph(id="fig-map-color-by-vw2"),
-                    html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small(children=["Figure 1: States color shaded by Voter Weight, or degree of hyper-enfranchisement, over the course of 56 presidential \
-                            elections between 1800 and 2020. Control the year using the slider above, or open an ", dcc.Link("intractive slideshow animation", 
-                            className="text-white", target="_blank",
-                            href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_vw_acw4_1000.html"), 
-                            " illustrating the full history."]),
-                    ]),
+            ]),
+            html.Br(),
+            dbc.Row([
+                dbc.Col(md=12, children=[
                     html.H4("Select year:", className="text-white"),
                     dcc.Slider(
                         id="map-year-input",
@@ -152,13 +148,27 @@ content = html.Div([
                         },
                         value=1960,
                     ),
-                    html.Br(),
+                ]),
+            ]),
+            html.Br(),
+            dbc.Row([
+                dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-bar-color-by-vw"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
                         html.Small(children=["Figure 2: States color shaded by Voter Weight, or degree of hyper-enfranchisement, over the course of 56 presidential \
                             elections between 1800 and 2020. Control the year using the slider above, or open an ", dcc.Link("intractive slideshow animation", 
                             className="text-white", target="_blank",
                             href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_bar_state_vw_color_by_vw_acw4_900.html"), 
+                            " illustrating the full history."]),
+                    ]),
+                ]),
+                dbc.Col(md=6, children=[
+                    dcc.Graph(id="fig-map-color-by-vw2"),
+                    html.P(className="card-text", style={"padding": "5px"}, children=[
+                        html.Small(children=["Figure 1: States color shaded by Voter Weight, or degree of hyper-enfranchisement, over the course of 56 presidential \
+                            elections between 1800 and 2020. Control the year using the slider above, or open an ", dcc.Link("intractive slideshow animation", 
+                            className="text-white", target="_blank",
+                            href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_vw_acw4_1000.html"), 
                             " illustrating the full history."]),
                     ]),
                     html.Br(),
