@@ -71,6 +71,7 @@ content = html.Div([
                                         legally eligible and census tabulated citizens from voting, as took place for many decades in the Jim Crow South"])
                                 ]),
                             ]),
+                            html.Img(src="/static/stockImages/census-1790.jpg", style={"float": "right", "padding-left": "10px"}, width="40%"),
                             html.P(className="card-text", children=[
                                 "Each of these biases directly amplify the influence of one state's (or region's) voters over another's, resulting in the \
                                 “hyper-enfranchisement” of certain voters relative to others. The small-state and slave-state biases are well-known, baked into \
@@ -81,9 +82,9 @@ content = html.Div([
                             html.P(className="card-text", children=[
                                 "In a certain respect, historical disinterest in suppression-state bias makes sense: Compared to the direct and devastating \
                                 effects of Jim Crow voter suppression on the Black population, the amplified national influence Southern whites experienced as \
-                                a result of that suppression barely registers as corollary anecdote. However, the role that the inflated national influence \
-                                of Southern whites had in perpetuating its own regional dominance feels like a critical component—if not ", html.I("the"), 
-                                " principal factor—contributing to the longevity and totality of Jim Crow voter suppression."
+                                a result of that suppression barely registers as corollary anecdote. In another respect however, to the extent that it may have \
+                                contributed to the longevity and totality of Jim Crow voter suppression, any connection between this amplified national influence \
+                                and the perpetuation of Southern white regional dominance is worth examining."
                             ]),
                             html.P(className="card-text", children=[
                                 "Indeed, while slavery survived fewer than 80 years after ratification of the Constitution, Black voter suppression in the Jim \

@@ -21,53 +21,53 @@ content = html.Div([
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
                             html.H4("Visualizing Jim Crow Voter Suppression", className="card-title"),
-                            html.P(className="card-text", children=[
-                                html.B("Books:"),
-                                html.Ul(children=[
-                                    html.Li(children=[
-                                        "Michelle Alexander, ", html.I("The New Jim Crow: Mass Incarceration in the Age of Colorblindness"), " (2010)"
-                                    ]),
-                                    html.Li(children=[
-                                        "Akhil Reed Amar, ", html.I("The Law of the Land: A Grand Tour of our Constitutional Republic"), " (2015)"
-                                    ]),
-                                    html.Li(children=[
-                                        "Frederick Douglass, ", html.I("Life and Times of Frederick Douglass"), " (1892)"
-                                    ]),
-                                    html.Li(children=[
-                                        "W.E.B. Du Bois, ", html.I("Black Reconstruction in America: 1860-1880"), " (1935)"
-                                    ]),                  
-                                    html.Li(children=[
-                                        "Henry Louis Gates, Jr., ", html.I("Stony the Road: Reconstruction, White Supremacy, and the Rise of Jim Crow"), " (2019)"
-                                    ]),
-                                    html.Li(children=[
-                                        "Ibram X. Kendi, ", html.I("Stamped From the Beginning"), " (2016)"
-                                    ]),
-                                    html.Li(children=[
-                                        "Alexander Keyssar, ", html.I("Why Do We Still Have the Electoral College?"), " (2020)"
-                                    ]),
-                                    html.Li(children=[
-                                        "Richard Rothstein, ", html.I("The Color of Law"), " (2017)"
-                                    ]),
-                                    html.Li(children=[
-                                        "Jesse Wegman, ", html.I("Let the People Pick the President"), " (2020)"
-                                    ]),
-                                ])
-                            ]),
-                            html.P(className="card-text", children=[
-                                html.B("Podcasts:"),
-                                html.Ul(children=[
-                                    html.Li(children=[
-                                        "Ramtin Arablouei and Rund Abdelfatah (Hosts), Akhil Reed Amar (Guest), Lawrence Wu (Producer), “The Electoral College” (Oct. 15, 2020) \
-                                        [Audio podcast episode] ", html.I("NPR"), " “Throughline”"
-                                        # https://www.npr.org/2020/09/30/918717270/the-electoral-college
-                                    ]),
-                                    html.Li(children=[
-                                        "Terry Gross (Host), Adam Jentleson (Guest), “The Racist History Of The Senate Filibuster” (Jan. 12 2021) [Audio podcast episode] ",
-                                        html.I("NPR"), " “Fresh Air"
-                                        # https://www.npr.org/2021/01/12/956018064/the-racist-history-of-the-senate-filibuster
-                                    ]),
-                                ])
-                            ]),
+                            # html.P(className="card-text", children=[
+                            #     html.B("Books:"),
+                            #     html.Ul(children=[
+                            #         html.Li(children=[
+                            #             "Michelle Alexander, ", html.I("The New Jim Crow: Mass Incarceration in the Age of Colorblindness"), " (2010)"
+                            #         ]),
+                            #         html.Li(children=[
+                            #             "Akhil Reed Amar, ", html.I("The Law of the Land: A Grand Tour of our Constitutional Republic"), " (2015)"
+                            #         ]),
+                            #         html.Li(children=[
+                            #             "Frederick Douglass, ", html.I("Life and Times of Frederick Douglass"), " (1892)"
+                            #         ]),
+                            #         html.Li(children=[
+                            #             "W.E.B. Du Bois, ", html.I("Black Reconstruction in America: 1860-1880"), " (1935)"
+                            #         ]),                  
+                            #         html.Li(children=[
+                            #             "Henry Louis Gates, Jr., ", html.I("Stony the Road: Reconstruction, White Supremacy, and the Rise of Jim Crow"), " (2019)"
+                            #         ]),
+                            #         html.Li(children=[
+                            #             "Ibram X. Kendi, ", html.I("Stamped From the Beginning"), " (2016)"
+                            #         ]),
+                            #         html.Li(children=[
+                            #             "Alexander Keyssar, ", html.I("Why Do We Still Have the Electoral College?"), " (2020)"
+                            #         ]),
+                            #         html.Li(children=[
+                            #             "Richard Rothstein, ", html.I("The Color of Law"), " (2017)"
+                            #         ]),
+                            #         html.Li(children=[
+                            #             "Jesse Wegman, ", html.I("Let the People Pick the President"), " (2020)"
+                            #         ]),
+                            #     ])
+                            # ]),
+                            # html.P(className="card-text", children=[
+                            #     html.B("Podcasts:"),
+                            #     html.Ul(children=[
+                            #         html.Li(children=[
+                            #             "Ramtin Arablouei and Rund Abdelfatah (Hosts), Akhil Reed Amar (Guest), Lawrence Wu (Producer), “The Electoral College” (Oct. 15, 2020) \
+                            #             [Audio podcast episode] ", html.I("NPR"), " “Throughline”"
+                            #             # https://www.npr.org/2020/09/30/918717270/the-electoral-college
+                            #         ]),
+                            #         html.Li(children=[
+                            #             "Terry Gross (Host), Adam Jentleson (Guest), “The Racist History Of The Senate Filibuster” (Jan. 12 2021) [Audio podcast episode] ",
+                            #             html.I("NPR"), " “Fresh Air"
+                            #             # https://www.npr.org/2021/01/12/956018064/the-racist-history-of-the-senate-filibuster
+                            #         ]),
+                            #     ])
+                            # ]),
                             html.P(className="card-text", children=[
                                 html.B("Citations:"),
                                 html.Ol(children=[
@@ -120,7 +120,7 @@ content = html.Div([
                                         # https://en.wikipedia.org/wiki/Fourteenth_Amendment_to_the_United_States_Constitution#Section_2:_Apportionment_of_Representatives
                                     ]),
                                     html.Li(children=[
-                                        "W.E.B. Du Bois, ", html.I("Black Reconstruction in America: 1860-1880"), " (1935), p. TODO",
+                                        "W.E.B. Du Bois, ", html.I("Black Reconstruction in America: 1860-1880"), " (1935), p. 294-296, 306, 308-310, 329-333",
                                     ]),
                                     html.Li(children=[
                                         "Jesse Wegman, ", html.I("Let the People Pick the President"), " (2020), p. 108",
@@ -204,7 +204,7 @@ content = html.Div([
                                     ]),
                                     html.Li(children=[
                                         "Rachel E. Greenspan, “'It's the Legacy of Slavery': Here's the Troubling History Behind Tipping Practices in the U.S.”, ", 
-                                        html.I("Time"), ", (Oct. 15 2018), p. 104-109",
+                                        html.I("Time"), " (Oct. 15 2018), p. 104-109",
                                         # https://time.com/5404475/history-tipping-american-restaurants-civil-war/
                                     ]),
                                     html.Li(children=[

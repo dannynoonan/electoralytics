@@ -69,6 +69,7 @@ content = html.Div([
                                 plausible nefarious objectives motivated white supremacist voter suppression in the postbellum South is well beyond my purview — \
                                 leave that to the historians and social scientists."
                             ]),
+                            html.Img(src="/static/stockImages/jimcrow-poll-tax.jpg", style={"float": "left", "padding-right": "10px"}, width="45%"),
                             html.P(className="card-text", children=[
                                 "Whether a side-effect of racist voter suppression or an intentional strategy unto itself, Southern white elites appear to have not \
                                 just maintained, but significantly increased, their disproportionate influence over national-level politics during the Jim Crow \
@@ -132,6 +133,7 @@ content = html.Div([
                 dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
+                            html.Img(src="/static/borderStatesVenn.png", style={"float": "right", "padding-left": "10px"}, width="55%"),
                             html.H4("Border states", className="card-title"),
                             html.P(className="card-text", children=[
                                 "On the ", dcc.Link("previous page", href="/voter-weight-electoral-college-bias-page4"), " I described my reasoning for creating \
@@ -148,6 +150,7 @@ content = html.Div([
                                 voter participation (and, by inverse relationship, little to no hyper-enfranchisement of individual voters) than that of Confederate \
                                 slave states."
                             ]),
+                            html.Img(src="/static/stockImages/census-1860.png", style={"float": "left", "padding-right": "10px"}, width="50%"),
                             html.P(className="card-text", children=[
                                 "In fact, from the 40,000’ view enabled by these data visualizations, post-war voter turnout in Union-loyal former-slave states \
                                 appears almost indistinguishable from voter participation in Union-loyal free states. I’d be reaching way out of my lane to \
@@ -170,6 +173,7 @@ content = html.Div([
                             ]),
                             html.Br(),
                             html.H4("The Voting Rights Act of 1965", className="card-title"),
+                            html.Img(src="/static/stockImages/voting-rights-act-1965-signed.jpg", style={"float": "right", "padding-left": "10px"}, width="50%"),
                             html.P(className="card-text", children=[
                                 "I feel compelled to acknowledge an aspect of the historical data that I’ve danced around so far, but that’s hard to miss the \
                                 longer you spend interacting with it. Since passage of the Voting Right Acts in 1965, it would appear that voter participation in \
@@ -189,6 +193,7 @@ content = html.Div([
                                 vis-à-vis their ", html.I("Shelby County v. Holder"), " ruling actually presents a very real threat to the durability of positive \
                                 historical trends."
                             ]),
+                            html.Img(src="/static/stockImages/shelby-vs-holder-ruling.png", style={"float": "left", "padding-right": "10px"}, width="50%"),
                             html.P(className="card-text", children=[
                                 "Although my quasi-scientific 40,000’ view of historical Voter Weight doesn’t show any obvious reversal of aggregate positive \
                                 trends in 2016 or 2020 (again: not an actual statistician, I just play one on the internet), it’s worth noting that it took a few \

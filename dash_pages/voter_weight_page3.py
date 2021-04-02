@@ -50,6 +50,7 @@ content = html.Div([
                             ]),
                             html.Br(),
                             html.H4("Black suffrage: Equality, security, morality"),
+                            html.Img(src="/static/stockImages/reconstruction-suppression.jpg", style={"float": "right", "padding-left": "10px"}, width="45%"),
                             html.P(className="card-text", children=[
                                 "The enfranchisement of former slaves has a feeling of logical inevitability in hindsight, but during the late 1860s Black suffrage \
                                 was anything but a certainty. Native Americans, recently arrived Chinese and Europeans, and most notably the entire population\
@@ -74,6 +75,7 @@ content = html.Div([
                                     dcc.Link(href="/sources-notes", children=[html.Sup("7")]),
                                 ]),
                             ]),
+                            html.Img(src="/static/stockImages/douglass-garrison-phillips.png", style={"float": "left", "padding-right": "10px"}, width="50%"),
                             html.P(className="card-text", children=[
                                 "This argument for the practical necessity of suffrage for freedmen was echoed in German-born Carl Schurz’s ", 
                                 dcc.Link("field report on post-war conditions in the South", target="_blank", 
@@ -94,11 +96,10 @@ content = html.Div([
                         ]),
                     ]),
                     html.Br(),
-                # ]),
-                # dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
                             html.H4("Black suffrage: The political argument"),
+                            html.Img(src="/static/stockImages/reconstruction-freedmens-bureau.jpg", style={"float": "right", "padding-left": "10px"}, width="50%"),
                             html.P(className="card-text", children=[
                                 "From the vantage point of Northern legislators, moral justice and egalitarian ethics were only part of the total argument for Black \
                                 suffrage. Beyond the soaring rhetoric and appeals to rational humanity, the basic math of Congressional and Electoral College \
@@ -131,12 +132,13 @@ content = html.Div([
                                     dcc.Link(href="/sources-notes", children=[html.Sup("11")]),
                                 ]),
                             ]),
+                            html.Img(src="/static/stockImages/14th-amendment-page1.jpg", style={"float": "left", "padding-right": "10px"}, width="40%"),
                             html.P(className="card-text", children=[
                                 "And indeed, language along these lines ends up making it into ", dcc.Link("Section 2 of the Fourteenth Amendment", target="_blank",
                                 href="https://en.wikipedia.org/wiki/Fourteenth_Amendment_to_the_United_States_Constitution#Section_2:_Apportionment_of_Representatives"),
                                 ", also known as the “reduction clause:”"
                             ]),
-                            html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px"}, children=[
+                            html.Div(className="card-text", style={"margin-left": "45%", "margin-right": "50px"}, children=[
                                 html.P(style={"font-style": "italic"}, children=[
                                     "When the right to vote at any election for the choice of electors for President..., Representatives in Congress, or [other \
                                     elected officials] is denied to any of the male inhabitants of such State, being twenty-one years of age, and citizens of the \
@@ -159,13 +161,7 @@ content = html.Div([
                             ]),
                         ]),
                     ]),
-            #     ])
-            # ]),
                     html.Br(),
-            # html.Hr(className="border-light"),
-            # html.Br(),
-            # dbc.Row([
-            #     dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
                             html.Div(className="card-text lead", style={"margin-left": "50px", "margin-right": "50px"}, children=[
@@ -198,6 +194,7 @@ content = html.Div([
                                     dcc.Link(href="/sources-notes", children=[html.Sup("16")]),
                                 ]),
                             ]),
+                            html.Img(src="/static/stockImages/reconstruction-black-voter.jpg", style={"float": "right", "padding-left": "10px"}, width="50%"),
                             html.P(className="card-text", children=[
                                 "Garrison's trepidation that voting rights may not be secure in the aftermath of Reconstruction was widely felt. Legislators were \
                                 not naive to these concerns, and the Reconstruction amendments anticipated them with a political fail-safe mechanism: The Fifteenth \
@@ -210,8 +207,6 @@ content = html.Div([
                             html.P(className="card-text", children=[
                                 "In practice, however, it would be nearly a century before the voting provisions of either amendment were meaningfully enforced."
                             ]),
-                            html.Br(),
-                            
                         ])
                     ])
                 ]),

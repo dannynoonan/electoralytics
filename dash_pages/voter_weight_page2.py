@@ -50,6 +50,7 @@ content = html.Div([
                                 "In the 21st century, the idea that voters in smaller states have greater influence on national elections than voters in more \
                                 populous states has drawn its share of ire."
                             ]),
+                            html.Img(src="/static/stockImages/ec-vote-1824.jpg", style={"float": "left", "padding-right": "10px"}, width="40%"),
                             html.P(className="card-text", children=[
                                 "Quick review: each state’s Electoral College votes equal the sum of its Congressional Representatives (based on population) \
                                 + Senators (2 per state regardless of population), the same bicameral balance that was part of the Constitutional Convention’s ", 
@@ -93,8 +94,9 @@ content = html.Div([
                                     html.Li("The infamous “Three-fifths Compromise” that rewarded white property-owning male voters in slave states with increased \
                                         congressional representation (and electoral vote allocation) in direct proportion to the size of their enslaved populations \
                                         - aka “slave-state bias”")
-                                ])
+                                ]),
                             ]),
+                            html.Img(src="/static/stockImages/constitution.jpg", style={"float": "right", "padding-left": "10px"}, width="50%"),
                             html.P(className="card-text", children=[
                                 "Antiquated though it may be, many still argue that small-state bias has a functional role to play as a bulwark against big-state tyranny, \
                                 protecting smaller populations (often spread across large swaths of territory) from being drowned out by those living in larger \

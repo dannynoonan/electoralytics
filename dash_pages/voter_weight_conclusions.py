@@ -69,6 +69,7 @@ content = html.Div([
                             ]),
                             html.Br(),
                             html.H4("How the ‘Slave Power’ perpetuated slavery", className="card-title"),
+                            html.Img(src="/static/stockImages/dred-scott-newspaper.jpg", style={"float": "right", "padding-left": "10px"}, width="40%"),
                             html.P(className="card-text", children=[
                                 "A common argument tactic is to point out how long ago the Jim Crow Era was, how much has changed since then, even to suggest that \
                                 highlighting these abuses perpetuates the problems caused by them. Let’s address that head-on. What effects might nine decades of \
@@ -98,6 +99,7 @@ content = html.Div([
                                     ]),
                                 ])
                             ]),
+                            html.Img(src="/static/stockImages/fugitive-slave-newspaper.jpg", style={"float": "right", "padding-left": "10px"}, width="50%"),
                             html.P(className="card-text", children=[
                                 "With its inflated national representation and influence, the Slave Power pursued an agenda favorable to the protection and expansion \
                                 of slavery, repeatedly passing major pro-slavery legislation on behalf of an ever-shrinking minority of voters:", 
@@ -119,6 +121,7 @@ content = html.Div([
                                         thus repealing the compromise that had been the basis for Missouri’s admission as a slave state (1854)"),
                                 ])
                             ]),
+                            html.Img(src="/static/stockImages/kansas-nebraska-freesoil-cartoon.jpg", style={"float": "left", "padding-right": "10px"}, width="50%"),
                             html.P(className="card-text", children=[
                                 "Northern acceptance of or apathy toward slavery was certainly a factor during the earliest years of the Republic, but this doesn’t \
                                 account for the overwhelming representation of Southern slaveholders in every branch of the federal government, nor the inordinate \
@@ -126,6 +129,7 @@ content = html.Div([
                                 position, elevated by an electoral system mathematically biased toward slaveholder interests, pushed through the legislature by a \
                                 puffed-up minority faction whose inflated national power derived directly from their enslaved population."
                             ]),
+                            html.Img(src="/static/stockImages/wilmot-proviso-reaction.jpg", style={"float": "right", "padding-left": "10px"}, width="40%"),
                             html.P(className="card-text", children=[
                                 "In his memoirs, Frederick Douglass describes the influence he believed Southern whites and the Slave Power were having on \
                                 communities in the North by the mid nineteenth century. Recalling the hostile and at times violent reactions of Northern crowds to \
@@ -143,7 +147,6 @@ content = html.Div([
                                 impact of prewar slaveholding policies and politicians remained deeply woven into American culture and the fabric of institutional \
                                 memory and identity, in ways we've still not fully reconciled a century and a half later."
                             ]),
-                            html.Br(),
                         ]),
                     ]),
                 ]),
@@ -165,6 +168,7 @@ content = html.Div([
                                 mathematically skewed to amplify the voting power of Southern whites: To what degree and in what form was the South’s reactionary \
                                 white supremacist agenda manifest and exported nationwide when it was reincarnated post-Reconstruction?"
                             ]),
+                            html.Img(src="/static/stockImages/russell-senate-office-building.jpg", style={"float": "left", "padding-right": "10px"}, width="50%"),
                             html.P(className="card-text", children=[
                                 "The most well-known achievement of Southern white legislators during the Jim Crow era is in what was prevented from being achieved: \
                                 nationwide Civil Rights legislation. Georgia Senator Richard Russell’s notorious use of the filibuster to block legislation from the \
@@ -175,10 +179,12 @@ content = html.Div([
                                 Rights Act, when his protégé Lyndon Johnson finally broke the decades-long white supremacist stranglehold on the Senate.", 
                                 dcc.Link(href="/sources-notes", children=[html.Sup("31")]),
                             ]),
+                            html.Img(src="/static/stockImages/redlining-brooklyn.jpg", style={"float": "right", "padding-left": "10px"}, width="40%"),
                             html.P(className="card-text", children=[
                                 "Today, the Russell Senate Office Building is workplace to over a thousand senate staffers, and continues to symbolically enshrine \
                                 the Senator’s legacy of white supremacy and legislative obstructionism.", dcc.Link(href="/sources-notes", children=[html.Sup("32")]), 
-                                " But most examples of Jim Crow’s holdover effect are both less symbolic and more insidiously relevant in everyday life. Among them:",
+                                " But most examples of Jim Crow’s holdover effect are both less symbolic and more insidiously relevant in everyday life. At the very \
+                                tip of the iceberg:",
                                 html.Ul([
                                     html.Li(children=["Segregated neighborhoods carving up nearly every American city today trace back overwhelmingly to the ",
                                         dcc.Link("FHA", href="https://en.wikipedia.org/wiki/Federal_Housing_Administration", target="_blank"), "’s and ",
@@ -194,6 +200,7 @@ content = html.Div([
                                         children=[html.Sup("36")]), " derive from Southern politicians and entrepreneurs seeking to minimize wages for Black labor \
                                         in the Jim Crow South."
                                     ]),
+                                    html.Img(src="/static/stockImages/pullman-dining-car2.png", style={"float": "right", "padding-left": "10px"}, width="40%"),
                                     html.Li(children=["The exponential disparities in drug war targeting and sentencing, from racial profiling in traffic stops and \
                                         stop-and-frisk encounters to wild disparities in sentencing for crack vs cocaine possession, backed by the normalization of \
                                         militarized police violence toward unarmed Black citizens, bears striking resemblance to the enforcement of Black Codes, the \
@@ -208,16 +215,18 @@ content = html.Div([
                                     ])
                                 ])
                             ]),
+                            html.Img(src="/static/stockImages/school-segregation.jpg", style={"float": "left", "padding-right": "10px"}, width="50%"),
                             html.P(className="card-text", children=[
                                 "At a cultural level, this country continues to deal with its once ubiquitous embrace of ‘Lost Cause’ mythology, with media saturation \
-                                of Black 'brute' caricatures and Tarzan-esque tropes, with the legacy of nationwide support for the KKK and tepid reaction to public \
-                                lynching, with the scientific community's once fervent embrace of the Eugenics movement and its present-day relics like the SAT,",
+                                of criminal Black 'brute' caricatures and Tarzan-esque tropes, with the legacy of nationwide support for the KKK and tepid reaction to \
+                                public lynching, with the scientific community's once fervent embrace of the Eugenics movement and its present-day relics like the SAT,",
                                 dcc.Link(href="/sources-notes", children=[html.Sup("39")])," and with Confederate flags flying at events in Northern and Western \
                                 states (to say nothing of Southern states that were once part of the actual Confederacy). But behind these insidious expressions of \
                                 white supremacy are decades of legislated, bureaucratic, institutional racism, all normalized after generations of unchallenged \
                                 precedent and repetition, and all born out of a political system that granted its most avowed white supremacist element 3x-8x the \
                                 influence of other white voters, while silencing its African-American voices altogether."
                             ]),
+                            html.Img(src="/static/stockImages/kkk-children.jpg", style={"float": "right", "padding-left": "10px"}, width="50%"),
                             html.P(className="card-text", children=[
                                 "I’m not suggesting that Northern citizens aren’t culpable for their complicity in the adoption and expansion of a Jim Crow \
                                 segregationist mindset nationally during those 90 years. Many of these campaigns were enacted with broad national support, during an \
@@ -236,6 +245,7 @@ content = html.Div([
                                 their representation reduced by half, if not by a factor of four or even six or eight, based on how few people voted - and how many \
                                 were prevented from voting - during various decades of the Jim Crow era."
                             ]),
+                            html.Img(src="/static/stockImages/confederate-flag-capitol-riot.jpg", style={"float": "left", "padding-right": "10px"}, width="50%"),
                             html.P(className="card-text", children=[
                                 "Or, framing the same question from a different angle: How many federal appointments, government programs, legal precedents, or pieces \
                                 of national legislation passed during this era were cultivated with intent to perpetuate a status quo grounded in Southern whites \
@@ -246,7 +256,6 @@ content = html.Div([
                                 And how many of the laws, institutions, and ideologies crafted in this reactionary white supremacist crucible continue to endure and \
                                 thrive, at the national level, to this day?"
                             ]),
-                            html.Br(),
                         ])
                     ])
                 ])

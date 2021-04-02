@@ -80,6 +80,7 @@ content = html.Div([
                                 ])
                             ]),
                             html.Br(),
+                            html.Img(src="/static/stockImages/black-codes.jpg", style={"float": "right", "padding-left": "10px"}, width="50%"),
                             html.P(className="card-text", children=[
                                 "By the 1880s and 1890s, Southern white “Redeemer” governments were siphoning influence from disenfranchised Black electorates in \
                                 every Southern state, flouting the Reconstruction Amendments through the legally spurious application of poll taxes, literacy tests, \
