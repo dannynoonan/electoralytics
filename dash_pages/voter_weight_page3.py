@@ -50,7 +50,8 @@ content = html.Div([
                             ]),
                             html.Br(),
                             html.H4("Black suffrage: Equality, security, morality"),
-                            html.Img(src="/static/stockImages/reconstruction-suppression.jpg", style={"float": "right", "padding-left": "10px"}, width="45%"),
+                            html.Img(src="/static/stockImages/reconstruction-suppression.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, 
+                                width="45%"),
                             html.P(className="card-text", children=[
                                 "The enfranchisement of former slaves has a feeling of logical inevitability in hindsight, but during the late 1860s Black suffrage \
                                 was anything but a certainty. Native Americans, recently arrived Chinese and Europeans, and most notably the entire population\
@@ -75,7 +76,8 @@ content = html.Div([
                                     dcc.Link(href="/sources-notes", children=[html.Sup("7")]),
                                 ]),
                             ]),
-                            html.Img(src="/static/stockImages/douglass-garrison-phillips.png", style={"float": "left", "padding-right": "10px"}, width="50%"),
+                            html.Img(src="/static/stockImages/douglass-garrison-phillips.png", style={"float": "left", "padding-right": "10px", "padding-top": "5px"}, 
+                                width="50%"),
                             html.P(className="card-text", children=[
                                 "This argument for the practical necessity of suffrage for freedmen was echoed in German-born Carl Schurz’s ", 
                                 dcc.Link("field report on post-war conditions in the South", target="_blank", 
@@ -99,7 +101,8 @@ content = html.Div([
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
                             html.H4("Black suffrage: The political argument"),
-                            html.Img(src="/static/stockImages/reconstruction-freedmens-bureau.jpg", style={"float": "right", "padding-left": "10px"}, width="50%"),
+                            html.Img(src="/static/stockImages/reconstruction-freedmens-bureau.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, 
+                                width="50%"),
                             html.P(className="card-text", children=[
                                 "From the vantage point of Northern legislators, moral justice and egalitarian ethics were only part of the total argument for Black \
                                 suffrage. Beyond the soaring rhetoric and appeals to rational humanity, the basic math of Congressional and Electoral College \
@@ -126,13 +129,14 @@ content = html.Div([
                             html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px"}, children=[
                                 html.P(style={"font-style": "italic"}, children=[
                                     "It did not seem just or proper that all the political advantages derived from [Southern Blacks] becoming free should be confined \
-                                    to their former masters, who had fought against the Union, and withheld from themselves, who had always been loyal… [our] committee \
+                                    to their former masters, who had fought against the Union, and withheld from themselves, who had always been loyal… [Our] committee \
                                     came to the conclusion that political power should be possessed in all the states exactly in proportion as the right of suffrage \
                                     should be granted, without distinction of color or race…",
                                     dcc.Link(href="/sources-notes", children=[html.Sup("11")]),
                                 ]),
                             ]),
-                            html.Img(src="/static/stockImages/14th-amendment-page1.jpg", style={"float": "left", "padding-right": "10px"}, width="40%"),
+                            html.Img(src="/static/stockImages/14th-amendment-page1.jpg", style={"float": "left", "padding-right": "10px", "padding-top": "5px"}, 
+                                width="40%"),
                             html.P(className="card-text", children=[
                                 "And indeed, language along these lines ends up making it into ", dcc.Link("Section 2 of the Fourteenth Amendment", target="_blank",
                                 href="https://en.wikipedia.org/wiki/Fourteenth_Amendment_to_the_United_States_Constitution#Section_2:_Apportionment_of_Representatives"),
@@ -164,21 +168,13 @@ content = html.Div([
                     html.Br(),
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
-                            html.Div(className="card-text lead", style={"margin-left": "50px", "margin-right": "50px"}, children=[
-                                html.P(style={"font-style": "italic"}, children=[
-                                    "One of the great ironies of American history is that the end of slavery actually made the white power structures in the \
-                                    former slave states stronger.", dcc.Link(href="/sources-notes", children=[html.Sup("14")]),
-                                ]),
-                                html.P(children=["—Jesse Wegman, ", html.I("“Let the People Pick the President”")])
-                            ]),
-                            html.Br(),
                             html.H4("Reconstruction Amendments in practice"),
                             html.P(className="card-text", children=[
                                 "The voting and legal protections of the Fourteenth and Fifteenth Amendments led to a true flourishing of multi-racial democracy \
                                 during Reconstruction. Even prior to their passage and ratification, the Congressional Reconstruction Acts of 1867 set every former \
                                 Confederate state on a path toward a greatly expanded electorate. Compared with a total of 721,191 (white) voters in 1860, the \
                                 combined turnout at the constitutional conventions of 1867 nearly doubled this figure at 1,363,640, of which more than half the \
-                                participants were Black.", dcc.Link(href="/sources-notes", children=[html.Sup("15")]),
+                                participants were Black.", dcc.Link(href="/sources-notes", children=[html.Sup("14")]),
                             ]),
                             html.P(className="card-text", children=[
                                 "But the era was short-lived, as even the most radical abolitionists feared it might be. Concerns regarding federally-imposed \
@@ -191,10 +187,11 @@ content = html.Div([
                                     white population, with their superior… wealth and power, would unquestionably alter the franchise in accordance with their \
                                     prejudices, and exclude those thus summarily brought to the polls. Coercion would gain nothing. In other words… universal \
                                     suffrage will be hard to win and to hold without general preparation of feeling and sentiment.",
-                                    dcc.Link(href="/sources-notes", children=[html.Sup("16")]),
+                                    dcc.Link(href="/sources-notes", children=[html.Sup("15")]),
                                 ]),
                             ]),
-                            html.Img(src="/static/stockImages/reconstruction-black-voter.jpg", style={"float": "right", "padding-left": "10px"}, width="50%"),
+                            html.Img(src="/static/stockImages/reconstruction-black-voter.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, 
+                                width="50%"),
                             html.P(className="card-text", children=[
                                 "Garrison's trepidation that voting rights may not be secure in the aftermath of Reconstruction was widely felt. Legislators were \
                                 not naive to these concerns, and the Reconstruction amendments anticipated them with a political fail-safe mechanism: The Fifteenth \

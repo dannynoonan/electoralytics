@@ -41,7 +41,8 @@ content = html.Div([
                                     self-perpetuating oligarchy within the electorate.",
                                     dcc.Link(href="/sources-notes", children=[html.Sup("23")]),
                                 ]),
-                                html.P(children=["—Akhil Reed Amar, summarizing Justice Hugo Black, ", html.I("“The Law of the Land: A Grand Tour of our Constitutional Republic”")])
+                                html.P(children=["—Akhil Reed Amar, summarizing Justice Hugo Black, ", html.I("“The Law of the Land: A Grand Tour of our \
+                                    Constitutional Republic”")])
                             ]),
                             html.Br(),
                             html.H4("Hyper-enfranchisement: Implications and interpretation", className="card-title"),
@@ -69,7 +70,8 @@ content = html.Div([
                             ]),
                             html.Br(),
                             html.H4("How the ‘Slave Power’ perpetuated slavery", className="card-title"),
-                            html.Img(src="/static/stockImages/dred-scott-newspaper.jpg", style={"float": "right", "padding-left": "10px"}, width="40%"),
+                            html.Img(src="/static/stockImages/dred-scott-newspaper.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, 
+                                width="40%"),
                             html.P(className="card-text", children=[
                                 "A common argument tactic is to point out how long ago the Jim Crow Era was, how much has changed since then, even to suggest that \
                                 highlighting these abuses perpetuates the problems caused by them. Let’s address that head-on. What effects might nine decades of \
@@ -79,23 +81,23 @@ content = html.Div([
                             html.P(className="card-text", children=[
                                 "As a proxy, let’s examine the well-documented effects of the white South’s three-fifths electoral advantage during slavery, both \
                                 within the South and across America as a whole. Despite being home to less than a third of the country’s free population, \
-                                significant majorities of high-level representatives and appointments went to Southern slaveholders:",
+                                significant majorities of high-level representatives and appointments went to Southern slaveholders. Here’s a quick round-up:",
                                 html.Ul([
-                                    html.Li("10 of the first 17 Presidents, serving ~13 of the first 20 terms were Southerner slaveholders"), 
-                                    html.Li(children=["21 of the first 33 Speakers of the House were Southerner slaveholders", dcc.Link(href="/sources-notes", 
+                                    html.Li("10 of the first 17 Presidents, serving ~13 of the first 20 terms, were Southern slaveholders"), 
+                                    html.Li(children=["21 of the first 33 Speakers of the House were Southern slaveholders", dcc.Link(href="/sources-notes", 
                                         children=[html.Sup("26")])
                                     ]),
-                                    html.Li(children=["18 of the first 31 Supreme Court justices were Southerner slaveholders (including a majority of those who \
+                                    html.Li(children=["18 of the first 31 Supreme Court justices were Southern slaveholders (including a majority of those who \
                                         ruled on the infamous 1857 Dred Scott decision)", dcc.Link(href="/sources-notes", children=[html.Sup("27")])
                                     ]),
-                                    html.Li(children=["14 of the first 19 Attorneys General were Southerner slaveholders", dcc.Link(href="/sources-notes", 
+                                    html.Li(children=["14 of the first 19 Attorneys General were Southern slaveholders", dcc.Link(href="/sources-notes", 
                                         children=[html.Sup("26")])
                                     ]),
-                                    html.Li(children=["84 of the first 134 Foreign Ministers were Southerner slaveholders", dcc.Link(href="/sources-notes", 
+                                    html.Li(children=["84 of the first 134 Foreign Ministers were Southern slaveholders", dcc.Link(href="/sources-notes", 
                                         children=[html.Sup("26")])
                                     ]),
                                     html.Li(children=["Slave states sent one-third more representatives to Congress than they would have if representation were \
-                                        based only on free citizens", dcc.Link(href="/sources-notes", children=[html.Sup("27")])
+                                        based only on the number of free citizens", dcc.Link(href="/sources-notes", children=[html.Sup("27")])
                                     ]),
                                 ])
                             ]),
@@ -105,23 +107,23 @@ content = html.Div([
                                 of slavery, repeatedly passing major pro-slavery legislation on behalf of an ever-shrinking minority of voters:", 
                                 dcc.Link(href="/sources-notes", children=[html.Sup("27")]),
                                 html.Ul([
-                                    html.Li("The Missouri Compromise, admitting Missouri to the Union as a slave state in exchange for an agreement to halt the \
-                                        expansion of slavery in the Northwestern territories (1820)"), 
-                                    html.Li("The Indian Removal Act, which forced the removal of 100,000 Native Americans from Southern states via the Trail of \
-                                        Tears (1830)"),
-                                    html.Li("The House “Gag rule” protecting slavery in Washington D.C. (1840)"),
-                                    html.Li(children=["Inception of the filibuster, developed by South Carolina’s John C. Calhoun for the express purpose of protecting \
-                                        slavery (1840s)", dcc.Link(href="/sources-notes", children=[html.Sup("28")])
+                                    html.Li("1820: The Missouri Compromise, admitting Missouri to the Union as a slave state in exchange for an agreement to halt the \
+                                        expansion of slavery in the Northwestern territories"), 
+                                    html.Li("1830: The Indian Removal Act, which forced the removal of 100,000 Native Americans from Southern states via the Trail of \
+                                        Tears)"),
+                                    html.Li("1840: The House “Gag rule” protecting slavery in Washington D.C."),
+                                    html.Li(children=["1840s: Inception of the filibuster, developed by South Carolina’s John C. Calhoun for the express purpose of \
+                                        protecting slavery ", dcc.Link(href="/sources-notes", children=[html.Sup("28")])
                                     ]),
-                                    html.Li("Defeat of the Wilmot Proviso, which would’ve banned slavery in territory claimed during the Mexican-American War \
-                                        (1847)"),
-                                    html.Li("Passage of the Fugitive Slave Act, requiring those living in free states to cooperate in the capture and return of \
-                                        escaped slaves to their Southern masters (1850)"),
-                                    html.Li("The Kansas-Nebraska Act, giving Western territories the right of “popular sovereignty” with respect to slavery, \
-                                        thus repealing the compromise that had been the basis for Missouri’s admission as a slave state (1854)"),
+                                    html.Li("1847: Defeat of the Wilmot Proviso, which would’ve banned slavery in territory claimed during the Mexican-American War"),
+                                    html.Li("1850: Passage of the Fugitive Slave Act, requiring those living in free states to cooperate in the capture and return of \
+                                        escaped slaves to their Southern masters"),
+                                    html.Li("1854: The Kansas-Nebraska Act, giving Western territories the right of “popular sovereignty” with respect to slavery, \
+                                        thus repealing the compromise that had been the basis for Missouri’s admission as a slave state"),
                                 ])
                             ]),
-                            html.Img(src="/static/stockImages/kansas-nebraska-freesoil-cartoon.jpg", style={"float": "left", "padding-right": "10px"}, width="50%"),
+                            html.Img(src="/static/stockImages/kansas-nebraska-freesoil-cartoon.jpg", style={"float": "left", "padding-right": "10px", 
+                                "padding-top": "5px"}, width="50%"),
                             html.P(className="card-text", children=[
                                 "Northern acceptance of or apathy toward slavery was certainly a factor during the earliest years of the Republic, but this doesn’t \
                                 account for the overwhelming representation of Southern slaveholders in every branch of the federal government, nor the inordinate \
@@ -168,7 +170,8 @@ content = html.Div([
                                 mathematically skewed to amplify the voting power of Southern whites: To what degree and in what form was the South’s reactionary \
                                 white supremacist agenda manifest and exported nationwide when it was reincarnated post-Reconstruction?"
                             ]),
-                            html.Img(src="/static/stockImages/russell-senate-office-building.jpg", style={"float": "left", "padding-right": "10px"}, width="50%"),
+                            html.Img(src="/static/stockImages/russell-senate-office-building.jpg", style={"float": "left", "padding-right": "10px", 
+                                "padding-top": "5px"}, width="50%"),
                             html.P(className="card-text", children=[
                                 "The most well-known achievement of Southern white legislators during the Jim Crow era is in what was prevented from being achieved: \
                                 nationwide Civil Rights legislation. Georgia Senator Richard Russell’s notorious use of the filibuster to block legislation from the \
@@ -179,7 +182,8 @@ content = html.Div([
                                 Rights Act, when his protégé Lyndon Johnson finally broke the decades-long white supremacist stranglehold on the Senate.", 
                                 dcc.Link(href="/sources-notes", children=[html.Sup("31")]),
                             ]),
-                            html.Img(src="/static/stockImages/redlining-brooklyn.jpg", style={"float": "right", "padding-left": "10px"}, width="40%"),
+                            html.Img(src="/static/stockImages/redlining-brooklyn.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, 
+                                width="40%"),
                             html.P(className="card-text", children=[
                                 "Today, the Russell Senate Office Building is workplace to over a thousand senate staffers, and continues to symbolically enshrine \
                                 the Senator’s legacy of white supremacy and legislative obstructionism.", dcc.Link(href="/sources-notes", children=[html.Sup("32")]), 
@@ -192,41 +196,47 @@ content = html.Div([
                                         redlining and lending practices beginning in the 1930s,", dcc.Link(href="/sources-notes", children=[html.Sup("33")]), 
                                         " while “spot” rezoning to permit toxic sites adjacent to Black neighborhoods and the targeted demolition of Black \
                                         communities to build highways further restricted housing options and depressed housing value.", 
-                                        dcc.Link(href="/sources-notes", children=[html.Sup("34")])
+                                        dcc.Link(href="/sources-notes", children=[html.Sup("34")]), " These government-imposed impediments to building personal and \
+                                        community wealth through real estate in the 20th century continue to be a major source of financial inequity between Blacks \
+                                        and whites today."
                                     ]),
+                                    html.Img(src="/static/stockImages/pullman-dining-car2.png", style={"float": "right", "padding-left": "10px", "padding-top": "10px"}, 
+                                        width="40%"),
                                     html.Li(children=["The present day exclusion of agricultural, food service, and domestic workers from minimum wage, \
                                         unemployment, and other New Deal-era benefits and protections,", dcc.Link(href="/sources-notes", children=[html.Sup("35")]),
                                         " and even modern-day tipping in lieu of proper workplace compensation,", dcc.Link(href="/sources-notes", 
-                                        children=[html.Sup("36")]), " derive from Southern politicians and entrepreneurs seeking to minimize wages for Black labor \
-                                        in the Jim Crow South."
-                                    ]),
-                                    html.Img(src="/static/stockImages/pullman-dining-car2.png", style={"float": "right", "padding-left": "10px"}, width="40%"),
+                                        children=[html.Sup("36")]), " derive from Southern politicians and racially-exploitative entrepreneurs seeking to minimize \
+                                        wages for Black labor in the Jim Crow South.", dcc.Link(href="/sources-notes", children=[html.Sup("37")])
+                                    ]),                  
                                     html.Li(children=["The exponential disparities in drug war targeting and sentencing, from racial profiling in traffic stops and \
                                         stop-and-frisk encounters to wild disparities in sentencing for crack vs cocaine possession, backed by the normalization of \
-                                        militarized police violence toward unarmed Black citizens, bears striking resemblance to the enforcement of Black Codes, the \
+                                        militarized police violence toward unarmed Black citizens, echoes patterns consistent with the enforcement of Black Codes, the \
                                         violent police tactics that propped up the Southern segregationist status quo, and the paltry legal defense available to \
-                                        Black citizens during Jim Crow.", dcc.Link(href="/sources-notes", children=[html.Sup("37")])
+                                        Black citizens during Jim Crow.", dcc.Link(href="/sources-notes", children=[html.Sup("38")])
                                     ]),
+                                    html.Img(src="/static/stockImages/school-segregation.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "10px"}, 
+                                        width="50%"),
                                     html.Li(children=["Racially segregated schools, though illegal in many states and most predominant in the Jim Crow South, was \
                                         widespread enough by the 1950s that the Supreme Court had its pick of venues to challenge it in, selecting Kansas as its \
                                         lead case in ", html.I("Brown v. Board of Education"), ". In doing so, the court was able to go after school segregation \
                                         without singling out the South, effectively using the ubiquity of this Southern export to go after the institution without \
-                                        directly attacking its Southern proponents.", dcc.Link(href="/sources-notes", children=[html.Sup("38")]),
+                                        directly attacking its Southern proponents.", dcc.Link(href="/sources-notes", children=[html.Sup("39")]),
                                     ])
                                 ])
                             ]),
-                            html.Img(src="/static/stockImages/school-segregation.jpg", style={"float": "left", "padding-right": "10px"}, width="50%"),
+                            html.Img(src="/static/stockImages/gone_with_the_wind.jpg", style={"float": "left", "padding-right": "10px", "padding-top": "5px"}, 
+                                width="25%"),
                             html.P(className="card-text", children=[
                                 "At a cultural level, this country continues to deal with its once ubiquitous embrace of ‘Lost Cause’ mythology, with media saturation \
                                 of criminal Black 'brute' caricatures and Tarzan-esque tropes, with the legacy of nationwide support for the KKK and tepid reaction to \
                                 public lynching, with the scientific community's once fervent embrace of the Eugenics movement and its present-day relics like the SAT,",
-                                dcc.Link(href="/sources-notes", children=[html.Sup("39")])," and with Confederate flags flying at events in Northern and Western \
+                                dcc.Link(href="/sources-notes", children=[html.Sup("40")])," and with Confederate flags flying at events in Northern and Western \
                                 states (to say nothing of Southern states that were once part of the actual Confederacy). But behind these insidious expressions of \
                                 white supremacy are decades of legislated, bureaucratic, institutional racism, all normalized after generations of unchallenged \
                                 precedent and repetition, and all born out of a political system that granted its most avowed white supremacist element 3x-8x the \
                                 influence of other white voters, while silencing its African-American voices altogether."
                             ]),
-                            html.Img(src="/static/stockImages/kkk-children.jpg", style={"float": "right", "padding-left": "10px"}, width="50%"),
+                            html.Img(src="/static/stockImages/kkk-children.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, width="50%"),
                             html.P(className="card-text", children=[
                                 "I’m not suggesting that Northern citizens aren’t culpable for their complicity in the adoption and expansion of a Jim Crow \
                                 segregationist mindset nationally during those 90 years. Many of these campaigns were enacted with broad national support, during an \
@@ -245,7 +255,8 @@ content = html.Div([
                                 their representation reduced by half, if not by a factor of four or even six or eight, based on how few people voted - and how many \
                                 were prevented from voting - during various decades of the Jim Crow era."
                             ]),
-                            html.Img(src="/static/stockImages/confederate-flag-capitol-riot.jpg", style={"float": "left", "padding-right": "10px"}, width="50%"),
+                            html.Img(src="/static/stockImages/confederate-flag-capitol-riot.jpg", style={"float": "left", "padding-right": "10px", "padding-top": "5px"}, 
+                                width="50%"),
                             html.P(className="card-text", children=[
                                 "Or, framing the same question from a different angle: How many federal appointments, government programs, legal precedents, or pieces \
                                 of national legislation passed during this era were cultivated with intent to perpetuate a status quo grounded in Southern whites \

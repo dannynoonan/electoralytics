@@ -35,6 +35,14 @@ content = html.Div([
                 dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
+                            html.Div(className="card-text lead", style={"margin-left": "50px", "margin-right": "50px"}, children=[
+                                html.P(style={"font-style": "italic"}, children=[
+                                    "One of the great ironies of American history is that the end of slavery actually made the white power structures in the \
+                                    former slave states stronger.", dcc.Link(href="/sources-notes", children=[html.Sup("16")]),
+                                ]),
+                                html.P(children=["—Jesse Wegman, ", html.I("“Let the People Pick the President”")])
+                            ]),
+                            html.Br(),
                             html.H4("Voter suppression as a “five-fifths” scheme"),
                             html.P(className="card-text", children=[
                                 "A recent episode of ", html.I("NPR’s Throughline"), " (the original inspiration for this project!) explores the end of \
@@ -80,7 +88,7 @@ content = html.Div([
                                 ])
                             ]),
                             html.Br(),
-                            html.Img(src="/static/stockImages/black-codes.jpg", style={"float": "right", "padding-left": "10px"}, width="50%"),
+                            html.Img(src="/static/stockImages/black-codes.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, width="50%"),
                             html.P(className="card-text", children=[
                                 "By the 1880s and 1890s, Southern white “Redeemer” governments were siphoning influence from disenfranchised Black electorates in \
                                 every Southern state, flouting the Reconstruction Amendments through the legally spurious application of poll taxes, literacy tests, \
@@ -198,10 +206,14 @@ content = html.Div([
                                 ]),
                                 html.P(children=["—Alexander Keyssar, ", html.I("“Why Do We Still Have the Electoral College?”")])
                             ]),
-                            html.Br(),
                         ])
                     ]),
-                    html.Br(),
+                    html.Br(),html.Br(),
+                    dcc.Graph(id="fig-map-suppress-state-bias"),
+                    html.P(className="card-text", style={"padding": "5px"}, children=[
+                        html.Small("Figure 9: Reference map illustrating which states fit into which group. Areas lacking color shading or hover data are states \
+                            that haven’t been admitted to the Union yet."),
+                    ]),
                 ]),
                 dbc.Col(md=6, children=[
                     html.H4("Select year:", className="text-white"),
@@ -240,12 +252,6 @@ content = html.Div([
                             a state whose voters — that is, those who were able to vote — wielded disproportionately high Voter Weight in that election. For small \
                             bubbles with low EC vote counts, high Voter Weight can be explained by small-state bias. For larger bubbles, we are looking at \
                             suppression-state bias."),
-                    ]),
-                    html.Br(),
-                    dcc.Graph(id="fig-map-suppress-state-bias"),
-                    html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 9: Reference map illustrating which states fit into which group. Areas lacking color shading or hover data are states \
-                            that haven’t been admitted to the Union yet."),
                     ]),
                 ])
             ]),

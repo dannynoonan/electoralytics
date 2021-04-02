@@ -66,12 +66,12 @@ content = html.Div([
                                         its two Senators, proportionally favoring smaller states with fewer Representatives"]),
                                     html.Li(children=[html.B("Slave-state bias"), ": Although slaves couldn't vote, the “three-fifths compromise” included them \
                                         in the basis for Congressional and Electoral College representation, thereby amplifying the influence of Southern whites \
-                                        who effectively voted on their behalf"]),
+                                        who effectively voted on their slaves' behalf"]),
                                     html.Li(children=[html.B("Suppression-state bias"), ": The increased influence of voters in states that actively prevent \
                                         legally eligible and census tabulated citizens from voting, as took place for many decades in the Jim Crow South"])
                                 ]),
                             ]),
-                            html.Img(src="/static/stockImages/census-1790.jpg", style={"float": "right", "padding-left": "10px"}, width="40%"),
+                            html.Img(src="/static/stockImages/census-1790.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, width="40%"),
                             html.P(className="card-text", children=[
                                 "Each of these biases directly amplify the influence of one state's (or region's) voters over another's, resulting in the \
                                 “hyper-enfranchisement” of certain voters relative to others. The small-state and slave-state biases are well-known, baked into \
@@ -82,9 +82,9 @@ content = html.Div([
                             html.P(className="card-text", children=[
                                 "In a certain respect, historical disinterest in suppression-state bias makes sense: Compared to the direct and devastating \
                                 effects of Jim Crow voter suppression on the Black population, the amplified national influence Southern whites experienced as \
-                                a result of that suppression barely registers as corollary anecdote. In another respect however, to the extent that it may have \
-                                contributed to the longevity and totality of Jim Crow voter suppression, any connection between this amplified national influence \
-                                and the perpetuation of Southern white regional dominance is worth examining."
+                                a result of that suppression barely registers as a corollary anecdote. But on the other hand, to the extent that it may have \
+                                contributed to the longevity and totality of Jim Crow voter suppression, any connection between this amplified national \
+                                influence and the perpetuation of Southern white regional dominance is worth examining."
                             ]),
                             html.P(className="card-text", children=[
                                 "Indeed, while slavery survived fewer than 80 years after ratification of the Constitution, Black voter suppression in the Jim \
@@ -122,10 +122,10 @@ content = html.Div([
                                 election. Adjust the 'Select Year' slider above the figure to toggle between different election years."
                             ]),
                             html.P(className="card-text", children=[
-                                html.B("Figure 3"), " below provides an interactive overview of Voter Weight measurements over time, with states grouped by \
-                                Civil War alliance or census region (choose via pulldown menu). You may also select individual states to display their Voter \
-                                Weight trend lines superimposed against one other. This figure jumps ahead a bit in terms of what's been discussed, but gives \
-                                a preview of patterns and trends we'll be exploring in the coming pages."
+                                html.B("Figure 3"), " below provides an interactive overview of Voter Weight measurements over time, with states grouped by Civil \
+                                War alliance or census region (use the pulldown menu to choose). You may also select individual states for direct comparison, \
+                                superimposing each of their Voter Weight trend lines simultaneously. This figure jumps ahead a bit in terms of what's been \
+                                discussed so far, but gives a preview of patterns and trends we'll be exploring in the coming pages."
                             ])
                         ])
                     ]),

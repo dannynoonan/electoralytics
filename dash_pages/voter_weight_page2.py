@@ -50,7 +50,8 @@ content = html.Div([
                                 "In the 21st century, the idea that voters in smaller states have greater influence on national elections than voters in more \
                                 populous states has drawn its share of ire."
                             ]),
-                            html.Img(src="/static/stockImages/ec-vote-1824.jpg", style={"float": "left", "padding-right": "10px"}, width="40%"),
+                            html.Img(src="/static/stockImages/ec-vote-1836.jpg", style={"float": "left", "padding-right": "10px", "padding-top": "5px"}, 
+                                width="45%"),
                             html.P(className="card-text", children=[
                                 "Quick review: each state’s Electoral College votes equal the sum of its Congressional Representatives (based on population) \
                                 + Senators (2 per state regardless of population), the same bicameral balance that was part of the Constitutional Convention’s ", 
@@ -96,7 +97,7 @@ content = html.Div([
                                         - aka “slave-state bias”")
                                 ]),
                             ]),
-                            html.Img(src="/static/stockImages/constitution.jpg", style={"float": "right", "padding-left": "10px"}, width="50%"),
+                            html.Img(src="/static/stockImages/constitution.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, width="50%"),
                             html.P(className="card-text", children=[
                                 "Antiquated though it may be, many still argue that small-state bias has a functional role to play as a bulwark against big-state tyranny, \
                                 protecting smaller populations (often spread across large swaths of territory) from being drowned out by those living in larger \
@@ -108,24 +109,7 @@ content = html.Div([
                                 "Presumably..."
                             ]),   
                         ])
-                    ]),
-                    html.Br(),   
-                    dbc.Card(className="border-success", children=[
-                        dbc.CardBody([
-                            html.P(className="card-text", style={"font-style": "italic"}, children=[
-                                "The figures to the right, the figures below, and every other figure in this publication are interactive. Move the “Select year” slider \
-                                to bring a different election year into focus. Highlight a portion of the figure to zoom in, then double-click to reset to the original \
-                                scale. Roll over any bar in the chart to see the factors that contribute to its Voter Weight calculation."
-                            ]),
-                            html.P(className="card-text", style={"font-style": "italic"}, children=[ 
-                                "All figures use presidential election data accessible via this ", dcc.Link("Wikipedia portal", 
-                                href="https://en.wikipedia.org/wiki/List_of_United_States_presidential_election_results_by_state", target="_blank"), ". A consolidated \
-                                version of that data (what I’m using to power this website) is available in csv format in the ", dcc.Link("data/ directory", 
-                                href="https://github.com/dannynoonan/electoralytics/tree/master/data", target="_blank"), " of the ", dcc.Link("electoralytics repo", 
-                                href="https://github.com/dannynoonan/electoralytics", target="_blank"), " on github."
-                            ]),
-                        ]),
-                    ]),                                
+                    ]),                               
                 ]),
                 dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-map-color-by-ecv"),
@@ -152,6 +136,23 @@ content = html.Div([
                         html.Small("Figure 2: Small-state bias, shown by color shading states according to Electoral College votes, then listing them in \
                             descending order by Voter Weight."),
                     ]),
+                    html.Br(),   
+                    dbc.Card(className="border-success", children=[
+                        dbc.CardBody([
+                            html.P(className="card-text", style={"font-style": "italic"}, children=[
+                                "The figures above, the figures below, and every other figure in this publication are interactive. Move the “Select year” slider \
+                                to bring a different election year into focus. Highlight a portion of the figure to zoom in, then double-click to reset to the original \
+                                scale. Roll over any bar in the chart to see the factors that contribute to its Voter Weight calculation."
+                            ]),
+                            html.P(className="card-text", style={"font-style": "italic"}, children=[ 
+                                "All figures use presidential election data accessible via this ", dcc.Link("Wikipedia portal", 
+                                href="https://en.wikipedia.org/wiki/List_of_United_States_presidential_election_results_by_state", target="_blank"), ". A consolidated \
+                                version of that data (what I’m using to power this website) is available in csv format in the ", dcc.Link("data/ directory", 
+                                href="https://github.com/dannynoonan/electoralytics/tree/master/data", target="_blank"), " of the ", dcc.Link("electoralytics repo", 
+                                href="https://github.com/dannynoonan/electoralytics", target="_blank"), " on github."
+                            ]),
+                        ]),
+                    ]), 
                 ]),
             ]),
             html.Br(),

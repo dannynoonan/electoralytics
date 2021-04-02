@@ -22,10 +22,10 @@ content = html.Div([
                             html.P(children=[
                                 "Apart from a brief hopeful period between the Civil War and the end of Reconstruction, the disenfranchisement of Southern Blacks in the \
                                 US’s first 190 years was nearly absolute. Before emancipation, enslaved Blacks were prevented from voting entirely, while during the Jim \
-                                Crow era “Southern Blacks were made electorally invisible, whether through restrictive voting practices like poll taxes and literacy tests \
-                                or by campaigns of terrorism and state-sanctioned murder.”", dcc.Link(href="/sources-notes", children=[html.Sup("1")]), " Because the \
-                                Electoral College grants voting influence based on population rather than participation, the disenfranchisement of Southern Blacks fed \
-                                directly into the “hyper-enfranchisement” of Southern whites both periods. As a result, for most of America's first two centuries, ", 
+                                Crow era, “Southern Blacks were made electorally invisible, whether through restrictive voting practices like poll taxes and literacy \
+                                tests or by campaigns of terrorism and state-sanctioned murder.”", dcc.Link(href="/sources-notes", children=[html.Sup("1")]), " Because \
+                                the Electoral College grants voting influence based on population rather than participation, the disenfranchisement of Southern Blacks \
+                                fed directly into the “hyper-enfranchisement” of Southern whites in both periods. As a result, for most of America's first two centuries, ", 
                                 html.Span(style={"font-weight":"bold"}, children=["Southern whites held significantly more power, per voter, than any other demographic \
                                 anywhere else in the US."])
                             ]),
