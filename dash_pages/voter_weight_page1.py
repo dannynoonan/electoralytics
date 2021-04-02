@@ -155,7 +155,7 @@ content = html.Div([
                 dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-bar-color-by-vw"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small(children=["Figure 2: States color shaded by Voter Weight, or degree of hyper-enfranchisement, over the course of 56 presidential \
+                        html.Small(children=["Figure 1: States color shaded by Voter Weight, or degree of hyper-enfranchisement, over the course of 56 presidential \
                             elections between 1800 and 2020. Control the year using the slider above, or open an ", dcc.Link("intractive slideshow animation", 
                             className="text-white", target="_blank",
                             href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_bar_state_vw_color_by_vw_acw4_900.html"), 
@@ -165,7 +165,7 @@ content = html.Div([
                 dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-map-color-by-vw2"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small(children=["Figure 1: States color shaded by Voter Weight, or degree of hyper-enfranchisement, over the course of 56 presidential \
+                        html.Small(children=["Figure 2: States color shaded by Voter Weight, or degree of hyper-enfranchisement, over the course of 56 presidential \
                             elections between 1800 and 2020. Control the year using the slider above, or open an ", dcc.Link("intractive slideshow animation", 
                             className="text-white", target="_blank",
                             href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_vw_acw4_1000.html"), 

@@ -57,7 +57,7 @@ content = html.Div([
                                 + Senators (2 per state regardless of population), the same bicameral balance that was part of the Constitutional Convention’s ", 
                                 dcc.Link("Great Compromise", href="https://en.wikipedia.org/wiki/Connecticut_Compromise", target="_blank"), ". And just as every \
                                 state sends the same number of Senators to DC, even the smallest states receive the same +2 Senator “bicameral boost” in their \
-                                Electoral College vote count, hence the “3-vote-minimum” for even the least populous states (see ", html.B("Figure 1"), "). The \
+                                Electoral College vote count, hence the “3-vote-minimum” for even the least populous states (see ", html.B("Figure 4"), "). The \
                                 hyper-enfranchisement effect of the +2 boost tapers off as states increase in population and Electoral College apportionment, but \
                                 if a state’s population garners it only 1 or 2 Congressional Representatives then that +2 Senator boost easily doubles or triples \
                                 the relative impact of the voters in that state."
@@ -69,7 +69,7 @@ content = html.Div([
                                 I'll be using throughout my analysis (explained in detail ", dcc.Link("here", href="/voter-weight-calculation"), ").",
                             ]),
                             html.P(className="card-text", children=[
-                                "In ", html.B("Figure 2"), ", each state is listed in descending order by Voter Weight, and color shading indicates its number \
+                                "In ", html.B("Figure 3"), ", each state is listed in descending order by Voter Weight, and color shading indicates its number \
                                 of votes in the Electoral College. If, in this most recent election, Voter Weight was 3.19 in Wyoming compared with 0.81 in \
                                 neighboring Colorado, that means a vote cast in Cheyenne counted for 4X a vote cast 45 minutes south in Fort Collins. Want to \
                                 make your voice heard in Washington? Move to Wyoming!"
@@ -140,14 +140,14 @@ content = html.Div([
                 dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-bar-small-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 2: Small-state bias, shown by color shading states according to Electoral College votes, then listing them in \
+                        html.Small("Figure 3: Small-state bias, shown by color shading states according to Electoral College votes, then listing them in \
                             descending order by Voter Weight."),
                     ]),
                 ]),
                 dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-map-color-by-ecv"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 1: States shaded by Electoral College votes, derived by adding the state's number of Congressional Representatives \
+                        html.Small("Figure 4: States shaded by Electoral College votes, derived by adding the state's number of Congressional Representatives \
                             (as determined by decennial population census) to its number of Senators (2 per state, regardless of population)"),
                     ]),
                     html.Br(), 
@@ -179,14 +179,14 @@ content = html.Div([
                             html.H4("Slave-state bias"),
                             html.P(className="card-text", children=[
                                 "Sticking with the same “Voter Weight” calculation above, but turning the clock back 160 years, we encounter the infamous slave-state \
-                                bias in ", html.B("Figure 3"), ". I’ve added new color shading to states in this second bar plot, using each state’s relationship to \
+                                bias in ", html.B("Figure 5"), ". I’ve added new color shading to states in this second bar plot, using each state’s relationship to \
                                 slavery as a grouping heuristic. For small states I’ve also carried forward color shading based on state size."
                             ]),
                             html.P(className="card-text", children=[
                                 "Highlighting an example: If Voter Weight in 1852 was 2.24 in Alabama (9 Electoral College votes) compared with 0.78 in Illinois \
                                 (11 Electoral College votes), that means pound-for-pound it would take ~3 votes cast in Illinois to equal the influence of a \
                                 single vote cast in Alabama. This same trend applies to each slave state (shaded in pink) compared to each free state (shaded in \
-                                purple) in Figure 3. This chart makes it easy to see how, aided by the three-fifths compromise, the “Slave Power” of the South \
+                                purple) in Figure 5. This chart makes it easy to see how, aided by the three-fifths compromise, the “Slave Power” of the South \
                                 was able to retain the political representation needed to assert and perpetuate slaveholder interests, despite a voting \
                                 population much smaller than that in the North."
                             ]),
@@ -196,7 +196,7 @@ content = html.Div([
                                 measurably greater impact overall."
                             ]),
                             html.P(className="card-text", children=[
-                                html.B("Figure 5"), " rearranges the data from Figure 3 into a scatter plot, crossing each state's voter turnout (x axis) with its \
+                                html.B("Figure 7"), " rearranges the data from Figure 5 into a scatter plot, crossing each state's voter turnout (x axis) with its \
                                 Electoral College votes (y axis). The intersection between the axes where the Voter Weight ratio is 1.0 is plotted as a diagonal line \
                                 signifying the nationwide mean. ", html.I("If every vote in every state counted equally, every state’s dot would be directly on top of \
                                 that nationwide mean line."),
@@ -207,8 +207,8 @@ content = html.Div([
                                 and to the right of the median line have less."
                             ]),
                             html.P(className="card-text", children=[
-                                html.B("Figure 4"), " anchors us geographically by displaying each state's group affiliation on a map. All three figures are controlled \
-                                using the same Year selection slider below and to the right."
+                                html.B("Figure 6"), " anchors us geographically by displaying each state's group affiliation on a map. All three figures are controlled \
+                                using the same Year selection slider below."
                             ]),
                         ])
                     ]),
@@ -216,7 +216,7 @@ content = html.Div([
                 dbc.Col(md=6, children=[    
                     dcc.Graph(id="fig-scatter-dots-slave-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 5: Slave-state bias, shown by color shading states into Free, Slave, and Small groupings, and plotting voter turnout \
+                        html.Small("Figure 7: Slave-state bias, shown by color shading states into Free, Slave, and Small groupings, and plotting voter turnout \
                             on the x axis against Electoral College Votes on the y axis. The average voter turnout per Electoral College vote — that is, the \
                             intersection between the axes where the Voter Weight ratio is 1.0 — is plotted as a diagonal line signifying the nationwide mean. \
                             States whose dots appear above and to the left of the nationwide mean line have Voter Weights greater than 1, those whose dots are \
@@ -229,12 +229,12 @@ content = html.Div([
                     html.H4("Select year:", className="text-white"),
                     dcc.Slider(
                         id="slave-state-bias-year-input",
-                        min=1820,
+                        min=1828,
                         max=1860,
                         step=None,
                         marks={
                             int(y): {'label': str(y), 'style': {'transform': 'rotate(45deg)', 'color': 'white'}}
-                            for y in data_obj.all_years if y >= 1820 and y <= 1860
+                            for y in data_obj.all_years if y >= 1828 and y <= 1860
                         },
                         value=1852,
                     ),
@@ -245,7 +245,7 @@ content = html.Div([
                 dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-bar-slave-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 3: Slave-state bias, shown by color shading states into Free, Slave, and Small groupings, then listing them in \
+                        html.Small("Figure 5: Slave-state bias, shown by color shading states into Free, Slave, and Small groupings, then listing them in \
                             descending order by Voter Weight. Voter Weights are higher in slave states than free states, with small states still having some \
                             of the highest weights."),
                     ]),
@@ -253,7 +253,7 @@ content = html.Div([
                 dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-map-slave-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 4: Reference map illustrating which states fit into which group. Areas lacking color shading or hover data \
+                        html.Small("Figure 6: Reference map illustrating which states fit into which group. Areas lacking color shading or hover data \
                             are states that haven’t been admitted to the Union yet."),
                     ]),
                 ])
