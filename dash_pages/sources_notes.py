@@ -175,6 +175,10 @@ content = html.Div([
                                         "Akhil Reed Amar, ", html.I("The Law of the Land: A Grand Tour of our Constitutional Republic"), " (2015), p. 109"
                                     ]),
                                     html.Li(children=[
+                                        "Alvin Chang, ", dcc.Link("“The data proves that school segregation is getting worse”", target="_blank",
+                                        href="https://www.vox.com/2018/3/5/17080218/school-segregation-getting-worse-data"), ", ", html.I("Vox"), " (March 5, 2018)", 
+                                    ]),
+                                    html.Li(children=[
                                         "Ibram X. Kendi, ", html.I("Stamped From the Beginning"), " (2016), p. 311-312"
                                     ]),
                                     html.Li(children=[

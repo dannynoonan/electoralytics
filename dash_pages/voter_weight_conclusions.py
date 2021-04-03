@@ -79,9 +79,10 @@ content = html.Div([
                                 present day laws, policies, and institutions, or on American culture and belief systems generally?"
                             ]),
                             html.P(className="card-text", children=[
-                                "As a proxy, let’s examine the well-documented effects of the white South’s three-fifths electoral advantage during slavery, both \
-                                within the South and across America as a whole. Despite being home to less than a third of the country’s free population, \
-                                significant majorities of high-level representatives and appointments went to Southern slaveholders. Here’s a quick round-up:",
+                                "As a proxy, let’s examine the well-documented effects of the white South’s three-fifths electoral advantage during the ‘peculiar’ \
+                                institution of slavery, both within the South and across America as a whole. Despite being home to less than a third of the \
+                                country’s free population, significant majorities of high-level representatives and appointments went to Southern slaveholders. \
+                                Here’s a quick round-up:",
                                 html.Ul([
                                     html.Li("10 of the first 17 Presidents, serving ~13 of the first 20 terms, were Southern slaveholders"), 
                                     html.Li(children=["21 of the first 33 Speakers of the House were Southern slaveholders", dcc.Link(href="/sources-notes", 
@@ -177,10 +178,10 @@ content = html.Div([
                                 nationwide Civil Rights legislation. Georgia Senator Richard Russell’s notorious use of the filibuster to block legislation from the \
                                 1930s through the 1960s (echoing Calhoun’s usage of the filibuster to protect slavery a century prior) exemplifies the potency of \
                                 the “Solid South,” what we might call the “Jim Crow Power” to emphasize the greater degree of national influence enjoyed by Southern \
-                                voters. Russell isn’t even the best-known white supremacist Southern Senator to use the filibuster in this way, but his longevity in \
-                                the Senate gave him a hand in obstructing everything from the 1938 Wagner-Van Nuys Anti-Lynching Bill up through the 1964 Civil \
-                                Rights Act, when his protégé Lyndon Johnson finally broke the decades-long white supremacist stranglehold on the Senate.", 
-                                dcc.Link(href="/sources-notes", children=[html.Sup("31")]),
+                                (white) voters. Russell isn’t even the best-known white supremacist Southern Senator to use the filibuster in this way, but his \
+                                longevity in the Senate gave him a hand in obstructing everything from the 1938 Wagner-Van Nuys Anti-Lynching Bill up through the \
+                                1964 Civil Rights Act, when his one-time protégé Lyndon Johnson finally broke the decades-long white supremacist stranglehold on the \
+                                Senate.", dcc.Link(href="/sources-notes", children=[html.Sup("31")]),
                             ]),
                             html.Img(src="/static/stockImages/redlining-brooklyn.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, 
                                 width="40%"),
@@ -216,25 +217,27 @@ content = html.Div([
                                     ]),
                                     html.Img(src="/static/stockImages/school-segregation.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "10px"}, 
                                         width="50%"),
-                                    html.Li(children=["Racially segregated schools, though illegal in many states and most predominant in the Jim Crow South, was \
-                                        widespread enough by the 1950s that the Supreme Court had its pick of venues to challenge it in, selecting Kansas as its \
-                                        lead case in ", html.I("Brown v. Board of Education"), ". In doing so, the court was able to go after school segregation \
-                                        without singling out the South, effectively using the ubiquity of this Southern export to go after the institution without \
-                                        directly attacking its Southern proponents.", dcc.Link(href="/sources-notes", children=[html.Sup("39")]),
+                                    html.Li(children=["Racially segregated schools, though illegal in many states by the 1950s and concentrated in the Jim Crow South, \
+                                        was widespread enough that the Supreme Court had its pick of venues to challenge it in, selecting Kansas as its lead case in ", 
+                                        html.I("Brown v. Board of Education"), ". In doing so, the court was able to go after school segregation without singling out \
+                                        the South, effectively using the ubiquity of this Southern export to go after the institution without directly attacking its \
+                                        Southern proponents.", dcc.Link(href="/sources-notes", children=[html.Sup("39")]), " Recent analysis shows racial integration \
+                                        in American schools to have peaked in the 1980s, declining since to segregation levels worse than the 1970s.", 
+                                        dcc.Link(href="/sources-notes", children=[html.Sup("40")]), 
                                     ])
                                 ])
                             ]),
                             html.Img(src="/static/stockImages/gone_with_the_wind.jpg", style={"float": "left", "padding-right": "10px", "padding-top": "5px"}, 
                                 width="25%"),
                             html.P(className="card-text", children=[
-                                "At a cultural level, this country continues to deal with its once ubiquitous embrace of ‘Lost Cause’ mythology, with media saturation \
-                                of criminal Black 'brute' caricatures and Tarzan-esque tropes, with the legacy of nationwide support for the KKK and tepid reaction to \
-                                public lynching, with the scientific community's once fervent embrace of the Eugenics movement and its present-day relics like the SAT,",
-                                dcc.Link(href="/sources-notes", children=[html.Sup("40")])," and with Confederate flags flying at events in Northern and Western \
-                                states (to say nothing of Southern states that were once part of the actual Confederacy). But behind these insidious expressions of \
-                                white supremacy are decades of legislated, bureaucratic, institutional racism, all normalized after generations of unchallenged \
-                                precedent and repetition, and all born out of a political system that granted its most avowed white supremacist element 3x-8x the \
-                                influence of other white voters, while silencing its African-American voices altogether."
+                                "At a cultural level, this country continues to deal with its once ubiquitous embrace of ‘Lost Cause’ mythology, with 20th century \
+                                media saturation of criminal Black 'brute' caricatures and Tarzan-esque tropes, with the legacy of nationwide support for the KKK and \
+                                tepid reaction to public lynching, with the scientific community's once fervent embrace of the Eugenics movement and its present-day \
+                                relics like the SAT,", dcc.Link(href="/sources-notes", children=[html.Sup("41")])," and with Confederate flags flying at events in \
+                                Northern and Western states (to say nothing of Southern states that were once part of the actual Confederacy). But behind these \
+                                lingering expressions of white supremacy are decades of legislated, bureaucratic, institutional racism, all normalized after \
+                                generations of unchallenged precedent and repetition, and all born out of a political system that granted its most avowed white \
+                                supremacist element 3x-8x the influence of the rest of its voters, while silencing its African-American voices almost entirely."
                             ]),
                             html.Img(src="/static/stockImages/kkk-children.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, width="50%"),
                             html.P(className="card-text", children=[

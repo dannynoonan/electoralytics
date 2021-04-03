@@ -53,10 +53,10 @@ content = html.Div([
                                 other permutations of sustained, systemic electoral inequity."
                             ]),
                             html.P(className="card-text", children=[
-                                "The bigger story here, of course, isn’t that Southern states’ (white) voters counted for more than Northern and Western states’ \
-                                (predominantly white) voters. The bigger story is that hundreds of thousands of Southern Blacks were prevented from voting \
-                                altogether, through the uneven application of poll taxes, literacy tests, grandfather clauses, as well as more direct intimidation \
-                                and violence for 90-odd years during the Jim Crow era."
+                                "The bigger story here, of course, isn’t that Southern states’ (white) voters counted for more than voters elsewhere in the country. \
+                                The bigger story is that hundreds of thousands of Southern Blacks were prevented from voting altogether, through the uneven \
+                                application of poll taxes, literacy tests, grandfather clauses, as well as more direct intimidation and violence for 90-odd years \
+                                during the Jim Crow era."
                             ]),
                             html.P(className="card-text", children=[
                                 "However, these graphs illustrate that the villainous cackling of turn-of-the-century Southern racist political scheming didn’t \
