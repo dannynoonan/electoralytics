@@ -103,7 +103,7 @@ content = html.Div([
                     dbc.Card(className="border-success lead", style={"font-family": "times-new-roman"}, children=[
                         dbc.CardBody([
                             html.P(children=[
-                                "The rest of the site, beginning with ", dcc.Link("Part 1: Electoral College bias", 
+                                "The rest of the site, beginning with ", dcc.Link("Part 1: Equality for states, not for voters", 
                                 href="/voter-weight-electoral-college-bias-page1"), ", further explores the biases and vulnerabilities built into our \
                                 electoral apportionment system, aided by interactive maps, figures, and animations."
                             ]),

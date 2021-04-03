@@ -120,8 +120,8 @@ def display_landing_page(bar_year_input, scatter_year_input):
 
 ############ voter-weight-electoral-college-bias-page1 callbacks
 @app.callback(
-    Output('fig-map-color-by-vw2', 'figure'),
     Output('fig-bar-color-by-vw', 'figure'),
+    Output('fig-map-color-by-vw2', 'figure'),
     Output('fig-line-vw-timeline-short', 'figure'),
     Input('map-year-input', 'value'),
     Input('groupings-input', 'value'),
@@ -155,17 +155,17 @@ def display_voter_weight_page1(year_input, groupings_input, max_small_input, sta
         else:
             show_eras = False
     # fig titles
-    title_bar_color_by_vw = 'States Shaded & Sequenced by Voter Weight'
+    title_bar_color_by_vw = 'Whose vote counted more?<br>States ordered and shaded by Voter Weight'
     # generate figs
-    fig_map_color_by_vw = choropleths.build_vw_by_state_map(
-        data_obj, ddirs.ACW, 5, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD7, frame=year)
     fig_bar_color_by_vw = bar_plots.build_vw_by_state_bar(
         data_obj, groupings_input, max_small, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD5, frame=year, 
         base_fig_title=title_bar_color_by_vw, show_era=False)
+    fig_map_color_by_vw = choropleths.build_vw_by_state_map(
+        data_obj, ddirs.ACW, 5, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD7, frame=year)
     fig_line_vw_timeline = line_charts.build_vw_by_state_group_line_chart(
         data_obj, groupings_input, max_small, fig_width=fig_dims.MD12, state_abbrevs=state_abbrevs, log_y=log_y, 
         display_groups=show_groups, display_events=show_events, display_eras=show_eras, year_0=1840, year_n=2000)
-    return fig_map_color_by_vw, fig_bar_color_by_vw, fig_line_vw_timeline
+    return fig_bar_color_by_vw, fig_map_color_by_vw, fig_line_vw_timeline
 
 # voter-weight-electoral-college-bias-page1 callbacks cont'd: clear-all-input
 @app.callback(

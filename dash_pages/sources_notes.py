@@ -12,7 +12,7 @@ content = html.Div([
         dbc.CardBody([
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Project sources & notes"),
+                html.H3("Project sources"),
             ]),
             html.Br(),
             dbc.Row([
@@ -176,6 +176,9 @@ content = html.Div([
                                     ]),
                                     html.Li(children=[
                                         "Ibram X. Kendi, ", html.I("Stamped From the Beginning"), " (2016), p. 311-312"
+                                    ]),
+                                    html.Li(children=[
+                                        "Jesse Wegman, ", html.I("Let the People Pick the President"), " (2020), p. 123",
                                     ]),
                                 ])
                             ]),

@@ -39,7 +39,7 @@ content = html.Div([
                                 html.P(style={"font-style": "italic"}, children=[
                                     "Because each state gets its prescribed number of electors based on total population, not on how many of its residents \
                                     cast a ballot, there is no incentive to expand the electorate.",
-                                    dcc.Link(href="/sources-notes", children=[html.Sup("21")]),
+                                    dcc.Link(href="/sources-notes", children=[html.Sup("41")]),
                                 ]),
                                 html.P(children=["—Jesse Wegman, ", html.I("“Let the People Pick the President”")])
                             ]),

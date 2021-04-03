@@ -54,7 +54,6 @@ content = html.Div([
                                 html.I("BOHHH"), "-ring), here the weight of each individual vote depends on the state from which it is cast. Specifically: (a) \
                                 the Electoral College apportionment granted to that state, and (b) how many people turn out to vote in that state."
                             ]),
-                            html.Img(src="/static/stockImages/census-1790.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, width="35%"),
                             html.P(className="card-text", children=[
                                 "Pre-allocating representational influence to states, rather than simply tallying the ballots of individual citizens who turn \
                                 out to vote, originated in part from an effort to balance out the influence of each state.", dcc.Link(href="/sources-notes", 
@@ -72,6 +71,13 @@ content = html.Div([
                                         legally eligible and census tabulated citizens from voting, as took place for many decades in the Jim Crow South"])
                                 ]),
                             ]),
+                        ]),
+                    ]),
+                ]),
+                dbc.Col(md=6, children=[
+                    dbc.Card(className="border-success", children=[
+                        dbc.CardBody([
+                            html.Img(src="/static/stockImages/census-1790.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, width="45%"),
                             html.P(className="card-text", children=[
                                 "Each of these biases directly amplify the influence of one state's (or region's) voters over another's, resulting in the \
                                 “hyper-enfranchisement” of certain voters relative to others. The small-state and slave-state biases are well-known, baked into \
@@ -79,12 +85,6 @@ content = html.Div([
                                 game of Trivial Pursuit. By contrast, the bias amplifying Southern white voters as a direct result of their suppression of \
                                 Black voters in the Jim Crow South is not as widely discussed."
                             ]),
-                        ]),
-                    ]),
-                ]),
-                dbc.Col(md=6, children=[
-                    dbc.Card(className="border-success", children=[
-                        dbc.CardBody([
                             html.P(className="card-text", children=[
                                 "In a certain respect, historical disinterest in suppression-state bias makes sense: Compared to the direct and devastating \
                                 effects of Jim Crow voter suppression on the Black population, the amplified national influence Southern whites experienced as \
@@ -99,36 +99,6 @@ content = html.Div([
                                 that Jim Crow voter suppression may paradoxically have conferred ", html.I("greater"), " influence to Southern whites ", 
                                 html.I("after"), " the abolition of slavery than the three-fifths compromise did before the Civil War and emancipation."
                             ]),
-                            html.Br(),
-                            html.H4("Voter Weight"),
-                            html.Img(style={"float": "right", "padding-right": "10px"}, src="/static/vwMath/derivingPvpeVw.png", width="55%"),
-                            html.P(className="card-text", children=[
-                                "Although each Electoral College bias derives from distinct legal statutes and census formulas, in the pages ahead I’ll be \
-                                applying the same “Voter Weight” calculation to illustrate each bias side by side. Check out the ", dcc.Link("Calculating \
-                                Voter Weight", href="/voter-weight-calculation"), " section for a detailed breakdown of the math behind this metric."
-                            ]),
-                            html.P(className="card-text", children=[
-                                "A couple of top-line observations for now:",
-                                html.Ul(children=[
-                                    html.Li("Voter Weight is a zero sum game: in aggregate all weights average out to 1.0, so an increase in one state must be \
-                                        offset by a decrease in another"),
-                                    html.Li("While a higher Voter Weight benefits those to whom it directly applies, it is ultimately a marker of anti-democratic \
-                                        outcomes that favor one population over another"),
-                                    html.Li("Regardless of which factors of apportionment or participation are responsible for shifts or distortions in Voter \
-                                        Weight, the resulting comparison is apples-to-apples — that is, the same calculation can be applied regardless of \
-                                        underlying bias / combination of biases")
-                                ]),
-                            ]),
-                            html.P(className="card-text", children=[
-                                "The color shading for each state in ", html.B("Figure 1"), " and ", html.B("Figure 2"), " corresponds to that state's Voter Weight in a given presidential \
-                                election. Adjust the 'Select Year' slider above the figure to toggle between different election years."
-                            ]),
-                            html.P(className="card-text", children=[
-                                html.B("Figure 3"), " below provides an interactive overview of Voter Weight measurements over time, with states grouped by Civil \
-                                War alliance or census region (use the pulldown menu to choose). You may also select individual states for direct comparison, \
-                                superimposing each of their Voter Weight trend lines simultaneously. This figure jumps ahead a bit in terms of what's been \
-                                discussed so far, but gives a preview of patterns and trends we'll be exploring in the coming pages."
-                            ])
                         ]),                      
                     ]),
                 ]),
@@ -161,6 +131,30 @@ content = html.Div([
                             href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_bar_state_vw_color_by_vw_acw4_900.html"), 
                             " illustrating the full history."]),
                     ]),
+                    html.Br(),
+                    dbc.Card(className="border-success", children=[
+                        dbc.CardBody([
+                            html.H4("Voter Weight"),
+                            html.Img(style={"float": "right", "padding-right": "10px"}, src="/static/vwMath/derivingPvpeVw.png", width="55%"),
+                            html.P(className="card-text", children=[
+                                "Although each Electoral College bias derives from distinct legal statutes and census formulas, in the pages ahead I’ll be \
+                                applying the same “Voter Weight” calculation to illustrate each bias side by side. Check out the ", dcc.Link("Calculating \
+                                Voter Weight", href="/voter-weight-calculation"), " section for a detailed breakdown of the math behind this metric."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "A couple of top-line observations for now:",
+                                html.Ul(children=[
+                                    html.Li("Voter Weight is a zero sum game: in aggregate all weights average out to 1.0, so an increase in one state must be \
+                                        offset by a decrease in another"),
+                                    html.Li("While a higher Voter Weight benefits those to whom it directly applies, it is ultimately a marker of anti-democratic \
+                                        outcomes that favor one population over another"),
+                                    html.Li("Regardless of which factors of apportionment or participation are responsible for shifts or distortions in Voter \
+                                        Weight, the resulting comparison is apples-to-apples — that is, the same calculation can be applied regardless of \
+                                        underlying bias / combination of biases")
+                                ]),
+                            ]),
+                        ])
+                    ])
                 ]),
                 dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-map-color-by-vw2"),
@@ -188,13 +182,29 @@ content = html.Div([
                             ]),
                         ]),
                     ]),
+                    html.Br(),
+                    dbc.Card(className="border-success", children=[
+                        dbc.CardBody([
+                            html.Img(src="/static/stockImages/ballot-box-game.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, width="45%"),
+                            html.P(className="card-text", children=[
+                                "The color shading for each state in ", html.B("Figure 1"), " and ", html.B("Figure 2"), " corresponds to that state's Voter Weight in a given presidential \
+                                election. Adjust the 'Select Year' slider above the figure to toggle between different election years."
+                            ]),
+                            html.P(className="card-text", children=[
+                                html.B("Figure 3"), " below provides an interactive overview of Voter Weight measurements over time, with states grouped by Civil \
+                                War alliance or census region (use the pulldown menu to choose). You may also select individual states for direct comparison, \
+                                superimposing each of their Voter Weight trend lines simultaneously. This figure jumps ahead a bit in terms of what's been \
+                                discussed so far, but gives a preview of patterns and trends we'll be exploring in the coming pages."
+                            ])
+                        ])
+                    ])
                 ]),
             ]),
             html.Br(),
             html.Hr(className="border-light"),
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Hyper-enfranchisement levels over time, aggregated by region / Civil War alliance"),
+                html.H3("Hyper-enfranchisement trends over time: Regional Voter Weight averages per election"),
             ]),
             html.Br(),
             dbc.Row([
