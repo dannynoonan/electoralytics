@@ -249,19 +249,10 @@ content = html.Div([
                                 preserving another ‘peculiar’ socioeconomic status quo, and our electoral system provided them with a disproportionately loud \
                                 megaphone to press their case."
                             ]),
-                            html.P(className="card-text", children=[
-                                "This all begs the question: Just how much was that Southern white supremacist message amplified by America’s unique system of \
-                                representation? What if the number of legislators (and electoral college votes) coming from former Confederate states had been \
-                                reduced, as prescribed by the Section 2 of the Fourteenth Amendment, to factor in voter suppression? How differently might America’s \
-                                20th century have unfolded if the South had sent, say, three quarters as many congressmen to the House between 1877 and 1965? How \
-                                about two thirds? Half? Without doing all the math, it certainly appears that many if not most Southern states could easily have had \
-                                their representation reduced by half, if not by a factor of four or even six or eight, based on how few people voted - and how many \
-                                were prevented from voting - during various decades of the Jim Crow era."
-                            ]),
                             html.Img(src="/static/stockImages/confederate-flag-capitol-riot.jpg", style={"float": "left", "padding-right": "10px", "padding-top": "5px"}, 
                                 width="50%"),
                             html.P(className="card-text", children=[
-                                "Or, framing the same question from a different angle: How many federal appointments, government programs, legal precedents, or pieces \
+                                "How many federal appointments, government programs, legal precedents, or pieces \
                                 of national legislation passed during this era were cultivated with intent to perpetuate a status quo grounded in Southern whites \
                                 silencing and extracting political influence from their Black populations? How many ideologies and narratives, designed to maintain \
                                 entrenched Southern white interests but promoted as ‘heritage’ or as bedrock American virtues, were amplified and exported to the \
