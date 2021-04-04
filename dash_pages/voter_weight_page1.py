@@ -93,7 +93,7 @@ content = html.Div([
                                 influence and the perpetuation of Southern white regional dominance is worth examining."
                             ]),
                             html.P(className="card-text", children=[
-                                "Indeed, while slavery survived fewer than 80 years after ratification of the Constitution, Black voter suppression in the Jim \
+                                "Moreover, while slavery survived fewer than 80 years after ratification of the Constitution, Black voter suppression in the Jim \
                                 Crow South endured for nearly 90 years after the end of Reconstruction. And this may not be the only metric by which the Jim \
                                 Crow Era eclipsed the antebellum period. By quantitatively comparing these biases head-to-head, this project explores the idea \
                                 that Jim Crow voter suppression may paradoxically have conferred ", html.I("greater"), " influence to Southern whites ", 

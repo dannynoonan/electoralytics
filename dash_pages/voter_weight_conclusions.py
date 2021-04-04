@@ -73,15 +73,15 @@ content = html.Div([
                             html.Img(src="/static/stockImages/dred-scott-newspaper.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, 
                                 width="40%"),
                             html.P(className="card-text", children=[
-                                "A common argument tactic is to point out how long ago the Jim Crow Era was, how much has changed since then, even to suggest that \
-                                highlighting these abuses perpetuates the problems caused by them. Let’s address that head-on. What effects might nine decades of \
-                                Southern white votes counting for 3x, 4x, even as much as a 7x-8x their Northern and Western counterparts’ votes have had on \
-                                present day laws, policies, and institutions, or on American culture and belief systems generally?"
+                                "Now that we've examined the wonky details of suppression-state bias in the Jim Crow South, what can we infer about its impact? What \
+                                consequences might nine decades of Southern white votes counting for 3x, 4x, even as much as a 7x-8x their Northern and Western \
+                                counterparts’ votes, in combination with near-total suppression of the Southern Black vote, have had on present day laws, policies, \
+                                and institutions, or on American culture and belief systems generally?"
                             ]),
                             html.P(className="card-text", children=[
-                                "As a proxy, let’s examine the well-documented effects of the white South’s three-fifths electoral advantage during the ‘peculiar’ \
-                                institution of slavery, both within the South and across America as a whole. Despite being home to less than a third of the \
-                                country’s free population, significant majorities of high-level representatives and appointments went to Southern slaveholders. \
+                                "As a proxy, let’s briefly review the well-documented effects of the white South’s three-fifths electoral advantage during the \
+                                ‘peculiar’ institution of slavery, both within the South and across America as a whole. Despite being home to less than a third of \
+                                the country’s free population, significant majorities of high-level representatives and appointments went to Southern slaveholders. \
                                 Here’s a quick round-up:",
                                 html.Ul([
                                     html.Li("10 of the first 17 Presidents, serving ~13 of the first 20 terms, were Southern slaveholders"), 
