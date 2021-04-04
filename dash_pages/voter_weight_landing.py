@@ -10,6 +10,21 @@ content = html.Div([
     navbar,
     dbc.Card(className="border-primary bg-dark", children=[
         dbc.CardBody([
+            # html.Div(children=[
+            #     html.Ul(className="pagination pagination-lg justify-content-center", children=[
+            #         html.Li(className="page-item flex", style={"width": "60%"}),
+            #         html.Li(className="page-item flex", style={"width": "40%", "text-align": "right"}, children=[
+            #             html.A(className="page-link", href="/voter-weight-electoral-college-bias-page1", children=[
+            #                 "Part 1: Electoral College basics: Equality for states, not for voters →"
+            #             ])
+            #         ]),
+            #     ])
+            # ]),
+            # html.Hr(className="border-light"),
+            html.Br(),
+            dbc.Row(className="text-white", justify="center", align="center", children=[
+                html.H3("When the South rose again: Visualizing the “Jim Crow Power” through Electoral College data"),
+            ]),
             html.Br(),
             dbc.Row([
                 dbc.Col(md=3),
@@ -17,7 +32,7 @@ content = html.Div([
                     dbc.Card(className="border-success lead", style={"font-family": "times-new-roman"}, children=[
                         dbc.CardBody([
                             html.H3("American voter enfranchisement: A zero-sum game"),
-                            html.P("Feb 12, 2021", style={"font-family": "arial", "font-size": "10pt"}),
+                            html.P("April 2, 2021", style={"font-family": "arial", "font-size": "10pt"}),
                             html.Img(src="/static/stockImages/the_first_vote_loc.jpg", style={"float": "right", "padding-left": "10px"}, width="40%"),
                             html.P(children=[
                                 "Apart from a brief hopeful period between the Civil War and the end of Reconstruction, the disenfranchisement of Southern Blacks in the \
@@ -33,7 +48,8 @@ content = html.Div([
                                 "The augmented pre-war influence of Southern white voters became known as the “Slave Power,” notorious for its focus on protecting and \
                                 expanding the institution from which it derived its power, and for the infamous “three-fifths clause” that padded its influence. Similarly \
                                 during Jim Crow, the collective influence of Southern whites became known as the “Solid South,” also notorious for obstructing Civil \
-                                Rights legislation and perpetuating its racist hold on power - but not as well known for any mathematical bias playing to its advantage."
+                                Rights legislation and perpetuating its racially suppressive hold on power - but not as well known for any mathematical bias playing to \
+                                its advantage."
                             ]),
                             html.P(children=[
                                 "I first became interested in comparing disenfranchisement in relation to hyper-enfranchisement during these two periods \
@@ -48,14 +64,14 @@ content = html.Div([
                             ]),
                             html.H3("Visualizing Voter Weight by state / by year"),
                             html.P(children=[
-                                "The first figure below illustrates the hyper-enfranchisement of voters in certain states relative to others by \
-                                displaying them in descending order by Voter Weight, shading them in terms of their Civil War grouping (more info \
-                                about state groupings ", dcc.Link("here", href="/explanation-of-groupings"), "). This figure, as with all figures on \
-                                the site, is interactive. ", html.Span(style={"font-style":"italic","text-decoration":"underline"}, 
-                                children=["Move the “Select year” slider to bring a different election year into focus"]), ". Highlight a portion of \
-                                the figure to zoom in, then double-click to reset to the original scale. Roll over any bar in the chart to see the \
-                                factors that contribute to its Voter Weight calculation. Note that if every vote in every state counted equally, all \
-                                of the Voter Weights would be 1.0 and each bar in the chart would be the same length."
+                                "The first figure below illustrates the hyper-enfranchisement of voters in certain states relative to others by displaying them in \
+                                descending order by Voter Weight, shading them in terms of their Civil War grouping (more info about state groupings ", 
+                                dcc.Link("here", href="/explanation-of-groupings"), "). This figure, as with all figures on the site, is interactive. ", 
+                                html.Span(style={"font-style":"italic","text-decoration":"underline"}, children=["Move the “Select year” slider to bring a different \
+                                election year into focus"]), ". Highlight a portion of the figure to zoom in, then double-click to reset to the original scale. Roll \
+                                over any bar in the chart to see the factors that contribute to its Voter Weight calculation. ", html.Span(style={"font-weight":"bold"}, 
+                                children=["Note that if every vote in every state counted equally, all of the Voter Weights would be 1.0 and each bar in the chart \
+                                would be the same length."])
                             ]),
                         ])
                     ]),
@@ -78,9 +94,10 @@ content = html.Div([
                     dbc.Card(className="border-success lead", style={"font-family": "times-new-roman"}, children=[
                         dbc.CardBody([
                             html.P(children=[
-                                "In the next figure you can see the relationship between voter turnout (x axis) and Electoral College votes (y axis) in \
-                                determining Voter Weight. The diagonal line indicates the national mean, where the Voter Weight ratio is 1.0. If every \
-                                vote in every state counted equally, every state’s dot would fall on this nationwide mean line."
+                                "In the next figure you can see the relationship between voter turnout (x axis) and Electoral College votes (y axis) in determining \
+                                Voter Weight. The diagonal line cutting from the lower left to upper right indicates the national mean, where the Voter Weight ratio \
+                                is 1.0. ", html.Span(style={"font-weight":"bold"}, children=["If every vote in every state counted equally, every state’s dot would \
+                                fall on the diagonal nationwide mean line."])
                             ]),
                          ])
                     ]),
@@ -124,17 +141,15 @@ content = html.Div([
                             ]),
                             html.H3("Want to dig deeper?"),
                             html.P(children=[
-                                dcc.Link("→ Continue to Part 1: “Electoral College bias: Equality for states, not for voters”", href="/voter-weight-electoral-college-bias-page1"),
+                                dcc.Link("→ Continue to Part 1: Equality for states, not for voters", href="/voter-weight-electoral-college-bias-page1"),
                                 html.Br(),
-                                dcc.Link("→ Jump ahead to Part 2: “Small-state bias and slave-state bias: As the framers intended”", href="/voter-weight-electoral-college-bias-page2"),
+                                dcc.Link("→ Skip to Part 2: Small-state bias and slave-state bias", href="/voter-weight-electoral-college-bias-page2"),
                                 html.Br(),
-                                dcc.Link("→ Jump ahead to Part 3: “Reconstruction and Black voting rights”", href="/voter-weight-electoral-college-bias-page3"),
+                                dcc.Link("→ Skip to Part 3: Reconstruction and Black voting rights", href="/voter-weight-electoral-college-bias-page3"),
                                 html.Br(),
-                                dcc.Link("→ Jump ahead to Part 4: “Suppression-state bias”", href="/voter-weight-electoral-college-bias-page4"),
+                                dcc.Link("→ Skip to Part 4: Suppression-state bias", href="/voter-weight-electoral-college-bias-page4"),
                                 html.Br(),
                                 dcc.Link("→ Learn about the math behind “Voter weight”", href="/voter-weight-calculation"),
-                                html.Br(),
-                                dcc.Link("→ Get the breakdown of state grouping heuristics used throughout the site", href="/explanation-of-groupings"),
                                 html.Br(),
                                 dcc.Link("→ Reveal Electoral College bias through interactive maps, charts and more", href="/voter-weight-figure-vault"),
                             ]),

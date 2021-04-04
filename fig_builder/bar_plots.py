@@ -13,7 +13,7 @@ fig_dims = FigDimensions()
 
 
 def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_height=None, frame=None, color_col=None, 
-                            alt_groups=[], base_fig_title=None, show_era=True):
+                            alt_groups=[], base_fig_title=None, show_era=True, groups_label=None):
     """
     swiss army knife function for generating a px.bar plot, color-shading states by a category or along a data spectrum,
     in descending order by voter weight. supports static single-year plots or animations. 
@@ -26,9 +26,10 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
     if not color_col:
         color_col = cols.GROUP
 
-    groups_label = color_col
-    if groups_label == 'Group':
-        groups_label = 'State Grouping'
+    if not groups_label:
+        groups_label = color_col
+        if groups_label == 'Group':
+            groups_label = 'State Grouping'
 
     # if frame is set, extract single-year data
     if frame:

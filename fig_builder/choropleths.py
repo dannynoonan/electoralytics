@@ -13,8 +13,8 @@ ddirs = DataDirs()
 fig_dims = FigDimensions()
 
 
-def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_width=None, frame=None,
-                            alt_groups=[], base_fig_title=None, show_era=True, display_ecv=False):
+def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_width=None, frame=None, alt_groups=[],
+                          base_fig_title=None, show_era=True, display_ecv=False, groups_label=None):
     """
     swiss army knife function for generating a px.choropleth map, color-shading states by group or along a data spectrum.
     supports static single-year plots or animations. 
@@ -28,9 +28,10 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
         color_col = cols.LOG_VOTE_WEIGHT
 
     # done in haste, this should probably be integrated into conditionals below
-    groups_label = color_col
-    if groups_label == 'Group':
-        groups_label = 'State Grouping'
+    if not groups_label:
+        groups_label = color_col
+        if groups_label == 'Group':
+            groups_label = 'State Grouping'
 
     if not fig_width:
         fig_width = fig_dims.MD6

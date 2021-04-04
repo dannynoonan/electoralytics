@@ -88,7 +88,7 @@ content = html.Div([
                             html.Br(),
                             html.H4("A few things that stood out", className="card-title"),
                             html.P(className="card-text", children=[
-                                "I'm neither a historian nor a statistician (in case it isn't obvious), so it’s been interesting pausing to research events and \
+                                "I'm neither a historian nor a statistician (in case this wasn't obvious), so it’s been interesting pausing to research events and \
                                 periods along the way, attempting to interpret underlying causes of twists and turns in the data. Here’s a short list of the many \
                                 data ripples that I initially mistook for errors, anomalies, or unexplained distortions:",
                                 html.Ul([
@@ -201,7 +201,7 @@ content = html.Div([
                             html.P(className="card-text", children=[
                                 "Although my quasi-scientific 40,000’ view of historical Voter Weight doesn’t show any obvious reversal of aggregate positive \
                                 trends in 2016 or 2020 (again: not an actual statistician, I just play one on the internet), it’s worth noting that it took a few \
-                                election cycles after Reconstruction for the Redeemer South’s suppression strategies to restore prewar hyper-enfranchisement \
+                                election cycles after Reconstruction for the Redeemer South’s suppression strategies to restore pre-war hyper-enfranchisement \
                                 levels — only to wildly exceed that antebellum status quo over the course of several generations to follow. It's also worth \
                                 pointing out that, even in the few short months I've been working on this project, over 360 bills with restrictive voting \
                                 provisions have been introduced in the legislatures of 47 states.", dcc.Link(href="/sources-notes", children=[html.Sup("22")])
@@ -210,9 +210,9 @@ content = html.Div([
                                 "Moreover, if there’s a lesson I’ve gleaned from reading about American elections and racial justice history, it’s that familiar \
                                 old discriminatory policies tend to continually reinvent themselves, often using familiar old tricks wrapped in thinly veiled \
                                 language. And as long as the lights remain on in the twisted halls of white supremacy — and oh boy do they seem to be on right \
-                                now — there will be attempts to disenfranchise based on racial or ethnic background, ranging from the subtle to the obvious, the \
-                                innovative to the familiar. As antiquated an institution as the Electoral College is, as many tricks as have already been tried, \
-                                past methods of manipulation should always be viewed as prologue to future attempts."
+                                now — there will be attempts to disenfranchise based on racial demographics, ranging from the subtle to the obvious, the \
+                                innovative to the familiar. As antiquated as the American electoral system is, as many tricks as have already been tried, past \
+                                methods of manipulation should always be viewed as prologue to future attempts."
                             ]),
                         ])
                     ])

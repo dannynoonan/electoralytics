@@ -108,13 +108,14 @@ def display_landing_page(bar_year_input, scatter_year_input):
     bar_year = int(bar_year_input)
     scatter_year = int(scatter_year_input)
     # fig titles
-    bar_title = "How much did each person’s vote count in each state?"
+    bar_title = "Comparing Voter Weight:<br>How much did each vote count in each state?"
     scatter_title = "How did each state’s Electoral College apportionment<br>compare to its voter turnout?"
+    groups_label = "Civil War alliance"
     # generate figs
     fig_bar_slavery_jimcrow_vw_bias = bar_plots.build_vw_by_state_bar(
-        data_obj, ddirs.ACW, 4, frame=bar_year, color_col=cols.GROUP, show_era=False, base_fig_title=bar_title, fig_height=850)
+        data_obj, ddirs.ACW, 4, frame=bar_year, color_col=cols.GROUP, show_era=False, base_fig_title=bar_title, fig_height=800, groups_label=groups_label)
     fig_scatter_dots_slavery_jimcrow_vw_bias = scatter_plots.build_vw_by_state_scatter_dots(
-        data_obj, ddirs.ACW, 4, frame=scatter_year, show_era=False, base_fig_title=scatter_title)
+        data_obj, ddirs.ACW, 4, frame=scatter_year, show_era=False, base_fig_title=scatter_title, groups_label=groups_label)
     return fig_bar_slavery_jimcrow_vw_bias, fig_scatter_dots_slavery_jimcrow_vw_bias
 
 

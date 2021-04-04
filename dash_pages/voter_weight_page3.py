@@ -104,13 +104,13 @@ content = html.Div([
                             html.Img(src="/static/stockImages/reconstruction-freedmens-bureau.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, 
                                 width="50%"),
                             html.P(className="card-text", children=[
-                                "From the vantage point of Northern legislators, moral justice and egalitarian ethics were only part of the total argument for Black \
-                                suffrage. Beyond the soaring rhetoric and appeals to rational humanity, the basic math of Congressional and Electoral College \
-                                representation ultimately played a central role in accelerating expanded suffrage as well. This tied directly to the prewar status \
-                                quo: with freedmen now counted as full citizens rather than three-fifths chattel slaves, Southern states lay poised to receive even \
-                                greater political influence vis-à-vis Congressional and Electoral College representation than they’d had prior to the Civil War. \
-                                Absent any buffer or hedge against this, allowing Southern representatives back into Congress risked the reversal of all political \
-                                and legislative gains made since the war.", dcc.Link(href="/sources-notes", children=[html.Sup("10")]),
+                                "For many Northern legislators, moral justice and egalitarian ethics were only one part of a broader argument for Black suffrage. Beyond \
+                                the soaring rhetoric and appeals to rational humanity, the basic math of Congressional and Electoral College representation ultimately \
+                                played a central role in accelerating expanded suffrage as well. This tied directly to the prewar status quo: with freedmen now counted \
+                                as full citizens rather than three-fifths chattel slaves, Southern states lay poised to receive even greater political influence vis-à-vis \
+                                Congressional and Electoral College representation than they’d had prior to the Civil War. Absent any buffer or hedge against this, \
+                                allowing an even larger contingent of Southern representatives back into Congress risked the reversal of all political and legislative \
+                                gains made since the war.", dcc.Link(href="/sources-notes", children=[html.Sup("10")]),
                             ]),
                             html.P(className="card-text", children=[
                                 "By the late 1860s, two paths were being pursued through Constitutional Amendment:",
@@ -128,11 +128,10 @@ content = html.Div([
                             ]),
                             html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px"}, children=[
                                 html.P(style={"font-style": "italic"}, children=[
-                                    "It did not seem just or proper that all the political advantages derived from [Southern Blacks] becoming free should be confined \
-                                    to their former masters, who had fought against the Union, and withheld from themselves, who had always been loyal… [Our] committee \
-                                    came to the conclusion that political power should be possessed in all the states exactly in proportion as the right of suffrage \
-                                    should be granted, without distinction of color or race…",
-                                    dcc.Link(href="/sources-notes", children=[html.Sup("11")]),
+                                    "It did not seem just or proper that all the political advantages derived from [Southern Blacks] becoming free should be confined to \
+                                    their former masters, who had fought against the Union, and withheld from themselves, who had always been loyal… [Our] committee came \
+                                    to the conclusion that political power should be possessed in all the states exactly in proportion as the right of suffrage should \
+                                    be granted, without distinction of color or race…", dcc.Link(href="/sources-notes", children=[html.Sup("11")]),
                                 ]),
                             ]),
                             html.Img(src="/static/stockImages/14th-amendment-page1.jpg", style={"float": "left", "padding-right": "10px", "padding-top": "5px"}, 
@@ -173,7 +172,7 @@ content = html.Div([
                                 "The voting and legal protections of the Fourteenth and Fifteenth Amendments led to a true flourishing of multi-racial democracy \
                                 during Reconstruction. Even prior to their passage and ratification, the Congressional Reconstruction Acts of 1867 set every former \
                                 Confederate state on a path toward a greatly expanded electorate. Compared with a total of 721,191 (white) voters in 1860, the \
-                                combined turnout at the constitutional conventions of 1867 nearly doubled this figure at 1,363,640, of which more than half the \
+                                combined turnout at the constitutional conventions of 1867 nearly doubled this figure to 1,363,640, of which more than half the \
                                 participants were Black.", dcc.Link(href="/sources-notes", children=[html.Sup("14")]),
                             ]),
                             html.P(className="card-text", children=[
