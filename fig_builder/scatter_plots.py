@@ -39,7 +39,9 @@ def build_vw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_elem
             pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Union', cols.GROUP] = 'Free'
             pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Confederate', cols.GROUP] = 'Slave'
             pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Border', cols.GROUP] = 'Slave'
-            groups = ['Free', 'Slave', 'Small']
+            groups = ['Free', 'Slave', 'Small', 'Small (3-5 ECV)']
+            # remove any rows added by other processes
+            pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.GROUP].isin(groups)]
         if 'split_small' in alt_groups:
             pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] <= 5, cols.GROUP] = '4-5 ECV'
             pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 3, cols.GROUP] = '3 ECV'
@@ -274,7 +276,7 @@ def build_vw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_wi
 
 
 def build_vw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_width=None, frame=None,
-                                    alt_groups=[], base_fig_title=None, show_era=True):
+                                    alt_groups=[], base_fig_title=None, show_era=True, groups_label=None):
     """
     generate px.scatter color-shading each state by its group, plotting each state's bubble by its ec votes (x) and voter weight (y)
     with bubble size representing pop vote, to show its voter weight and overall impact wrt the national mean
@@ -304,7 +306,10 @@ def build_vw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_width
             pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Union', cols.GROUP] = 'Free'
             pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Confederate', cols.GROUP] = 'Slave'
             pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Border', cols.GROUP] = 'Slave'
-            groups = ['Free', 'Slave', 'Small']
+            # groups = ['Free', 'Slave', 'Small']
+            groups = ['Free', 'Slave', 'Small', 'Small (3-5 ECV)']
+            # remove any rows added by other processes
+            pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.GROUP].isin(groups)]
         if 'split_small' in alt_groups:
             pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] <= 5, cols.GROUP] = '4-5 ECV'
             pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 3, cols.GROUP] = '3 ECV'
@@ -318,7 +323,8 @@ def build_vw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_width
     # display metadata common to (or that doesn't interfere with) all display types
     x_axis_title = 'Electoral College Votes per State'
     y_axis_title = 'Voter Weight Per State (log)'
-    groups_label = 'State Grouping'
+    if not groups_label:
+        groups_label = 'State Grouping'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.STATE, cols.VOTES_COUNTED, cols.POP_PER_EC, cols.VOTES_COUNTED_PCT, cols.EC_VOTES_NORM, cols.VOTES_COUNTED_NORM]
     # hover_data is the fallback plan for animations where custom_data doesn't work

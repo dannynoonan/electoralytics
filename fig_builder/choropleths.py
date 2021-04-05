@@ -46,7 +46,10 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
             pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Union', cols.GROUP] = 'Free'
             pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Confederate', cols.GROUP] = 'Slave'
             pivot_on_year_df.loc[pivot_on_year_df[cols.GROUP] == 'Border', cols.GROUP] = 'Slave'
-            groups = ['Free', 'Slave', 'Small']
+            # groups = ['Free', 'Slave', 'Small']
+            groups = ['Free', 'Slave', 'Small', 'Small (3-5 ECV)']
+            # remove any rows added by other processes
+            pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.GROUP].isin(groups)]
         if 'split_small' in alt_groups:
             pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] <= 5, cols.GROUP] = '4-5 ECV'
             pivot_on_year_df.loc[pivot_on_year_df[cols.EC_VOTES] == 3, cols.GROUP] = '3 ECV'

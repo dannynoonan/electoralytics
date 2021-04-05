@@ -254,6 +254,88 @@ def display_voter_weight_page4(suppress_state_bias_year_input):
     return fig_bar_suppress_state_bias, fig_scatter_dots_suppress_state_bias, fig_scatter_bubbles_suppress_state_bias, fig_map_suppress_state_bias
 
 
+############ voter-weight-conclusions callbacks
+@app.callback(
+    Output('fig-bar-slave-state-bias2', 'figure'),
+    Output('fig-bar-suppress-state-bias2', 'figure'),
+    Input('slave-state-bias-figure-type', 'value'),
+    Input('slave-state-bias-year-input', 'value'),
+    Input('suppress-state-bias-figure-type', 'value'),
+    Input('suppress-state-bias-year-input', 'value'),)    
+def display_voter_weight_conclusions(slave_state_bias_figure_type, slave_state_bias_year_input, suppress_state_bias_figure_type, suppress_state_bias_year_input):
+    # process input
+    slave_state_bias_year = int(slave_state_bias_year_input)
+    suppress_state_bias_year = int(suppress_state_bias_year_input)
+    if not slave_state_bias_figure_type:
+        slave_state_bias_figure_type = 'bar_chart'
+    if not suppress_state_bias_figure_type:
+        suppress_state_bias_figure_type = 'bar_chart'
+    # fig titles: slave state bias 
+    title_slave_state_bias_bar = 'Whose vote counted the most?<br>Free vs slave vs small states, ordered by Voter Weight'
+    title_slave_state_bias_box = 'Voter Weight ranges<br>Free vs slave vs small states'
+    title_slave_state_bias_scatter_dots = 'Visualizing Voter Weight advantage<br>Free vs slave vs small states, EC votes x voter turnout'
+    title_slave_state_bias_scatter_bubbles = 'Visualizing Voter Weight advantage<br>Free vs slave vs small states, EC votes x Voter Weight'
+    title_slave_state_bias_map = 'Free states vs slave states vs small states'
+    # fig titles: suppression state bias 
+    title_suppress_state_bias_bar = 'Whose vote counted the most?<br>States ordered by Voter Weight, shaded by Civil War grouping'
+    title_suppress_state_bias_box = 'Voter Weight ranges<br>States grouped by Civil War affiliation'
+    title_suppress_state_bias_scatter_dots = 'Visualizing Voter Weight advantage<br>States shaded by Civil War grouping, EC votes x voter turnout'
+    title_suppress_state_bias_scatter_bubbles = 'Visualizing Voter Weight advantage<br>States shaded by Civil War grouping, EC votes x Voter Weight'
+    title_suppress_state_bias_map = 'States shaded by Civil War grouping'
+    groups_label_suppress_state = 'Civil War grouping'
+    # generate figs: slave state bias
+    if slave_state_bias_figure_type == 'bar_chart':
+        fig_slave_state_bias = bar_plots.build_vw_by_state_bar(
+            data_obj, ddirs.ACW, 5, frame=slave_state_bias_year, color_col=cols.GROUP, show_era=False, alt_groups=['slave_free'], 
+            base_fig_title=title_slave_state_bias_bar, fig_width=fig_dims.MD5, fig_height=fig_dims.MD5)
+    elif slave_state_bias_figure_type == 'box_plot':
+        fig_slave_state_bias = box_plots.build_vw_by_state_group_box_plot(
+            data_obj, ddirs.ACW, 5, frame=slave_state_bias_year, show_era=False, alt_groups=['slave_free'],
+            base_fig_title=title_slave_state_bias_box, fig_width=fig_dims.MD5, fig_height=fig_dims.MD5)
+    elif slave_state_bias_figure_type == 'scatter_dots':
+        fig_slave_state_bias = scatter_plots.build_vw_by_state_scatter_dots(
+            data_obj, ddirs.ACW, 5, frame=slave_state_bias_year, show_era=False, alt_groups=['slave_free'], 
+            base_fig_title=title_slave_state_bias_scatter_dots)
+    elif slave_state_bias_figure_type == 'scatter_abbrevs':
+        fig_slave_state_bias = scatter_plots.build_vw_by_state_scatter_dots(
+            data_obj, ddirs.ACW, 5, frame=slave_state_bias_year, show_era=False, alt_groups=['slave_free'], display_elements='abbrevs', 
+            base_fig_title=title_slave_state_bias_scatter_dots)
+    elif slave_state_bias_figure_type == 'scatter_bubbles':
+        fig_slave_state_bias = scatter_plots.build_vw_by_state_scatter_bubbles(
+            data_obj, ddirs.ACW, 5, frame=slave_state_bias_year, show_era=False, alt_groups=['slave_free'], 
+            base_fig_title=title_slave_state_bias_scatter_bubbles)
+    elif slave_state_bias_figure_type == 'map':
+        fig_slave_state_bias = choropleths.build_vw_by_state_map(
+            data_obj, ddirs.ACW, 5, color_col=cols.GROUP, frame=slave_state_bias_year, show_era=False, alt_groups=['slave_free'], 
+            base_fig_title=title_slave_state_bias_map)
+    # generate figs: suppression state bias
+    if suppress_state_bias_figure_type == 'bar_chart':
+        fig_suppress_state_bias = bar_plots.build_vw_by_state_bar(
+            data_obj, ddirs.ACW, 5, frame=suppress_state_bias_year, color_col=cols.GROUP, show_era=False, 
+            fig_width=fig_dims.MD5, fig_height=700, base_fig_title=title_suppress_state_bias_bar, groups_label=groups_label_suppress_state)
+    elif suppress_state_bias_figure_type == 'box_plot':
+        fig_suppress_state_bias = box_plots.build_vw_by_state_group_box_plot(
+            data_obj, ddirs.ACW, 5, frame=suppress_state_bias_year, show_era=False, fig_width=fig_dims.MD5, fig_height=fig_dims.MD5,
+            base_fig_title=title_suppress_state_bias_box, groups_label=groups_label_suppress_state)
+    elif suppress_state_bias_figure_type == 'scatter_dots':
+        fig_suppress_state_bias = scatter_plots.build_vw_by_state_scatter_dots(
+            data_obj, ddirs.ACW, 5, frame=suppress_state_bias_year, show_era=False,
+            base_fig_title=title_suppress_state_bias_scatter_dots, groups_label=groups_label_suppress_state)
+    elif suppress_state_bias_figure_type == 'scatter_abbrevs':
+        fig_suppress_state_bias = scatter_plots.build_vw_by_state_scatter_dots(
+            data_obj, ddirs.ACW, 5, frame=suppress_state_bias_year, show_era=False, display_elements='abbrevs', 
+            base_fig_title=title_suppress_state_bias_scatter_dots, groups_label=groups_label_suppress_state)
+    elif suppress_state_bias_figure_type == 'scatter_bubbles':
+        fig_suppress_state_bias = scatter_plots.build_vw_by_state_scatter_bubbles(
+            data_obj, ddirs.ACW, 5, frame=suppress_state_bias_year, show_era=False, 
+            base_fig_title=title_suppress_state_bias_scatter_bubbles, groups_label=groups_label_suppress_state)
+    elif suppress_state_bias_figure_type == 'map':
+        fig_suppress_state_bias = choropleths.build_vw_by_state_map(
+            data_obj, ddirs.ACW, 5, frame=suppress_state_bias_year, color_col=cols.GROUP, show_era=False,
+            base_fig_title=title_suppress_state_bias_map, groups_label=groups_label_suppress_state)
+    return fig_slave_state_bias, fig_suppress_state_bias
+
+
 ############ voter-weight-calculation callbacks
 @app.callback(
     Output('fig-map-color-by-vw', 'figure'),
@@ -413,7 +495,8 @@ def display_voter_weight_figure_vault_tab2(year_input, groupings_input, max_smal
         data_obj, groupings_input, max_small, frame=year, base_fig_title=title_scatter_state_bubbles, show_era=False)
     fig_scatter_abbrevs_vw_state = scatter_plots.build_vw_by_state_scatter_dots(
         data_obj, groupings_input, max_small, display_elements='abbrevs', frame=year, base_fig_title=title_scatter_state_dots, show_era=False)
-    fig_box_vw_group = box_plots.build_vw_by_state_group_box_plot(data_obj, groupings_input, max_small, frame=year, show_era=False)
+    fig_box_vw_group = box_plots.build_vw_by_state_group_box_plot(
+        data_obj, groupings_input, max_small, frame=year, show_era=False, fig_width=fig_dims.MD5, fig_height=fig_dims.MD5)
     fig_scatter_dots_vw_group = scatter_plots.build_vw_by_state_group_scatter_dots(
         data_obj, groupings_input, max_small, frame=year, base_fig_title=title_scatter_group_dots, show_era=False)
     fig_scatter_bubbles_vw_group = scatter_plots.build_vw_by_state_group_scatter_bubbles(

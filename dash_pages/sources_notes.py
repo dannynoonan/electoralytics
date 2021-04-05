@@ -48,6 +48,10 @@ content = html.Div([
                                         "W.E.B. Du Bois, ", html.I("Black Reconstruction in America: 1860-1880"), " (1935), p. 191-195",
                                     ]),
                                     html.Li(children=[
+                                        dcc.Link("“Black Soldiers in the U.S. Military During the Civil War”", target="_blank", 
+                                        href="https://www.archives.gov/education/lessons/blacks-civil-war"), ", ", html.I("National Archives"), " (last reviewed Sep. 1 2017)",
+                                    ]),
+                                    html.Li(children=[
                                         "Frederick Douglass, ", html.I("Speech to Massachusetts Anti-Slavery Society"), ", (1865), transcribed by W.E.B. Du Bois in ", 
                                         html.I("Black Reconstruction in America: 1860-1880"), " (1935), p. 200",
                                     ]),

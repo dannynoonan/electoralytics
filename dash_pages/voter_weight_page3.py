@@ -54,17 +54,19 @@ content = html.Div([
                                 width="45%"),
                             html.P(className="card-text", children=[
                                 "The enfranchisement of former slaves has a feeling of logical inevitability in hindsight, but during the late 1860s Black suffrage \
-                                was anything but a certainty. Native Americans, recently arrived Chinese and Europeans, and most notably the entire population\
+                                was anything but a certainty. Native Americans, recently arrived Chinese and Europeans, and most notably the entire population \
                                 of American women did not yet have the vote, so in the mind of the white Northerner (to say nothing of the white Southerner) the \
                                 freedmen’s nascent elevation out of slavery was not part-and-parcel with his evolution into active political participant.", 
-                                dcc.Link(href="/sources-notes", children=[html.Sup("6")]), " But a combination of factors, ranging from the noble and moral to the \
-                                practical and political, would ultimately galvanize popular support behind the movement for Black enfranchisement."
+                                dcc.Link(href="/sources-notes", children=[html.Sup("6")]), " Although 180,000 Black soldiers served in the Union Army, comprising \
+                                10% of the total force by the end of the war, ", dcc.Link(href="/sources-notes", children=[html.Sup("7")]), " Blacks were still \
+                                denied the vote in most Northern states in 1865. But a combination of factors, ranging from the noble and moral to the practical \
+                                and political, would ultimately galvanize popular support behind the movement for Black enfranchisement."
                             ]),
                             html.P(className="card-text", children=[
                                 "Beginning with speeches and publications from Northern Blacks and former slaves, bolstered by the tireless evangelism and \
                                 implacability of white abolitionist publishers and politicians, the message of empowering and stabilizing Black equality via \
                                 suffrage steadily moved the Union-loyal states from a position of wide skepticism to one of broad support in the years immediately \
-                                following the war. Out front on pro-suffrage messaging was Frederick Douglass, emphasizing the the essential humanity and security \
+                                following the war. Out front on pro-suffrage messaging was Frederick Douglass, emphasizing the essential humanity and security \
                                 conferred by enfranchising free Blacks to the Massachusetts Anti-Slavery Society in 1865:"
                             ]),
                             html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px"}, children=[
@@ -73,7 +75,7 @@ content = html.Div([
                                     this his liberty is a mockery; without this, you might as well almost retain the old name of slavery for his condition; for, in \
                                     fact, if he is not the slave of the industrial master, he is the slave of society, and holds his liberty as a privilege, not as \
                                     a right. He is at the mercy of the mob, and has no means of protecting himself.",
-                                    dcc.Link(href="/sources-notes", children=[html.Sup("7")]),
+                                    dcc.Link(href="/sources-notes", children=[html.Sup("8")]),
                                 ]),
                             ]),
                             html.Img(src="/static/stockImages/douglass-garrison-phillips.png", style={"float": "left", "padding-right": "10px", "padding-top": "5px"}, 
@@ -83,7 +85,7 @@ content = html.Div([
                                 dcc.Link("field report on post-war conditions in the South", target="_blank", 
                                 href="https://wwnorton.com/college/history/america9/brief/docs/CSchurz-South_Report-1865.pdf"), ". In his view, Black \
                                 enfranchisement would be “the best permanent protection against oppressive class-legislation, as well as against individual \
-                                persecution.”", dcc.Link(href="/sources-notes", children=[html.Sup("8")]), " The argument for Black suffrage as a shield against \
+                                persecution.”", dcc.Link(href="/sources-notes", children=[html.Sup("9")]), " The argument for Black suffrage as a shield against \
                                 regional racial tyranny was further amplified by Black Southerners such as John F. Cook, descendent of an affluent free Black family \
                                 in New Orleans:"
                             ]),
@@ -92,7 +94,7 @@ content = html.Div([
                                     "Without the right of suffrage, we are without protection, and liable to combinations of outrage. Petty officers of the law, \
                                     respecting the source of power, will naturally defer to the one having a vote, and the partiality thus shown will work much to \
                                     the disadvantage of the colored citizens.",
-                                    dcc.Link(href="/sources-notes", children=[html.Sup("9")]),
+                                    dcc.Link(href="/sources-notes", children=[html.Sup("10")]),
                                 ]),
                             ]),
                         ]),
@@ -106,11 +108,11 @@ content = html.Div([
                             html.P(className="card-text", children=[
                                 "For many Northern legislators, moral justice and egalitarian ethics were only one part of a broader argument for Black suffrage. Beyond \
                                 the soaring rhetoric and appeals to rational humanity, the basic math of Congressional and Electoral College representation ultimately \
-                                played a central role in accelerating expanded suffrage as well. This tied directly to the prewar status quo: with freedmen now counted \
+                                played a central role in accelerating expanded suffrage as well. This tied directly to the pre-war status quo: with freedmen now counted \
                                 as full citizens rather than three-fifths chattel slaves, Southern states lay poised to receive even greater political influence vis-à-vis \
                                 Congressional and Electoral College representation than they’d had prior to the Civil War. Absent any buffer or hedge against this, \
                                 allowing an even larger contingent of Southern representatives back into Congress risked the reversal of all political and legislative \
-                                gains made since the war.", dcc.Link(href="/sources-notes", children=[html.Sup("10")]),
+                                gains made since the war.", dcc.Link(href="/sources-notes", children=[html.Sup("11")]),
                             ]),
                             html.P(className="card-text", children=[
                                 "By the late 1860s, two paths were being pursued through Constitutional Amendment:",
@@ -131,7 +133,7 @@ content = html.Div([
                                     "It did not seem just or proper that all the political advantages derived from [Southern Blacks] becoming free should be confined to \
                                     their former masters, who had fought against the Union, and withheld from themselves, who had always been loyal… [Our] committee came \
                                     to the conclusion that political power should be possessed in all the states exactly in proportion as the right of suffrage should \
-                                    be granted, without distinction of color or race…", dcc.Link(href="/sources-notes", children=[html.Sup("11")]),
+                                    be granted, without distinction of color or race…", dcc.Link(href="/sources-notes", children=[html.Sup("12")]),
                                 ]),
                             ]),
                             html.Img(src="/static/stockImages/14th-amendment-page1.jpg", style={"float": "left", "padding-right": "10px", "padding-top": "5px"}, 
@@ -147,14 +149,14 @@ content = html.Div([
                                     elected officials] is denied to any of the male inhabitants of such State, being twenty-one years of age, and citizens of the \
                                     United States, ...the basis of representation therein shall be reduced in the proportion which the number of such male citizens \
                                     shall bear to the whole number of male citizens twenty-one years of age in such State.",
-                                    dcc.Link(href="/sources-notes", children=[html.Sup("12")]),
+                                    dcc.Link(href="/sources-notes", children=[html.Sup("13")]),
                                 ]),
                             ]),
                             html.P(className="card-text", children=[
                                 "Prior to the Civil War, deference to “state sovereignty” was presumed as it related to voting restrictions, so this nascent attempt \
                                 to link a state’s embrace of expanded franchise with its Electoral College influence and Congressional representation was a radical \
                                 shift. Indeed Section 2 appears to have been one of the most contested parts of the sprawling Fourteenth Amendment,",
-                                dcc.Link(href="/sources-notes", children=[html.Sup("13")]), " but the advent of universal Black male suffrage in the Fifteenth \
+                                dcc.Link(href="/sources-notes", children=[html.Sup("14")]), " but the advent of universal Black male suffrage in the Fifteenth \
                                 Amendment ultimately overshadowed any of the nuances of enfranchisement and apportionment laid out in the Fourteenth by plainly \
                                 asserting that all freedmen would be counted, and all freedmen would be allowed to vote - period."
                             ]),
@@ -173,7 +175,7 @@ content = html.Div([
                                 during Reconstruction. Even prior to their passage and ratification, the Congressional Reconstruction Acts of 1867 set every former \
                                 Confederate state on a path toward a greatly expanded electorate. Compared with a total of 721,191 (white) voters in 1860, the \
                                 combined turnout at the constitutional conventions of 1867 nearly doubled this figure to 1,363,640, of which more than half the \
-                                participants were Black.", dcc.Link(href="/sources-notes", children=[html.Sup("14")]),
+                                participants were Black.", dcc.Link(href="/sources-notes", children=[html.Sup("15")]),
                             ]),
                             html.P(className="card-text", children=[
                                 "But the era was short-lived, as even the most radical abolitionists feared it might be. Concerns regarding federally-imposed \
@@ -186,7 +188,7 @@ content = html.Div([
                                     white population, with their superior… wealth and power, would unquestionably alter the franchise in accordance with their \
                                     prejudices, and exclude those thus summarily brought to the polls. Coercion would gain nothing. In other words… universal \
                                     suffrage will be hard to win and to hold without general preparation of feeling and sentiment.",
-                                    dcc.Link(href="/sources-notes", children=[html.Sup("15")]),
+                                    dcc.Link(href="/sources-notes", children=[html.Sup("16")]),
                                 ]),
                             ]),
                             html.Img(src="/static/stockImages/reconstruction-black-voter.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, 
