@@ -149,9 +149,11 @@ content = html.Div([
                     html.Br(),
                     dcc.Graph(id="fig-bar-suppress-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 8: Suppression-state bias, with states shaded by Civil War groupings, then listing them in descending order by Voter \
+                        html.Small(["Figure 8: Suppression-state bias, with states shaded by Civil War groupings, then listing them in descending order by Voter \
                             Weight. Voter Weights trend higher in former Confederate states than  Union, Border, or Postbellum states. Small states still have \
-                            some of the highest weights."),
+                            some of the highest weights. Open an ", dcc.Link("intractive slideshow animation", target="_blank", style={"color": "white"}, 
+                            href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_bar_state_vw_color_by_group_acw0_900.html"),
+                            " illustrating every year for the bar chart above."])
                     ]),
                 ]),
                 dbc.Col(md=6, children=[
@@ -218,21 +220,26 @@ content = html.Div([
                 dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-scatter-dots-suppress-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 10: Suppression-state bias, shown by color shading states by Civil War groupings, and plotting voter turnout on the x \
+                        html.Small(["Figure 10: Suppression-state bias, shown by color shading states by Civil War groupings, and plotting voter turnout on the x \
                             axis against Electoral College Votes on the y axis. The average voter turnout tally per Electoral College vote (where the Voter Weight \
                             ratio is 1.0) is plotted as a diagonal line signifying the nationwide mean. States whose dots appear above and to the left of the \
-                            nationwide mean line have Voter Weights greater than 1, those whose dots are below and to the right have Voter Weights less than 1."),
+                            nationwide mean line have Voter Weights greater than 1, those whose dots are below and to the right have Voter Weights less than 1. \
+                            Open an ", dcc.Link("intractive slideshow animation", target="_blank", style={"color": "white"}, 
+                            href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_scatter_state_vw_dots_acw4_1000.html"),
+                            " illustrating every year for the scatter plot above."])
                     ]),
                 ]),
                 dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-scatter-bubbles-suppress-state-bias"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 11: Suppression-state bias, shown by color shading states by Civil War groupings, and plotting Electoral College votes on \
+                        html.Small(["Figure 11: Suppression-state bias, shown by color shading states by Civil War groupings, and plotting Electoral College votes on \
                             the x axis against derived Voter Weight on the y axis, with voter turnout now represented by the size of each state’s “bubble.” The \
                             national mean is plotted at all points on the x axis where Voter Weight is 1.0 on the y axis, and any bubble above the mean line indicates \
                             a state whose voters — that is, those who were able to vote — wielded disproportionately high Voter Weight in that election. For small \
                             bubbles with low EC vote counts, high Voter Weight can be explained by small-state bias. For larger bubbles, we are looking at \
-                            suppression-state bias."),
+                            suppression-state bias. Open an ", dcc.Link("intractive slideshow animation", target="_blank", style={"color": "white"}, 
+                            href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_scatter_state_vw_bubbles_acw4_1000.html"),
+                            " illustrating every year for the scatter plot above."]),
                     ]),
                 ])
             ]),

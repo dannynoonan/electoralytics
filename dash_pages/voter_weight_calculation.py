@@ -168,6 +168,7 @@ content = html.Div([
                                 But demographics aside, the Voter Weight / voter suppression calculation is the same — it may just turn out that \
                                 suppression-state bias goes beyond “five-fifths.”",
                             ]),
+                            html.Img(src="/static/screenshots/lineChartWIvsGA.png", style={"float": "left", "padding-right": "10px"}, width="100%"),
                         ])
                     ]),
                 ]),
