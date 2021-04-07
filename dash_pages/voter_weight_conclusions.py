@@ -28,7 +28,7 @@ content = html.Div([
             html.Hr(className="border-light"),
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Part 6: Conclusions and Discussion"),
+                html.H3("Part 6: Conclusions and interpretation"),
             ]),
             html.Br(),
             dbc.Row([

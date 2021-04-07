@@ -23,7 +23,7 @@ url_bar_and_content_div = html.Div([
 ])
 
 
-navbar = dbc.Card(className="text-white bg-primary", children=[
+navbar = dbc.Card(className="text-white bg-primary", style={"z-index":"2000"}, children=[
     dbc.CardBody([
         html.Br(),
         html.H2("Electoralytics", id="nav-pills"),
@@ -32,26 +32,59 @@ navbar = dbc.Card(className="text-white bg-primary", children=[
         dbc.Nav(className="nav nav-pills", children=[
             dbc.NavItem(dbc.NavLink("Home", href="/")),
             dbc.DropdownMenu(label="Visualizing the “Jim Crow Power”", nav=True, children=[
-                dbc.DropdownMenuItem([html.I(className="fa"), "Intro: American voter enfranchisement"], href='/voter-weight-electoral-college-bias-intro', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Part 1: Equality for states, not for voters"], href='/voter-weight-electoral-college-bias-page1', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Part 2: Small-state bias and slave-state bias"], href='/voter-weight-electoral-college-bias-page2', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Part 3: Reconstruction and Black voting rights"], href='/voter-weight-electoral-college-bias-page3', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Part 4: Suppression-state bias"], href='/voter-weight-electoral-college-bias-page4', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Part 5: Results and observations"], href='/voter-weight-results', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Part 6: Conclusions and interpretation"], href='/voter-weight-conclusions', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Appendix 1: Calculating Voter Weight"], href='/voter-weight-calculation', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Appendix 2: Annotated timeline"], href='/voter-weight-timeline-visualization', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Appendix 3: Explanation of state groupings"], href='/explanation-of-groupings', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "The vault: 220 years of maps, charts, & figures"], href='/voter-weight-figure-vault', target="_blank"), 
+                dbc.DropdownMenuItem("Intro: American voter enfranchisement", href='/voter-weight-electoral-college-bias-intro', target="_blank"), 
+                dbc.DropdownMenuItem("Part 1: Equality for states, not for voters", href='/voter-weight-electoral-college-bias-page1', target="_blank"), 
+                dbc.DropdownMenuItem("Part 2: Small-state bias and slave-state bias", href='/voter-weight-electoral-college-bias-page2', target="_blank"), 
+                dbc.DropdownMenuItem("Part 3: Reconstruction and Black voting rights", href='/voter-weight-electoral-college-bias-page3', target="_blank"), 
+                dbc.DropdownMenuItem("Part 4: Suppression-state bias", href='/voter-weight-electoral-college-bias-page4', target="_blank"), 
+                dbc.DropdownMenuItem("Part 5: Results and observations", href='/voter-weight-results', target="_blank"), 
+                dbc.DropdownMenuItem("Part 6: Conclusions and interpretation", href='/voter-weight-conclusions', target="_blank"), 
+                dbc.DropdownMenuItem("Appendix 1: Calculating Voter Weight", href='/voter-weight-calculation', target="_blank"), 
+                dbc.DropdownMenuItem("Appendix 2: Annotated timeline", href='/voter-weight-timeline-visualization', target="_blank"), 
+                dbc.DropdownMenuItem("Appendix 3: Explanation of state groupings", href='/explanation-of-groupings', target="_blank"), 
+                dbc.DropdownMenuItem("The vault: 220 years of maps, charts, & figures", href='/voter-weight-figure-vault', target="_blank"), 
             ]),
             dbc.DropdownMenu(label="References / Resources", nav=True, children=[
-                dbc.DropdownMenuItem([html.I(className="fa"), "Sources / Notes"], href='/sources-notes', target="_blank"), 
-                dbc.DropdownMenuItem([html.I(className="fa"), "Wikipedia election data portal"], href='https://en.wikipedia.org/wiki/List_of_United_States_presidential_election_results_by_state', target="_blank"),
-                dbc.DropdownMenuItem([html.I(className="fa"), "Project source code"], href='https://github.com/dannynoonan/electoralytics', target="_blank"), 
+                dbc.DropdownMenuItem("Sources / Notes", href='/sources-notes', target="_blank"), 
+                dbc.DropdownMenuItem("Wikipedia election data portal", 
+                    href='https://en.wikipedia.org/wiki/List_of_United_States_presidential_election_results_by_state', target="_blank"),
+                dbc.DropdownMenuItem("Project source code", href='https://github.com/dannynoonan/electoralytics', target="_blank"), 
             ])
         ])
     ])
 ])
+
+
+# the style arguments for the sidebar. We use position:fixed and a fixed width
+SIDEBAR_STYLE = {
+    "position": "fixed",
+    "top": 0,
+    "left": 0,
+    "bottom": 0,
+    "width": "16rem",
+    "padding": "2rem 1rem",
+    "background-color": "#f8f9fa",
+}
+
+sidebar = html.Div(
+    [
+        html.H2("Sidebar", className="display-4"),
+        html.Hr(),
+        html.P(
+            "A simple sidebar layout with navigation links", className="lead"
+        ),
+        dbc.Nav(
+            [
+                dbc.NavLink("Home", href="/", active="exact"),
+                dbc.NavLink("Page 1", href="/page-1", active="exact"),
+                dbc.NavLink("Page 2", href="/page-2", active="exact"),
+            ],
+            vertical=True,
+            pills=True,
+        ),
+    ],
+    style=SIDEBAR_STYLE,
+)
 
 
 year_slider_and_groups_selection = dbc.FormGroup([

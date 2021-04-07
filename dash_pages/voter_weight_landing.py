@@ -3,31 +3,45 @@ import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 
-from dash_pages.components import navbar, data_obj
+from dash_pages.components import navbar, sidebar, data_obj
 
 
 content = html.Div([
     navbar,
-    dbc.Card(className="border-primary bg-dark", children=[
+    dbc.Card(className="bg-success", children=[
         dbc.CardBody([
-            # html.Div(children=[
-            #     html.Ul(className="pagination pagination-lg justify-content-center", children=[
-            #         html.Li(className="page-item flex", style={"width": "60%"}),
-            #         html.Li(className="page-item flex", style={"width": "40%", "text-align": "right"}, children=[
-            #             html.A(className="page-link", href="/voter-weight-electoral-college-bias-page1", children=[
-            #                 "Part 1: Electoral College basics: Equality for states, not for voters →"
-            #             ])
-            #         ]),
-            #     ])
-            # ]),
-            # html.Hr(className="border-light"),
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("When the South rose again: Visualizing the “Jim Crow Power” through Electoral College data"),
+                html.H3("Visualizing the “Jim Crow Power” through Electoral College data"),
             ]),
             html.Br(),
             dbc.Row([
-                dbc.Col(md=3),
+                dbc.Col(md=3, children=[
+                    html.Div(className="list-group sticky-top", children=[
+                        html.A(href="/voter-weight-electoral-college-bias-intro", className="list-group-item list-group-item-action active", children=[
+                            "→ Intro: American voter enfranchisement"]),
+                        html.A(href="/voter-weight-electoral-college-bias-page1", className="list-group-item list-group-item-action", children=[
+                            "Part 1: Equality for states, not for voters"]),
+                        html.A(href="/voter-weight-electoral-college-bias-page2", className="list-group-item list-group-item-action", children=[
+                            "Part 2: Small-state bias and slave-state bias"]),
+                        html.A(href="/voter-weight-electoral-college-bias-page3", className="list-group-item list-group-item-action", children=[
+                            "Part 3: Reconstruction and Black voting rights"]),
+                        html.A(href="/voter-weight-electoral-college-bias-page4", className="list-group-item list-group-item-action", children=[
+                            "Part 4: Suppression-state bias"]),
+                        html.A(href="/voter-weight-results", className="list-group-item list-group-item-action", children=[
+                            "Part 5: Results and observations"]),
+                        html.A(href="/voter-weight-conclusions", className="list-group-item list-group-item-action", children=[
+                            "Part 6: Conclusions and interpretation"]),
+                        html.A(href="/voter-weight-calculation", className="list-group-item list-group-item-action", children=[
+                            "Appx 1: Calculating Voter Weight"]),
+                        html.A(href="/voter-weight-timeline-visualization", className="list-group-item list-group-item-action", children=[
+                            "Appx 2: Annotated timeline"]),
+                        html.A(href="/explanation-of-groupings", className="list-group-item list-group-item-action", children=[
+                            "Appx 3: Explanation of state groupings"]),
+                        html.A(href="/voter-weight-figure-vault", className="list-group-item list-group-item-action", children=[
+                            "The Vault: 220 years of maps, charts, & figures"]),
+                    ])
+                ]),
                 dbc.Col(md=6, children=[
                     dbc.Card(className="border-success lead", style={"font-family": "times-new-roman"}, children=[
                         dbc.CardBody([
@@ -67,7 +81,7 @@ content = html.Div([
                                 "The first figure below illustrates the hyper-enfranchisement of voters in certain states relative to others by displaying them in \
                                 descending order by Voter Weight, shading them in terms of their Civil War grouping (more info about state groupings ", 
                                 dcc.Link("here", href="/explanation-of-groupings"), "). This figure, as with all figures on the site, is interactive. ", 
-                                html.Span(style={"font-style":"italic","text-decoration":"underline"}, children=["Move the “Select year” slider to bring a different \
+                                html.Span(style={"font-style":"italic", "text-decoration":"underline"}, children=["Move the “Select year” slider to bring a different \
                                 election year into focus"]), ". Highlight a portion of the figure to zoom in, then double-click to reset to the original scale. Roll \
                                 over any bar in the chart to see the factors that contribute to its Voter Weight calculation. ", html.Span(style={"font-weight":"bold"}, 
                                 children=["Note that if every vote in every state counted equally, all of the Voter Weights would be 1.0 and each bar in the chart \

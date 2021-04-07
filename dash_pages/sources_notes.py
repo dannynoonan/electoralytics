@@ -188,6 +188,10 @@ content = html.Div([
                                     html.Li(children=[
                                         "Jesse Wegman, ", html.I("Let the People Pick the President"), " (2020), p. 123",
                                     ]),
+                                    html.Li(children=[
+                                        "Michael Perman, ", html.I(dcc.Link("Struggle for Mastery: Disfranchisement in the South, 1888–1908", target="_blank",
+                                            href="https://uncpress.org/book/9780807849095/struggle-for-mastery/")), " (2001), Introduction",
+                                    ]),
                                 ])
                             ]),
                         ])

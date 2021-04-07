@@ -148,19 +148,14 @@ content = html.Div([
                             dbc.CardImg(src="/static/vwMath/vwMathSampler/vwCalcWIGA1932.png", top=False),
                             html.Br(), html.Br(),
                             html.P(className="card-text", children=[
-                                "It’s worth noting that this 3–4X disparity suggests a voter suppression dragnet in Georgia that reaches well beyond its \
-                                African American population (which was ", dcc.Link("46.7% of Georgia’s total population in 1900", target="_blank",
-                                href="https://en.wikipedia.org/wiki/Disenfranchisement_after_the_Reconstruction_era#Southern_black_populations_in_1900"),
-                                "). My intent isn’t to get ", html.I("too"), " deep into the historical weeds here, but this might be the effect of poll \
-                                taxes aimed not only to disenfranchise Blacks, but also to purge poor whites with Populist party sympathies from the voter \
-                                rolls."
-                            ]),
-                            html.P(className="card-text", children=[
-                                "Per this ", dcc.Link("Wikipedia page on Southern disenfranchisement after Reconstruction", target="_blank",
-                                href="https://en.wikipedia.org/wiki/Disenfranchisement_after_the_Reconstruction_era"), ", Blacks and poor whites had \
-                                momentarily joined forces to take over a handful of Southern state legislatures in the 1890s, prompting swift retaliation \
-                                by Southern white elites who rewrote state constitutions en masse (the “Mississippi Plan”) to implement poll taxes and \
-                                other disenfranchising devices."
+                                "It’s worth noting that this 3–4X disparity suggests a voter suppression dragnet in Georgia that reaches well beyond its African \
+                                American population (which was ", dcc.Link("46.7% of Georgia’s total population in 1900", target="_blank",
+                                href="https://en.wikipedia.org/wiki/Disenfranchisement_after_the_Reconstruction_era#Southern_black_populations_in_1900"), "). This \
+                                likely refects the way poll taxes were aimed not only to disenfranchise Blacks, but also to purge poor whites with Populist party \
+                                sympathies from the voter rolls. Blacks and poor whites had momentarily joined forces to take over a handful of Southern state \
+                                legislatures in the 1890s, prompting swift retaliation by Southern white elites who rewrote state constitutions en masse (the \
+                                “Mississippi Plan”) to implement poll taxes and other disenfranchising devices.", 
+                                dcc.Link(href="/sources-notes", children=[html.Sup("44")]),
                             ]),
                             html.P(className="card-text", children=[
                                 "While African Americans were undoubtedly the principal target of Southern disenfranchisement practices, the idea that \
