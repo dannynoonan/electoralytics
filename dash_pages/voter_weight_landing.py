@@ -17,7 +17,7 @@ content = html.Div([
             html.Br(),
             dbc.Row([
                 dbc.Col(md=3, children=[
-                    html.Div(className="list-group", children=[
+                    html.Div(className="list-group sticky-top", children=[
                         html.A(href="/voter-weight-electoral-college-bias-intro", className="list-group-item list-group-item-action active", children=[
                             "→ Intro: American voter enfranchisement"]),
                         html.A(href="/voter-weight-electoral-college-bias-page1", className="list-group-item list-group-item-action", children=[
