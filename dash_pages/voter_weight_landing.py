@@ -3,7 +3,7 @@ import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 
-from dash_pages.components import navbar, sidebar, data_obj
+from dash_pages.components import navbar, data_obj
 
 
 content = html.Div([
@@ -17,7 +17,7 @@ content = html.Div([
             html.Br(),
             dbc.Row([
                 dbc.Col(md=3, children=[
-                    html.Div(className="list-group sticky-top", children=[
+                    html.Div(className="list-group", children=[
                         html.A(href="/voter-weight-electoral-college-bias-intro", className="list-group-item list-group-item-action active", children=[
                             "→ Intro: American voter enfranchisement"]),
                         html.A(href="/voter-weight-electoral-college-bias-page1", className="list-group-item list-group-item-action", children=[
