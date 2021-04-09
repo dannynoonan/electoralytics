@@ -20,7 +20,7 @@ content = html.Div([
                 dbc.Col(md=8, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
-                            html.H4("Visualizing Jim Crow Voter Suppression", className="card-title"),
+                            html.H4("Visualizing the “Jim Crow Power” through Electoral College data", className="card-title"),
                             html.P(className="card-text", children=[
                                 html.B("Citations:"),
                                 html.Ol(children=[
@@ -66,6 +66,9 @@ content = html.Div([
                                     ]),
                                     html.Li(children=[
                                         "W.E.B. Du Bois, ", html.I("Black Reconstruction in America: 1860-1880"), " (1935), p. 213-215",
+                                    ]),
+                                    html.Li(children=[
+                                        "Eric Foner, ", html.I("The Second Founding"), " (2019), p. 61",
                                     ]),
                                     html.Li(children=[
                                         "Final Report of the Congressional Joint Committee on Reconstruction (1866), via Edward McPherson, ", 

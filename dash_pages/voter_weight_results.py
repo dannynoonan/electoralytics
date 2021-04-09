@@ -38,7 +38,7 @@ content = html.Div([
                             html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px", "font-size": "13pt"}, children=[
                                 html.P(style={"font-style": "italic"}, children=[
                                     "By 1890 the disenfranchisement of African-Americans was well underway, and by the early years of the twentieth century it was \
-                                    complete.", dcc.Link(href="/sources-notes", children=[html.Sup("20")]),
+                                    complete.", dcc.Link(href="/sources-notes", children=[html.Sup("21")]),
                                 ]),
                                 html.P(children=["—Alexander Keyssar, ", html.I("“Why Do We Still Have the Electoral College?”")])
                             ]),
@@ -93,7 +93,7 @@ content = html.Div([
                                 data ripples that I initially mistook for errors, anomalies, or unexplained distortions:",
                                 html.Ul([
                                     html.Li(children=["The impact of the “Mississippi Plan,” a scheme to introduce discriminatory voting language into every \
-                                        Southern state’s constitution, beginning in the 1890s", dcc.Link(href="/sources-notes", children=[html.Sup("21")]),
+                                        Southern state’s constitution, beginning in the 1890s", dcc.Link(href="/sources-notes", children=[html.Sup("22")]),
                                     ]),
                                     html.Li("The staggered state-by-state expansion of women’s suffrage (and therefore voter turnout overall) in the early \
                                         20th century, prior to the 19th Amendment’s ratification enfranchising women in every state in 1920"),
@@ -118,7 +118,7 @@ content = html.Div([
                                     html.Li(children=["Voter apathy, and hence lower voter participation. Since the “Solid South” of the early 20th century was \
                                         effectively a non-competitive one-party regional bloc (in part due to the wild success of their voter suppression \
                                         tactics), the fact that down-ballot winners were a foregone conclusion may have further depressed turnout", 
-                                        dcc.Link(href="/sources-notes", children=[html.Sup("22")]),
+                                        dcc.Link(href="/sources-notes", children=[html.Sup("23")]),
                                     ]),
                                     html.Li("Other voting eligibility factors such as age, gender, incarceration status, felony record, etc have varied from state \
                                         to state over the years"),
@@ -204,7 +204,7 @@ content = html.Div([
                                 election cycles after Reconstruction for the Redeemer South’s suppression strategies to restore pre-war hyper-enfranchisement \
                                 levels — only to wildly exceed that antebellum status quo over the course of several generations to follow. It's also worth \
                                 pointing out that, even in the few short months I've been working on this project, over 360 bills with restrictive voting \
-                                provisions have been introduced in the legislatures of 47 states.", dcc.Link(href="/sources-notes", children=[html.Sup("23")])
+                                provisions have been introduced in the legislatures of 47 states.", dcc.Link(href="/sources-notes", children=[html.Sup("24")])
                             ]),
                             html.P(className="card-text", children=[
                                 "Moreover, if there’s a lesson I’ve gleaned from reading about American elections and racial justice history, it’s that familiar \
