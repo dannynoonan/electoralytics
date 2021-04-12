@@ -39,7 +39,7 @@ content = html.Div([
                                 html.P(style={"font-style": "italic"}, children=[
                                     "Because each state gets its prescribed number of electors based on total population, not on how many of its residents \
                                     cast a ballot, there is no incentive to expand the electorate.",
-                                    dcc.Link(href="/sources-notes", children=[html.Sup("44")]),
+                                    dcc.Link(href="/sources-notes", children=[html.Sup("46")]),
                                 ]),
                                 html.P(children=["—Jesse Wegman, ", html.I("“Let the People Pick the President”")])
                             ]),
@@ -155,7 +155,7 @@ content = html.Div([
                                 sympathies from the voter rolls. Blacks and poor whites had momentarily joined forces to take over a handful of Southern state \
                                 legislatures in the 1890s, prompting swift retaliation by Southern white elites who rewrote state constitutions en masse (the \
                                 “Mississippi Plan”) to implement poll taxes and other disenfranchising devices.", 
-                                dcc.Link(href="/sources-notes", children=[html.Sup("45")]),
+                                dcc.Link(href="/sources-notes", children=[html.Sup("47")]),
                             ]),
                             html.P(className="card-text", children=[
                                 "While African Americans were undoubtedly the principal target of Southern disenfranchisement practices, the idea that \

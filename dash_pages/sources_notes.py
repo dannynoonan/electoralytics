@@ -90,6 +90,9 @@ content = html.Div([
                                         html.I("Black Reconstruction in America: 1860-1880"), " (1935), p. 200-201",
                                     ]),
                                     html.Li(children=[
+                                        "Eric Foner, ", html.I("The Second Founding: How the Civil War and Reconstruction Remade the Constitution"), " (2019), p. 105",
+                                    ]),
+                                    html.Li(children=[
                                         "Jesse Wegman, ", html.I("Let the People Pick the President"), " (2020), p. 108",
                                     ]),
                                     html.Li(children=[
@@ -122,7 +125,8 @@ content = html.Div([
                                         html.I("Let the People Pick the President"), " (2020), p. 66-67"
                                     ]),   
                                     html.Li(children=[
-                                        "Jesse Wegman, ", html.I("Let the People Pick the President"), " (2020), p. 109-110",
+                                        "Eric Foner, ", html.I("The Second Founding: How the Civil War and Reconstruction Remade the Constitution"), " (2019), p. 85; \
+                                        Jesse Wegman, ", html.I("Let the People Pick the President"), " (2020), p. 109-110",
                                     ]),  
                                     html.Li(children=[
                                         "E. W. Hutter, ", dcc.Link("“The Nation's Great Triumph”", href="https://newspaperarchive.com/politics-clipping-apr-10-1865-2081429/",
@@ -177,6 +181,9 @@ content = html.Div([
                                     html.Li(children=[
                                         "Michelle Alexander, ", html.I("The New Jim Crow: Mass Incarceration in the Age of Colorblindness"), " (2010), p. 35-36, 80, \
                                         86-88, 97, 140-143"
+                                    ]),
+                                    html.Li(children=[
+                                        "TODO"
                                     ]),
                                     html.Li(children=[
                                         "Akhil Reed Amar, ", html.I("The Law of the Land: A Grand Tour of our Constitutional Republic"), " (2015), p. 109"

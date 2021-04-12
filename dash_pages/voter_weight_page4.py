@@ -38,7 +38,7 @@ content = html.Div([
                             html.Div(className="card-text lead", style={"margin-left": "50px", "margin-right": "50px"}, children=[
                                 html.P(style={"font-style": "italic"}, children=[
                                     "One of the great ironies of American history is that the end of slavery actually made the white power structures in the \
-                                    former slave states stronger.", dcc.Link(href="/sources-notes", children=[html.Sup("18")]),
+                                    former slave states stronger.", dcc.Link(href="/sources-notes", children=[html.Sup("19")]),
                                 ]),
                                 html.P(children=["—Jesse Wegman, ", html.I("“Let the People Pick the President”")])
                             ]),
@@ -185,7 +185,7 @@ content = html.Div([
                                     the right to vote had become a distant memory for a huge percentage of Southern black people. Because black voters could have an \
                                     enormous impact on election outcomes—some 90 percent of all African Americans live in the South in 1900—just as they \
                                     demonstrated during Reconstruction, it was of the utmost importance to rob them of the possibility of voting in Southern \
-                                    elections. And robbed they were.", dcc.Link(href="/sources-notes", children=[html.Sup("19")]),
+                                    elections. And robbed they were.", dcc.Link(href="/sources-notes", children=[html.Sup("20")]),
                                 ]),
                                 html.P(children=["—Henry Louis Gates, Jr., ", html.I("“Stony the Road: Reconstruction, White Supremacy, and the Rise of Jim Crow”")])
                             ]),
@@ -275,7 +275,7 @@ content = html.Div([
                                     toward representation, and southern states consequently gained additional seats in the House of Representatives and votes in \
                                     the Electoral College. Yet once blacks were again denied the right to vote, white Democrats effectively became the \
                                     beneficiaries of an unwritten “five-fifths” clause: they wielded national power on their own behalf and in the name of the \
-                                    region’s entire African-American population.", dcc.Link(href="/sources-notes", children=[html.Sup("20")]),
+                                    region’s entire African-American population.", dcc.Link(href="/sources-notes", children=[html.Sup("21")]),
                                 ]),
                                 html.P(children=["—Alexander Keyssar, ", html.I("“Why Do We Still Have the Electoral College?”")])
                             ]),

@@ -199,6 +199,8 @@ content = html.Div([
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
                             html.H4("Reconstruction Amendments in practice"),
+                            html.Img(src="/static/stockImages/electioneering-in-the-south.png", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, 
+                                width="50%"),
                             html.P(className="card-text", children=[
                                 "The voting and legal protections of the Fourteenth and Fifteenth Amendments led to a true flourishing of multi-racial democracy \
                                 during Reconstruction. Even prior to their passage and ratification, the Congressional Reconstruction Acts of 1867 set every former \
@@ -220,7 +222,7 @@ content = html.Div([
                                     dcc.Link(href="/sources-notes", children=[html.Sup("17")]),
                                 ]),
                             ]),
-                            html.Img(src="/static/stockImages/reconstruction-black-voter.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, 
+                            html.Img(src="/static/stockImages/reconstruction-black-voter.jpg", style={"float": "left", "padding-right": "10px", "padding-top": "5px"}, 
                                 width="50%"),
                             html.P(className="card-text", children=[
                                 "Garrison’s trepidation that voting rights may not be secure in the aftermath of Reconstruction was widely felt. Legislators were \
@@ -229,7 +231,7 @@ content = html.Div([
                                 the Fifteenth and disenfranchising their Black citizens then the Fourteenth amendment’s reduction clause would kick in, preventing \
                                 those states from reaping the representational benefits of fully-counted Black citizens. Given the choice to embrace multi-racial \
                                 voter access or accept reduced national influence, the expectation was that former Confederate states would choose not to give up \
-                                their influence."
+                                their influence.", dcc.Link(href="/sources-notes", children=[html.Sup("18")]),
                             ]),
                             html.P(className="card-text", children=[
                                 "In practice, however, it would be nearly a century before the voting provisions of either amendment were meaningfully enforced."
