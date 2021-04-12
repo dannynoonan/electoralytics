@@ -64,9 +64,9 @@ content = html.Div([
                                 html.Ul([
                                     html.Li(children=[html.B("Small-state bias"), ": Every state, regardless of population, gets two Electoral College votes for \
                                         its two Senators, proportionally favoring smaller states with fewer Representatives"]),
-                                    html.Li(children=[html.B("Slave-state bias"), ": Although slaves couldn't vote, the “three-fifths compromise” included them \
+                                    html.Li(children=[html.B("Slave-state bias"), ": Although slaves couldn’t vote, the “three-fifths compromise” included them \
                                         in the basis for Congressional and Electoral College representation, thereby amplifying the influence of Southern whites \
-                                        who effectively voted on their slaves' behalf"]),
+                                        who effectively voted on their slaves’ behalf"]),
                                     html.Li(children=[html.B("Suppression-state bias"), ": The increased influence of voters in states that actively prevent \
                                         legally eligible and census tabulated citizens from voting, as took place for many decades in the Jim Crow South"])
                                 ]),
@@ -79,9 +79,9 @@ content = html.Div([
                         dbc.CardBody([
                             html.Img(src="/static/stockImages/census-1790.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, width="45%"),
                             html.P(className="card-text", children=[
-                                "Each of these biases directly amplify the influence of one state's (or region's) voters over another's, resulting in the \
+                                "Each of these biases directly amplify the influence of one state’s (or region’s) voters over another’s, resulting in the \
                                 “hyper-enfranchisement” of certain voters relative to others. The small-state and slave-state biases are well-known, baked into \
-                                the Constitution from the get-go, the type of simple quantifiable anecdotes you'd expect on an American History exam or in a \
+                                the Constitution from the get-go, the type of simple quantifiable anecdotes you’d expect on an American History exam or in a \
                                 game of Trivial Pursuit. By contrast, the bias amplifying Southern white voters as a direct result of their suppression of \
                                 Black voters in the Jim Crow South is not as widely discussed."
                             ]),
@@ -187,14 +187,14 @@ content = html.Div([
                         dbc.CardBody([
                             html.Img(src="/static/stockImages/ballot-box-game.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, width="45%"),
                             html.P(className="card-text", children=[
-                                "The color shading for each state in ", html.B("Figure 1"), " and ", html.B("Figure 2"), " corresponds to that state's Voter Weight in a given presidential \
-                                election. Adjust the 'Select Year' slider above the figure to toggle between different election years."
+                                "The color shading for each state in ", html.B("Figure 1"), " and ", html.B("Figure 2"), " corresponds to that state’s Voter Weight in a given presidential \
+                                election. Adjust the ‘Select Year’ slider above the figure to toggle between different election years."
                             ]),
                             html.P(className="card-text", children=[
                                 html.B("Figure 3"), " below provides an interactive overview of Voter Weight measurements over time, with states grouped by Civil \
                                 War alliance or census region (use the pulldown menu to choose). You may also select individual states for direct comparison, \
-                                superimposing each of their Voter Weight trend lines simultaneously. This figure jumps ahead a bit in terms of what's been \
-                                discussed so far, but gives a preview of patterns and trends we'll be exploring in the coming pages."
+                                superimposing each of their Voter Weight trend lines simultaneously. This figure jumps ahead a bit in terms of what’s been \
+                                discussed so far, but gives a preview of patterns and trends we’ll be exploring in the coming pages."
                             ])
                         ])
                     ])

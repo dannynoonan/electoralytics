@@ -115,7 +115,7 @@ content = voter_weight_comparison_details = html.Div([
                                                 html.Li("Electoral College bias, shown by plotting Popular Vote (turnout) on the x axis against Electoral \
                                                     College Votes on the y axis."),
                                                 html.Li("The average Popular Vote tally per Electoral College vote — where the Voter Weight ratio is 1.0 — \
-                                                    is plotted as a diagonal line (labeled 'Nationwide mean')."),
+                                                    is plotted as a diagonal line (labeled ‘Nationwide mean’)."),
                                                 html.Li("States whose dots appear above and to the left of the nationwide mean line have Voter Weights greater \
                                                     than 1, those whose dots are below and to the right have Voter Weights less than 1."),
                                                 html.Li(["Open an ", dcc.Link("intractive slideshow animation", target="_blank",

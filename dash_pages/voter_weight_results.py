@@ -76,8 +76,8 @@ content = html.Div([
                                 "Whether a side-effect of racist voter suppression or an intentional strategy unto itself, Southern white elites appear to have not \
                                 just maintained, but significantly increased, their disproportionate influence over national-level politics during the Jim Crow \
                                 Era. This despite the abolition of slavery, the nullification of the three-fifths compromise, and their total military and \
-                                political defeat in the Civil War. And they couldn't have done it without the Electoral College, since a pure national popular vote \
-                                would have simply diluted their states' lower turnouts among the much higher participation levels in states holding fair, \
+                                political defeat in the Civil War. And they couldn’t have done it without the Electoral College, since a pure national popular vote \
+                                would have simply diluted their states’ lower turnouts among the much higher participation levels in states holding fair, \
                                 egalitarian, and democratic elections during the same time period."
                             ]),
                             html.P(className="card-text", children=[
@@ -88,7 +88,7 @@ content = html.Div([
                             html.Br(),
                             html.H4("A few things that stood out", className="card-title"),
                             html.P(className="card-text", children=[
-                                "I'm neither a historian nor a statistician (in case this wasn't obvious), so it’s been interesting pausing to research events and \
+                                "I'm neither a historian nor a statistician (in case this wasn’t obvious), so it’s been interesting pausing to research events and \
                                 periods along the way, attempting to interpret underlying causes of twists and turns in the data. Here’s a short list of the many \
                                 data ripples that I initially mistook for errors, anomalies, or unexplained distortions:",
                                 html.Ul([
@@ -120,13 +120,13 @@ content = html.Div([
                                         tactics), the fact that down-ballot winners were a foregone conclusion may have further depressed turnout", 
                                         dcc.Link(href="/sources-notes", children=[html.Sup("23")]),
                                     ]),
-                                    html.Li("Other voting eligibility factors such as age, gender, incarceration status, felony record, etc have varied from state \
-                                        to state over the years"),
+                                    html.Li("Other voting eligibility factors such as age, gender, incarceration status, felony record, ID laws, etc have varied \
+                                        from state to state over the years"),
                                     html.Li("Census apportionment is decennial, so Electoral College influence always lags a few years behind a population \
                                         explosion, lowering the Voter Weight in fast-growing states near the end of the decade"),
                                     html.Li("Census apportionment in states with a higher percentage of undocumented residents who can’t legally vote increases \
                                         Voter Weight in that state. This is generally regarded as to the benefit, not the detriment, of those who are tabulated \
-                                        but not enfranchised, but this creates a “five-fifths” type effect nonetheless."),
+                                        but not enfranchised, but this results in a “five-fifths” type effect nonetheless."),
                                 ]),
                             ]),
                         ]),
@@ -146,8 +146,8 @@ content = html.Div([
                             html.P(className="card-text", children=[
                                 "My knowledge of Reconstruction, Redemption, Reconciliation, and Jim Crow is generally limited to a North vs South narrative, and \
                                 what little I do know of the politics of Border and Western states tends to be through the lens of Northern vs Southern politicians \
-                                (e.g. Lincoln's political dexterity in balancing the interests of Northern abolitionists against Border state slaveholders, and \
-                                successfully preventing Border states from seceding). Caveats aside: knowing little to nothing of the ", html.I("details"), " of \
+                                (e.g. Lincoln's political dexterity in balancing the interests of Northern abolitionists against Border state slaveholders, and his \
+                                success in preventing Border states from seceding). Caveats aside: knowing little to nothing of the ", html.I("details"), " of \
                                 post-Reconstruction enfranchisement practices in Border states, it sure looks to me as though those practices led to much higher \
                                 voter participation (and, by inverse relationship, little to no hyper-enfranchisement of individual voters) than that of Confederate \
                                 slave states."
@@ -199,11 +199,11 @@ content = html.Div([
                             html.Img(src="/static/stockImages/shelby-vs-holder-ruling.png", style={"float": "left", "padding-right": "10px", "padding-top": "5px"}, 
                                 width="50%"),
                             html.P(className="card-text", children=[
-                                "Although my quasi-scientific 40,000’ view of historical Voter Weight doesn’t show any obvious reversal of aggregate positive \
+                                "Although my quasi-scientific zoomed-out view of historical Voter Weight doesn’t show any obvious reversal of aggregate positive \
                                 trends in 2016 or 2020 (again: not an actual statistician, I just play one on the internet), it’s worth noting that it took a few \
                                 election cycles after Reconstruction for the Redeemer South’s suppression strategies to restore pre-war hyper-enfranchisement \
-                                levels — only to wildly exceed that antebellum status quo over the course of several generations to follow. It's also worth \
-                                pointing out that, even in the few short months I've been working on this project, over 360 bills with restrictive voting \
+                                levels — only to wildly exceed that antebellum status quo over the course of several generations to follow. It’s also worth \
+                                pointing out that, even in the few short months I’ve been working on this project, over 360 bills with restrictive voting \
                                 provisions have been introduced in the legislatures of 47 states.", dcc.Link(href="/sources-notes", children=[html.Sup("24")])
                             ]),
                             html.P(className="card-text", children=[

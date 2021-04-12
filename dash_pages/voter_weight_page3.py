@@ -62,7 +62,7 @@ content = html.Div([
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
                             html.P(className="card-text", children=[
-                                html.I(children=["Note: If you're feeling totally solid on your Reconstruction history and just wanna skip ahead to more charts and \
+                                html.I(children=["Note: If you’re feeling totally solid on your Reconstruction history and just wanna skip ahead to more charts and \
                                 data, leapfrog on over to ", dcc.Link("Part 4: Suppression-state bias", href="/voter-weight-electoral-college-bias-page4"), "."])
                             ]),
                             html.Div(className="card-text lead", style={"margin-left": "50px", "margin-right": "50px"}, children=[
@@ -141,11 +141,13 @@ content = html.Div([
                                 dcc.Link(href="/sources-notes", children=[html.Sup("11")]),
                             ]),
                             html.P(className="card-text", children=[
-                                "By the late 1860s, two paths were being pursued through Constitutional Amendment:", dcc.Link(href="/sources-notes", children=[html.Sup("12")]),
+                                "By the late 1860s, two paths were being pursued through Constitutional Amendment:",
                                 html.Ol(children=[
                                     html.Li("Give all male citizens over 21 the right to vote, and count every citizen in each state’s basis for representation"),
-                                    html.Li("Permit each state to determine its own voting eligibility, but incentivize them toward franchise inclusivity by reducing \
-                                        the state’s representation in proportion to the number of eligible males prevented from voting")
+                                    html.Li(children=["Permit each state to determine its own voting eligibility, but incentivize them toward franchise inclusivity by reducing \
+                                        the state’s representation in proportion to the number of eligible males prevented from voting", dcc.Link(href="/sources-notes", 
+                                        children=[html.Sup("12")])
+                                    ])
                                 ])
                             ]),
                             html.P(className="card-text", children=[
@@ -187,8 +189,9 @@ content = html.Div([
                                 asserting that all freedmen would be counted, and all freedmen would be allowed to vote - period."
                             ]),
                             html.P(className="card-text", children=[
-                                "Thus, after several twists and convulsions, Northern consensus arrived at a hybrid moral-political solution: retain political \
-                                influence in the South by extending suffrage to Union-loyal Southern Blacks."
+                                "Thus, after several twists and convulsions, Northern consensus arrived at a hybrid moral-political solution: retain political influence \
+                                in the South by extending suffrage to Union-loyal Southern Blacks, and continue to earn Southern Black votes and seat Black politicians \
+                                by pursuing policies fortifying the social, economic, and political well-being of freedmen."
                             ]),
                         ]),
                     ]),
@@ -220,10 +223,10 @@ content = html.Div([
                             html.Img(src="/static/stockImages/reconstruction-black-voter.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, 
                                 width="50%"),
                             html.P(className="card-text", children=[
-                                "Garrison's trepidation that voting rights may not be secure in the aftermath of Reconstruction was widely felt. Legislators were \
+                                "Garrison’s trepidation that voting rights may not be secure in the aftermath of Reconstruction was widely felt. Legislators were \
                                 not naive to these concerns, and the Reconstruction amendments anticipated them with a political fail-safe mechanism: The Fifteenth \
                                 amendment was unambiguous in its language prohibiting race-based voting restriction, but if Southern whites succeeded in evading \
-                                the Fifteenth and disenfranchising their Black citizens then the Fourteenth amendment's reduction clause would kick in, preventing \
+                                the Fifteenth and disenfranchising their Black citizens then the Fourteenth amendment’s reduction clause would kick in, preventing \
                                 those states from reaping the representational benefits of fully-counted Black citizens. Given the choice to embrace multi-racial \
                                 voter access or accept reduced national influence, the expectation was that former Confederate states would choose not to give up \
                                 their influence."

@@ -46,7 +46,7 @@ content = html.Div([
                             html.H4("Voter suppression as a “five-fifths” scheme"),
                             html.P(className="card-text", children=[
                                 "A recent episode of ", html.I("NPR’s Throughline"), " (the original inspiration for this project!) explores the end of \
-                                Reconstruction, the rise of Black voter suppression, and its effects in terms of Electoral College influence. The show's hosts, \
+                                Reconstruction, the rise of Black voter suppression, and its effects in terms of Electoral College influence. The show’s hosts, \
                                 joined by Yale Professor and noted constitutional scholar Akhil Reed Amar, lay out how the three-fifths compromise was effectively \
                                 replaced by an even ", html.I("less"), " equitable permutation of that infamous inaugural Electoral College bias. Part of their \
                                 “(mis)Representative Democracy” series, the full episode is 58 minutes, but this ",  dcc.Link("5-minute video snippet", 
@@ -62,7 +62,7 @@ content = html.Div([
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
                             html.P(className="card-text", children=[
-                                "If you aren't able to watch or listen to the clip, this section gets to the essence:"
+                                "If you aren’t able to watch or listen to the clip, this section gets to the essence:"
                             ]),
                             html.Div(style={"margin-left": "50px", "margin-right": "50px", "font-style": "italic"}, children=[
                                 html.P(className="card-text", children=[
@@ -70,7 +70,7 @@ content = html.Div([
                                     [as an alternative to the Electoral College] only grew stronger."
                                 ]),
                                 html.P(className="card-text", children=[
-                                    "It's the “oh, crap” moment, because now we've gotten rid of slavery. So what happens to three-fifths? It becomes ", 
+                                    "It’s the “oh, crap” moment, because now we’ve gotten rid of slavery. So what happens to three-fifths? It becomes ", 
                                     html.B("FIVE"), "-fifths, because now technically everyone is free."
                                 ]),
                                 html.P(className="card-text", children=[
@@ -80,7 +80,7 @@ content = html.Div([
                                 ]),
                                 html.P(className="card-text", children=[
                                     "So actually, the South is going to have more seats in the Electoral College than ever before, more seats in the House of \
-                                    Representatives, and they're not letting their people vote."
+                                    Representatives, and they’re not letting their people vote."
                                 ]),
                                 html.P(className="card-text", children=[
                                     "By suppressing Black voters, the southern states actually got a better deal when the three-fifths compromise ended.",
@@ -257,10 +257,10 @@ content = html.Div([
                                 of individual voters—that is, those permitted to vote—in these states."
                             ]),
                             html.P(className="card-text", children=[
-                                "Absent the factors of state size (both state’s populations earned them 8 Electoral College votes) or slavery (abolished a full 75 \
-                                years prior) the bias revealed in this bar graph has no explanation in Electoral apportionment “originalist” logic. Nothing accounts \
-                                for this disparity other than staggering differences in voter participation, almost certainly tied to massive institutional voter \
-                                suppression."
+                                "Absent the factors of state size (both state’s populations earned them 8 Electoral College votes) or slavery (abolished a full 75 years \
+                                prior) the bias revealed in this example, and throughout this set of figures, have no explanation in Electoral apportionment \
+                                “originalist” logic. Nothing accounts for this disparity other than staggering differences in voter participation, almost certainly tied \
+                                to massive institutional voter suppression."
                             ]),
                         ]),
                     ]),

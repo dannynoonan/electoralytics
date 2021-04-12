@@ -68,7 +68,7 @@ content = html.Div([
                                         "W.E.B. Du Bois, ", html.I("Black Reconstruction in America: 1860-1880"), " (1935), p. 213-215",
                                     ]),
                                     html.Li(children=[
-                                        "Eric Foner, ", html.I("The Second Founding"), " (2019), p. 61",
+                                        "Eric Foner, ", html.I("The Second Founding: How the Civil War and Reconstruction Remade the Constitution"), " (2019), p. 61",
                                     ]),
                                     html.Li(children=[
                                         "Final Report of the Congressional Joint Committee on Reconstruction (1866), via Edward McPherson, ", 

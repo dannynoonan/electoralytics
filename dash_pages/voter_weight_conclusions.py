@@ -111,7 +111,7 @@ content = html.Div([
                                     html.Li("1820: The Missouri Compromise, admitting Missouri to the Union as a slave state in exchange for an agreement to halt the \
                                         expansion of slavery in the Northwestern territories"), 
                                     html.Li("1830: The Indian Removal Act, which forced the removal of 100,000 Native Americans from Southern states via the Trail of \
-                                        Tears)"),
+                                        Tears"),
                                     html.Li("1840: The House “Gag rule” protecting slavery in Washington D.C."),
                                     html.Li(children=["1840s: Inception of the filibuster, developed by South Carolina’s John C. Calhoun for the express purpose of \
                                         protecting slavery ", dcc.Link(href="/sources-notes", children=[html.Sup("30")])
@@ -138,7 +138,7 @@ content = html.Div([
                                 communities in the North by the mid nineteenth century. Recalling the hostile and at times violent reactions of Northern crowds to \
                                 the anti-slavery conventions he participated in in free states like Vermont, Rhode Island, and Indiana in the 1840s, he himself could \
                                 hardly reconcile the change these communities would undergo in their full-throated denouncement and disavowal of slavery mere decades \
-                                later. ", dcc.Link(href="/sources-notes", children=[html.Sup("31")]), " To Douglass, the pernicious influence of the Slave Power \
+                                later.", dcc.Link(href="/sources-notes", children=[html.Sup("31")]), " To Douglass, the pernicious influence of the Slave Power \
                                 was so great it had effectively cast a spell on the Northernern mind, twisting it into accepting a status quo it would reject and \
                                 recoil from when it came to its senses in the 1860s and 1870s."
                             ]),
@@ -148,7 +148,7 @@ content = html.Div([
                                 table for the Civil War, which is what it took for the South to realize that their artificially inflated political power was not the \
                                 same as actual man-for-man physical, industrial, or military power. And even after that cataclysmic collision, the disproportionate \
                                 impact of prewar slaveholding policies and politicians remained deeply woven into American culture and the fabric of institutional \
-                                memory and identity, in ways we've still not fully reconciled a century and a half later."
+                                memory and identity, in ways we’ve still not fully reconciled a century and a half later."
                             ]),
                         ]),
                     ]),
@@ -213,17 +213,21 @@ content = html.Div([
                                         stop-and-frisk encounters to wild disparities in sentencing for crack vs cocaine possession, backed by the normalization of \
                                         militarized police violence toward unarmed Black citizens, echoes patterns consistent with the enforcement of Black Codes, the \
                                         violent police tactics that propped up the Southern segregationist status quo, and the paltry legal defense available to \
-                                        Black citizens during Jim Crow.", dcc.Link(href="/sources-notes", children=[html.Sup("40")])
+                                        Black citizens during Jim Crow.", dcc.Link(href="/sources-notes", children=[html.Sup("40")]), " (It’s worth noting that \
+                                        Northern states had already established their own brand of racially-charged professional security forces, initially oriented \
+                                        toward controlling groups like the Irish and the Poles, by the time Southern Blacks began fleeing Southern KKK terrorism \
+                                        during the Great Migration, so the link between Southern Black Code enforcement/vigilantism and Northern police aggression is \
+                                        less direct.)", dcc.Link(href="/sources-notes", children=[html.Sup("TODO")])
                                     ]),
                                     html.Img(src="/static/stockImages/school-segregation.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "10px"}, 
                                         width="50%"),
                                     html.Li(children=["Racially segregated schools, though illegal in many states by the 1950s and concentrated in the Jim Crow South, \
-                                        was widespread enough that the Supreme Court had its pick of venues to challenge it in, selecting Kansas as its lead case in ", 
-                                        html.I("Brown v. Board of Education"), ". In doing so, the court was able to go after school segregation without singling out \
-                                        the South, effectively using the ubiquity of this Southern export to go after the institution without directly attacking its \
-                                        Southern proponents.", dcc.Link(href="/sources-notes", children=[html.Sup("41")]), " Recent analysis shows racial integration \
-                                        in American schools to have peaked in the 1980s, declining since to segregation levels worse than the 1970s.", 
-                                        dcc.Link(href="/sources-notes", children=[html.Sup("42")]), 
+                                        were widespread enough that the Supreme Court had its pick of venues to challenge the practice in, selecting Kansas as its \
+                                        lead case in ", html.I("Brown v. Board of Education"), ". In doing so, the court was able to go after school segregation \
+                                        without singling out the South, effectively using the ubiquity of this Southern export to go after the institution without \
+                                        directly attacking its Southern proponents.", dcc.Link(href="/sources-notes", children=[html.Sup("41")]), " Recent analysis \
+                                        shows racial integration in American schools to have peaked in the 1980s, declining since to segregation levels worse than the \
+                                        1970s.", dcc.Link(href="/sources-notes", children=[html.Sup("42")]), 
                                     ])
                                 ])
                             ]),
@@ -231,15 +235,15 @@ content = html.Div([
                                 width="25%"),
                             html.P(className="card-text", children=[
                                 "At a cultural level, this country continues to deal with its once ubiquitous embrace of ‘Lost Cause’ mythology, with 20th century \
-                                media saturation of criminal Black 'brute' caricatures and Tarzan-esque tropes, with the legacy of nationwide support for the KKK and \
-                                tepid reaction to public lynching, with the scientific community's once fervent embrace of the Eugenics movement and its present-day \
+                                media saturation of criminal Black ‘brute’ caricatures and Tarzan-esque tropes, with the legacy of nationwide support for the KKK and \
+                                tepid reaction to public lynching, with the scientific community’s once fervent embrace of the Eugenics movement and its present-day \
                                 relics like the SAT,", dcc.Link(href="/sources-notes", children=[html.Sup("43")])," and with Confederate flags flying at events in \
                                 Northern and Western states (to say nothing of Southern states that were once part of the actual Confederacy). But behind these \
                                 lingering expressions of white supremacy are decades of legislated, bureaucratic, institutional racism, all normalized after \
                                 generations of unchallenged precedent and repetition, and all born out of a political system that granted its most avowed white \
                                 supremacist element 3x-8x the influence of the rest of its voters, while silencing its African-American voices almost entirely."
                             ]),
-                            html.Img(src="/static/stockImages/kkk-children.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, width="50%"),
+                            html.Img(src="/static/stockImages/kkk-children.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, width="45%"),
                             html.P(className="card-text", children=[
                                 "I’m not suggesting that Northern citizens aren’t culpable for their complicity in the adoption and expansion of a Jim Crow \
                                 segregationist mindset nationally during those 90 years. Many of these campaigns were enacted with broad national support, during an \
@@ -250,7 +254,7 @@ content = html.Div([
                                 megaphone to press their case."
                             ]),
                             html.Img(src="/static/stockImages/confederate-flag-capitol-riot.jpg", style={"float": "left", "padding-right": "10px", "padding-top": "5px"}, 
-                                width="50%"),
+                                width="40%"),
                             html.P(className="card-text", children=[
                                 "How many federal appointments, government programs, legal precedents, or pieces \
                                 of national legislation passed during this era were cultivated with intent to perpetuate a status quo grounded in Southern whites \

@@ -96,7 +96,7 @@ content = html.Div([
                                 and (c) by significantly wider popular vote.",
                             ]),
                             html.P(className="card-text", children=[
-                                "My presentation of these earliest years doesn't account for the on-again/off-again use of Popular Vote very well. My aggregate \
+                                "My presentation of these earliest years doesn’t account for the on-again/off-again use of Popular Vote very well. My aggregate \
                                 tallies (at the state-group level) exclude states that don’t even hold a popular presidential vote in a given year. This means \
                                 states like North Carolina and Kentucky that did hold popular votes - albeit very restrictive ones - in those earliest years end \
                                 up being “penalized” more than states like New York and South Carolina where ", html.I("nobody"), " was permitted to vote.",                              

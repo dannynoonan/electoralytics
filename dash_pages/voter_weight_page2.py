@@ -66,7 +66,7 @@ content = html.Div([
                                 "This “small-state bias” is often calculated by comparing the ratio of each state’s ", html.I("population"), " to its Electoral \
                                 College votes. The same effect is evident—and arguably more precise—if we compare the ratio of each state’s voter ", 
                                 html.I("participation"), " (turnout) to its Electoral College votes. This ratio is the basis of “Voter Weight,” the core metric \
-                                I'll be using throughout my analysis (explained in detail ", dcc.Link("here", href="/voter-weight-calculation"), ").",
+                                I’ll be using throughout my analysis (explained in detail ", dcc.Link("here", href="/voter-weight-calculation"), ").",
                             ]),
                             html.P(className="card-text", children=[
                                 "In ", html.B("Figure 3"), ", each state is listed in descending order by Voter Weight, and color shading indicates its number \
@@ -83,7 +83,7 @@ content = html.Div([
                             html.H4("A note about swing states and “winner-take-all”"),
                             html.P(className="card-text", children=[
                                 "Astute critics of this crude voter influence metric will be quick to point out that it completely ignores the reality of \
-                                “battleground states,” which Wyoming isn't but Colorado arguably is. The Electoral College's “winner take all” implementation, \
+                                “battleground states,” which Wyoming isn’t but Colorado arguably is. The Electoral College’s “winner take all” implementation, \
                                 and the safe-state vs swing-state electioneering it engenders, tends to overshadow nibbling irritatants like small-state bias, \
                                 but stick with me — the applications of this relatively simple Voter Weight metric might surprise you."
                             ]),
@@ -147,7 +147,7 @@ content = html.Div([
                 dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-map-color-by-ecv"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small("Figure 4: States shaded by Electoral College votes, derived by adding the state's number of Congressional Representatives \
+                        html.Small("Figure 4: States shaded by Electoral College votes, derived by adding the state’s number of Congressional Representatives \
                             (as determined by decennial population census) to its number of Senators (2 per state, regardless of population)"),
                     ]),
                     html.Br(), 
@@ -179,8 +179,10 @@ content = html.Div([
                             html.H4("Slave-state bias"),
                             html.P(className="card-text", children=[
                                 "Sticking with the same “Voter Weight” calculation above, but turning the clock back 160 years, we encounter the infamous slave-state \
-                                bias in ", html.B("Figure 5"), ". I’ve added new color shading to states in this second bar plot, using each state’s relationship to \
-                                slavery as a grouping heuristic. For small states I’ve also carried forward color shading based on state size."
+                                bias in ", html.B("Figures 5, 6,"), " and ", html.B("7"), ". I’ve added new color shading to states in this set of figures, using each \
+                                state’s relationship to slavery as a grouping heuristic. For small states I’ve also carried forward color shading from the previous \
+                                section, in effect to extract (or “mute”) the small-ness factor so it doesn’t muddle the clear distinction between free states and \
+                                slave states."
                             ]),
                             html.P(className="card-text", children=[
                                 "Highlighting an example: If Voter Weight in 1852 was 2.24 in Alabama (9 Electoral College votes) compared with 0.78 in Illinois \
@@ -196,7 +198,7 @@ content = html.Div([
                                 measurably greater impact overall."
                             ]),
                             html.P(className="card-text", children=[
-                                html.B("Figure 7"), " rearranges the data from Figure 5 into a scatter plot, crossing each state's voter turnout (x axis) with its \
+                                html.B("Figure 7"), " rearranges the data from Figure 5 into a scatter plot, crossing each state’s voter turnout (x axis) with its \
                                 Electoral College votes (y axis). The intersection between the axes where the Voter Weight ratio is 1.0 is plotted as a diagonal line \
                                 signifying the nationwide mean. ", html.I("If every vote in every state counted equally, every state’s dot would be directly on top of \
                                 that nationwide mean line."),
@@ -207,7 +209,7 @@ content = html.Div([
                                 and to the right of the median line have less."
                             ]),
                             html.P(className="card-text", children=[
-                                html.B("Figure 6"), " anchors us geographically by displaying each state's group affiliation on a map. All three figures are controlled \
+                                html.B("Figure 6"), " anchors us geographically by displaying each state’s group affiliation on a map. All three figures are controlled \
                                 using the same Year selection slider below."
                             ]),
                         ])

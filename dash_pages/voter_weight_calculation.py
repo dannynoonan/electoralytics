@@ -71,11 +71,11 @@ content = html.Div([
                             ]),
                             html.P(className="card-text", children=[
                                 "On its own, this absolute PVPE metric loses any meaning when compared between different years, so my Voter Weight calculation \
-                                takes the additional step of normalizing each state's PVPE against the nationwide PVPE average in a given year."
+                                takes the additional step of normalizing each state’s PVPE against the nationwide PVPE average in a given year."
                             ]),
                             html.Img(src="/static/vwMath/vwEcSummQuotEquation.png", style={"float": "right", "padding-left": "10px"}, width="50%"),
                             html.P(className="card-text", children=[
-                                "Higher Voter Weights in certain states are offset by lower Voter Weights in other states. The sum total of every state's Vote \
+                                "Higher Voter Weights in certain states are offset by lower Voter Weights in other states. The sum total of every state’s Vote \
                                 Weight multiplied by its Electoral College Votes, divided by the total number of Electoral College votes nationally, evens out at 1."
                             ]),
                             html.P(className="card-text", children=[
