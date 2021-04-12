@@ -235,7 +235,7 @@ content = html.Div([
                 html.Ul(className="pagination pagination-lg justify-content-center", children=[
                     html.Li(className="page-item flex", style={"width": "50%"}, children=[
                         html.A(className="page-link", href="/voter-weight-electoral-college-bias-intro", children=[
-                            "← Intro: Hyper-enfranchisement and the Electoral College"
+                            "← Intro: American voter enfranchisement: A zero-sum game"
                         ])
                     ]),
                     html.Li(className="page-item flex", style={"width": "20%"}),

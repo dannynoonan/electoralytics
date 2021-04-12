@@ -191,7 +191,7 @@ content = html.Div([
                                 "Today, the Russell Senate Office Building is workplace to over a thousand senate staffers, and continues to symbolically enshrine \
                                 the Senator’s legacy of white supremacy and legislative obstructionism.", dcc.Link(href="/sources-notes", children=[html.Sup("35")]), 
                                 " But most examples of Jim Crow’s holdover effect are both less symbolic and more insidiously relevant in everyday life. At the very \
-                                tip of the iceberg:",
+                                tippy top of the iceberg:",
                                 html.Ul([
                                     html.Li(children=["Segregated neighborhoods carving up nearly every American city today trace back overwhelmingly to the ",
                                         dcc.Link("FHA", href="https://en.wikipedia.org/wiki/Federal_Housing_Administration", target="_blank"), "’s and ",
@@ -210,16 +210,26 @@ content = html.Div([
                                         " and even modern-day tipping in lieu of proper workplace compensation,", dcc.Link(href="/sources-notes", 
                                         children=[html.Sup("39")]), " derive from Southern politicians and racially-exploitative entrepreneurs seeking to minimize \
                                         wages for Black labor in the Jim Crow South.", dcc.Link(href="/sources-notes", children=[html.Sup("40")])
-                                    ]),                  
-                                    html.Li(children=["The exponential disparities in drug war targeting and sentencing, from racial profiling in traffic stops and \
-                                        stop-and-frisk encounters to wild disparities in sentencing for crack vs cocaine possession, backed by the normalization of \
-                                        militarized police violence toward unarmed Black citizens, echoes patterns consistent with the enforcement of Black Codes, the \
-                                        violent police tactics that propped up the Southern segregationist status quo, and the paltry legal defense available to \
-                                        Black citizens during Jim Crow.", dcc.Link(href="/sources-notes", children=[html.Sup("41")]), " (It’s worth noting that \
-                                        Northern states had already established their own brand of racially-charged professional security forces, initially oriented \
-                                        toward controlling groups like the Irish and the Poles, by the time Southern Blacks began fleeing Southern KKK terrorism \
-                                        during the Great Migration, so the link between Southern Black Code enforcement/vigilantism and Northern police aggression is \
-                                        less direct.)", dcc.Link(href="/sources-notes", children=[html.Sup("42")]),
+                                    ]),  
+                                    html.Li(children=["As previously mentioned, exploitation of the Fifteenth Amendment’s loophole regarding ", html.I("non"), 
+                                        "-racial discrimination (vis-à-vis the application of poll taxes, literacy tests, and grandfather clauses) became standard \
+                                        practice for removing Black citizens from voter rolls during Jim Crow. And while these practices were generally limited to \
+                                        Southern states, the practice of denial voting rights ", html.I("due to prior felony conviction"), " also began in the South, \
+                                        and this would eventually become an institutional mainstay of Black voter disenfranchisement nationwide.", 
+                                        dcc.Link(href="/sources-notes", children=[html.Sup("41")])
+                                    ]), 
+                                    # html.Li(children=["With racially-motivated incarceration we encounter \
+                                    #     another perverse incentive structure, wherein criminalizing a political opponent permanently strips them of their political \
+                                    #     rights, while in this case also contributing to the perception of Blacks as criminals and the normalization of policing with \
+                                    #     political intent (to say nothing of the direct legal and financial effects borne upon the wrongfully convicted)."
+                                    # ])               
+                                    html.Li(children=["On the topic of policing, exponential disparities in drug war targeting and sentencing, from racial profiling \
+                                        in traffic stops and stop-and-frisk encounters to wild disparities in sentencing for crack vs cocaine possession, backed by \
+                                        the normalization of militarized police violence toward unarmed Black citizens, echoes patterns consistent with the right of \
+                                        deputized whites to enact corporal punishment upon Blacks for the act of “vagrancy” under the Black Codes of the late 1860s, \
+                                        or the violent police aggression toward (and paltry legal protection of) Black citizens during Jim Crow.", 
+                                        # html.Sup("* "),
+                                        dcc.Link(href="/sources-notes", children=[html.Sup("42")]), 
                                     ]),
                                     html.Img(src="/static/stockImages/school-segregation.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "10px"}, 
                                         width="50%"),
@@ -267,6 +277,13 @@ content = html.Div([
                                 And how many of the laws, institutions, and ideologies crafted in this reactionary white supremacist crucible continue to endure and \
                                 thrive, at the national level, to this day?"
                             ]),
+                            # html.Br(),
+                            # html.P(style={"font-size": "12px"}, children=[
+                            #     "* It’s worth noting that Northern states had already established their own brand of racially-charged professional police forces, \
+                            #     initially oriented toward controlling recent immigrants from Ireland and Poland, by the time Southern Blacks began fleeing Southern \
+                            #     KKK terrorism during the Great Migration, so the link between Southern Black Code enforcement/vigilantism and Northern police \
+                            #     aggression is less direct.", dcc.Link(href="/sources-notes", children=[html.Sup("46")])
+                            # ]),
                         ])
                     ]),
                 ])

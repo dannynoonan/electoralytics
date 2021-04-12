@@ -179,12 +179,12 @@ content = html.Div([
                                         " “Throughline”, [16:20 - 21:00]"
                                     ]),
                                     html.Li(children=[
-                                        "Michelle Alexander, ", html.I("The New Jim Crow: Mass Incarceration in the Age of Colorblindness"), " (2010), p. 35-36, 80, \
-                                        86-88, 97, 140-143"
+                                        "Eric Foner, ", html.I("The Second Founding: How the Civil War and Reconstruction Remade the Constitution"), " (2019), p. 110-111",
                                     ]),
                                     html.Li(children=[
-                                        "TODO"
-                                    ]),
+                                        "Michelle Alexander, ", html.I("The New Jim Crow: Mass Incarceration in the Age of Colorblindness"), " (2010), p. 35-36, 80, \
+                                        86-88, 97, 140-143"
+                                    ]),                                  
                                     html.Li(children=[
                                         "Akhil Reed Amar, ", html.I("The Law of the Land: A Grand Tour of our Constitutional Republic"), " (2015), p. 109"
                                     ]),
@@ -194,6 +194,9 @@ content = html.Div([
                                     ]),
                                     html.Li(children=[
                                         "Ibram X. Kendi, ", html.I("Stamped From the Beginning"), " (2016), p. 311-312"
+                                    ]),
+                                    html.Li(children=[
+                                        "TODO"
                                     ]),
                                     html.Li(children=[
                                         "Jesse Wegman, ", html.I("Let the People Pick the President"), " (2020), p. 123",
