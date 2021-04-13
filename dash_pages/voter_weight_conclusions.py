@@ -174,7 +174,7 @@ content = html.Div([
                                 white supremacist agenda manifest and exported nationwide when it was reincarnated post-Reconstruction?"
                             ]),
                             html.Img(src="/static/stockImages/russell-senate-office-building.jpg", style={"float": "left", "padding-right": "10px", 
-                                "padding-top": "5px"}, width="50%"),
+                                "padding-top": "5px"}, width="45%"),
                             html.P(className="card-text", children=[
                                 "The most well-known achievement of Southern white legislators during the Jim Crow era is in what was prevented from being achieved: \
                                 nationwide Civil Rights legislation. Georgia Senator Richard Russell’s notorious use of the filibuster to block legislation from the \
@@ -190,8 +190,11 @@ content = html.Div([
                             html.P(className="card-text", children=[
                                 "Today, the Russell Senate Office Building is workplace to over a thousand senate staffers, and continues to symbolically enshrine \
                                 the Senator’s legacy of white supremacy and legislative obstructionism.", dcc.Link(href="/sources-notes", children=[html.Sup("35")]), 
-                                " But most examples of Jim Crow’s holdover effect are both less symbolic and more insidiously relevant in everyday life. At the very \
-                                tippy top of the iceberg:",
+                                " But most examples of Jim Crow’s self-perpetuating and still-lingering effects are both less symbolic and more insidiously relevant. \
+                                Handy tallies of politicians, legislation, and judicial rulings promoted by hyper-enfranchised 20th-century Southern whites \
+                                may not be as neatly compiled in history books as those linked to the three-fifths-amplified Slave Power, but as a thought \
+                                experiment it’s worth looking for the fingerprints of the Jim Crow South’s mathematical advantage in present-day policies and \
+                                institutions. Just to explore the very tippy-top of the iceberg:",
                                 html.Ul([
                                     html.Li(children=["Segregated neighborhoods carving up nearly every American city today trace back overwhelmingly to the ",
                                         dcc.Link("FHA", href="https://en.wikipedia.org/wiki/Federal_Housing_Administration", target="_blank"), "’s and ",
@@ -214,7 +217,7 @@ content = html.Div([
                                     html.Li(children=["As previously mentioned, exploitation of the Fifteenth Amendment’s loophole regarding ", html.I("non"), 
                                         "-racial discrimination (vis-à-vis the application of poll taxes, literacy tests, and grandfather clauses) became standard \
                                         practice for removing Black citizens from voter rolls during Jim Crow. And while these practices were generally limited to \
-                                        Southern states, the practice of denial voting rights ", html.I("due to prior felony conviction"), " also began in the South, \
+                                        Southern states, the practice of denying voting rights ", html.I("due to prior felony conviction"), " also began in the South, \
                                         and this would eventually become an institutional mainstay of Black voter disenfranchisement nationwide.", 
                                         dcc.Link(href="/sources-notes", children=[html.Sup("41")])
                                     ]), 
@@ -257,18 +260,18 @@ content = html.Div([
                                 generations of unchallenged precedent and repetition, and all born out of a political system that granted its most avowed white \
                                 supremacist element 3x-8x the influence of the rest of its voters, while silencing its African-American voices almost entirely."
                             ]),
-                            html.Img(src="/static/stockImages/kkk-children.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, width="45%"),
+                            html.Img(src="/static/stockImages/kkk-children.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, width="40%"),
                             html.P(className="card-text", children=[
                                 "I’m not suggesting that Northern citizens aren’t culpable for their complicity in the adoption and expansion of a Jim Crow \
-                                segregationist mindset nationally during those 90 years. Many of these campaigns were enacted with broad national support, during an \
-                                age of “Reconciliation” between Northern and Southern whites. I’m simply saying that the element of the country most notorious in its \
-                                white supremacist ethos and agenda was also the most politically influential, and that this influence undoubtedly left an indelible \
-                                institutional mark commensurate with that influence. Southern whites had a vested interest in slowing nationwide progress, in \
-                                preserving another ‘peculiar’ socioeconomic status quo, and our electoral system provided them with a disproportionately loud \
-                                megaphone to press their case."
+                                segregationist mindset nationally during those 90 years. Many of these campaigns were enacted with broad national support, some like \
+                                the Eugenics movement actually emanated from North to South, all during an age of “Reconciliation” between Northern and Southern \
+                                whites. I’m simply pointing out that the element of the country most notorious in its white supremacist ethos and agenda was also the \
+                                most politically influential, and that this influence undoubtedly left an indelible institutional mark commensurate with that \
+                                influence. Southern whites had a vested interest in slowing nationwide progress, in preserving another ‘peculiar’ socioeconomic \
+                                status quo, and our electoral system provided them with a disproportionately loud megaphone to press their case."
                             ]),
                             html.Img(src="/static/stockImages/confederate-flag-capitol-riot.jpg", style={"float": "left", "padding-right": "10px", "padding-top": "5px"}, 
-                                width="45%"),
+                                width="40%"),
                             html.P(className="card-text", children=[
                                 "How many federal appointments, government programs, legal precedents, or pieces \
                                 of national legislation passed during this era were cultivated with intent to perpetuate a status quo grounded in Southern whites \
