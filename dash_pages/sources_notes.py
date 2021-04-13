@@ -184,7 +184,11 @@ content = html.Div([
                                     html.Li(children=[
                                         "Michelle Alexander, ", html.I("The New Jim Crow: Mass Incarceration in the Age of Colorblindness"), " (2010), p. 35-36, 80, \
                                         86-88, 97, 140-143"
-                                    ]),                                  
+                                    ]), 
+                                    html.Li(children=[
+                                        "Gary Potter, ", html.I(dcc.Link("The History of Policing in the United States", target="_blank",
+                                        href="https://plsonline.eku.edu/sites/plsonline.eku.edu/files/the-history-of-policing-in-us.pdf")), " (June 25, 2013), p. 5-7",
+                                    ]),                                 
                                     html.Li(children=[
                                         "Akhil Reed Amar, ", html.I("The Law of the Land: A Grand Tour of our Constitutional Republic"), " (2015), p. 109"
                                     ]),
@@ -196,14 +200,11 @@ content = html.Div([
                                         "Ibram X. Kendi, ", html.I("Stamped From the Beginning"), " (2016), p. 311-312"
                                     ]),
                                     html.Li(children=[
-                                        "TODO"
-                                    ]),
-                                    html.Li(children=[
                                         "Jesse Wegman, ", html.I("Let the People Pick the President"), " (2020), p. 123",
                                     ]),
                                     html.Li(children=[
                                         "Michael Perman, ", html.I(dcc.Link("Struggle for Mastery: Disfranchisement in the South, 1888–1908", target="_blank",
-                                            href="https://uncpress.org/book/9780807849095/struggle-for-mastery/")), " (2001), Introduction",
+                                        href="https://uncpress.org/book/9780807849095/struggle-for-mastery/")), " (2001), Introduction",
                                     ]),
                                 ])
                             ]),

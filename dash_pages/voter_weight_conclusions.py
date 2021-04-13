@@ -134,7 +134,7 @@ content = html.Div([
                                 position, elevated by an electoral system mathematically biased toward slaveholder interests, pushed through the legislature by a \
                                 puffed-up minority faction whose inflated national power derived directly from their enslaved population."
                             ]),
-                            html.Img(src="/static/stockImages/wilmot-proviso-reaction.jpg", style={"float": "right", "padding-left": "10px"}, width="35%"),
+                            html.Img(src="/static/stockImages/wilmot-proviso-reaction.jpg", style={"float": "right", "padding-left": "10px"}, width="40%"),
                             html.P(className="card-text", children=[
                                 "In his memoirs, Frederick Douglass describes the influence he believed Southern whites and the Slave Power were having on \
                                 communities in the North by the mid nineteenth century. Recalling the hostile and at times violent reactions of Northern crowds to \
@@ -223,13 +223,15 @@ content = html.Div([
                                     #     rights, while in this case also contributing to the perception of Blacks as criminals and the normalization of policing with \
                                     #     political intent (to say nothing of the direct legal and financial effects borne upon the wrongfully convicted)."
                                     # ])               
-                                    html.Li(children=["On the topic of policing, exponential disparities in drug war targeting and sentencing, from racial profiling \
-                                        in traffic stops and stop-and-frisk encounters to wild disparities in sentencing for crack vs cocaine possession, backed by \
-                                        the normalization of militarized police violence toward unarmed Black citizens, echoes patterns consistent with the right of \
-                                        deputized whites to enact corporal punishment upon Blacks for the act of “vagrancy” under the Black Codes of the late 1860s, \
-                                        or the violent police aggression toward (and paltry legal protection of) Black citizens during Jim Crow.", 
-                                        # html.Sup("* "),
-                                        dcc.Link(href="/sources-notes", children=[html.Sup("42")]), 
+                                    html.Li(children=["On the topic of policing: Extreme racial inequality in nationwide 21st-century policing, from racial profiling in \
+                                        overly-aggressive traffic stops to violent stop-and-frisk encounters, backed by the normalization of militarized police presence \
+                                        in Black communities nationwide, echoes patterns consistent with antebellum Southern Slave Patrols, Black Codes of the late \
+                                        1860s, and the brazen police brutality of the Jim Crow South.", dcc.Link(href="/sources-notes", children=[html.Sup("42")]), 
+                                        " It’s worth noting, however, that Northern cities had already established their own brand of violent, racially-charged \
+                                        professional police forces as early as the 1830s, initially oriented toward controlling recent immigrants from Ireland, Germany, \
+                                        and Eastern Europe, so the routine violence and brutality inflicted by Northern police toward Black refugees fleeing Southern \
+                                        persecution had plenty of precedent with previous influxes of ethnic minorities.", dcc.Link(href="/sources-notes", 
+                                        children=[html.Sup("43")]), 
                                     ]),
                                     html.Img(src="/static/stockImages/school-segregation.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "10px"}, 
                                         width="50%"),
@@ -237,9 +239,9 @@ content = html.Div([
                                         were widespread enough that the Supreme Court had its pick of venues to challenge the practice in, selecting Kansas as its \
                                         lead case in ", html.I("Brown v. Board of Education"), ". In doing so, the court was able to go after school segregation \
                                         without singling out the South, effectively using the ubiquity of this Southern export to go after the institution without \
-                                        directly attacking its Southern proponents.", dcc.Link(href="/sources-notes", children=[html.Sup("43")]), " Recent analysis \
+                                        directly attacking its Southern proponents.", dcc.Link(href="/sources-notes", children=[html.Sup("44")]), " Recent analysis \
                                         shows racial integration in American schools to have peaked in the 1980s, declining since to segregation levels worse than the \
-                                        1970s.", dcc.Link(href="/sources-notes", children=[html.Sup("44")]), 
+                                        1970s.", dcc.Link(href="/sources-notes", children=[html.Sup("45")]), 
                                     ])
                                 ])
                             ]),
@@ -255,7 +257,7 @@ content = html.Div([
                                 generations of unchallenged precedent and repetition, and all born out of a political system that granted its most avowed white \
                                 supremacist element 3x-8x the influence of the rest of its voters, while silencing its African-American voices almost entirely."
                             ]),
-                            html.Img(src="/static/stockImages/kkk-children.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, width="48%"),
+                            html.Img(src="/static/stockImages/kkk-children.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, width="45%"),
                             html.P(className="card-text", children=[
                                 "I’m not suggesting that Northern citizens aren’t culpable for their complicity in the adoption and expansion of a Jim Crow \
                                 segregationist mindset nationally during those 90 years. Many of these campaigns were enacted with broad national support, during an \
@@ -266,7 +268,7 @@ content = html.Div([
                                 megaphone to press their case."
                             ]),
                             html.Img(src="/static/stockImages/confederate-flag-capitol-riot.jpg", style={"float": "left", "padding-right": "10px", "padding-top": "5px"}, 
-                                width="48%"),
+                                width="45%"),
                             html.P(className="card-text", children=[
                                 "How many federal appointments, government programs, legal precedents, or pieces \
                                 of national legislation passed during this era were cultivated with intent to perpetuate a status quo grounded in Southern whites \
@@ -277,13 +279,6 @@ content = html.Div([
                                 And how many of the laws, institutions, and ideologies crafted in this reactionary white supremacist crucible continue to endure and \
                                 thrive, at the national level, to this day?"
                             ]),
-                            # html.Br(),
-                            # html.P(style={"font-size": "12px"}, children=[
-                            #     "* It’s worth noting that Northern states had already established their own brand of racially-charged professional police forces, \
-                            #     initially oriented toward controlling recent immigrants from Ireland and Poland, by the time Southern Blacks began fleeing Southern \
-                            #     KKK terrorism during the Great Migration, so the link between Southern Black Code enforcement/vigilantism and Northern police \
-                            #     aggression is less direct.", dcc.Link(href="/sources-notes", children=[html.Sup("46")])
-                            # ]),
                         ])
                     ]),
                 ])
