@@ -75,10 +75,10 @@ content = html.Div([
                             html.Img(src="/static/stockImages/dred-scott-newspaper.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, 
                                 width="40%"),
                             html.P(className="card-text", children=[
-                                "Now that we've examined the wonky details of suppression-state bias in the Jim Crow South, what can we infer about its impact? What \
-                                consequences might nine decades of Southern white votes counting for 3x, 4x, even as much as a 7x-8x their Northern and Western \
-                                counterparts’ votes, in combination with near-total suppression of the Southern Black vote, have had on present day laws, policies, \
-                                and institutions, or on American culture and belief systems generally?"
+                                "Now that we've explored the electoral mechanics behind suppression-state bias in the Jim Crow South, what can we infer about its \
+                                impact? What consequences might nine decades of Southern white votes counting for 3x, 4x, even as much as a 7x-8x their Northern \
+                                and Western counterparts’ votes, in combination with near-total suppression of the Southern Black vote, have had on present day \
+                                laws, policies, and institutions, or on American culture and belief systems generally?"
                             ]),
                             html.P(className="card-text", children=[
                                 "As a proxy, let’s briefly review the well-documented effects of the white South’s three-fifths electoral advantage during the \
@@ -194,57 +194,57 @@ content = html.Div([
                                 Handy tallies of politicians, legislation, and judicial rulings promoted by hyper-enfranchised 20th-century Southern whites \
                                 may not be as neatly compiled in history books as those linked to the three-fifths-amplified Slave Power, but as a thought \
                                 experiment it’s worth looking for the fingerprints of the Jim Crow South’s mathematical advantage in present-day policies and \
-                                institutions. Just to explore the very tippy-top of the iceberg:",
+                                institutions. Just to explore the very tip of the iceberg:",
                                 html.Ul([
-                                    html.Li(children=["Segregated neighborhoods carving up nearly every American city today trace back overwhelmingly to the ",
-                                        dcc.Link("FHA", href="https://en.wikipedia.org/wiki/Federal_Housing_Administration", target="_blank"), "’s and ",
-                                        dcc.Link("HOLC", href="https://en.wikipedia.org/wiki/Home_Owners%27_Loan_Corporation", target="_blank"), "’s racist \
-                                        redlining and lending practices beginning in the 1930s,", dcc.Link(href="/sources-notes", children=[html.Sup("36")]), 
-                                        " while “spot” rezoning to permit toxic sites adjacent to Black neighborhoods and the targeted demolition of Black \
-                                        communities to build highways further restricted housing options and depressed housing value.", 
-                                        dcc.Link(href="/sources-notes", children=[html.Sup("37")]), " These government-imposed impediments to building personal and \
-                                        community wealth through real estate in the 20th century continue to be a major source of financial inequity between Blacks \
-                                        and whites today."
+                                    html.Li(style={"padding-top": "5px"}, children=["Segregated neighborhoods carving up nearly every American city today trace back \
+                                        overwhelmingly to the ", dcc.Link("FHA", href="https://en.wikipedia.org/wiki/Federal_Housing_Administration", target="_blank"), 
+                                        "’s and ", dcc.Link("HOLC", href="https://en.wikipedia.org/wiki/Home_Owners%27_Loan_Corporation", target="_blank"), "’s racist \
+                                        redlining and lending practices beginning in the 1930s,", dcc.Link(href="/sources-notes", children=[html.Sup("36")]), " while \
+                                        “spot” rezoning to permit toxic sites adjacent to Black neighborhoods and the targeted demolition of Black communities to \
+                                        build highways further restricted housing options and depressed housing value.", dcc.Link(href="/sources-notes", 
+                                        children=[html.Sup("37")]), " These government-imposed impediments to building personal and community wealth through real \
+                                        estate in the 20th century continue to be a major source of financial inequity between Blacks and whites today."
                                     ]),
                                     html.Img(src="/static/stockImages/pullman-dining-car2.png", style={"float": "right", "padding-left": "10px", "padding-top": "10px"}, 
                                         width="42%"),
-                                    html.Li(children=["The present day exclusion of agricultural, food service, and domestic workers from minimum wage, \
-                                        unemployment, and other New Deal-era benefits and protections,", dcc.Link(href="/sources-notes", children=[html.Sup("38")]),
-                                        " and even modern-day tipping in lieu of proper workplace compensation,", dcc.Link(href="/sources-notes", 
-                                        children=[html.Sup("39")]), " derive from Southern politicians and racially-exploitative entrepreneurs seeking to minimize \
-                                        wages for Black labor in the Jim Crow South.", dcc.Link(href="/sources-notes", children=[html.Sup("40")])
+                                    html.Li(style={"padding-top": "5px"}, children=["The present day exclusion of agricultural, food service, and domestic workers \
+                                        from minimum wage, unemployment, and other New Deal-era benefits and protections,", dcc.Link(href="/sources-notes", 
+                                        children=[html.Sup("38")]), " and even modern-day tipping in lieu of proper workplace compensation,", 
+                                        dcc.Link(href="/sources-notes", children=[html.Sup("39")]), " derive from Southern politicians and racially-exploitative \
+                                        entrepreneurs seeking to minimize wages for Black labor in the Jim Crow South.", dcc.Link(href="/sources-notes", 
+                                        children=[html.Sup("40")])
                                     ]),  
-                                    html.Li(children=["As previously mentioned, exploitation of the Fifteenth Amendment’s loophole regarding ", html.I("non"), 
-                                        "-racial discrimination (vis-à-vis the application of poll taxes, literacy tests, and grandfather clauses) became standard \
-                                        practice for removing Black citizens from voter rolls during Jim Crow. And while these practices were generally limited to \
-                                        Southern states, the practice of denying voting rights ", html.I("due to prior felony conviction"), " also began in the South, \
-                                        and this would eventually become an institutional mainstay of Black voter disenfranchisement nationwide.", 
-                                        dcc.Link(href="/sources-notes", children=[html.Sup("41")])
+                                    html.Li(style={"padding-top": "5px"}, children=["As previously mentioned, exploitation of the Fifteenth Amendment’s loophole \
+                                        regarding ", html.I("non"), "-racial discrimination (vis-à-vis the application of poll taxes, literacy tests, and grandfather \
+                                        clauses) became standard practice for removing Black citizens from voter rolls during Jim Crow. And while these practices were \
+                                        generally limited to Southern states, the practice of denying voting rights ", html.I("due to prior felony conviction"), " \
+                                        also began in the South, and this would eventually become an institutional mainstay of Black voter disenfranchisement \
+                                        nationwide.", dcc.Link(href="/sources-notes", children=[html.Sup("41")])
                                     ]), 
                                     # html.Li(children=["With racially-motivated incarceration we encounter \
                                     #     another perverse incentive structure, wherein criminalizing a political opponent permanently strips them of their political \
                                     #     rights, while in this case also contributing to the perception of Blacks as criminals and the normalization of policing with \
                                     #     political intent (to say nothing of the direct legal and financial effects borne upon the wrongfully convicted)."
                                     # ])               
-                                    html.Li(children=["On the topic of policing: Extreme racial inequality in nationwide 21st-century policing, from racial profiling in \
-                                        overly-aggressive traffic stops to violent stop-and-frisk encounters, backed by the normalization of militarized police presence \
-                                        in Black communities nationwide, echoes patterns consistent with antebellum Southern Slave Patrols, Black Codes of the late \
-                                        1860s, and the brazen police brutality of the Jim Crow South.", dcc.Link(href="/sources-notes", children=[html.Sup("42")]), 
-                                        " It’s worth noting, however, that Northern cities had already established their own brand of violent, racially-charged \
-                                        professional police forces as early as the 1830s, initially oriented toward controlling recent immigrants from Ireland, Germany, \
-                                        and Eastern Europe, so the routine violence and brutality inflicted by Northern police toward Black refugees fleeing Southern \
-                                        persecution had plenty of precedent with previous influxes of ethnic minorities.", dcc.Link(href="/sources-notes", 
-                                        children=[html.Sup("43")]), 
+                                    html.Li(style={"padding-top": "5px"}, children=["On the topic of policing: Extreme racial inequality in nationwide 21st-century \
+                                        policing, from racial profiling in overly-aggressive traffic stops to violent stop-and-frisk encounters, backed by the \
+                                        normalization of militarized police presence in Black communities nationwide, echoes patterns consistent with antebellum \
+                                        Southern Slave Patrols, Black Codes of the late 1860s, and the brazen police brutality of the Jim Crow South.", 
+                                        dcc.Link(href="/sources-notes", children=[html.Sup("42")]), " It’s worth noting, however, that Northern cities had already \
+                                        established their own brand of violent, racially-charged professional police forces as early as the 1830s, initially oriented \
+                                        toward controlling recent immigrants from Ireland, Germany, and Eastern Europe, so the routine violence and brutality inflicted \
+                                        by Northern police toward Black refugees fleeing Southern persecution had plenty of precedent with previous influxes of ethnic \
+                                        minorities.", dcc.Link(href="/sources-notes", children=[html.Sup("43")]), 
                                     ]),
                                     html.Img(src="/static/stockImages/school-segregation.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "10px"}, 
                                         width="50%"),
-                                    html.Li(children=["Racially segregated schools, though illegal in many states by the 1950s and concentrated in the Jim Crow South, \
-                                        were widespread enough that the Supreme Court had its pick of venues to challenge the practice in, selecting Kansas as its \
-                                        lead case in ", html.I("Brown v. Board of Education"), ". In doing so, the court was able to go after school segregation \
-                                        without singling out the South, effectively using the ubiquity of this Southern export to go after the institution without \
-                                        directly attacking its Southern proponents.", dcc.Link(href="/sources-notes", children=[html.Sup("44")]), " Recent analysis \
-                                        shows racial integration in American schools to have peaked in the 1980s, declining since to segregation levels worse than the \
-                                        1970s.", dcc.Link(href="/sources-notes", children=[html.Sup("45")]), 
+                                    html.Li(style={"padding-top": "5px"}, children=["Racially segregated schools, though illegal in many states by the 1950s and \
+                                        concentrated in the Jim Crow South, were widespread enough that the Supreme Court had its pick of venues to challenge the \
+                                        practice in, selecting Kansas as its lead case in ", html.I("Brown v. Board of Education"), ". In doing so, the court was able \
+                                        to go after school segregation without singling out the South, effectively using the ubiquity of this Southern export to go \
+                                        after the institution without directly attacking its Southern proponents.", dcc.Link(href="/sources-notes", 
+                                        children=[html.Sup("44")]), " Recent analysis shows racial integration in American schools to have peaked in the 1980s, \
+                                        declining since to segregation levels worse than the 1970s.", dcc.Link(href="/sources-notes", children=[html.Sup("45")]), 
                                     ])
                                 ])
                             ]),
