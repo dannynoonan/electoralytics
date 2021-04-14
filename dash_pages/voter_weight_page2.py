@@ -51,7 +51,7 @@ content = html.Div([
                                 populous states has drawn its share of ire."
                             ]),
                             html.Img(src="/static/stockImages/ec-vote-1836.jpg", style={"float": "left", "padding-right": "10px", "padding-top": "5px"}, 
-                                width="45%"),
+                                width="50%"),
                             html.P(className="card-text", children=[
                                 "Quick review: each state’s Electoral College votes equal the sum of its Congressional Representatives (based on population) \
                                 + Senators (2 per state regardless of population), the same bicameral balance that was part of the Constitutional Convention’s ", 
@@ -83,9 +83,17 @@ content = html.Div([
                             html.H4("A note about swing states and “winner-take-all”"),
                             html.P(className="card-text", children=[
                                 "Astute critics of this crude voter influence metric will be quick to point out that it completely ignores the reality of \
-                                “battleground states,” which Wyoming isn’t but Colorado arguably is. The Electoral College’s “winner take all” implementation, \
-                                and the safe-state vs swing-state electioneering it engenders, tends to overshadow nibbling irritatants like small-state bias, \
-                                but stick with me — the applications of this relatively simple Voter Weight metric might surprise you."
+                                “battleground states,” which Wyoming isn’t but Colorado arguably is. In any given election, the Electoral College’s “winner take \
+                                all” implementation, and the safe-state vs swing-state electioneering it engenders, undoubtedly overshadows nibbling irritatants \
+                                like small-state bias, both in terms of easily quantifiable metrics (candidate visits to states, where advertising money is spent, \
+                                etc) and public perception of the relevance of their vote based on the state where it is cast."
+                            ]),
+                            html.P(className="card-text", children=["This particular article, however, ignores the winner-take-all aspect of the Electoral College \
+                                altogether. One reason is that here I’m also dealing with Congressional representation, in addition to the Electoral College, and \
+                                swing-state issues by and large don’t affect House elections. But the main reason is just to keep things simple — factoring in swing \
+                                states would bring in another whole set of variables, calculations, and charts. Please don’t misinterpret the fact that I’ve left that \
+                                whole conversation out of this article to mean I’m either ignoring it or downplaying its relevance. One issue at a time! Quantifying \
+                                and comparing voter impact as a function of swing-state trends is high on my list of ", html.I("future"), " articles to write."
                             ]),
                             html.Br(),
                             html.H4("As the framers intended"),
