@@ -78,17 +78,17 @@ content = html.Div([
                             html.Img(src="/static/stockImages/reconstruction-suppression.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, 
                                 width="45%"),
                             html.P(className="card-text", children=[
-                                "The enfranchisement of former slaves has a feeling of logical inevitability in hindsight, but during the late 1860s Black suffrage \
-                                was anything but a certainty. Native Americans, recently arrived Chinese and Europeans, and most notably the entire population \
-                                of American women did not yet have the vote, so in the mind of the white Northerner (to say nothing of the white Southerner) the \
-                                freedmen’s nascent elevation out of slavery was not part-and-parcel with his evolution into active political participant.", 
-                                dcc.Link(href="/sources-notes", children=[html.Sup("6")]), " Although 180,000 Black soldiers served in the Union Army, comprising \
-                                10% of the total force by the end of the war, ", dcc.Link(href="/sources-notes", children=[html.Sup("7")]), " Blacks were still \
-                                denied the vote in most Northern states in 1865. But a combination of factors, ranging from the noble and moral to the practical \
-                                and political, would ultimately galvanize popular support behind the movement for Black enfranchisement."
+                                "The enfranchisement of formerly enslaved Blacks has a feeling of logical inevitability in hindsight, but during the late 1860s \
+                                Black suffrage was anything but a certainty. Native Americans, recently arrived Chinese and Europeans, and most notably the entire \
+                                population of American women did not yet have the vote, so in the mind of the white Northerner (to say nothing of the white \
+                                Southerner) the freedmen’s nascent elevation out of slavery was not part-and-parcel with his evolution into active political \
+                                participant.", dcc.Link(href="/sources-notes", children=[html.Sup("6")]), " Although 180,000 Black soldiers served in the Union \
+                                Army, comprising 10% of the total force by the end of the war, ", dcc.Link(href="/sources-notes", children=[html.Sup("7")]), 
+                                " Blacks were still denied the vote in most Northern states in 1865. But a combination of factors, ranging from the noble and moral \
+                                to the practical and political, would ultimately galvanize popular support behind the movement for Black enfranchisement."
                             ]),
                             html.P(className="card-text", children=[
-                                "Beginning with speeches and publications from Northern Blacks and former slaves, bolstered by the tireless evangelism and \
+                                "Beginning with speeches and publications from Northern Blacks and Southern freedmen, bolstered by the tireless evangelism and \
                                 implacability of white abolitionist publishers and politicians, the message of empowering and stabilizing Black equality via \
                                 suffrage steadily moved the Union-loyal states from a position of wide skepticism to one of broad support in the years immediately \
                                 following the war. Out front on pro-suffrage messaging was Frederick Douglass, emphasizing the essential humanity and security \
@@ -154,7 +154,7 @@ content = html.Div([
                                 "This statement from the ", dcc.Link("Congressional Joint Committee on Reconstruction", target="_blank",
                                 href="https://en.wikipedia.org/wiki/United_States_Congressional_Joint_Committee_on_Reconstruction"), " in 1866 lays out the basic dilemma, \
                                 hinting at their willingness to consider reduced representation to non-compliant states as an alternative to full enfranchisement of \
-                                former slaves:"
+                                freedmen:"
                             ]),
                             html.Div(className="card-text", style={"margin-left": "50px", "margin-right": "50px"}, children=[
                                 html.P(style={"font-style": "italic"}, children=[

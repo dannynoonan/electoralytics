@@ -120,7 +120,7 @@ content = html.Div([
                             html.H4("Suppression-state bias groupings"),
                             html.P(className="card-text", children=[
                                 "Considering our 21st century grumbling about how small-state bias amplifies the voice of an Alaska voter at the expense of a \
-                                California voter, and the stomach-churning 18th-19th century slave-state bias which amplified the voice of a Virginia slave-owner \
+                                California voter, and the stomach-churning 18th-19th century slave-state bias which amplified the voice of a Virginia slaveholder \
                                 relative to a New York merchant, I was very curious how this third category of hyper-enfranchisement bias in the Jim Crow South \
                                 would stack up against those other two."
                             ]),

@@ -47,8 +47,8 @@ content = html.Div([
                             html.Br(),
                             html.H4("Hyper-enfranchisement: Implications and interpretation", className="card-title"),
                             html.P(className="card-text", children=[
-                                "The three-fifths compromise, that infamously dehumanizing fraction baked into the Constitution, would have been worse for the \
-                                plight of slaves if it had been five-fifths. This was actually what Southern slave-owners wanted: fully-counted slaves whose census \
+                                "The three-fifths compromise, that infamously dehumanizing fraction baked into the Constitution, would have been worse for the plight \
+                                of enslaved persons if it had been five-fifths. This was actually what Southern slaveholders wanted: fully-counted slaves whose census \
                                 tabulation would result in greater congressional and Electoral College influence for Southern states, i.e. Southern white voters and \
                                 the institution of slavery.", dcc.Link(href="/sources-notes", children=[html.Sup("27")])
                             ]),
@@ -59,9 +59,10 @@ content = html.Div([
                                 yet disenfranchised Blacks was finally realized, via Jim Crow voter suppression. The paradoxical interaction between citizenship \
                                 status, representational apportionment, and voter participation converged to enable a level of Electoral College manipulation almost \
                                 unfathomable in its scale. The result was that even more political influence was siphoned from the toil of freed Black citizens into \
-                                the ballots of Southern whites than had previously been siphoned from Black slaves. This latter period of five-fifths \
+                                the ballots of Southern whites than had previously been siphoned from enslaved Blacks. This latter period of five-fifths \
                                 hyper-enfranchisement under Jim Crow lasted roughly 90 years, compared to not quite 80 years of three-fifths slavery under the \
-                                Constitution."
+                                Constitution (the institution of slavery having, of course, been pervasive in the colonies since 1619, but formally protected as a \
+                                United States institution beginning in 1788)."
                             ]),
                             html.P(className="card-text", children=[
                                 "The reduction clause of the Fourteenth Amendment formally ended the three-fifths clause, not by enfranchising Blacks, but by \
@@ -120,7 +121,7 @@ content = html.Div([
                                     ]),
                                     html.Li("1847: Defeat of the Wilmot Proviso, which would’ve banned slavery in territory claimed during the Mexican-American War"),
                                     html.Li("1850: Passage of the Fugitive Slave Act, requiring those living in free states to cooperate in the capture and return of \
-                                        escaped slaves to their Southern masters"),
+                                        escaped slaves to Southern slaveholders"),
                                     html.Li("1854: The Kansas-Nebraska Act, giving Western territories the right of “popular sovereignty” with respect to slavery, \
                                         thus repealing the compromise that had been the basis for Missouri’s admission as a slave state"),
                                 ])
@@ -145,12 +146,12 @@ content = html.Div([
                                 recoil from when it came to its senses in the 1860s and 1870s."
                             ]),
                             html.P(className="card-text", children=[
-                                "Northern complicity aside, the electoral boost that Southern whites extracted from their slaves was highly effective at perpetuating \
-                                the Slave Power, preserving and even expanding its disproportionate influence, in a self-sustaining feedback loop. It also set the \
-                                table for the Civil War, which is what it took for the South to realize that their artificially inflated political power was not the \
-                                same as actual man-for-man physical, industrial, or military power. And even after that cataclysmic collision, the disproportionate \
-                                impact of prewar slaveholding policies and politicians remained deeply woven into American culture and the fabric of institutional \
-                                memory and identity, in ways we’ve still not fully reconciled a century and a half later."
+                                "Northern complicity aside, the electoral boost that Southern whites extracted from their enslaved population was highly effective at \
+                                perpetuating the Slave Power, preserving and even expanding its disproportionate influence, in a self-sustaining feedback loop. It \
+                                also set the table for the Civil War, which is what it took for the South to realize that their artificially inflated political power \
+                                was not the same as actual man-for-man physical, industrial, or military power. And even after that cataclysmic collision, the \
+                                disproportionate impact of prewar slaveholding policies and politicians remained deeply woven into American culture and the fabric of \
+                                institutional memory and identity, in ways we’ve still not fully reconciled a century and a half later."
                             ]),
                         ]),
                     ]),
@@ -182,8 +183,9 @@ content = html.Div([
                                 the “Solid South,” what we might call the “Jim Crow Power” to emphasize the greater degree of national influence enjoyed by Southern \
                                 (white) voters. Russell isn’t even the best-known white supremacist Southern Senator to use the filibuster in this way, but his \
                                 longevity in the Senate gave him a hand in obstructing everything from the 1938 Wagner-Van Nuys Anti-Lynching Bill up through the \
-                                1964 Civil Rights Act, when his one-time protégé Lyndon Johnson finally broke the decades-long white supremacist stranglehold on the \
-                                Senate.", dcc.Link(href="/sources-notes", children=[html.Sup("34")]),
+                                1964 Civil Rights Act, when his one-time protégé Lyndon Johnson—inspired by the incredible sacrifices made by those in the Civil \
+                                Rights movement—finally broke the decades-long white supremacist stranglehold on the Senate.", dcc.Link(href="/sources-notes", 
+                                children=[html.Sup("34")]),
                             ]),
                             html.Img(src="/static/stockImages/redlining-brooklyn.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, 
                                 width="40%"),

@@ -54,9 +54,11 @@ content = html.Div([
                             ]),
                             html.P(className="card-text", children=[
                                 "The bigger story here, of course, isn’t that Southern states’ (white) voters counted for more than voters elsewhere in the country. \
-                                The bigger story is that hundreds of thousands of Southern Blacks were prevented from voting altogether, through the uneven \
-                                application of poll taxes, literacy tests, grandfather clauses, as well as more direct intimidation and violence for 90-odd years \
-                                during the Jim Crow era."
+                                As always, the most significant thing to continue to highlight when discussing the Jim Crow era is the vile discrimination faced by \
+                                millions of Black Americans for decades, and how the uneven application of poll taxes, literacy tests, grandfather clauses, and \
+                                direct violent intimidation almost entirely disenfranchised the Southern Black population for generations. That Southern whites \
+                                derived greater voter influence through their sustained discriminatory action is merely an anecdotal extension of the broader \
+                                backstory of Jim Crow."
                             ]),
                             html.P(className="card-text", children=[
                                 "However, these graphs illustrate that the villainous cackling of turn-of-the-century Southern racist political scheming didn’t \
@@ -160,14 +162,15 @@ content = html.Div([
                             ]),
                             html.P(className="card-text", children=[
                                 "One last thought, with respect to demographics: It’s true that, when the Civil War began, Union-loyal Border states like Kentucky, \
-                                Maryland, and Missouri had somewhat fewer slaves per capita than their Confederate counterparts to the south. But these were not \
-                                anecdotally slave “ish” states: more than 425K Blacks were enslaved in these three states per the ", dcc.Link("1860 census", 
+                                Maryland, and Missouri had somewhat fewer enslaved persons per capita than their Confederate counterparts to the south. But these \
+                                were not anecdotally slave “ish” states: more than 425K Blacks were enslaved in these three states per the ", dcc.Link("1860 census", 
                                 href="https://www.census.gov/history/pdf/ApportionmentInformation-1860Census.pdf", target="_blank"), "."
                             ]),
                             html.P(className="card-text", children=[
-                                "In absolute terms, Union-loyal Kentucky had more people enslaved than Confederate Texas, Union-loyal Missouri had more slaves than \
-                                Confederate Arkansas, and Union-loyal Maryland had more slaves than Confederate Florida. Yet the differences in the voter \
-                                enfranchisement practices in these states a full 100 years after the abolition of slavery couldn’t be more stark."
+                                "In absolute terms, in 1860 Union-loyal Kentucky had more enslaved people than Confederate Texas, Union-loyal Missouri had more \
+                                enslaved people than Confederate Arkansas, and Union-loyal Maryland had more people enslaved than Confederate Florida. Yet the \
+                                differences in the voter enfranchisement practices in these states a full 100 years after the abolition of slavery couldn’t be more \
+                                stark."
                             ]),
                             html.P(className="card-text", children=[
                                 html.B("Bottom line:"), html.I(" Post-Reconstruction voter disenfranchisement seems to have had less to do with a state’s historic \
@@ -190,11 +193,11 @@ content = html.Div([
                                 historical backdrop steeped in layers of inequity."
                             ]),
                             html.P(className="card-text", children=[
-                                "THAT SAID... anybody who’s tuned in to present-day voting rights issues will be quick to point out that (a) omg there’s hella \
-                                disenfranchisement out there today, worse than ever with regards to felons, voter ID laws, overzealous signature matching, \
-                                precinct-targeted voter roll purges, etc etc, and (b) the Supreme Court’s recent 2013 meddling in the Voting Rights Act of 1965 \
-                                vis-à-vis their ", html.I("Shelby County v. Holder"), " ruling actually presents a very real threat to the durability of positive \
-                                historical trends."
+                                "THAT SAID... anybody who’s tuned in to present-day voting rights issues will be quick to point out that (a) there’s massive \
+                                amounts of disenfranchisement out there today, worse than ever with regards to felons, voter ID laws, overzealous signature \
+                                matching, precinct-targeted voter roll purges, etc, and (b) the Supreme Court’s recent 2013 meddling in the Voting Rights Act of \
+                                1965 vis-à-vis their ", html.I("Shelby County v. Holder"), " ruling actually presents a very real threat to the durability of \
+                                positive historical trends."
                             ]),
                             html.Img(src="/static/stockImages/shelby-vs-holder-ruling.png", style={"float": "left", "padding-right": "10px", "padding-top": "5px"}, 
                                 width="50%"),

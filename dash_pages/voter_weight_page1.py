@@ -64,11 +64,11 @@ content = html.Div([
                                 html.Ul([
                                     html.Li(children=[html.B("Small-state bias"), ": Every state, regardless of population, gets two Electoral College votes for \
                                         its two Senators, proportionally favoring smaller states with fewer Representatives"]),
-                                    html.Li(children=[html.B("Slave-state bias"), ": Although slaves couldn’t vote, the “three-fifths compromise” included them \
-                                        in the basis for Congressional and Electoral College representation, thereby amplifying the influence of Southern whites \
-                                        who effectively voted on their slaves’ behalf"]),
+                                    html.Li(children=[html.B("Slave-state bias"), ": Although enslaved people couldn’t vote, the “three-fifths compromise” \
+                                        included them in the basis for Congressional and Electoral College representation, thereby amplifying the influence of \
+                                        Southern whites who effectively voted on their slaves’ behalf"]),
                                     html.Li(children=[html.B("Suppression-state bias"), ": The increased influence of voters in states that actively prevent \
-                                        legally eligible and census tabulated citizens from voting, as took place for many decades in the Jim Crow South"])
+                                        legally eligible citizens from voting, as took place for many decades in the Jim Crow South"])
                                 ]),
                             ]),
                         ]),
