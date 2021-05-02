@@ -14,14 +14,20 @@ fig_dims = FigDimensions()
 
 
 def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_width=None, frame=None, alt_groups=[],
-                          base_fig_title=None, show_era=True, display_ecv=False, groups_label=None):
+                          base_fig_title=None, show_era=True, display_ecv=False, groups_label=None, alt_data=None):
     """
     swiss army knife function for generating a px.choropleth map, color-shading states by group or along a data spectrum.
     supports static single-year plots or animations. 
     """
     subdir = map_to_subdir(groups_dir, max_small)
-    data_obj.load_dfs_for_subdir(subdir)
-    pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
+    if alt_data and alt_data == 'census_diff_2020':
+        #subdir = map_to_subdir(ddirs.CENSUS, 0)
+        data_obj.load_census_diff_2020()
+        pivot_on_year_df = data_obj.census_diff_2020_df.copy()
+        #groups = GROUPS_FOR_DIR[ddirs.CENSUS].copy()
+    else:
+        data_obj.load_dfs_for_subdir(subdir)
+        pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
     groups = GROUPS_FOR_DIR[groups_dir].copy()
 
     if not color_col:

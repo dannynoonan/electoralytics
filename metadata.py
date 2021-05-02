@@ -19,10 +19,12 @@ class DataFiles():
         self.THE_ONE_RING = f'{data_dirs.BASE}/theOneRing.csv'
         self.SWALLOWED_VOTE_2020 = f'{data_dirs.BASE}/swallowedVoteSampler2020.csv'
         self.TOTALS_BY_YEAR = f'{data_dirs.BASE}/totalsByYear.csv'
+        self.CENSUS_DIFF_2020 = f'{data_dirs.BASE}/censusDiff2020.csv'
         # generated files
         self.STATE_VOTE_WEIGHTS_PIVOT = 'stateVoteWeightsPivot.csv'
         self.STATE_SWING_WEIGHTS_PIVOT = 'stateSwingWeightsPivot.csv'
         self.GROUP_AGG_WEIGHTS_PIVOT = 'groupAggWeightsPivot.csv'
+        self.CENSUS_DIFF_2020_PIVOT = 'censusDiff2020Pivot.csv'
 
 
 # columns in data files

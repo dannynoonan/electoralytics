@@ -21,6 +21,7 @@ class DataObject():
         self.all_states_meta_df = None
         self.abbrevs_to_states = None
         self.totals_by_year_df = None
+        self.census_diff_2020_df = None
         self.swallowed_vote_df = None
 
 
@@ -84,6 +85,28 @@ class DataObject():
         single_state_vw_pivot_df = state_vote_weights_pivot_df.loc[state_vote_weights_pivot_df[cols.ABBREV] == state_abbrev]
 
         return single_state_vw_pivot_df
+
+
+    def load_census_diff_2020(self):
+        """
+        load census_diff_2020 data from csv into df and transform each in same fashion as normal election years
+        """
+        # only load if not already set
+        if self.census_diff_2020_df is not None:
+            return
+
+        census_diff_2020_pivot_csv_path = f"{ddirs.BASE}/{dfiles.CENSUS_DIFF_2020_PIVOT}"
+
+        # load df from csv, make modifications to be shared by all downstream users
+        print(f"loading {census_diff_2020_pivot_csv_path}")
+        df = pd.read_csv(census_diff_2020_pivot_csv_path)
+        df.drop('Unnamed: 0', axis=1, inplace=True)
+        # generate log columns, workaround to colorscales lacking log option
+        df[cols.LOG_VOTE_WEIGHT] = np.log2(df[cols.VOTE_WEIGHT])
+        df[cols.LOG_EC_VOTES] = np.log10((df[cols.EC_VOTES]))
+
+        # assign df to census_diff_2020_df 
+        self.census_diff_2020_df = df
 
 
     def melt_state_vote_weights_pivot(self, subdir=None):

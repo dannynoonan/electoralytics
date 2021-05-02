@@ -11,7 +11,7 @@ import plotly.express as px
 from dash_pages import (
     components, home_page, voter_weight_landing, voter_weight_page1, voter_weight_page2, voter_weight_page3, voter_weight_page4,
     voter_weight_results, voter_weight_conclusions, voter_weight_calculation, explanation_of_groupings, voter_weight_figure_vault,
-    sources_notes, voter_weight_timeline_viz, electoral_college_intro, )
+    sources_notes, voter_weight_timeline_viz, census_2020_retrofit, electoral_college_intro)
 from data_processor.data_objects import DataObject
 from data_processor.functions import map_to_subdir
 from fig_builder import bar_plots, box_plots, choropleths, line_charts, scatter_plots
@@ -59,6 +59,7 @@ app.validation_layout = dbc.Container(fluid=True, children=[
     explanation_of_groupings.content,
     voter_weight_timeline_viz.content,
     voter_weight_figure_vault.content,
+    census_2020_retrofit.content,
     electoral_college_intro.content,
 ])
 
@@ -93,8 +94,58 @@ def display_page(pathname):
         return electoral_college_intro.content
     elif pathname == "/sources-notes":
         return sources_notes.content
+    elif pathname == "/census-2020-retrofit":
+        return census_2020_retrofit.content
     else:
         return home_page.content
+
+
+############ census-2020-retrofit
+@app.callback(
+    Output('fig-bar-2020', 'figure'),
+    Output('fig-map-2020', 'figure'),
+    Output('fig-scatter-dots-2020', 'figure'),
+    Output('fig-scatter-bubbles-2020', 'figure'),
+    Output('fig-bar-2020-retrofit', 'figure'),
+    Output('fig-map-2020-retrofit', 'figure'),
+    Output('fig-scatter-dots-2020-retrofit', 'figure'),
+    Output('fig-scatter-bubbles-2020-retrofit', 'figure'),
+    Input('fake-input', 'value'))
+def display_census_2020_retrofit(fake_input):
+    # fig titles
+    fig_bar_2020_title = "fig_bar_2020"
+    fig_map_2020_title = "fig_map_2020"
+    fig_scatter_dots_2020_title = "fig_scatter_dots_2020"
+    fig_scatter_bubbles_2020_title = "fig_scatter_bubbles_2020"
+    fig_bar_2020_retrofit_title = "fig_bar_2020_retrofit"
+    fig_map_2020_retrofit_title = "fig_map_2020_retrofit"
+    fig_scatter_dots_2020_retrofit_title = "fig_scatter_dots_2020_retrofit"
+    fig_scatter_bubbles_2020_retrofit_title = "fig_scatter_bubbles_2020_retrofit"
+    # generate figs
+    fig_bar_2020 = bar_plots.build_vw_by_state_bar(
+        data_obj, ddirs.CENSUS, 0, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD5, frame=2020, 
+        base_fig_title=fig_bar_2020_title, show_era=False)
+    fig_map_2020 = choropleths.build_vw_by_state_map(
+        data_obj, ddirs.CENSUS, 0, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD7, frame=2020,
+        base_fig_title=fig_map_2020_title, show_era=False)
+    fig_scatter_dots_2020 = scatter_plots.build_vw_by_state_scatter_dots(
+        data_obj, ddirs.CENSUS, 0, frame=2020, show_era=False, base_fig_title=fig_scatter_dots_2020_title)
+    fig_scatter_bubbles_2020 = scatter_plots.build_vw_by_state_scatter_bubbles(
+        data_obj, ddirs.CENSUS, 0, frame=2020, show_era=False, base_fig_title=fig_scatter_bubbles_2020_title)
+    fig_bar_2020_retrofit = bar_plots.build_vw_by_state_bar(
+        data_obj, ddirs.CENSUS, 0, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD5, frame=2020, 
+        base_fig_title=fig_bar_2020_retrofit_title, show_era=False, alt_data='census_diff_2020')
+    fig_map_2020_retrofit = choropleths.build_vw_by_state_map(
+        data_obj, ddirs.CENSUS, 0, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD7, frame=2020,
+        base_fig_title=fig_map_2020_retrofit_title, show_era=False, alt_data='census_diff_2020')
+    fig_scatter_dots_2020_retrofit = scatter_plots.build_vw_by_state_scatter_dots(
+        data_obj, ddirs.CENSUS, 0, frame=2020, show_era=False, base_fig_title=fig_scatter_dots_2020_retrofit_title, 
+        alt_data='census_diff_2020')
+    fig_scatter_bubbles_2020_retrofit = scatter_plots.build_vw_by_state_scatter_bubbles(
+        data_obj, ddirs.CENSUS, 0, frame=2020, show_era=False, base_fig_title=fig_scatter_bubbles_2020_retrofit_title, 
+        alt_data='census_diff_2020')
+    return (fig_bar_2020, fig_map_2020, fig_scatter_dots_2020, fig_scatter_bubbles_2020, fig_bar_2020_retrofit, fig_map_2020_retrofit,
+        fig_scatter_dots_2020_retrofit, fig_scatter_bubbles_2020_retrofit)
 
 
 ############ voter-weight-electoral-college-bias-intro

@@ -10,14 +10,20 @@ fig_dims = FigDimensions()
 
 
 def build_vw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_elements=None, fig_width=None, frame=None,
-                                    alt_groups=[], base_fig_title=None, show_era=True, groups_label=None):
+                                    alt_groups=[], base_fig_title=None, show_era=True, groups_label=None, alt_data=None):
     """
     generate px.scatter color-shading each state by its group, plotting each state's dot by its popular vote (x) and ec votes (y)
     values to show its voter weight wrt the national mean
     """
     subdir = map_to_subdir(groups_dir, max_small)
-    data_obj.load_dfs_for_subdir(subdir)
-    pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
+    if alt_data and alt_data == 'census_diff_2020':
+        #subdir = map_to_subdir(ddirs.CENSUS, 0)
+        data_obj.load_census_diff_2020()
+        pivot_on_year_df = data_obj.census_diff_2020_df.copy()
+        #groups = GROUPS_FOR_DIR[ddirs.CENSUS].copy()
+    else:
+        data_obj.load_dfs_for_subdir(subdir)
+        pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
     groups = GROUPS_FOR_DIR[groups_dir].copy()
 
     if not display_elements:
@@ -276,14 +282,20 @@ def build_vw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_wi
 
 
 def build_vw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_width=None, frame=None,
-                                    alt_groups=[], base_fig_title=None, show_era=True, groups_label=None):
+                                    alt_groups=[], base_fig_title=None, show_era=True, groups_label=None, alt_data=None):
     """
     generate px.scatter color-shading each state by its group, plotting each state's bubble by its ec votes (x) and voter weight (y)
     with bubble size representing pop vote, to show its voter weight and overall impact wrt the national mean
     """
     subdir = map_to_subdir(groups_dir, max_small)
-    data_obj.load_dfs_for_subdir(subdir)
-    pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
+    if alt_data and alt_data == 'census_diff_2020':
+        #subdir = map_to_subdir(ddirs.CENSUS, 0)
+        data_obj.load_census_diff_2020()
+        pivot_on_year_df = data_obj.census_diff_2020_df.copy()
+        #groups = GROUPS_FOR_DIR[ddirs.CENSUS].copy()
+    else:
+        data_obj.load_dfs_for_subdir(subdir)
+        pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
     groups = GROUPS_FOR_DIR[groups_dir].copy()
 
     if not fig_width:

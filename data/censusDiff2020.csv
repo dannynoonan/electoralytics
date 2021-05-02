@@ -1,0 +1,53 @@
+Abbrev,State,Census Grouping,Civil War Grouping,2020 EC votes,2020 Votes counted,2020 Vote weight,2020 Vote margin,2020 Swing weight,2020 Party,2021 EC votes,2021 Votes counted,2021 Vote weight,2021 Vote margin,2021 Swing weight,2021 Party
+AL,Alabama,South,Confederate,9,2323282,1.14,-591546,-4.48,Republican,9,2323282,1.14,-591546,-4.48,Republican
+AK,Alaska,West,Postbellum,3,359530,2.46,-36173,-24.42,Republican,3,359530,2.46,-36173,-24.42,Republican
+AZ,Arizona,West,Postbellum,11,3387326,0.96,10457,309.68,Democrat,11,3387326,0.96,10457,309.68,Democrat
+AR,Arkansas,South,Confederate,6,1219069,1.45,-336715,-5.25,Republican,6,1219069,1.45,-336715,-5.25,Republican
+CA,California,West,Union,55,17500871,0.93,5103821,3.17,Democrat,54,17500871,0.91,5103821,3.11,Democrat
+CO,Colorado,West,Postbellum,9,3256980,0.81,439745,6.03,Democrat,10,3256980,0.90,439745,6.69,Democrat
+CT,Connecticut,Northeast,Union,7,1824273,1.13,365389,5.64,Democrat,7,1824273,1.13,365389,5.64,Democrat
+DE,Delaware,South,Border,3,504346,1.75,95665,9.23,Democrat,3,504346,1.75,95665,9.23,Democrat
+DC,District of Columbia,South,Union,3,344356,2.56,298737,2.96,Democrat,3,344356,2.56,298737,2.96,Democrat
+FL,Florida,South,Confederate,29,11067456,0.77,-371686,-22.97,Republican,30,11067456,0.80,-371686,-23.76,Republican
+GA,Georgia,South,Confederate,16,4997716,0.94,11779,399.88,Democrat,16,4997716,0.94,11779,399.88,Democrat
+HI,Hawaii,West,Postbellum,4,574469,2.05,169266,6.96,Democrat,4,574469,2.05,169266,6.96,Democrat
+ID,Idaho,West,Postbellum,4,867884,1.36,-267098,-4.41,Republican,4,867884,1.36,-267098,-4.41,Republican
+IL,Illinois,Midwest,Union,20,6033744,0.98,1025024,5.74,Democrat,19,6033744,0.93,1025024,5.46,Democrat
+IN,Indiana,Midwest,Union,11,3033112,1.07,-487103,-6.65,Republican,11,3033112,1.07,-487103,-6.65,Republican
+IA,Iowa,Midwest,Union,6,1690871,1.04,-138611,-12.74,Republican,6,1690871,1.04,-138611,-12.74,Republican
+KS,Kansas,Midwest,Union,6,1372303,1.29,-201083,-8.78,Republican,6,1372303,1.29,-201083,-8.78,Republican
+KY,Kentucky,South,Border,8,2136768,1.10,-554172,-4.25,Republican,8,2136768,1.10,-554172,-4.25,Republican
+LA,Louisiana,South,Confederate,8,2148062,1.10,-399742,-5.89,Republican,8,2148062,1.10,-399742,-5.89,Republican
+ME,Maine,Northeast,Union,4,819461,1.44,74335,,Democrat,4,819461,1.44,74335,,Democrat
+MD,Maryland,South,Border,10,3037030,0.97,1008609,2.92,Democrat,10,3037030,0.97,1008609,2.92,Democrat
+MA,Massachusetts,Northeast,Union,11,3631402,0.89,1215000,2.67,Democrat,11,3631402,0.89,1215000,2.67,Democrat
+MI,Michigan,Midwest,Union,16,5539302,0.85,154188,30.55,Democrat,15,5539302,0.80,154188,28.64,Democrat
+MN,Minnesota,Midwest,Union,10,3277171,0.90,233012,12.63,Democrat,10,3277171,0.90,233012,12.63,Democrat
+MS,Mississippi,South,Confederate,6,1313894,1.34,-217281,-8.13,Republican,6,1313894,1.34,-217281,-8.13,Republican
+MO,Missouri,Midwest,Border,10,3025962,0.97,-465722,-6.32,Republican,10,3025962,0.97,-465722,-6.32,Republican
+MT,Montana,West,Postbellum,3,603674,1.46,-98816,-8.94,Republican,4,603674,1.95,-98816,-11.92,Republican
+NE,Nebraska,Midwest,Postbellum,5,956383,1.54,-182263,,Republican,5,956383,1.54,-182263,,Republican
+NV,Nevada,West,Postbellum,6,1405376,1.26,33596,52.58,Democrat,6,1405376,1.26,33596,52.58,Democrat
+NH,New Hampshire,Northeast,Union,4,806182,1.46,59267,19.87,Democrat,4,806182,1.46,59267,19.87,Democrat
+NJ,New Jersey,Northeast,Union,14,4549353,0.91,725061,5.68,Democrat,14,4549353,0.91,725061,5.68,Democrat
+NM,New Mexico,West,Postbellum,5,923965,1.59,99720,14.76,Democrat,5,923965,1.59,99720,14.76,Democrat
+NY,New York,Northeast,Union,29,8594826,0.99,1986187,4.30,Democrat,28,8594826,0.96,1986187,4.15,Democrat
+NC,North Carolina,South,Confederate,15,5524804,0.80,-74483,-59.29,Republican,16,5524804,0.85,-74483,-63.24,Republican
+ND,North Dakota,Midwest,Postbellum,3,361819,2.44,-120693,-7.32,Republican,3,361819,2.44,-120693,-7.32,Republican
+OH,Ohio,Midwest,Union,18,5922202,0.89,-475669,-11.14,Republican,17,5922202,0.85,-475669,-10.52,Republican
+OK,Oklahoma,South,Postbellum,7,1560699,1.32,-516390,-3.99,Republican,7,1560699,1.32,-516390,-3.99,Republican
+OR,Oregon,West,Union,7,2374321,0.87,381935,5.40,Democrat,8,2374321,0.99,381935,6.17,Democrat
+PA,Pennsylvania,Northeast,Union,20,6915283,0.85,80555,73.09,Democrat,19,6915283,0.81,80555,69.44,Democrat
+RI,Rhode Island,Northeast,Union,4,517757,2.27,107564,10.95,Democrat,4,517757,2.27,107564,10.95,Democrat
+SC,South Carolina,South,Confederate,9,2513329,1.05,-293562,-9.03,Republican,9,2513329,1.05,-293562,-9.03,Republican
+SD,South Dakota,Midwest,Postbellum,3,422609,2.09,-110572,-7.99,Republican,3,422609,2.09,-110572,-7.99,Republican
+TN,Tennessee,South,Confederate,11,3053851,1.06,-708764,-4.57,Republican,11,3053851,1.06,-708764,-4.57,Republican
+TX,Texas,South,Confederate,38,11315056,0.99,-631221,-17.72,Republican,40,11315056,1.04,-631221,-18.66,Republican
+UT,Utah,West,Postbellum,6,1488289,1.19,-304858,-5.79,Republican,6,1488289,1.19,-304858,-5.79,Republican
+VT,Vermont,Northeast,Union,3,367428,2.40,130116,6.79,Democrat,3,367428,2.40,130116,6.79,Democrat
+VA,Virginia,South,Confederate,13,4460524,0.86,451138,8.48,Democrat,13,4460524,0.86,451138,8.48,Democrat
+WA,Washington,West,Postbellum,12,4087631,0.86,784961,4.50,Democrat,12,4087631,0.86,784961,4.50,Democrat
+WV,West Virginia,South,Border,5,794731,1.85,-309398,-4.76,Republican,4,794731,1.48,-309398,-3.81,Republican
+WI,Wisconsin,Midwest,Union,10,3298041,0.89,20682,142.34,Democrat,10,3298041,0.89,20682,142.34,Democrat
+WY,Wyoming,West,Postbellum,3,276765,3.19,-120068,-7.36,Republican,3,276765,3.19,-120068,-7.36,Republican
+US,United States,,,538,158381538,294389.48,7052120,22.46,Democrat,538,158381538,294389.48,7052120,22.46,Democrat
