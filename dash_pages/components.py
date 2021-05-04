@@ -23,6 +23,8 @@ url_bar_and_content_div = html.Div([
 ])
 
 
+# replace this line for the following line when debugging, otherwise errors are obscured by nav bar with its high z-index
+# navbar = dbc.Card(className="text-white bg-primary", children=[
 navbar = dbc.Card(className="text-white bg-primary", style={"z-index":"2000"}, children=[
     dbc.CardBody([
         html.Br(),

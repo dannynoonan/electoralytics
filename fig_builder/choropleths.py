@@ -20,15 +20,24 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
     supports static single-year plots or animations. 
     """
     subdir = map_to_subdir(groups_dir, max_small)
+    groups = GROUPS_FOR_DIR[groups_dir].copy()
+
+    # hackish hijack of custom census comparison logic 
+    census_diff_hilites = False
     if alt_data and alt_data == 'census_diff_2020':
-        #subdir = map_to_subdir(ddirs.CENSUS, 0)
         data_obj.load_census_diff_2020()
         pivot_on_year_df = data_obj.census_diff_2020_df.copy()
-        #groups = GROUPS_FOR_DIR[ddirs.CENSUS].copy()
+        if frame in [2020.2, 2020.3]:
+            census_diff_hilites = True
+        if frame in [2020.1, 2020.2]:
+            frame = 2020
+        if frame in [2020.3, 2020.4]:
+            frame = 2021
+        range_color = [-1.5,1.5]
     else:
         data_obj.load_dfs_for_subdir(subdir)
         pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
-    groups = GROUPS_FOR_DIR[groups_dir].copy()
+        range_color = None
 
     if not color_col:
         color_col = cols.LOG_VOTE_WEIGHT
@@ -46,6 +55,9 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
     # if frame is set, extract single-year data
     if frame:
         pivot_on_year_df = pivot_on_year_df[pivot_on_year_df[cols.YEAR] == frame]
+        # extract subset of states to display for custom census comparison data
+        if alt_data and alt_data == 'census_diff_2020' and census_diff_hilites:
+            pivot_on_year_df = pivot_on_year_df[pivot_on_year_df['Updated'] == 1]
 
     if alt_groups:
         if 'slave_free' in alt_groups:
@@ -105,7 +117,7 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
                             locationmode='USA-states', scope="usa", custom_data=custom_data,
                             hover_name=cols.STATE, hover_data=hover_data, animation_frame=cols.YEAR, # ignored if df is for single year
                             color_continuous_scale=px.colors.diverging.BrBG[::-1], color_continuous_midpoint=0,
-                            labels={cols.GROUP: groups_label}, height=fig_height)
+                            range_color=range_color, labels={cols.GROUP: groups_label}, height=fig_height)
         # colorbar labels: calculate log values for weights so I can plot the familiar linear numbers on the color bar
         # TODO pretty sure this works around a plotly choropleth bug, open ticket or post to stackoverflow
         colorbar_labels = ['0.1', '0.2', '0.33', '0.5', '0.7', '1.0', '1.5', '2.5', '4', '6', '9']

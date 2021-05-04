@@ -13,21 +13,28 @@ fig_dims = FigDimensions()
 
 
 def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_height=None, frame=None, color_col=None, 
-                            alt_groups=[], base_fig_title=None, show_era=True, groups_label=None, alt_data=False):
+                            alt_groups=[], base_fig_title=None, show_era=True, groups_label=None, alt_data=None):
     """
     swiss army knife function for generating a px.bar plot, color-shading states by a category or along a data spectrum,
     in descending order by voter weight. supports static single-year plots or animations. 
     """
     subdir = map_to_subdir(groups_dir, max_small)
-    if alt_data and alt_data == 'census_diff_2020':
-        #subdir = map_to_subdir(ddirs.CENSUS, 0)
+    groups = GROUPS_FOR_DIR[groups_dir].copy()
+
+    # hackish hijack of custom census comparison logic 
+    census_diff_hilites = False
+    if alt_data and alt_data in 'census_diff_2020':
         data_obj.load_census_diff_2020()
         pivot_on_year_df = data_obj.census_diff_2020_df.copy()
-        #groups = GROUPS_FOR_DIR[ddirs.CENSUS].copy()
+        if frame in [2020.2, 2020.3]:
+            census_diff_hilites = True
+        if frame in [2020.1, 2020.2]:
+            frame = 2020
+        if frame in [2020.3, 2020.4]:
+            frame = 2021
     else:
         data_obj.load_dfs_for_subdir(subdir)
         pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
-    groups = GROUPS_FOR_DIR[groups_dir].copy()
 
     if not color_col:
         color_col = cols.GROUP
@@ -158,6 +165,19 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
         # superimpose state + vote weight on top of bar
         fig.update_traces(texttemplate='%{y} (%{x:,})', textposition='inside')
 
+    # super hackish custom census data for border widths and colors 
+    if alt_data and alt_data == 'census_diff_2020' and census_diff_hilites:
+        fig.data[0].marker.line.width = [0, 0, 0, 0, 2, 2, 0, 0, 0, 2, 
+                                        0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 
+                                        0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 
+                                        0, 0, 2, 2, 0, 2, 0, 2, 2, 0, 
+                                        0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0]
+        fig.data[0].marker.line.color = ['blue', 'blue', 'blue', 'blue', 'red', 'lime', 'blue', 'blue', 'blue', 'lime', 
+                                        'blue', 'blue', 'blue', 'red', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 
+                                        'blue', 'blue', 'red', 'blue', 'blue', 'blue', 'lime', 'blue', 'blue', 'blue', 
+                                        'blue', 'blue', 'red', 'lime', 'blue', 'red', 'blue', 'lime', 'red', 'blue',  
+                                        'blue', 'blue', 'blue', 'lime', 'blue', 'blue', 'blue', 'blue', 'red', 'blue', 'blue']
+
     # axis metadata
     fig.update_xaxes(title_text=x_axis_title)
     fig.update_yaxes(title_text='')
@@ -201,7 +221,7 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
             "<br><b>Normalized to Nat'l Average:</b>",
             "%{customdata[0]:,} Pop Votes => %{customdata[4]:.2f} EC Votes",
             "%{customdata[1]} EC Votes => %{customdata[3]:,} Pop Votes",
-        ])
+        ]),
     )
 
     return fig

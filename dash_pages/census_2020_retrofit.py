@@ -15,38 +15,36 @@ content = html.Div([
                 html.H3("Applying 2020 Census data to the 2020 Presidential election"),
                 # html.H3("Retrofitting the 2020 Presidential election to 2020 Census data"),
             ]),
-            html.Br(),
-            html.Div(children=[
-                dcc.Dropdown(
-                    id="fake-input",
-                    options=[
-                        {'label': 'Bar chart', 'value': 'bar_chart'},
-                        {'label': 'Map', 'value': 'map'},
-                        {'label': 'Scatter plot: dots', 'value': 'scatter_dots'},
-                        {'label': 'Scatter plot: abbrevs', 'value': 'scatter_abbrevs'},
-                    ], 
-                    value='bar_chart',
-                )
+            html.Br(),html.Br(),
+            dbc.Row([
+                dbc.Col(md=3, children=[
+                    html.H4("Drag slider to see change:", className="text-white", style={'text-align': 'center'}),
+                ]),
+                dbc.Col(md=6, children=[
+                    # html.H4("Drag slider to see change:", className="text-white"),
+                    dcc.Slider(
+                        id="year-input-census-2020-retrofit",
+                        min=2020.1,
+                        max=2020.4,
+                        step=None,
+                        marks={
+                            2020.1: {'label': '2020 election, before census', 'style': {'color': 'white'}},
+                            2020.2: {'label': 'Pre-census highlights', 'style': {'text-align': 'left', 'color': 'white'}},
+                            2020.3: {'label': 'Post-census highlights', 'style': {'color': 'white'}},
+                            2020.4: {'label': '2020 election, retrofitted to census', 'style': {'white-space': 'nowrap', 'color': 'white'}},
+                        },
+                        value=2020.1,
+                    ),
+                ]),
+                dbc.Col(md=3)
             ]),
             html.Br(),
             dbc.Row([
                 dbc.Col(md=6, children=[
-                    dcc.Graph(id="fig-bar-2020"),
-                    html.Br(),
-                    dcc.Graph(id="fig-map-2020"),
-                    html.Br(),
-                    dcc.Graph(id="fig-scatter-dots-2020"),
-                    html.Br(),
-                    dcc.Graph(id="fig-scatter-bubbles-2020"),
+                    dcc.Graph(id="fig-bar-census-2020-retrofit"),
                 ]),
                 dbc.Col(md=6, children=[
-                    dcc.Graph(id="fig-bar-2020-retrofit"),
-                    html.Br(),
-                    dcc.Graph(id="fig-map-2020-retrofit"),
-                    html.Br(),
-                    dcc.Graph(id="fig-scatter-dots-2020-retrofit"),
-                    html.Br(),
-                    dcc.Graph(id="fig-scatter-bubbles-2020-retrofit"),
+                    dcc.Graph(id="fig-map-census-2020-retrofit"),
                 ])
             ]),
         ])
