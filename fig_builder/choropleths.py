@@ -32,9 +32,9 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
         if frame in [2020.2, 2020.3]:
             census_diff_hilites = True
         if frame in [2020.1, 2020.2]:
-            frame = 2020
+            frame = '2020'
         if frame in [2020.3, 2020.4]:
-            frame = 2021
+            frame = '2020 retrofit'
         range_color = [-1.5,1.5]
     else:
         data_obj.load_dfs_for_subdir(subdir)
@@ -224,13 +224,17 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
             neg_color = "black" 
         fig.add_scattergeo(name='', locationmode='USA-states', text=diff_positive_df['Diff positive'],
                             hoverinfo='skip', locations=diff_positive_df[cols.ABBREV], 
-                            mode='text', textfont=dict(size=12, color=pos_color))
+                            mode='text', textfont=dict(size=10, color=pos_color))
         fig.add_scattergeo(name='', locationmode='USA-states', text=diff_negative_df['Diff negative'],
                             hoverinfo='skip', locations=diff_negative_df[cols.ABBREV],
-                            mode='text', textfont=dict(size=8, color=neg_color))
+                            mode='text', textfont=dict(size=10, color=neg_color))
     else:
+        if color_col == cols.LOG_VOTE_WEIGHT:
+            abbrev_color = "black"
+        else:
+            abbrev_color = "white" 
         fig.add_scattergeo(name='', locationmode='USA-states', text=pivot_on_year_df[cols.EC_VOTES],
                             hoverinfo='skip', locations=pivot_on_year_df[cols.ABBREV], 
-                            mode='text', textfont=dict(size=10, color="white"))
+                            mode='text', textfont=dict(size=10, color=abbrev_color))
 
     return fig

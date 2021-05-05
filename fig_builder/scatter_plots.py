@@ -157,8 +157,8 @@ def build_vw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_elem
             "Popular Vote Per Elector: <b>%{customdata[3]:,}</b>",
             "Voter Weight: <b>%{customdata[2]}</b>",
             "<br><b>Normalized to Nat'l Average:</b>",
-            "%{customdata[1]:,} Pop Votes => %{customdata[5]:.2f} EC Votes",
-            "%{y} EC Votes => %{customdata[4]:,} Pop Votes",
+            "%{customdata[1]:,} Pop Votes → %{customdata[5]:.2f} EC Votes",
+            "%{y} EC Votes → %{customdata[4]:,} Pop Votes",
         ])
     )
 
@@ -273,8 +273,8 @@ def build_vw_by_state_group_scatter_dots(data_obj, groups_dir, max_small, fig_wi
             "Avg Pop Vote Per Elector: <b>%{customdata[3]:,}</b>",
             "Avg Voter Weight: <b>%{customdata[2]:.2f}</b>",
             "<br><b>Normalized to Nat'l Average:</b>",
-            "%{customdata[1]:,} Pop Votes => %{customdata[7]} EC Votes",
-            "%{y} EC Votes => %{customdata[6]:,} Pop Votes",
+            "%{customdata[1]:,} Pop Votes → %{customdata[7]} EC Votes",
+            "%{y} EC Votes → %{customdata[6]:,} Pop Votes",
         ])
     )
 
@@ -393,8 +393,8 @@ def build_vw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_width
             "Voter Weight: <b>%{y:.2f}</b>",
             "Pop Vote as % of Nat'l Vote: <b>%{customdata[3]:.2f}%</b>",
             "<br><b>Normalized to Nat'l Average:</b>",
-            "%{customdata[1]:,} Pop Votes => %{customdata[4]:.2f} EC Votes",
-            "%{x} EC Votes => %{customdata[5]:,} Pop Votes",
+            "%{customdata[1]:,} Pop Votes → %{customdata[4]:.2f} EC Votes",
+            "%{x} EC Votes → %{customdata[5]:,} Pop Votes",
         ])
     )
 
@@ -496,8 +496,8 @@ def build_vw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fig
             "Avg Voter Weight: <b>%{y:.2f}</b>",
             "Pop Vote as % of Nat'l Vote: <b>%{customdata[3]:.2f}%</b>",
             "<br><b>Normalized to Nat'l Average:</b>",
-            "%{customdata[1]:,} Pop Votes => %{customdata[6]:.2f} EC Votes",
-            "%{x} EC Votes => %{customdata[7]:,} Pop Votes",
+            "%{customdata[1]:,} Pop Votes → %{customdata[6]:.2f} EC Votes",
+            "%{x} EC Votes → %{customdata[7]:,} Pop Votes",
         ])
     )
 

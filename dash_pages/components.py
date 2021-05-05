@@ -34,7 +34,8 @@ navbar = dbc.Card(className="text-white bg-primary", style={"z-index":"2000"}, c
         dbc.Nav(className="nav nav-pills", children=[
             dbc.NavItem(dbc.NavLink("Home", href="/")),
             dbc.DropdownMenu(label="Articles", nav=True, children=[
-                dbc.DropdownMenuItem("Retrofitting 2020 Election data to the 2020 Census", href='/census-2020-retrofit', target="_blank"), 
+                dbc.DropdownMenuItem("[5/5/2021] Retrofitting 2020 Election data to the 2020 Census", href='/census-2020-retrofit', target="_blank"), 
+                dbc.DropdownMenuItem("[4/2/2021] Visualizing the “Jim Crow Power”", href='/voter-weight-electoral-college-bias-intro', target="_blank"), 
             ]),
             dbc.DropdownMenu(label="Visualizing the “Jim Crow Power”", nav=True, children=[
                 dbc.DropdownMenuItem("Intro: American voter enfranchisement", href='/voter-weight-electoral-college-bias-intro', target="_blank"), 
@@ -53,6 +54,8 @@ navbar = dbc.Card(className="text-white bg-primary", style={"z-index":"2000"}, c
                 dbc.DropdownMenuItem("Sources / Notes", href='/sources-notes', target="_blank"), 
                 dbc.DropdownMenuItem("Wikipedia election data portal", 
                     href='https://en.wikipedia.org/wiki/List_of_United_States_presidential_election_results_by_state', target="_blank"),
+                dbc.DropdownMenuItem("Calculating Voter Weight", href='/voter-weight-calculation', target="_blank"),
+                dbc.DropdownMenuItem("The vault: 220 years of maps, charts, & figures", href='/voter-weight-figure-vault', target="_blank"), 
                 dbc.DropdownMenuItem("Project source code", href='https://github.com/dannynoonan/electoralytics', target="_blank"), 
             ])
         ])

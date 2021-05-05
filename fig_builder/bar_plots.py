@@ -29,9 +29,9 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
         if frame in [2020.2, 2020.3]:
             census_diff_hilites = True
         if frame in [2020.1, 2020.2]:
-            frame = 2020
+            frame = '2020'
         if frame in [2020.3, 2020.4]:
-            frame = 2021
+            frame = '2020 retrofit'
     else:
         data_obj.load_dfs_for_subdir(subdir)
         pivot_on_year_df = data_obj.state_vote_weights_pivot_dfs[subdir].copy()
@@ -152,13 +152,14 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
     elif color_col == cols.PARTY:
         category_orders = {cols.PARTY: PARTIES}
         color_discrete_map = PARTY_COLORS
+        x_axis_title = 'Electoral College votes'
 
         # init figure with core properties
         fig = px.bar(pivot_on_year_df, x=cols.EC_VOTES, y=cols.STATE, color=color_col, title=fig_title, 
                     custom_data=custom_data, hover_name=cols.VOTE_WEIGHT, hover_data=hover_data,
                     text=cols.EC_VOTES, animation_frame=cols.YEAR, # ignored if df is for single year
                     color_discrete_map=color_discrete_map, category_orders=category_orders,
-                    labels={cols.PARTY: groups_label}, log_x=True, height=fig_height)
+                    labels={cols.PARTY: groups_label}, height=fig_height)
 
     # overlay info on top of bars
     if frame:
@@ -241,8 +242,8 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
             "Popular Vote Per Elector: <b>%{customdata[2]:,}</b>",
             # "Group: %{customdata[5]}",
             "<br><b>Normalized to Nat'l Average:</b>",
-            "%{customdata[0]:,} Pop Votes => %{customdata[4]:.2f} EC Votes",
-            "%{customdata[1]} EC Votes => %{customdata[3]:,} Pop Votes",
+            "%{customdata[0]:,} Pop Votes → %{customdata[4]:.2f} EC Votes",
+            "%{customdata[1]} EC Votes → %{customdata[3]:,} Pop Votes",
         ]),
     )
 
@@ -311,8 +312,8 @@ def build_actual_vs_adjusted_ec_votes_bar(data_obj, groups_dir, max_small, fig_w
             "Popular Vote Per Elector: <b>%{customdata[4]:,}</b>",
             "Voter Weight: <b>%{customdata[3]:.2f}</b>",
             "<br><b>Normalized to Nat'l Average:</b>",
-            "%{customdata[2]:,} Pop Votes => %{customdata[6]:.2f} EC Votes",
-            "%{customdata[1]} EC Votes => %{customdata[5]:,} Pop Votes",
+            "%{customdata[2]:,} Pop Votes → %{customdata[6]:.2f} EC Votes",
+            "%{customdata[1]} EC Votes → %{customdata[5]:,} Pop Votes",
         ])
     )
 
@@ -378,8 +379,8 @@ def build_actual_vs_adjusted_pop_vote_bar(data_obj, groups_dir, max_small, fig_w
             "Popular Vote Per Elector: <b>%{customdata[4]:,}</b>",
             "Voter Weight: <b>%{customdata[3]:.2f}</b>",
             "<br><b>Normalized to Nat'l Average:</b>",
-            "%{customdata[2]:,} Pop Votes => %{customdata[6]:.2f} EC Votes",
-            "%{customdata[1]} EC Votes => %{customdata[5]:,} Pop Votes",
+            "%{customdata[2]:,} Pop Votes → %{customdata[6]:.2f} EC Votes",
+            "%{customdata[1]} EC Votes → %{customdata[5]:,} Pop Votes",
         ])
     )
 
