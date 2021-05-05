@@ -102,21 +102,33 @@ def display_page(pathname):
 
 ############ census-2020-retrofit
 @app.callback(
-    Output('fig-bar-census-2020-retrofit', 'figure'),
-    Output('fig-map-census-2020-retrofit', 'figure'),
-    Input('year-input-census-2020-retrofit', 'value'))
-def display_census_2020_retrofit(year):
+    Output('fig-bar-census-2020-color-by-party', 'figure'),
+    Output('fig-map-census-2020-color-by-party', 'figure'),
+    Output('fig-bar-census-2020-color-by-vw', 'figure'),
+    Output('fig-map-census-2020-color-by-vw', 'figure'),
+    Input('year-input-census-2020-color-by-party', 'value'),
+    Input('year-input-census-2020-color-by-vw', 'value'))
+def display_census_2020_retrofit(year_by_party, year_by_vw):
     # fig titles
-    fig_bar_census_2020_retrofit_title = "fig_bar_census_2020_retrofit"
-    fig_map_census_2020_retrofit_title = "fig_map_census_2020_retrofit"
+    fig_bar_census_2020_color_by_party_title = "fig_bar_census_2020_color_by_party"
+    fig_map_census_2020_color_by_party_title = "fig_map_census_2020_color_by_party"
+    fig_bar_census_2020_color_by_vw_title = "fig_bar_census_2020_color_by_vw"
+    fig_map_census_2020_color_by_vw_title = "fig_map_census_2020_color_by_vw"
+    groups_label = "2020 candidates"
     # generate figs
-    fig_bar_census_2020_retrofit = bar_plots.build_vw_by_state_bar(
-        data_obj, ddirs.CENSUS, 0, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD5, frame=year, 
-        base_fig_title=fig_bar_census_2020_retrofit_title, show_era=False, alt_data='census_diff_2020')
-    fig_map_census_2020_retrofit = choropleths.build_vw_by_state_map(
-        data_obj, ddirs.CENSUS, 0, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD7, frame=year,
-        base_fig_title=fig_map_census_2020_retrofit_title, show_era=False, alt_data='census_diff_2020')
-    return fig_bar_census_2020_retrofit, fig_map_census_2020_retrofit
+    fig_bar_census_2020_color_by_party = bar_plots.build_vw_by_state_bar(
+        data_obj, ddirs.CENSUS, 0, color_col=cols.PARTY, fig_width=fig_dims.MD5, frame=year_by_party, groups_label=groups_label,
+        base_fig_title=fig_bar_census_2020_color_by_party_title, show_era=False, alt_data='census_diff_2020')
+    fig_map_census_2020_color_by_party = choropleths.build_vw_by_state_map(
+        data_obj, ddirs.CENSUS, 0, color_col=cols.PARTY, fig_width=fig_dims.MD7, frame=year_by_party, groups_label=groups_label,
+        base_fig_title=fig_map_census_2020_color_by_party_title, show_era=False, alt_data='census_diff_2020')
+    fig_bar_census_2020_color_by_vw = bar_plots.build_vw_by_state_bar(
+        data_obj, ddirs.CENSUS, 0, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD5, frame=year_by_vw, 
+        base_fig_title=fig_bar_census_2020_color_by_vw_title, show_era=False, alt_data='census_diff_2020')
+    fig_map_census_2020_color_by_vw = choropleths.build_vw_by_state_map(
+        data_obj, ddirs.CENSUS, 0, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD7, frame=year_by_vw,
+        base_fig_title=fig_map_census_2020_color_by_vw_title, show_era=False, alt_data='census_diff_2020')
+    return fig_bar_census_2020_color_by_party, fig_map_census_2020_color_by_party, fig_bar_census_2020_color_by_vw, fig_map_census_2020_color_by_vw
 
 
 ############ voter-weight-electoral-college-bias-intro

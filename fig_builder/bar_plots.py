@@ -130,20 +130,16 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
                     labels={cols.GROUP: groups_label}, 
                     range_x=[vw_min,vw_max], log_x=True, height=fig_height)
 
-    elif color_col in [cols.GROUP, cols.PARTY]:
-        if color_col == cols.PARTY:
-            category_orders = {cols.PARTY: PARTIES}
-            color_discrete_map = PARTY_COLORS
-        elif color_col == cols.GROUP:
-            if frame:
-                category_orders = {cols.GROUP: groups}
-                color_discrete_map = GROUP_COLORS
-            else:
-                # animations don't work against categorical groupings... unless every state is its own category
-                all_states = data_obj.all_states_meta_df[cols.STATE].tolist()
-                category_orders = {cols.STATE: all_states}
-                color_discrete_map = flatten_state_color_map(data_obj.all_states_meta_df, groups_dir)
-                color_col = cols.STATE
+    elif color_col == cols.GROUP:
+        if frame:
+            category_orders = {cols.GROUP: groups}
+            color_discrete_map = GROUP_COLORS
+        else:
+            # animations don't work against categorical groupings... unless every state is its own category
+            all_states = data_obj.all_states_meta_df[cols.STATE].tolist()
+            category_orders = {cols.STATE: all_states}
+            color_discrete_map = flatten_state_color_map(data_obj.all_states_meta_df, groups_dir)
+            color_col = cols.STATE
 
         # init figure with core properties
         fig = px.bar(pivot_on_year_df, x=cols.VOTE_WEIGHT, y=cols.STATE, color=color_col, title=fig_title, 
@@ -152,6 +148,17 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
                     color_discrete_map=color_discrete_map, category_orders=category_orders,
                     labels={cols.GROUP: groups_label},
                     range_x=[vw_min,vw_max], log_x=True, height=fig_height)
+
+    elif color_col == cols.PARTY:
+        category_orders = {cols.PARTY: PARTIES}
+        color_discrete_map = PARTY_COLORS
+
+        # init figure with core properties
+        fig = px.bar(pivot_on_year_df, x=cols.EC_VOTES, y=cols.STATE, color=color_col, title=fig_title, 
+                    custom_data=custom_data, hover_name=cols.VOTE_WEIGHT, hover_data=hover_data,
+                    text=cols.EC_VOTES, animation_frame=cols.YEAR, # ignored if df is for single year
+                    color_discrete_map=color_discrete_map, category_orders=category_orders,
+                    labels={cols.PARTY: groups_label}, log_x=True, height=fig_height)
 
     # overlay info on top of bars
     if frame:
@@ -167,16 +174,28 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
 
     # super hackish custom census data for border widths and colors 
     if alt_data and alt_data == 'census_diff_2020' and census_diff_hilites:
-        fig.data[0].marker.line.width = [0, 0, 0, 0, 2, 2, 0, 0, 0, 2, 
-                                        0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 
-                                        0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 
-                                        0, 0, 2, 2, 0, 2, 0, 2, 2, 0, 
-                                        0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0]
-        fig.data[0].marker.line.color = ['blue', 'blue', 'blue', 'blue', 'red', 'lime', 'blue', 'blue', 'blue', 'lime', 
-                                        'blue', 'blue', 'blue', 'red', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 
-                                        'blue', 'blue', 'red', 'blue', 'blue', 'blue', 'lime', 'blue', 'blue', 'blue', 
-                                        'blue', 'blue', 'red', 'lime', 'blue', 'red', 'blue', 'lime', 'red', 'blue',  
-                                        'blue', 'blue', 'blue', 'lime', 'blue', 'blue', 'blue', 'blue', 'red', 'blue', 'blue']
+        if color_col == cols.LOG_VOTE_WEIGHT:
+            fig.data[0].marker.line.width = [0, 0, 0, 0, 3, 3, 0, 0, 0, 3, 
+                                            0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 
+                                            0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 
+                                            0, 0, 3, 3, 0, 3, 0, 3, 3, 0, 
+                                            0, 0, 0, 3, 0, 0, 0, 0, 3, 0, 0]
+            fig.data[0].marker.line.color = ['blue', 'blue', 'blue', 'blue', 'yellow', 'lime', 'blue', 'blue', 'blue', 'lime', 
+                                            'blue', 'blue', 'blue', 'yellow', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 
+                                            'blue', 'blue', 'yellow', 'blue', 'blue', 'blue', 'lime', 'blue', 'blue', 'blue', 
+                                            'blue', 'blue', 'yellow', 'lime', 'blue', 'yellow', 'blue', 'lime', 'yellow', 'blue',  
+                                            'blue', 'blue', 'blue', 'lime', 'blue', 'blue', 'blue', 'blue', 'yellow', 'blue', 'blue']
+        elif color_col == cols.PARTY:
+            fig.data[0].marker.line.width = [0, 0, 0, 0, 3, 3, 0, 0, 0, 3, 
+                                            0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 
+                                            0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 
+                                            0, 0, 3, 3, 0, 3, 0, 3, 3, 0, 
+                                            0, 0, 0, 3, 0, 0, 0, 0, 3, 0, 0]
+            fig.data[0].marker.line.color = ['blue', 'blue', 'blue', 'blue', 'yellow', 'lime', 'blue', 'blue', 'blue', 'lime', 
+                                            'blue', 'blue', 'blue', 'yellow', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 
+                                            'blue', 'blue', 'yellow', 'blue', 'blue', 'blue', 'lime', 'blue', 'blue', 'blue', 
+                                            'blue', 'blue', 'yellow', 'lime', 'blue', 'yellow', 'blue', 'lime', 'yellow', 'blue',  
+                                            'blue', 'blue', 'blue', 'lime', 'blue', 'blue', 'blue', 'blue', 'yellow', 'blue', 'blue']
 
     # axis metadata
     fig.update_xaxes(title_text=x_axis_title)

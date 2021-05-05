@@ -188,6 +188,8 @@ PARTIES = ['Democrat', 'Republican', 'Whig', 'Whig-Harrison', 'Whig-White', 'Whi
 PARTY_COLORS = {
     'Democrat': 'Blue', 
     'Republican': 'Red', 
+    'Biden': 'Blue', 
+    'Trump': 'Red', 
     'Whig': 'Orange',
     'Whig-Harrison': 'OrangeRed',
     'Whig-White': 'Tomato',
