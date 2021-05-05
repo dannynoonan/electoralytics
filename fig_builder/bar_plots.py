@@ -186,16 +186,19 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
                                             'blue', 'blue', 'yellow', 'lime', 'blue', 'yellow', 'blue', 'lime', 'yellow', 'blue',  
                                             'blue', 'blue', 'blue', 'lime', 'blue', 'blue', 'blue', 'blue', 'yellow', 'blue', 'blue']
         elif color_col == cols.PARTY:
-            fig.data[0].marker.line.width = [0, 0, 0, 0, 3, 3, 0, 0, 0, 3, 
-                                            0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 
-                                            0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 
-                                            0, 0, 3, 3, 0, 3, 0, 3, 3, 0, 
-                                            0, 0, 0, 3, 0, 0, 0, 0, 3, 0, 0]
-            fig.data[0].marker.line.color = ['blue', 'blue', 'blue', 'blue', 'yellow', 'lime', 'blue', 'blue', 'blue', 'lime', 
-                                            'blue', 'blue', 'blue', 'yellow', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 
-                                            'blue', 'blue', 'yellow', 'blue', 'blue', 'blue', 'lime', 'blue', 'blue', 'blue', 
-                                            'blue', 'blue', 'yellow', 'lime', 'blue', 'yellow', 'blue', 'lime', 'yellow', 'blue',  
-                                            'blue', 'blue', 'blue', 'lime', 'blue', 'blue', 'blue', 'blue', 'yellow', 'blue', 'blue']
+            fig.data[0].marker.line.width = [0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 
+                                            0, 0, 3, 0, 3, 0, 3, 0, 0, 0, 
+                                            0, 3, 0, 3, 0]
+            fig.data[1].marker.line.width = [0, 3, 3, 0, 0, 0, 0, 0, 3, 0,
+                                            0, 0, 3, 0, 0, 0, 0, 0, 3, 3, 
+                                            3, 0, 0, 0, 0, 0, 0]
+            fig.data[0].marker.line.color = ['blue', 'blue', 'blue', 'lime', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue',  
+                                            'blue', 'blue', 'lime', 'blue', 'lime', 'blue', 'yellow', 'blue', 'blue', 'blue', 
+                                            'blue', 'lime', 'blue', 'yellow', 'blue']
+            fig.data[1].marker.line.color = ['blue', 'yellow', 'lime', 'blue', 'blue', 'blue', 'blue', 'blue', 'yellow', 'blue', 
+                                            'blue', 'blue', 'yellow', 'blue', 'blue', 'blue', 'blue', 'blue', 'yellow', 'lime', 
+                                            'yellow', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue']
+
 
     # axis metadata
     fig.update_xaxes(title_text=x_axis_title)

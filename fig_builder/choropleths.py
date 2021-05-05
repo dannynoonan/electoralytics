@@ -215,13 +215,19 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
             ])
         )
 
-    if color_col == cols.PARTY and alt_data and alt_data == 'census_diff_2020' and census_diff_hilites:
+    if alt_data and alt_data == 'census_diff_2020' and census_diff_hilites:
+        if color_col == cols.PARTY:
+            pos_color = "lime"
+            neg_color = "yellow" 
+        else:
+            pos_color = "black"
+            neg_color = "black" 
         fig.add_scattergeo(name='', locationmode='USA-states', text=diff_positive_df['Diff positive'],
                             hoverinfo='skip', locations=diff_positive_df[cols.ABBREV], 
-                            mode='text', textfont=dict(size=12, color="white"))
+                            mode='text', textfont=dict(size=12, color=pos_color))
         fig.add_scattergeo(name='', locationmode='USA-states', text=diff_negative_df['Diff negative'],
                             hoverinfo='skip', locations=diff_negative_df[cols.ABBREV],
-                            mode='text', textfont=dict(size=8, color="white"))
+                            mode='text', textfont=dict(size=8, color=neg_color))
     else:
         fig.add_scattergeo(name='', locationmode='USA-states', text=pivot_on_year_df[cols.EC_VOTES],
                             hoverinfo='skip', locations=pivot_on_year_df[cols.ABBREV], 
