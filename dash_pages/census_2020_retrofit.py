@@ -148,7 +148,7 @@ content = html.Div([
                                 (none of which would have affected the dead-heat Jefferson found himself in with his slippery “running mate” Aaron Burr)."
                             ]),
                             html.P(className="text-white", children=[
-                                "And the tinder was certainly in place to re-ignite any spark of controversy in the wake of Bush-Gore 2000, where months of legal \
+                                "And the tinder was certainly in place to reignite any spark of controversy in the wake of Bush-Gore 2000, where months of legal \
                                 wrangling had delivered Bush a narrow 4-vote Electoral College victory (anchored in a lead of less than 0.01% in Florida) by the time \
                                 the Census data was released. But the reapportionment changes resulting from the 2000 Census almost universally favored the \
                                 court-anointed victor: retroactive application of 2020 Census data to the 2020 Presidential election would have widened Bush's \
@@ -169,7 +169,7 @@ content = html.Div([
                                 there’s nothing remotely legal about the retroactive application of 2020 Census data to already-certified 2020 election results. But \
                                 questions of legality haven’t exactly hindered the GOP’s more fanatical “stop the steal” propagandists in recent months."                          
                             ]),
-                            html.H4(className="lead", style={"font-size": "20pt"}, children=["Before vs after: Whose votes count the most?"]),
+                            html.H4(className="lead", style={"font-size": "20pt"}, children=["Census 2020 before vs after: Whose votes count the most?"]),
                             html.P(className="card-text", children=[
                                 "“Voter Weight” calculates the relative impact of a vote cast in one state vs a vote cast in another, given the total number of votes \
                                 cast in each state and the number of Electoral College votes allocated to each state respectively. Very high and very low Voter Weights \
@@ -203,7 +203,7 @@ content = html.Div([
                     html.Br(),
                     dbc.Card(className="bg-primary", children=[
                         dbc.CardBody([                          
-                            html.H4("What is Voter Weight?", className="text-white"),
+                            html.H4("What is “Voter Weight?”", className="text-white"),
                             html.P(className="text-white", children=[
                                 "Voter Weight measures the “degree of enfranchisement” enjoyed by voters in one state compared to voters in another state. For details \
                                 on deriving Voter Weight, visit the ", dcc.Link("Calculating Voter Weight", href="/voter-weight-calculation"), " page."
@@ -211,13 +211,15 @@ content = html.Div([
                             html.P(className="text-white", children=[
                                 "Top-line observations about Voter Weight:",
                                 html.Ul(style={"margin-left": "10px", "padding-left": "10px"}, children=[
-                                    html.Li("Voter Weight is a zero sum game: in aggregate all weights average out to 1.0, so an increase in one state must be \
-                                        offset by a decrease in another"),
+                                    html.Li("Voter Weight is a zero sum game: in aggregate all weights average out to 1.0, so an increase in one state must be offset \
+                                        by a decrease in another"),
                                     html.Li("While a higher Voter Weight benefits those to whom it directly applies, it is ultimately a marker of anti-democratic \
                                         outcomes that favor one population over another"),
-                                    html.Li("Regardless of which factors of apportionment or participation are responsible for shifts or distortions in Voter \
-                                        Weight, the resulting comparison is apples-to-apples — that is, the same calculation can be applied regardless of \
-                                        underlying bias / combination of Electoral College biases")
+                                    html.Li("If every vote in every state counted equally, each state’s Voter Weights would be 1.0, and each bar in the Voter Weight \
+                                        chart below would be the same length"),
+                                    html.Li("Regardless of which factors of apportionment or participation are responsible for shifts or distortions in Voter Weight, \
+                                        the resulting comparison is apples-to-apples — that is, the same calculation can be applied regardless of underlying bias / \
+                                        combination of Electoral College biases")
                                 ]),
                             ]),
                         ]),

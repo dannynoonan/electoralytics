@@ -38,6 +38,12 @@ content = html.Div([
                                 html.Br(),
                                 html.Img(src="/static/screenshots/lineChartGroupVwSince1800.png", height="410", style={"padding": "5px", "padding-top": "10px"}),
                             ]),
+                            html.A(className="list-group-item list-group-item-action flex-column align-items-start bg-primary", 
+                                href="/census-2020-retrofit", children=[
+                                html.H4(className="mb-1 text-success", children=[
+                                    "[May 5, 2021] Retrofitting 2020 Election data to the 2020 Census (", html.I("Click to read article"), ")",
+                                ]),
+                            ]),
                         ]),
                     ]),
                 ]),
