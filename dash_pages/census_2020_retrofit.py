@@ -288,11 +288,12 @@ content = html.Div([
                         dbc.CardBody([
                             html.P(className="card-text", children=[
                                 "Despite Voter Weights ranking 47th and 48th in the 2020 election, ", html.Span("Pennsylvania", style={"font-weight":"bold"}), " and ",
-                                html.Span("Michigan", style={"font-weight":"bold"}), " both lost representation in the 2020 Census, dropping their rankings to 49th and \
-                                50th in our retroactive recalculation. Meanwhile, voters in ", html.Span("Wyoming", style={"font-weight":"bold"}), " retain their \
-                                most-electorally-advantaged spot at the top of the rankings, while even after adding representational headcount in the 2020 Census ", 
-                                html.Span("Florida", style={"font-weight":"bold"}), " voters remain at the bottom — though whereas a Wyoming vote counted for 4.14X that \
-                                of a Florida vote in the 2020 election, under the revised calculus of the 2020 Census that multiplier would shrink to 3.99X."
+                                html.Span("Michigan", style={"font-weight":"bold"}), " both lost representation in the 2020 Census, dropping their rankings even further \
+                                to 49th and 50th place respectively in our retroactive recalculation. Meanwhile, voters in ", html.Span("Wyoming", 
+                                style={"font-weight":"bold"}), " retain their most-electorally-advantaged spot at the top of the rankings, while even after adding \
+                                representational headcount in the 2020 Census ", html.Span("Florida", style={"font-weight":"bold"}), " voters remain at the bottom — \
+                                though whereas a Wyoming vote counted for 4.14X that of a Florida vote in the 2020 election, under the revised calculus of the 2020 Census \
+                                that multiplier would shrink to 3.99X."
                             ]),
                         ]),
                     ]),

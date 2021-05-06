@@ -19,9 +19,16 @@ content = html.Div([
                             html.H3("Welcome to Electoralytics"),
                             html.P(children=[
                                 "Inside you’ll find an exploration of the imbalances built into the US electoral system, described through \
-                                simple equations and illustrated through data visualizations. The first project, of what I hope will be many, is \
-                                a deep dive into Electoral College data to illustrate the effects of disenfranchisement in the Jim Crow South as \
-                                compared to the pre-Civil War era of slavery."
+                                simple equations and illustrated through data visualizations."
+                            ]),
+                            html.A(className="list-group-item list-group-item-action flex-column align-items-start bg-primary", 
+                                href="/census-2020-retrofit", children=[
+                                html.H4(className="mb-1 text-success", children=[
+                                    "[May 5, 2021] Retrofitting 2020 Election data to the 2020 Census (", html.I("Click to read article"), ")",
+                                ]),
+                                html.Img(src="/static/screenshots/census2020Retrofit/ecVotesBarRetrofit.png", height="303", style={"padding": "5px", "padding-top": "10px"}),
+                                html.Img(src="/static/screenshots/census2020Retrofit/voterWeightMapRetrofit.png", height="303", style={"padding": "5px", "padding-top": "10px"}),
+                                html.Img(src="/static/screenshots/census2020Retrofit/voterWeightBarRetrofit.png", height="303", style={"padding": "5px", "padding-top": "10px"}),
                             ]),
                             html.A(className="list-group-item list-group-item-action flex-column align-items-start bg-primary", 
                                 href="/voter-weight-electoral-college-bias-intro", children=[
@@ -37,12 +44,6 @@ content = html.Div([
                                 html.Img(src="/static/screenshots/boxAcw1920.png", height="263", style={"padding": "5px", "padding-top": "10px"}),
                                 html.Br(),
                                 html.Img(src="/static/screenshots/lineChartGroupVwSince1800.png", height="410", style={"padding": "5px", "padding-top": "10px"}),
-                            ]),
-                            html.A(className="list-group-item list-group-item-action flex-column align-items-start bg-primary", 
-                                href="/census-2020-retrofit", children=[
-                                html.H4(className="mb-1 text-success", children=[
-                                    "[May 5, 2021] Retrofitting 2020 Election data to the 2020 Census (", html.I("Click to read article"), ")",
-                                ]),
                             ]),
                         ]),
                     ]),
