@@ -128,17 +128,17 @@ def display_census_2020_retrofit(year_by_party, year_by_vw):
         fig_map_census_2020_color_by_party_title = "Biden states vs Trump states"
     # year_by_vw
     if year_by_vw == 2020.1:
-        fig_bar_census_2020_color_by_vw_title = "States shaded and sequenced by Voter Weight<br>(Actual Voter Weights from 2020 election)"
-        fig_map_census_2020_color_by_vw_title = "States labeled and shaded by Voter Weight<br>(Actual Voter Weights from 2020 election)"
+        fig_bar_census_2020_color_by_vw_title = "Where did votes count the most?<br>States shaded and sequenced by Voter Weight (2020 election)"
+        fig_map_census_2020_color_by_vw_title = "Where did votes count the most?<br>States labeled and shaded by Voter Weight (2020 election)"
     elif year_by_vw == 2020.2:
-        fig_bar_census_2020_color_by_vw_title = "States shaded and sequenced by Voter Weight<br>Green border = gaining seats, Black border = losing seats"
+        fig_bar_census_2020_color_by_vw_title = "States shaded and sequenced by Voter Weight (2020 election)<br>(Green border = gaining seats, Black border = losing seats)"
         fig_map_census_2020_color_by_vw_title = "States where Voter Weight would change based on 2020 Census<br>(Still displaying Voter Weights from 2020 election)"
     elif year_by_vw == 2020.3:
-        fig_bar_census_2020_color_by_vw_title = "Green border = gaining seats, Black border = losing seats<br>Recalculated and re-sequenced using 2020 Census re-apportionment"
-        fig_map_census_2020_color_by_vw_title = "Voter Weight deltas: 2020 Census data applied to 2020 election<br>+/- Voter weight based on 2020 Census reapportionment"
+        fig_bar_census_2020_color_by_vw_title = "Recalculated and re-sequenced using 2020 Census re-apportionment<br>(Green border = gaining seats, Black border = losing seats)"
+        fig_map_census_2020_color_by_vw_title = "Voter Weight deltas: 2020 Census data applied to 2020 election<br>+/- Voter Weight based on 2020 Census reapportionment"
     elif year_by_vw == 2020.4:
-        fig_bar_census_2020_color_by_vw_title = "States shaded and sequenced by Voter Weight<br>Revised Voter Weights using 2020 Census data"
-        fig_map_census_2020_color_by_vw_title = "States labeled and shaded by Voter Weight<br>Revised Voter Weights using 2020 Census data"
+        fig_bar_census_2020_color_by_vw_title = "Where would votes have counted the most?<br>Voter Weights per state (retrofitted to 2020 Census data)"
+        fig_map_census_2020_color_by_vw_title = "Where would votes have counted the most?<br>Voter Weights per state (retrofitted to 2020 Census data)"
     else:
         fig_bar_census_2020_color_by_vw_title = "States shaded and sequenced by Voter Weight"
         fig_map_census_2020_color_by_vw_title = "States labeled and shaded by Voter Weight"

@@ -215,7 +215,7 @@ content = html.Div([
                                         by a decrease in another"),
                                     html.Li("While a higher Voter Weight benefits those to whom it directly applies, it is ultimately a marker of anti-democratic \
                                         outcomes that favor one population over another"),
-                                    html.Li("If every vote in every state counted equally, each state’s Voter Weights would be 1.0, and each bar in the Voter Weight \
+                                    html.Li("If every vote in every state counted equally, each state’s Voter Weight would be 1.0, and each bar in the Voter Weight \
                                         chart below would be the same length"),
                                     html.Li("Regardless of which factors of apportionment or participation are responsible for shifts or distortions in Voter Weight, \
                                         the resulting comparison is apples-to-apples — that is, the same calculation can be applied regardless of underlying bias / \

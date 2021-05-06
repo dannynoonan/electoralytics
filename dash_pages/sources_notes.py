@@ -90,7 +90,7 @@ content = html.Div([
                                         html.I("Black Reconstruction in America: 1860-1880"), " (1935), p. 200-201",
                                     ]),
                                     html.Li(children=[
-                                        "Eric Foner, ", html.I("The Second Founding: How the Civil War and Reconstruction Remade the Constitution"), " (2019), p. 105",
+                                        "Eric Foner, ", html.I("The Second Founding: How the Civil War and Reconstruction Remade the Constitution"), " (2019), p. 105, 164-165",
                                     ]),
                                     html.Li(children=[
                                         "Jesse Wegman, ", html.I("Let the People Pick the President"), " (2020), p. 108",
@@ -164,6 +164,12 @@ content = html.Div([
                                         "Richard Rothstein, ", html.I("The Color of Law"), " (2017), p. 54-56, p. 128-131",
                                     ]),
                                     html.Li(children=[
+                                        "Eric Foner, ", html.I("The Second Founding: How the Civil War and Reconstruction Remade the Constitution"), " (2019), p. 158, 164; ",
+                                        "Jamelle Bouie, ", dcc.Link("“One Old Way of Keeping Black People From Voting Still Works”", target="_blank", 
+                                        href="https://www.nytimes.com/2021/03/05/opinion/filibuster-voting-rights.html"), ", ", html.I("New York Times"), 
+                                        " (Mar. 5 2021)",
+                                    ]),
+                                    html.Li(children=[
                                         "Juan F. Perea, ", dcc.Link("“The Echoes of Slavery: Recognizing the Racist Origins of the Agricultural and Domestic Worker Exclusion from \
                                         the National Labor Relations Act”", href="https://lawecommons.luc.edu/cgi/viewcontent.cgi?article=1150&context=facpubs", target="_blank"), 
                                         ", ", html.I("Ohio State Law Journal"), ", Vol. 72:1 (2011), p. 104-109",
@@ -183,7 +189,7 @@ content = html.Div([
                                     ]),
                                     html.Li(children=[
                                         "Michelle Alexander, ", html.I("The New Jim Crow: Mass Incarceration in the Age of Colorblindness"), " (2010), p. 35-36, 80, \
-                                        86-88, 97, 140-143"
+                                        86-88, 97"
                                     ]), 
                                     html.Li(children=[
                                         "Gary Potter, ", html.I(dcc.Link("The History of Policing in the United States", target="_blank",
