@@ -30,7 +30,7 @@ content = html.Div([
                                 and political influence. The fact that New York lost a Congressional seat and an Electoral College vote by a ", 
                                 dcc.Link("whisker-thin margin of 89 respondents", target="_blank",
                                 href="https://www.businessinsider.com/new-york-lost-house-seat-by-89-people-census-bureau-2021-4"), " has induced some Empire state \
-                                facepalming, but by and large the repportionment conversation seems to reduce to the age old question: does a population influx change \
+                                facepalming, but by and large the reapportionment conversation seems to reduce to the age old question: does a population influx change \
                                 the politics of a place, or does a place change the politics of a population influx?"
                             ]),
                             html.P(className="text-white", children=[
@@ -205,22 +205,26 @@ content = html.Div([
                         dbc.CardBody([                          
                             html.H4("What is “Voter Weight?”", className="text-white"),
                             html.P(className="text-white", children=[
-                                "Voter Weight measures the “degree of enfranchisement” enjoyed by voters in one state compared to voters in another state. For details \
-                                on deriving Voter Weight, visit the ", dcc.Link("Calculating Voter Weight", href="/voter-weight-calculation"), " page."
+                                "In the US, people don’t directly vote for President. Instead, states vote for president, and people within those states determine \
+                                which way their state will vote. Every state is allocated a number of ‘electors,’ based principally (but not entirely) on the state’s \
+                                population, and in theory every individual voter in every state has roughly the same amount of influence. ", dcc.Link("Voter Weight", 
+                                href="/voter-weight-calculation"), " is one way of measuring that influence, to the extent that it varies from state to state (and \
+                                from election to election)."
                             ]),
                             html.P(className="text-white", children=[
-                                "Top-line observations about Voter Weight:",
+                                "A few things to know about Voter Weight:",
                                 html.Ul(style={"margin-left": "10px", "padding-left": "10px"}, children=[
                                     html.Li("Voter Weight is a zero sum game: in aggregate all weights average out to 1.0, so an increase in one state must be offset \
                                         by a decrease in another"),
                                     html.Li("While a higher Voter Weight benefits those to whom it directly applies, it is ultimately a marker of anti-democratic \
                                         outcomes that favor one population over another"),
                                     html.Li("If every vote in every state counted equally, each state’s Voter Weight would be 1.0, and each bar in the Voter Weight \
-                                        chart below would be the same length"),
-                                    html.Li("Regardless of which factors of apportionment or participation are responsible for shifts or distortions in Voter Weight, \
-                                        the resulting comparison is apples-to-apples — that is, the same calculation can be applied regardless of underlying bias / \
-                                        combination of Electoral College biases")
+                                        chart below would be the same length and color shade"),
+                                    # html.Li("Regardless of which factors of apportionment or participation are responsible for shifts or distortions in Voter Weight, \
+                                    #     the resulting comparison is apples-to-apples — that is, the same calculation can be applied regardless of underlying bias / \
+                                    #     combination of Electoral College biases")
                                 ]),
+                                "For details on deriving Voter Weight, visit the ", dcc.Link("Calculating Voter Weight", href="/voter-weight-calculation"), " page."
                             ]),
                         ]),
                     ]),
