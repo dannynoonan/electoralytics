@@ -93,7 +93,7 @@ content = html.Div([
                                 "I'm neither a historian nor a statistician (in case this wasn’t obvious), so it’s been interesting pausing to research events and \
                                 periods along the way, attempting to interpret underlying causes of twists and turns in the data. Here’s a short list of the many \
                                 data ripples that I initially mistook for errors, anomalies, or unexplained distortions:",
-                                html.Ul([
+                                html.Ul(style={"margin-left": "10px", "padding-left": "10px"}, children=[
                                     html.Li(children=["The impact of the “Mississippi Plan,” a scheme to introduce discriminatory voting language into every \
                                         Southern state’s constitution, beginning in the 1890s", dcc.Link(href="/sources-notes", children=[html.Sup("23")]),
                                     ]),
@@ -116,7 +116,7 @@ content = html.Div([
                                 "To avoid wrapping every comment in a caveat, I’ve been fairly loose in my pronouncements that hyper-enfranchisement correlates \
                                 to higher levels of voter suppression, so I wanted to rattle off a few things that most certainly also have an effect on a \
                                 state’s Voter Weight metric:",
-                                html.Ul([
+                                html.Ul(style={"margin-left": "10px", "padding-left": "10px"}, children=[
                                     html.Li(children=["Voter apathy, and hence lower voter participation. Since the “Solid South” of the early 20th century was \
                                         effectively a non-competitive one-party regional bloc (in part due to the wild success of their voter suppression \
                                         tactics), the fact that down-ballot winners were a foregone conclusion may have further depressed turnout", 

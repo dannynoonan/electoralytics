@@ -109,7 +109,8 @@ def display_page(pathname):
     Input('year-input-census-2020-color-by-party', 'value'),
     Input('year-input-census-2020-color-by-vw', 'value'))
 def display_census_2020_retrofit(year_by_party, year_by_vw):
-    # fig titles
+    # fig titles & labels
+    # year_by_party
     if year_by_party == 2020.1:
         fig_bar_census_2020_color_by_party_title = "Biden states vs Trump states<br>Actual 2020 Electoral College Votes"
         fig_map_census_2020_color_by_party_title = "Actual 2020 Electoral College scoreboard:<br>Biden 306 - Trump 232"
@@ -117,16 +118,30 @@ def display_census_2020_retrofit(year_by_party, year_by_vw):
         fig_bar_census_2020_color_by_party_title = "Green border = gaining seats, Black border = losing seats<br>Still showing actual 2020 Electoral College Votes"
         fig_map_census_2020_color_by_party_title = "States gaining or losing seats/votes in 2020 Census<br>(Still displaying actual 2020 Electoral College Votes)"
     elif year_by_party == 2020.3:
-        fig_bar_census_2020_color_by_party_title = "Green border = gaining seats, Black border = losing seats<br>Re-sequenced according to 2020 Census allocation"
-        fig_map_census_2020_color_by_party_title = "2020 Electoral College Votes<br>+/- number of seats/votes being gained or lost in 2020 Census"
+        fig_bar_census_2020_color_by_party_title = "Green border = gaining seats, Black border = losing seats<br>Re-sequenced according to 2020 Census apportionment"
+        fig_map_census_2020_color_by_party_title = "2020 Electoral College Votes<br>Increase or decrease in number of seats/votes being gained or lost in 2020 Census"
     elif year_by_party == 2020.4:
         fig_bar_census_2020_color_by_party_title = "Biden states vs Trump states<br>Revised Electoral College Votes using 2020 Census data"
         fig_map_census_2020_color_by_party_title = "Revised Electoral College scoreboard using 2020 Census data:<br>Biden 303 - Trump 235"
     else:
         fig_bar_census_2020_color_by_party_title = "Biden states vs Trump states"
         fig_map_census_2020_color_by_party_title = "Biden states vs Trump states"
-    fig_bar_census_2020_color_by_vw_title = "fig_bar_census_2020_color_by_vw"
-    fig_map_census_2020_color_by_vw_title = "fig_map_census_2020_color_by_vw"
+    # year_by_vw
+    if year_by_vw == 2020.1:
+        fig_bar_census_2020_color_by_vw_title = "States shaded and sequenced by Voter Weight<br>(Actual Voter Weights from 2020 election)"
+        fig_map_census_2020_color_by_vw_title = "States labeled and shaded by Voter Weight<br>(Actual Voter Weights from 2020 election)"
+    elif year_by_vw == 2020.2:
+        fig_bar_census_2020_color_by_vw_title = "States shaded and sequenced by Voter Weight<br>Green border = gaining seats, Black border = losing seats"
+        fig_map_census_2020_color_by_vw_title = "States where Voter Weight would change based on 2020 Census<br>(Still displaying Voter Weights from 2020 election)"
+    elif year_by_vw == 2020.3:
+        fig_bar_census_2020_color_by_vw_title = "Green border = gaining seats, Black border = losing seats<br>Recalculated and re-sequenced using 2020 Census re-apportionment"
+        fig_map_census_2020_color_by_vw_title = "Voter Weight deltas: 2020 Census data applied to 2020 election<br>+/- Voter weight based on 2020 Census reapportionment"
+    elif year_by_vw == 2020.4:
+        fig_bar_census_2020_color_by_vw_title = "States shaded and sequenced by Voter Weight<br>Revised Voter Weights using 2020 Census data"
+        fig_map_census_2020_color_by_vw_title = "States labeled and shaded by Voter Weight<br>Revised Voter Weights using 2020 Census data"
+    else:
+        fig_bar_census_2020_color_by_vw_title = "States shaded and sequenced by Voter Weight"
+        fig_map_census_2020_color_by_vw_title = "States labeled and shaded by Voter Weight"
     groups_label = "2020 candidates"
     # generate figs
     fig_bar_census_2020_color_by_party = bar_plots.build_vw_by_state_bar(

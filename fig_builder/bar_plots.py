@@ -105,7 +105,7 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
             fig_title = f'{fig_title}<br>{era}'
     else:
         fig_title = f'{base_fig_title} ({YEAR_0} - {YEAR_N})'
-    x_axis_title = 'Voter Weight (log)'
+    x_axis_title = 'Voter Weight (log scale)'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames    
     custom_data = [cols.VOTES_COUNTED, cols.EC_VOTES, cols.POP_PER_EC, cols.VOTES_COUNTED_NORM, cols.EC_VOTES_NORM, cols.GROUP]
     # hover_data is the fallback plan for animations where custom_data doesn't work

@@ -46,7 +46,7 @@ def build_vw_by_state_group_box_plot(data_obj, groups_dir, max_small, frame, fig
     if show_era:
         era = get_era_for_year(frame)
         fig_title = f'{fig_title}<br>{era}'
-    y_axis_title = 'Voter Weight (log)'
+    y_axis_title = 'Voter Weight (log scale)'
 
     # box plot
     box_data = pivot_on_year_df[[cols.GROUP, cols.VOTE_WEIGHT]]

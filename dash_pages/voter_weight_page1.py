@@ -61,7 +61,7 @@ content = html.Div([
                                 side-effect of creating imbalances between the influence of individual voters. In the coming sections I explore three types of \
                                 Electoral College imbalance, rooted in the push and pull between state apportionment and voter participation, that are emergent \
                                 in historical election data:",
-                                html.Ul([
+                                html.Ul(style={"margin-left": "10px", "padding-left": "10px"}, children=[
                                     html.Li(children=[html.B("Small-state bias"), ": Every state, regardless of population, gets two Electoral College votes for \
                                         its two Senators, proportionally favoring smaller states with fewer Representatives"]),
                                     html.Li(children=[html.B("Slave-state bias"), ": Although enslaved people couldn’t vote, the “three-fifths compromise” \
@@ -143,7 +143,7 @@ content = html.Div([
                             ]),
                             html.P(className="card-text", children=[
                                 "A couple of top-line observations for now:",
-                                html.Ul(children=[
+                                html.Ul(style={"margin-left": "10px", "padding-left": "10px"}, children=[
                                     html.Li("Voter Weight is a zero sum game: in aggregate all weights average out to 1.0, so an increase in one state must be \
                                         offset by a decrease in another"),
                                     html.Li("While a higher Voter Weight benefits those to whom it directly applies, it is ultimately a marker of anti-democratic \
@@ -213,7 +213,7 @@ content = html.Div([
                     dcc.Graph(id="fig-line-vw-timeline-short"),
                     html.P(className="card-text", style={"padding": "5px", "font-size":"10pt"}, children=[
                         "Figure 3: Voter Weight trends as a function of time, spanning every US presidential election between 1840 and 2000.",
-                        html.Ul([
+                        html.Ul(style={"margin-left": "10px", "padding-left": "10px"}, children=[
                             html.Li("Using the legend to the right you can hide group-level trend lines one at a time, and using the “Show / Hide State Groups” \
                             dropdown menu above you can hide the group-level trend lines en masse."),
                             html.Li("Using the dropdown menu above the chart, you can select individual states to compare. These can be overlaid onto group-level data \

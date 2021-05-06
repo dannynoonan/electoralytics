@@ -102,7 +102,7 @@ def build_vw_by_state_group_line_chart(data_obj, groups_dir, max_small, fig_widt
     y_axis_title = 'Voter Weight'
     # y_axis_title = 'Vote Weight Per Ballot Cast'
     if log_y:
-        y_axis_title = f"{y_axis_title} (log)"
+        y_axis_title = f"{y_axis_title} (log scale)"
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.GROUP, cols.STATES_IN_GROUP, cols.EC_VOTES, cols.VOTES_COUNTED, cols.POP_PER_EC]
     
@@ -195,7 +195,7 @@ def build_total_vote_line_chart(data_obj, fig_width=None, log_y=False):
     x_axis_title = 'Election Year'
     y_axis_title = 'Percentage of national population who voted'
     if log_y:
-        y_axis_title = f"{y_axis_title} (log)"
+        y_axis_title = f"{y_axis_title} (log scale)"
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.VOTES_COUNTED, cols.TOTAL_POP, cols.EC_VOTES, cols.POP_PER_EC, cols.STATE_COUNT, cols.STATES_USING_POP]
 

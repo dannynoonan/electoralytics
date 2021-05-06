@@ -124,8 +124,8 @@ def build_vw_by_state_scatter_dots(data_obj, groups_dir, max_small, display_elem
                         labels={cols.GROUP: groups_label}, height=fig_height, opacity=0.7, 
                         log_x=True, log_y=True, range_x=range_x, range_y=[2.5,ec_max])
         # axis metadata
-        fig.update_xaxes(title_text=f"{x_axis_title} (log)")
-        fig.update_yaxes(title_text=f"{y_axis_title} (log)")
+        fig.update_xaxes(title_text=f"{x_axis_title} (log scale)")
+        fig.update_yaxes(title_text=f"{y_axis_title} (log scale)")
         # tick overrides for y and x axes (animation only for x axis) representing EC votes, whose ranges are constant over time
         fig.update_layout(
             dict(yaxis=dict(tickmode='array', tickvals=[3,4,5,6,7,8,9,10,12,15,20,25,30,40,50])))
@@ -334,7 +334,7 @@ def build_vw_by_state_scatter_bubbles(data_obj, groups_dir, max_small, fig_width
 
     # display metadata common to (or that doesn't interfere with) all display types
     x_axis_title = 'Electoral College Votes per State'
-    y_axis_title = 'Voter Weight Per State (log)'
+    y_axis_title = 'Voter Weight Per State (log scale)'
     if not groups_label:
         groups_label = 'State Grouping'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
@@ -436,7 +436,7 @@ def build_vw_by_state_group_scatter_bubbles(data_obj, groups_dir, max_small, fig
 
     # display metadata common to (or that doesn't interfere with) all display types
     x_axis_title = 'Electoral College Votes Per State Group'
-    y_axis_title = 'Voter Weight Per State Group (log)'
+    y_axis_title = 'Voter Weight Per State Group (log scale)'
     groups_label = 'State Grouping'
     # custom_data enables dynamic variable substitution in hovertemplates for static frames
     custom_data = [cols.GROUP, cols.VOTES_COUNTED, cols.POP_PER_EC, cols.VOTES_COUNTED_PCT, cols.STATE_COUNT, cols.STATES_IN_GROUP, 

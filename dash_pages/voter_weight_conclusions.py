@@ -86,7 +86,7 @@ content = html.Div([
                                 ‘peculiar’ institution of slavery, both within the South and across America as a whole. Despite being home to less than a third of \
                                 the country’s free population, significant majorities of high-level representatives and appointments went to Southern slaveholders. \
                                 Here’s a quick round-up:",
-                                html.Ul([
+                                html.Ul(style={"margin-left": "10px", "padding-left": "10px"}, children=[
                                     html.Li("10 of the first 17 Presidents, serving ~13 of the first 20 terms, were Southern slaveholders"), 
                                     html.Li(children=["21 of the first 33 Speakers of the House were Southern slaveholders", dcc.Link(href="/sources-notes", 
                                         children=[html.Sup("29")])
@@ -110,7 +110,7 @@ content = html.Div([
                                 "With its inflated national representation and influence, the Slave Power pursued an agenda favorable to the protection and expansion \
                                 of slavery, repeatedly passing major pro-slavery legislation on behalf of an ever-shrinking minority of voters:", 
                                 dcc.Link(href="/sources-notes", children=[html.Sup("30")]),
-                                html.Ul([
+                                html.Ul(style={"margin-left": "10px", "padding-left": "10px"}, children=[
                                     html.Li("1820: The Missouri Compromise, admitting Missouri to the Union as a slave state in exchange for an agreement to halt the \
                                         expansion of slavery in the Northwestern territories"), 
                                     html.Li("1830: The Indian Removal Act, which forced the removal of 100,000 Native Americans from Southern states via the Trail of \
@@ -197,7 +197,7 @@ content = html.Div([
                                 may not be as neatly compiled in history books as those linked to the three-fifths-amplified Slave Power, but as a thought \
                                 experiment it’s worth looking for the fingerprints of the Jim Crow South’s mathematical advantage in present-day policies and \
                                 institutions. Just to explore the very tip of the iceberg:",
-                                html.Ul([
+                                html.Ul(style={"margin-left": "10px", "padding-left": "10px"}, children=[
                                     html.Li(style={"padding-top": "5px"}, children=["Segregated neighborhoods carving up nearly every American city today trace back \
                                         overwhelmingly to the ", dcc.Link("FHA", href="https://en.wikipedia.org/wiki/Federal_Housing_Administration", target="_blank"), 
                                         "’s and ", dcc.Link("HOLC", href="https://en.wikipedia.org/wiki/Home_Owners%27_Loan_Corporation", target="_blank"), "’s racist \

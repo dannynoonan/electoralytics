@@ -53,7 +53,7 @@ content = html.Div([
                             ]),
                             html.P(className="card-text", children=[
                                 "Disproportionate voter influence in the Electoral College boils down to the ratio between two factors:",
-                                html.Ul(children=[
+                                html.Ul(style={"margin-left": "10px", "padding-left": "10px"}, children=[
                                     html.Li(children=[html.B("Popular Vote"), " (turnout / number of ballots cast)"]),
                                     html.Li(children=[html.B("Electoral College Votes"), " (based on population census, the three-fifths clause during slavery, \
                                         and the +2 senator “bicameral boost”)"])
@@ -86,7 +86,7 @@ content = html.Div([
                             html.H4("Implications / literal meaning of Voter Weight", className="card-title"),
                             html.P(className="card-text", children=[
                                 "A couple general observations about Voter Weight:",
-                                html.Ul(children=[
+                                html.Ul(style={"margin-left": "10px", "padding-left": "10px"}, children=[
                                     html.Li("Voter Weight is a zero sum game: in aggregate all weights average out to 1.0, so an increase in one state must be \
                                         offset by a decrease in another"),
                                     html.Li("While a higher Voter Weight benefits those to whom it directly applies by amplifying their individual voice, it is \
