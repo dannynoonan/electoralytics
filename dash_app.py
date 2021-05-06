@@ -110,24 +110,37 @@ def display_page(pathname):
     Input('year-input-census-2020-color-by-vw', 'value'))
 def display_census_2020_retrofit(year_by_party, year_by_vw):
     # fig titles
-    fig_bar_census_2020_color_by_party_title = "fig_bar_census_2020_color_by_party"
-    fig_map_census_2020_color_by_party_title = "fig_map_census_2020_color_by_party"
+    if year_by_party == 2020.1:
+        fig_bar_census_2020_color_by_party_title = "Biden states vs Trump states<br>Actual 2020 Electoral College Votes"
+        fig_map_census_2020_color_by_party_title = "Actual 2020 Electoral College scoreboard:<br>Biden 306 - Trump 232"
+    elif year_by_party == 2020.2:
+        fig_bar_census_2020_color_by_party_title = "Green border = gaining seats, Black border = losing seats<br>Still showing actual 2020 Electoral College Votes"
+        fig_map_census_2020_color_by_party_title = "States gaining or losing seats/votes in 2020 Census<br>(Still displaying actual 2020 Electoral College Votes)"
+    elif year_by_party == 2020.3:
+        fig_bar_census_2020_color_by_party_title = "Green border = gaining seats, Black border = losing seats<br>Re-sequenced according to 2020 Census allocation"
+        fig_map_census_2020_color_by_party_title = "2020 Electoral College Votes<br>+/- number of seats/votes being gained or lost in 2020 Census"
+    elif year_by_party == 2020.4:
+        fig_bar_census_2020_color_by_party_title = "Biden states vs Trump states<br>Revised Electoral College Votes using 2020 Census data"
+        fig_map_census_2020_color_by_party_title = "Revised Electoral College scoreboard using 2020 Census data:<br>Biden 303 - Trump 235"
+    else:
+        fig_bar_census_2020_color_by_party_title = "Biden states vs Trump states"
+        fig_map_census_2020_color_by_party_title = "Biden states vs Trump states"
     fig_bar_census_2020_color_by_vw_title = "fig_bar_census_2020_color_by_vw"
     fig_map_census_2020_color_by_vw_title = "fig_map_census_2020_color_by_vw"
     groups_label = "2020 candidates"
     # generate figs
     fig_bar_census_2020_color_by_party = bar_plots.build_vw_by_state_bar(
         data_obj, ddirs.CENSUS, 0, color_col=cols.PARTY, fig_width=fig_dims.MD5, frame=year_by_party, groups_label=groups_label,
-        base_fig_title=fig_bar_census_2020_color_by_party_title, show_era=False, alt_data='census_diff_2020')
+        base_fig_title=fig_bar_census_2020_color_by_party_title, show_era=False, show_year=False, alt_data='census_diff_2020')
     fig_map_census_2020_color_by_party = choropleths.build_vw_by_state_map(
         data_obj, ddirs.CENSUS, 0, color_col=cols.PARTY, fig_width=fig_dims.MD7, frame=year_by_party, groups_label=groups_label,
-        base_fig_title=fig_map_census_2020_color_by_party_title, show_era=False, alt_data='census_diff_2020')
+        base_fig_title=fig_map_census_2020_color_by_party_title, show_era=False, show_year=False, alt_data='census_diff_2020')
     fig_bar_census_2020_color_by_vw = bar_plots.build_vw_by_state_bar(
         data_obj, ddirs.CENSUS, 0, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD5, frame=year_by_vw, 
-        base_fig_title=fig_bar_census_2020_color_by_vw_title, show_era=False, alt_data='census_diff_2020')
+        base_fig_title=fig_bar_census_2020_color_by_vw_title, show_era=False, show_year=False, alt_data='census_diff_2020')
     fig_map_census_2020_color_by_vw = choropleths.build_vw_by_state_map(
         data_obj, ddirs.CENSUS, 0, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD7, frame=year_by_vw,
-        base_fig_title=fig_map_census_2020_color_by_vw_title, show_era=False, alt_data='census_diff_2020')
+        base_fig_title=fig_map_census_2020_color_by_vw_title, show_era=False, show_year=False, alt_data='census_diff_2020')
     return fig_bar_census_2020_color_by_party, fig_map_census_2020_color_by_party, fig_bar_census_2020_color_by_vw, fig_map_census_2020_color_by_vw
 
 

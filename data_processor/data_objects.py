@@ -99,7 +99,7 @@ class DataObject():
 
         # load df from csv, make modifications to be shared by all downstream users
         print(f"loading {census_diff_2020_pivot_csv_path}")
-        df = pd.read_csv(census_diff_2020_pivot_csv_path)
+        df = pd.read_csv(census_diff_2020_pivot_csv_path, dtype={'VW diff positive': str, 'VW diff negative': str})
         # generate log columns, workaround to colorscales lacking log option
         df[cols.LOG_VOTE_WEIGHT] = np.log2(df[cols.VOTE_WEIGHT])
         df[cols.LOG_EC_VOTES] = np.log10((df[cols.EC_VOTES]))

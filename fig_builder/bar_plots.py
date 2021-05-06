@@ -13,7 +13,7 @@ fig_dims = FigDimensions()
 
 
 def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_height=None, frame=None, color_col=None, 
-                            alt_groups=[], base_fig_title=None, show_era=True, groups_label=None, alt_data=None):
+                            alt_groups=[], base_fig_title=None, show_era=True, show_year=True, groups_label=None, alt_data=None):
     """
     swiss army knife function for generating a px.bar plot, color-shading states by a category or along a data spectrum,
     in descending order by voter weight. supports static single-year plots or animations. 
@@ -97,7 +97,9 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
 
     # display metadata
     if frame:
-        fig_title = f'{base_fig_title} ({frame})'
+        fig_title = base_fig_title
+        if show_year:
+            fig_title = f'{fig_title} ({frame})'
         if show_era:
             era = get_era_for_year(frame)
             fig_title = f'{fig_title}<br>{era}'
@@ -181,11 +183,11 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
                                             0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 
                                             0, 0, 3, 3, 0, 3, 0, 3, 3, 0, 
                                             0, 0, 0, 3, 0, 0, 0, 0, 3, 0, 0]
-            fig.data[0].marker.line.color = ['blue', 'blue', 'blue', 'blue', 'yellow', 'lime', 'blue', 'blue', 'blue', 'lime', 
-                                            'blue', 'blue', 'blue', 'yellow', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 
-                                            'blue', 'blue', 'yellow', 'blue', 'blue', 'blue', 'lime', 'blue', 'blue', 'blue', 
-                                            'blue', 'blue', 'yellow', 'lime', 'blue', 'yellow', 'blue', 'lime', 'yellow', 'blue',  
-                                            'blue', 'blue', 'blue', 'lime', 'blue', 'blue', 'blue', 'blue', 'yellow', 'blue', 'blue']
+            fig.data[0].marker.line.color = ['blue', 'blue', 'blue', 'blue', 'black', 'lime', 'blue', 'blue', 'blue', 'lime', 
+                                            'blue', 'blue', 'blue', 'black', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue', 
+                                            'blue', 'blue', 'black', 'blue', 'blue', 'blue', 'lime', 'blue', 'blue', 'blue', 
+                                            'blue', 'blue', 'black', 'lime', 'blue', 'black', 'blue', 'lime', 'black', 'blue',  
+                                            'blue', 'blue', 'blue', 'lime', 'blue', 'blue', 'blue', 'blue', 'black', 'blue', 'blue']
         elif color_col == cols.PARTY:
             fig.data[0].marker.line.width = [0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 
                                             0, 0, 3, 0, 3, 0, 3, 0, 0, 0, 
@@ -194,11 +196,11 @@ def build_vw_by_state_bar(data_obj, groups_dir, max_small, fig_width=None, fig_h
                                             0, 0, 3, 0, 0, 0, 0, 0, 3, 3, 
                                             3, 0, 0, 0, 0, 0, 0]
             fig.data[0].marker.line.color = ['blue', 'blue', 'blue', 'lime', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue',  
-                                            'blue', 'blue', 'lime', 'blue', 'lime', 'blue', 'yellow', 'blue', 'blue', 'blue', 
-                                            'blue', 'lime', 'blue', 'yellow', 'blue']
-            fig.data[1].marker.line.color = ['blue', 'yellow', 'lime', 'blue', 'blue', 'blue', 'blue', 'blue', 'yellow', 'blue', 
-                                            'blue', 'blue', 'yellow', 'blue', 'blue', 'blue', 'blue', 'blue', 'yellow', 'lime', 
-                                            'yellow', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue']
+                                            'blue', 'blue', 'lime', 'blue', 'lime', 'blue', 'black', 'blue', 'blue', 'blue', 
+                                            'blue', 'lime', 'blue', 'black', 'blue']
+            fig.data[1].marker.line.color = ['blue', 'black', 'lime', 'blue', 'blue', 'blue', 'blue', 'blue', 'black', 'blue', 
+                                            'blue', 'blue', 'black', 'blue', 'blue', 'blue', 'blue', 'blue', 'black', 'lime', 
+                                            'black', 'blue', 'blue', 'blue', 'blue', 'blue', 'blue']
 
 
     # axis metadata

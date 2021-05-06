@@ -14,7 +14,7 @@ fig_dims = FigDimensions()
 
 
 def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_width=None, frame=None, alt_groups=[],
-                          base_fig_title=None, show_era=True, display_ecv=False, groups_label=None, alt_data=None):
+                          base_fig_title=None, show_era=True, show_year=True, display_ecv=False, groups_label=None, alt_data=None):
     """
     swiss army knife function for generating a px.choropleth map, color-shading states by group or along a data spectrum.
     supports static single-year plots or animations. 
@@ -60,8 +60,14 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
         # extract subset of states to display for custom census comparison data
         if alt_data and alt_data == 'census_diff_2020':
             if census_diff_hilites:
-                diff_positive_df = pivot_on_year_df[pivot_on_year_df['Diff positive'].notna()]
-                diff_negative_df = pivot_on_year_df[pivot_on_year_df['Diff negative'].notna()]
+                if color_col == cols.PARTY:
+                    diff_positive_col = 'EC diff positive'
+                    diff_negative_col = 'EC diff negative'
+                else:
+                    diff_positive_col = 'VW diff positive'
+                    diff_negative_col = 'VW diff negative'
+                diff_positive_df = pivot_on_year_df[pivot_on_year_df[diff_positive_col].notna()]
+                diff_negative_df = pivot_on_year_df[pivot_on_year_df[diff_negative_col].notna()]
                 pivot_on_year_df = diff_positive_df.append(diff_negative_df, ignore_index=True)
 
     if alt_groups:
@@ -99,8 +105,9 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
         
     # set fields and values that differ for static years (frame) vs animations (!frame)
     if frame:
-        fig_title = f'{base_fig_title} ({frame})'
-        # oye vey with all the scenarios needing all the sizes
+        fig_title = base_fig_title
+        if show_year:
+            fig_title = f'{fig_title} ({frame})'
         if show_era:
             era = get_era_for_year(frame)
             fig_title = f'{fig_title}<br>{era}'
@@ -186,20 +193,20 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
                 "%{customdata[4]} EC Votes → %{customdata[8]:,} Pop Votes",
             ])
         )
-    elif color_col == cols.PARTY and alt_data and alt_data == 'census_diff_2020':
-        fig.update_traces(
-            hovertemplate="<br>".join([
-                "<b>%{customdata[0]}</b><br>",
-                "Popular Vote (Turnout): <b>%{customdata[3]:,}</b>",
-                "Electoral College Votes: <b>%{customdata[4]}</b>",
-                "Popular Vote Per Elector: <b>%{customdata[6]:,}</b>",
-                "Voter Weight: <b>%{customdata[5]:.2f}</b>",
-                "Group: <b>%{customdata[1]}</b>",
-                "<br><b>Normalized to Nat'l Average:</b>",
-                "%{customdata[3]:,} Pop Votes → %{customdata[7]:.2f} EC Votes",
-                "%{customdata[4]} EC Votes → %{customdata[8]:,} Pop Votes",
-            ])
-        )
+    # elif color_col == cols.PARTY and alt_data and alt_data == 'census_diff_2020':
+    #     fig.update_traces(
+    #         hovertemplate="<br>".join([
+    #             "<b>%{customdata[0]}</b><br>",
+    #             "Popular Vote (Turnout): <b>%{customdata[3]:,}</b>",
+    #             "Electoral College Votes: <b>%{customdata[4]}</b>",
+    #             "Popular Vote Per Elector: <b>%{customdata[6]:,}</b>",
+    #             "Voter Weight: <b>%{customdata[5]:.2f}</b>",
+    #             "Group: <b>%{customdata[1]}</b>",
+    #             "<br><b>Normalized to Nat'l Average:</b>",
+    #             "%{customdata[3]:,} Pop Votes → %{customdata[7]:.2f} EC Votes",
+    #             "%{customdata[4]} EC Votes → %{customdata[8]:,} Pop Votes",
+    #         ])
+    #     )
     else:
         fig.update_traces(
             hovertemplate="<br>".join([
@@ -218,23 +225,29 @@ def build_vw_by_state_map(data_obj, groups_dir, max_small, color_col=None, fig_w
     if alt_data and alt_data == 'census_diff_2020' and census_diff_hilites:
         if color_col == cols.PARTY:
             pos_color = "lime"
-            neg_color = "yellow" 
-        else:
-            pos_color = "black"
             neg_color = "black" 
-        fig.add_scattergeo(name='', locationmode='USA-states', text=diff_positive_df['Diff positive'],
+            diff_positive_col = 'EC diff positive'
+            diff_negative_col = 'EC diff negative'
+        else:
+            pos_color = "#22DD22"
+            neg_color = "black" 
+            diff_positive_col = 'VW diff positive'
+            diff_negative_col = 'VW diff negative'
+        fig.add_scattergeo(locationmode='USA-states', text=diff_positive_df[diff_positive_col],
                             hoverinfo='skip', locations=diff_positive_df[cols.ABBREV], 
-                            mode='text', textfont=dict(size=10, color=pos_color))
-        fig.add_scattergeo(name='', locationmode='USA-states', text=diff_negative_df['Diff negative'],
+                            mode='text', textfont=dict(size=10, color=pos_color), showlegend=False)
+        fig.add_scattergeo(locationmode='USA-states', text=diff_negative_df[diff_negative_col],
                             hoverinfo='skip', locations=diff_negative_df[cols.ABBREV],
-                            mode='text', textfont=dict(size=10, color=neg_color))
+                            mode='text', textfont=dict(size=10, color=neg_color), showlegend=False)
     else:
         if color_col == cols.LOG_VOTE_WEIGHT:
             abbrev_color = "black"
+            text_col = cols.VOTE_WEIGHT
         else:
             abbrev_color = "white" 
-        fig.add_scattergeo(name='', locationmode='USA-states', text=pivot_on_year_df[cols.EC_VOTES],
+            text_col = cols.EC_VOTES
+        fig.add_scattergeo(locationmode='USA-states', text=pivot_on_year_df[text_col],
                             hoverinfo='skip', locations=pivot_on_year_df[cols.ABBREV], 
-                            mode='text', textfont=dict(size=10, color=abbrev_color))
+                            mode='text', textfont=dict(size=10, color=abbrev_color), showlegend=False)
 
     return fig
