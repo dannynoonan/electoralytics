@@ -44,12 +44,23 @@ content = html.Div([
                                 html.P(children=["—Jesse Wegman, ", html.I("“Let the People Pick the President”")])
                             ]),
                             html.Br(),
-                            html.H4("Ratios and averages", className="card-title"),
+                            html.H4("Measuring bias: Not all votes are created equal", className="card-title"),
                             html.P(className="card-text", children=[
-                                "“Small-state bias,” “slave-state bias,” and this idea of “suppression-state bias” all derive from different legal statutes, \
-                                census formulas, and state-level behaviors. Although different factors skew the relationship between apportionment and \
-                                participation for each variant of bias, the Voter Weight calculation works the same way for each, agnostic of which type of \
-                                bias it is measuring. It is a generic method of measuring imbalances that arise in the Electoral College system."
+                                "In the US, people don’t directly vote for President. Instead, states vote for president, via the Electoral College, and voters \
+                                within those states determine which way their state’s electors will vote. Representation via the Electoral College is ",
+                                html.I("connected"), " to state population, but that connection is not one-to-one. States also retain substantial autonomy over \
+                                their own voting restrictions, affecting eligibility and turnout. We think of our individual votes as being roughly equal to \
+                                those cast in other states, but in reality there’s wide variation from one state to the next. The Voter Weight calculation \
+                                attempts to measure this variation."
+                            ]),
+                            html.P(className="card-text", children=[
+                                "Several factors contribute to these state-by-state imbalances, both currently and historically. The effects of ", 
+                                dcc.Link("small-state bias", href="/voter-weight-electoral-college-bias-page2"), ", ", dcc.Link("slave-state bias", 
+                                href="/voter-weight-electoral-college-bias-page2"), ", and ", dcc.Link("suppression-state bias", 
+                                href="/voter-weight-electoral-college-bias-page4"), " all derive from very different legal statutes, Census formulas, and \
+                                state-level behaviors. And although different factors skew the relationship between representation and participation for each \
+                                variant of bias, the Voter Weight calculation works the same way for each, agnostic of which type of bias it is measuring. It \
+                                is a generic method of measuring imbalances that arise in the Electoral College system."
                             ]),
                             html.P(className="card-text", children=[
                                 "Disproportionate voter influence in the Electoral College boils down to the ratio between two factors:",

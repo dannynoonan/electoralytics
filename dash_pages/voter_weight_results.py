@@ -49,16 +49,15 @@ content = html.Div([
                             html.P(className="card-text", children=[
                                 "Depending on your familiarity with racial voter suppression in the decades following the Civil War, you may or may not be surprised \
                                 that the small-state and slave-state biases mathematically-prescribed in the Constitution — that is, the apportionment imbalances \
-                                that have made it onto every AP American History exam since the arrival of the Number 2 pencil — might in fact pale in comparison to \
-                                other permutations of sustained, systemic electoral inequity."
+                                that have appeared on AP American History exams since the arrival of the Number 2 pencil — might in fact pale in comparison to other \
+                                permutations of sustained, systemic electoral inequity."
                             ]),
                             html.P(className="card-text", children=[
-                                "The bigger story here, of course, isn’t that Southern states’ (white) voters counted for more than voters elsewhere in the country. \
-                                As always, the most significant thing to continue to highlight when discussing the Jim Crow era is the vile discrimination faced by \
-                                millions of Black Americans for decades, and how the uneven application of poll taxes, literacy tests, grandfather clauses, and \
-                                direct violent intimidation almost entirely disenfranchised the Southern Black population for generations. That Southern whites \
-                                derived greater voter influence through their sustained discriminatory action is merely an anecdotal extension of the broader \
-                                backstory of Jim Crow."
+                                "The bigger backstory here, of course, is of the practice and impact of voting discrimination on Black Americans: The uneven \
+                                application of poll taxes, the flagrant racial bias in literacy tests and grandfather clauses, and the use of direct violent \
+                                intimidation and terror to perpetuate a system of political, social, and economic apartheid in America. The fact that Southern \
+                                whites derived greater voting influence at the national level through their sustained discriminatory action at the local level is \
+                                merely an anecdotal extension of the broader backstory of Jim Crow."
                             ]),
                             html.P(className="card-text", children=[
                                 "However, these graphs illustrate that the villainous cackling of turn-of-the-century Southern racist political scheming didn’t \
