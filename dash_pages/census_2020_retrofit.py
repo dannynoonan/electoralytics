@@ -199,9 +199,10 @@ content = html.Div([
                             html.P(className="text-white", children=[
                                 "In the US, people don’t directly vote for President. Instead, states vote for president, and people within those states determine \
                                 which way their state will vote. Every state is allocated a number of ‘electors,’ based principally (but not entirely) on the state’s \
-                                population, and in theory every individual voter in every state has roughly the same amount of influence. ", dcc.Link("Voter Weight", 
-                                href="/voter-weight-calculation"), " is one way of measuring that influence, to the extent that it varies from state to state (and \
-                                from election to election)."
+                                population, which in theory should mean that every individual voter in every state exerts an influence on par with voters in other \
+                                states. In reality however, the proportional influence of voters varies widely between states. ",  dcc.Link("Voter Weight", 
+                                href="/voter-weight-calculation"), " is one way of measuring this variation in influence, from state to state and from election to \
+                                election."
                             ]),
                             html.P(className="text-white", children=[
                                 "A few things to know about Voter Weight:",
@@ -211,10 +212,7 @@ content = html.Div([
                                     html.Li("While a higher Voter Weight benefits those to whom it directly applies, it is ultimately a marker of anti-democratic \
                                         outcomes that favor one population over another"),
                                     html.Li("If every vote in every state counted equally, each state’s Voter Weight would be 1.0, and each bar in the Voter Weight \
-                                        chart below would be the same length and color shade"),
-                                    # html.Li("Regardless of which factors of apportionment or participation are responsible for shifts or distortions in Voter Weight, \
-                                    #     the resulting comparison is apples-to-apples — that is, the same calculation can be applied regardless of underlying bias / \
-                                    #     combination of Electoral College biases")
+                                        chart (below and to the left) would be the same length and color shade"),
                                 ]),
                                 "For details on deriving Voter Weight, visit the ", dcc.Link("Calculating Voter Weight", href="/voter-weight-calculation"), " page."
                             ]),

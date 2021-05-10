@@ -44,7 +44,7 @@ content = html.Div([
                                 html.P(children=["—Jesse Wegman, ", html.I("“Let the People Pick the President”")])
                             ]),
                             html.Br(),
-                            html.H4("Measuring bias: Not all votes are created equal", className="card-title"),
+                            html.H4("Measuring bias: All votes are not created equal", className="card-title"),
                             html.P(className="card-text", children=[
                                 "In the US, people don’t directly vote for President. Instead, states vote for president, via the Electoral College, and voters \
                                 within those states determine which way their state’s electors will vote. Representation via the Electoral College is ",
