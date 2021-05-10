@@ -48,8 +48,8 @@ content = html.Div([
                             html.P("May 5, 2021", style={"font-family": "arial", "font-size": "10pt"}),
                             html.Img(src="/static/stockImages/census-2020.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, width="50%"),
                             html.P(className="card-text", children=[
-                                "Every 10 years the US conducts a Census, and every 20 years that Census happens to occur in the same year as a Presidential election. \
-                                When the two overlap, as they did in 2020, it gives an opportunity to immediately apply the updated Census apportionment data to the \
+                                "Every 10 years the US conducts a census, and every 20 years that census happens to occur in the same year as a Presidential election. \
+                                When the two overlap, as they did in 2020, it gives an opportunity to immediately apply the updated census apportionment data to the \
                                 recent election. In fact, mathematically speaking, 2020 Census data provides a “truer” filter through which to interpet the 2020 \
                                 election than the crusty old 2010 Census apportionment data it replaces."
                             ]),
@@ -134,7 +134,7 @@ content = html.Div([
                                 84-vote Electoral College cushion over Nixon in 1960, despite Kennedy’s razor-thin 0.02% lead in the popular vote."
                             ]),                
                             html.P(className="text-white", children=[
-                                "The elections of 1800 and 2000 are the exceptions, but in both cases the year’s fresh Census data ended up favoring the winner, thus \
+                                "The elections of 1800 and 2000 are the exceptions, but in both cases the year’s fresh census data ended up favoring the winner, thus \
                                 adding to their legitimacy rather than igniting further controversy. The 1800 rematch between Jefferson and Adams was an 8-vote \
                                 Electoral College squeaker, but Jefferson’s edge would have expanded to 21 had the 1800 Census data been applied to the 1800 election \
                                 (none of which would have affected the dead-heat Jefferson found himself in with his slippery “running mate” Aaron Burr)."
@@ -142,7 +142,7 @@ content = html.Div([
                             html.P(className="text-white", children=[
                                 "And the tinder was certainly in place to reignite any spark of controversy in the wake of Bush-Gore 2000, where months of legal \
                                 wrangling had delivered Bush a narrow 4-vote Electoral College victory (anchored in a lead of less than 0.01% in Florida) by the time \
-                                the Census data was released. But the reapportionment changes resulting from the 2000 Census almost universally favored the \
+                                the census data was released. But the reapportionment changes resulting from the 2000 Census almost universally favored the \
                                 court-anointed victor: retroactive application of 2020 Census data to the 2020 Presidential election would have widened Bush's \
                                 Electoral College lead from 4 votes to 18."
                             ]),
@@ -154,7 +154,7 @@ content = html.Div([
                         dbc.CardBody([
                             html.P(className="card-text", children=[
                                 "That 6-vote difference isn't exactly headline-grabbing, but it’s easy to imagine a world where a razor-thin Presidential election \
-                                outcome could be thrown into further chaos by contemporaneous Census updates, particularly if the fresh Census data favors the loser \
+                                outcome could be thrown into further chaos by contemporaneous census updates, particularly if the fresh census data favors the loser \
                                 and tightens (or reverses) any Electoral College advantage. For example, if Biden had lost Georgia (16 EC votes) and Pennsylvania (20 \
                                 EC votes), bringing the November 2020 Electoral College scoreboard to a nail-biting 270-268, then the retrofitted application of 2020 \
                                 Census data to the 2020 election would have actually put Biden a couple Electoral College votes behind. Not in a legal sense, since \

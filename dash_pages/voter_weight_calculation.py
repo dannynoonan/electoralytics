@@ -57,7 +57,7 @@ content = html.Div([
                                 "Several factors contribute to these state-by-state imbalances, both currently and historically. The effects of ", 
                                 dcc.Link("small-state bias", href="/voter-weight-electoral-college-bias-page2"), ", ", dcc.Link("slave-state bias", 
                                 href="/voter-weight-electoral-college-bias-page2"), ", and ", dcc.Link("suppression-state bias", 
-                                href="/voter-weight-electoral-college-bias-page4"), " all derive from very different legal statutes, Census formulas, and \
+                                href="/voter-weight-electoral-college-bias-page4"), " all derive from very different legal statutes, census formulas, and \
                                 state-level behaviors. And although different factors skew the relationship between representation and participation for each \
                                 variant of bias, the Voter Weight calculation works the same way for each, agnostic of which type of bias it is measuring. It \
                                 is a generic method of measuring imbalances that arise in the Electoral College system."
@@ -137,7 +137,7 @@ content = html.Div([
                             html.H4("Example: Georgia vs Wisconsin in early 20th Century", className="card-title"),  
                             html.Img(style={"float": "right", "padding-left": "10px"}, src="/static/vwMath/vwMathSampler/popToEcWIGA1900.png", width="60%"),
                             html.P(className="card-text", children=[
-                                "Both Georgia’s and Wisconsin’s populations in the 1900 census (2.22 million and 2.07 million respectively) garnered 11 \
+                                "Both Georgia’s and Wisconsin’s populations in the 1900 Census (2.22 million and 2.07 million respectively) garnered 11 \
                                 representatives and 13 Electoral College votes. In the 1904 congressional and presidential election that followed, 131K \
                                 Georgians turned out to vote, while 443K turned out to vote in Wisconsin — more than triple that of Georgia. But, because \
                                 federal influence-allocation is determined by population census, both states sent the same number of reps to congress and \
@@ -152,7 +152,7 @@ content = html.Div([
                             html.Br(), html.Br(),
                             html.P(className="card-text", children=[
                                 "A few decades later, despite the intervening rise of Progressivism and passage of the 19th Amendment guaranteeing women \
-                                the right to vote, the disparity between these two states had widened. Each state’s population in the 1930 census garnered \
+                                the right to vote, the disparity between these two states had widened. Each state’s population in the 1930 Census garnered \
                                 it 10 representatives and 12 EC votes, but in the 1932 election 1.11M people voted in Wisconsin compared to 256K in Georgia, \
                                 giving each ballot cast in Georgia more than 4X the national-level influence of a Wisconsinite’s:",
                             ]),

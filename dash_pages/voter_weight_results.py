@@ -162,7 +162,7 @@ content = html.Div([
                             html.P(className="card-text", children=[
                                 "One last thought, with respect to demographics: It’s true that, when the Civil War began, Union-loyal Border states like Kentucky, \
                                 Maryland, and Missouri had somewhat fewer enslaved persons per capita than their Confederate counterparts to the south. But these \
-                                were not anecdotally slave “ish” states: more than 425K Blacks were enslaved in these three states per the ", dcc.Link("1860 census", 
+                                were not anecdotally slave “ish” states: more than 425K Blacks were enslaved in these three states per the ", dcc.Link("1860 Census", 
                                 href="https://www.census.gov/history/pdf/ApportionmentInformation-1860Census.pdf", target="_blank"), "."
                             ]),
                             html.P(className="card-text", children=[
