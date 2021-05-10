@@ -108,21 +108,13 @@ content = html.Div([
                     html.Br(),
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
-                            # html.Div(style={"text-align": "center"}, children=[
-                            #     html.P(className="card-text", children=[
-                            #         "Map and bar chart of states color shaded by Voter Weight. States in bar chart are also ordered by Voter Weight."
-                            #     ]),
-                            # ]),
-                            html.Small(className="card-text", style={"float": "right"}, children=[
-                                "Open an ", dcc.Link("intractive slideshow animation", target="_blank",
-                                href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_vw_acw4_1000.html"),
-                                " illustrating each frame for the map above ↑",
-                            ]),
-                            html.Br(),
-                            html.Small(className="card-text", children=[
-                                "← Open an ", dcc.Link("intractive slideshow animation", target="_blank",
-                                href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_bar_state_vw_color_by_vw_acw4_900.html"),
-                                " illustrating each frame for the chart to the left",
+                            html.Div(style={"font-size": "9pt"}, children=[
+                                html.P(className="card-text", children=[
+                                    "States color-shaded by 2020 Electoral College winner. Frame 1 shows each state’s Electoral College votes in 2020, where 2010 \
+                                    Census apportionment was still in effect. Frames 2 & 3 highlight states whose Electoral College representation is changing as a \
+                                    result of the 2020 Census. Frame 4 shows what each state's Electoral College representation will be in the next election, based \
+                                    on the 2020 Census."
+                                ]),
                             ]),
                         ]),
                     ])
@@ -264,21 +256,13 @@ content = html.Div([
                     html.Br(),
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
-                            # html.Div(style={"text-align": "center"}, children=[
-                            #     html.P(className="card-text", children=[
-                            #         "Map and bar chart of states color shaded by Voter Weight. States in bar chart are also ordered by Voter Weight."
-                            #     ]),
-                            # ]),
-                            html.Small(className="card-text", style={"float": "right"}, children=[
-                                "Open an ", dcc.Link("intractive slideshow animation", target="_blank",
-                                href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_vw_acw4_1000.html"),
-                                " illustrating each frame for the map above ↑",
-                            ]),
-                            html.Br(),
-                            html.Small(className="card-text", children=[
-                                "← Open an ", dcc.Link("intractive slideshow animation", target="_blank",
-                                href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_bar_state_vw_color_by_vw_acw4_900.html"),
-                                " illustrating each frame for the chart to the left",
+                            html.Div(style={"font-size": "9pt"}, children=[
+                                html.P(className="card-text", children=[
+                                    "States color-shaded by Voter Weight in 2020 election. Frame 1 shows Voter Weight in each state in 2020, where 2010 Census apportionment \
+                                    was still in effect. Frames 2 & 3 highlight states whose Electoral College representation is changing as a result of the 2020 Census, and \
+                                    the degree to which this would have affected Voter Weight in the recent election. Frame 4 shows what each state’s Voter Weight would have \
+                                    been if the 2020 Census data were in effect during the 2020 election."
+                                ]),
                             ]),
                         ]),
                     ])
