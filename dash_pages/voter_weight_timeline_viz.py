@@ -39,7 +39,7 @@ content = html.Div([
             ]),
             html.Br(),
             dbc.Row([
-                dbc.Col(md=5, children=[
+                dbc.Col(md=4, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
                             html.H4("Using the Annotated Voter Weight timeline chart", className="card-title"),
@@ -72,10 +72,10 @@ content = html.Div([
                         ])
                     ])
                 ]),
-                dbc.Col(md=7, children=[
+                dbc.Col(md=8, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
-                            html.H4("Election year range; quirks in the early years", className="card-title"),
+                            html.H4("Election year range: Quirks in the early years", className="card-title"),
                             html.P(className="card-text", children=[
                                 "Where’s 1788-1796? And what’s with the zig-zaggy lines in the early 1800s?"
                             ]),
@@ -90,25 +90,28 @@ content = html.Div([
                                 "As a result, fewer than 2% of people voted in each of these first 10 US presidential elections, hitting a 30-year low in 1820 \
                                 at 1.11% of the total population (see figure below)."
                             ]),
+                            html.Img(src="/static/stockImages/andrew-jackson.jpg", style={"float": "left", "padding-right": "10px", "padding-top": "5px"}, width="35%"),
                             html.P(className="card-text", children=[
-                                "Popular vote data before 1800 is too scant to really work with, then from 1800 to 1824 the amount of data increases - but it’s \
+                                "Popular vote data before 1800 is too scant to really work with, then from 1800 to 1824 the amount of data increases — but it’s \
                                 erratic. Several states switch back and forth between elector selection (a) by legislature, (b) by very limited popular vote, \
                                 and (c) by significantly wider popular vote.",
                             ]),
                             html.P(className="card-text", children=[
                                 "My presentation of these earliest years doesn’t account for the on-again/off-again use of Popular Vote very well. My aggregate \
                                 tallies (at the state-group level) exclude states that don’t even hold a popular presidential vote in a given year. This means \
-                                states like North Carolina and Kentucky that did hold popular votes - albeit very restrictive ones - in those earliest years end \
-                                up being “penalized” more than states like New York and South Carolina where ", html.I("nobody"), " was permitted to vote.",                              
+                                states like North Carolina and Kentucky that ", html.I("did"), " hold popular votes—albeit very restrictive ones—in those earliest \
+                                years end up being “penalized” more than states like New York and South Carolina, where ", html.I("nobody"), " was permitted to vote.",                              
                             ]),
                             html.P(className="card-text", children=[
                                 "Between 1820 and 1828 the popular vote increased 10-fold, marking the dawn of “populism” and “Jacksonian democracy,” and from 1828 \
-                                onward some form of popular vote has been the norm in every state (except South Carolina, which didn’t switch to popular vote until \
-                                Reconstruction)."
+                                onward some form of popular vote has been the norm in every state — except South Carolina, which didn’t switch to popular vote until \
+                                Reconstruction."
                             ]),
                             html.P(className="card-text", children=[
-                                "I considered excluding the years prior to 1828 from analysis altogether, since those years tell a much different story than what \
-                                emerges from the late 1820s onward, but in the end I held onto them - less for the trend analysis than for the novelty and intrigue.",                              
+                                "I excluded the years prior to 1828 in another version of the Annotated Timeline diplayed back in ", dcc.Link("Part 1", 
+                                href="/voter-weight-electoral-college-bias-page1"), ", since those years tell a much different story than what emerges from the late \
+                                1820s onward, but I’m displaying those earlier years here for the sake of completeness. I think they’re pretty interesting, even if \
+                                they don’t fit as coherently within the broader thesis.",                              
                             ]),
                             html.P(className="card-text", children=[
                                 "The “Votes cast as a percentage of population” chart below shows this overall increase (and decrease) in national popular vote over \

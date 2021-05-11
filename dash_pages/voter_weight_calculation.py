@@ -129,9 +129,8 @@ content = html.Div([
                     html.Br(),
                     dbc.Card(className="bg-primary", children=[
                         dbc.CardBody([
-                            html.H4("Implications / literal meaning of Voter Weight", className="text-white"),
+                            html.H4("Interpreting Voter Weight", className="text-white"),
                             html.P(className="text-white", children=[
-                                "A couple general observations about Voter Weight:",
                                 html.Ul(style={"margin-left": "10px", "padding-left": "10px"}, children=[
                                     html.Li("Voter Weight is a zero sum game: in aggregate all weights average out to 1.0, so an increase in one state must be \
                                         offset by a decrease in another"),
@@ -146,6 +145,7 @@ content = html.Div([
                     ]),
                 ]),
             ]),
+            html.Br(),
             dbc.Row([
                 dbc.Col(md=12, children=[
                     html.H4("Select year:", className="text-white"),
@@ -172,18 +172,18 @@ content = html.Div([
                     html.Br(),
                     dbc.Card(className="border-success", style={"font-size": "9pt"}, children=[
                         dbc.CardBody([
-                            html.Div(style={"text-align": "center"}, children=[
-                                html.P(className="card-text", children=[
-                                    "States color shaded by Voter Weight, over the course of 56 presidential elections between 1800 and 2020."
-                                ]),
-                            ]),
-                            html.Br(),
+                            # html.Div(style={"text-align": "center"}, children=[
+                            #     html.P(className="card-text", children=[
+                            #         "States color shaded by Voter Weight, over the course of 56 presidential elections between 1800 and 2020."
+                            #     ]),
+                            # ]),
+                            # html.Br(),
                             html.Div(style={"float": "right"}, children=[
                                 "Open an ", dcc.Link("intractive slideshow animation", target="_blank",
                                 href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_vw_acw4_1000.html"),
                                 " illustrating every year for the map above ↑ ",
                             ]),
-                            html.Br(),
+                            html.Br(),html.Br(),
                             html.Div(className="card-text", children=[
                                 "← Open an ", dcc.Link("intractive slideshow animation", target="_blank",
                                 href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_bar_state_vw_color_by_vw_acw4_900.html"),

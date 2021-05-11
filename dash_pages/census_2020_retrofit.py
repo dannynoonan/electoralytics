@@ -12,8 +12,6 @@ content = html.Div([
         dbc.CardBody([
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                # html.H3("Applying 2020 Census data to the 2020 Presidential election"),
-                # html.H3("Retrofitting the 2020 Presidential election to 2020 Census data"),
                 html.H3("Retrofitting 2020 Election data to the 2020 Census"),
             ]),
             html.Br(),
@@ -112,7 +110,7 @@ content = html.Div([
                                 html.P(className="card-text", children=[
                                     "States color-shaded by 2020 Electoral College winner. Frame 1 shows each state’s Electoral College votes in 2020, where 2010 \
                                     Census apportionment was still in effect. Frames 2 & 3 highlight states whose Electoral College representation is changing as a \
-                                    result of the 2020 Census. Frame 4 shows what each state's Electoral College representation will be in the next election, based \
+                                    result of the 2020 Census. Frame 4 shows what each state’s Electoral College representation will be in the next election, based \
                                     on the 2020 Census."
                                 ]),
                             ]),
@@ -153,7 +151,7 @@ content = html.Div([
                     dbc.Card(className="border-success lead", style={"font-family": "times-new-roman"}, children=[
                         dbc.CardBody([
                             html.P(className="card-text", children=[
-                                "That 6-vote difference isn't exactly headline-grabbing, but it’s easy to imagine a world where a razor-thin Presidential election \
+                                "That 6-vote difference isn’t exactly headline-grabbing, but it’s easy to imagine a world where a razor-thin Presidential election \
                                 outcome could be thrown into further chaos by contemporaneous census updates, particularly if the fresh census data favors the loser \
                                 and tightens (or reverses) any Electoral College advantage. For example, if Biden had lost Georgia (16 EC votes) and Pennsylvania (20 \
                                 EC votes), bringing the November 2020 Electoral College scoreboard to a nail-biting 270-268, then the retrofitted application of 2020 \
