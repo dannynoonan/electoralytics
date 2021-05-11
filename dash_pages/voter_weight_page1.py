@@ -123,7 +123,7 @@ content = html.Div([
             html.Br(),
             dbc.Row([
                 dbc.Col(md=6, children=[
-                    dcc.Graph(id="fig-bar-color-by-vw"),
+                    dcc.Graph(id="fig-bar-color-by-vw2"),
                     html.P(className="card-text", style={"padding": "5px"}, children=[
                         html.Small(children=["Figure 1: States color shaded by Voter Weight, or degree of hyper-enfranchisement, over the course of 56 presidential \
                             elections between 1800 and 2020. Control the year using the slider above, or open an ", dcc.Link("intractive slideshow animation", 

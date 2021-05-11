@@ -65,14 +65,14 @@ content = html.Div([
                                 html.I(children=["Note: If you’re feeling totally solid on your Reconstruction history and just wanna skip ahead to more charts and \
                                 data, leapfrog on over to ", dcc.Link("Part 4: Suppression-state bias", href="/voter-weight-electoral-college-bias-page4"), "."])
                             ]),
-                            html.Div(className="card-text lead", style={"margin-left": "50px", "margin-right": "50px"}, children=[
-                                html.P(style={"font-style": "italic"}, children=[
-                                    "From the nature of man we may be sure, that those who have power in their hands will not give it up while they can retain \
-                                    it. On the contrary we know they will always when they can rather increase it.",
-                                    dcc.Link(href="/sources-notes", children=[html.Sup("5")]),
-                                ]),
-                                html.P("—George Mason, at the Constitutional Convention in 1787")
-                            ]),
+                            # html.Div(className="card-text lead", style={"margin-left": "50px", "margin-right": "50px"}, children=[
+                            #     html.P(style={"font-style": "italic"}, children=[
+                            #         "From the nature of man we may be sure, that those who have power in their hands will not give it up while they can retain \
+                            #         it. On the contrary we know they will always when they can rather increase it.",
+                            #         dcc.Link(href="/sources-notes", children=[html.Sup("5")]),
+                            #     ]),
+                            #     html.P("—George Mason, at the Constitutional Convention in 1787")
+                            # ]),
                             html.Br(),
                             html.H4("Black suffrage: Equality, security, morality"),
                             html.Img(src="/static/stockImages/reconstruction-suppression.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, 
@@ -239,7 +239,20 @@ content = html.Div([
                         ])
                     ])
                 ]),
-                dbc.Col(md=3),
+                dbc.Col(md=3, children=[
+                    dbc.Card(className="bg-primary text-white", children=[
+                        dbc.CardBody([
+                            html.Div(className="lead", style={"margin-left": "30px", "margin-right": "30px"}, children=[
+                                html.P(style={"font-style": "italic"}, children=[
+                                    "“From the nature of man we may be sure, that those who have power in their hands will not give it up while they can retain \
+                                    it. On the contrary we know they will always when they can rather increase it.”",
+                                    dcc.Link(href="/sources-notes", children=[html.Sup("5")]),
+                                ]),
+                                html.P("—George Mason, in 1787 at the Constitutional Convention")
+                            ]),    
+                        ]),
+                    ]),
+                ]),
             ]),
             html.Br(),
             html.Hr(className="border-light"),

@@ -32,18 +32,35 @@ content = html.Div([
             ]),
             html.Br(),
             dbc.Row([
+                dbc.Col(md=3, children=[
+                    html.Div(className="list-group sticky-top", children=[
+                        html.A(href="/voter-weight-electoral-college-bias-intro", className="list-group-item list-group-item-action", children=[
+                            "Intro: American voter enfranchisement"]),
+                        html.A(href="/voter-weight-electoral-college-bias-page1", className="list-group-item list-group-item-action", children=[
+                            "Part 1: Equality for states, not for voters"]),
+                        html.A(href="/voter-weight-electoral-college-bias-page2", className="list-group-item list-group-item-action", children=[
+                            "Part 2: Small-state bias and slave-state bias"]),
+                        html.A(href="/voter-weight-electoral-college-bias-page3", className="list-group-item list-group-item-action", children=[
+                            "Part 3: Reconstruction and Black voting rights"]),
+                        html.A(href="/voter-weight-electoral-college-bias-page4", className="list-group-item list-group-item-action", children=[
+                            "Part 4: Suppression-state bias"]),
+                        html.A(href="/voter-weight-results", className="list-group-item list-group-item-action", children=[
+                            "Part 5: Results and observations"]),
+                        html.A(href="/voter-weight-conclusions", className="list-group-item list-group-item-action", children=[
+                            "Part 6: Conclusions and interpretation"]),
+                        html.A(href="/voter-weight-calculation", className="list-group-item list-group-item-action active", children=[
+                            "→ Appx 1: Calculating Voter Weight"]),
+                        html.A(href="/voter-weight-timeline-visualization", className="list-group-item list-group-item-action", children=[
+                            "Appx 2: Annotated timeline"]),
+                        html.A(href="/explanation-of-groupings", className="list-group-item list-group-item-action", children=[
+                            "Appx 3: Explanation of state groupings"]),
+                        html.A(href="/voter-weight-figure-vault", className="list-group-item list-group-item-action", children=[
+                            "The Vault: 220 years of maps, charts, & figures"]),
+                    ])
+                ]),
                 dbc.Col(md=6, children=[
                     dbc.Card(className="border-success", children=[
                         dbc.CardBody([
-                            html.Div(className="card-text lead", style={"margin-left": "50px", "margin-right": "50px"}, children=[
-                                html.P(style={"font-style": "italic"}, children=[
-                                    "Because each state gets its prescribed number of electors based on total population, not on how many of its residents \
-                                    cast a ballot, there is no incentive to expand the electorate.",
-                                    dcc.Link(href="/sources-notes", children=[html.Sup("47")]),
-                                ]),
-                                html.P(children=["—Jesse Wegman, ", html.I("“Let the People Pick the President”")])
-                            ]),
-                            html.Br(),
                             html.H4("Measuring bias: All votes are not created equal", className="card-title"),
                             html.P(className="card-text", children=[
                                 "In the US, people don’t directly vote for President. Instead, states vote for president, via the Electoral College, and voters \
@@ -93,9 +110,27 @@ content = html.Div([
                                 html.I("Disclaimer:"), " I’m neither a historian nor a mathematician, so I don’t know if this is ", html.I("the"), " way to \
                                 measure these types of voter influence disparities, but it certainly is ", html.I("a"), " way is to measure them.",                            
                             ]),
-                            html.Br(),
-                            html.H4("Implications / literal meaning of Voter Weight", className="card-title"),
-                            html.P(className="card-text", children=[
+                        ])
+                    ]),
+                ]),
+                dbc.Col(md=3, children=[
+                    dbc.Card(className="bg-primary text-white", children=[
+                        dbc.CardBody([
+                            html.Div(className="lead", style={"margin-left": "30px", "margin-right": "30px"}, children=[
+                                html.P(style={"font-style": "italic"}, children=[
+                                    "“Because each state gets its prescribed number of electors based on total population, not on how many of its residents \
+                                    cast a ballot, there is no incentive to expand the electorate.”",
+                                    dcc.Link(href="/sources-notes", children=[html.Sup("47")]),
+                                ]),
+                                html.P(children=["—Jesse Wegman, ", html.I("“Let the People Pick the President”")])
+                            ]),    
+                        ]),
+                    ]),
+                    html.Br(),
+                    dbc.Card(className="bg-primary", children=[
+                        dbc.CardBody([
+                            html.H4("Implications / literal meaning of Voter Weight", className="text-white"),
+                            html.P(className="text-white", children=[
                                 "A couple general observations about Voter Weight:",
                                 html.Ul(style={"margin-left": "10px", "padding-left": "10px"}, children=[
                                     html.Li("Voter Weight is a zero sum game: in aggregate all weights average out to 1.0, so an increase in one state must be \
@@ -107,9 +142,12 @@ content = html.Div([
                                         underlying bias / combination of biases")
                                 ]),
                             ]),
-                        ])
+                        ]),
                     ]),
-                    html.Br(),
+                ]),
+            ]),
+            dbc.Row([
+                dbc.Col(md=12, children=[
                     html.H4("Select year:", className="text-white"),
                     dcc.Slider(
                         id="map-color-by-vw-year-input",
@@ -122,13 +160,61 @@ content = html.Div([
                         },
                         value=1960,
                     ),
-                    html.Br(),
+                ]),
+            ]),
+            html.Br(),
+            dbc.Row([
+                dbc.Col(md=6, children=[
+                    dcc.Graph(id="fig-bar-color-by-vw"),
+                ]),
+                dbc.Col(md=6, children=[
                     dcc.Graph(id="fig-map-color-by-vw"),
-                    html.P(className="card-text", style={"padding": "5px"}, children=[
-                        html.Small(children=["States color shaded by Voter Weight, over the course of 56 presidential elections between 1800 and 2020. Control \
-                            the year using the slider above, or open an ", dcc.Link("intractive slideshow animation", className="text-white",
-                            href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_vw_acw4_1000.html",
-                            target="_blank"), " illustrating the full history."]),
+                    html.Br(),
+                    dbc.Card(className="border-success", style={"font-size": "9pt"}, children=[
+                        dbc.CardBody([
+                            html.Div(style={"text-align": "center"}, children=[
+                                html.P(className="card-text", children=[
+                                    "States color shaded by Voter Weight, over the course of 56 presidential elections between 1800 and 2020."
+                                ]),
+                            ]),
+                            html.Br(),
+                            html.Div(style={"float": "right"}, children=[
+                                "Open an ", dcc.Link("intractive slideshow animation", target="_blank",
+                                href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_map_state_vw_acw4_1000.html"),
+                                " illustrating every year for the map above ↑ ",
+                            ]),
+                            html.Br(),
+                            html.Div(className="card-text", children=[
+                                "← Open an ", dcc.Link("intractive slideshow animation", target="_blank",
+                                href="https://htmlpreview.github.io/?https://github.com/dannynoonan/electoralytics/blob/master/html_figures/anim_bar_state_vw_color_by_vw_acw4_900.html"),
+                                " illustrating every year for the chart to the left",
+                            ]),
+                        ]),
+                    ]),
+                ]),
+            ]),
+            html.Br(),html.Br(),
+            dbc.Row([
+                dbc.Col(md=3, children=[
+                    dbc.Card(className="bg-primary", children=[
+                        dbc.CardBody([
+                            html.H4("A note about swing states and “winner-take-all”", className="text-white"),
+                            html.P(className="text-white", children=[
+                                "Astute critics of this crude Voter Weight metric will be quick to point out that it completely ignores the reality of \
+                                “battleground states.” In any given election, the Electoral College’s “winner take all” implementation—and the safe-state vs \
+                                swing-state electioneering it engenders—undoubtedly overshadows nibbling inequity arising from electoral quirks like small-state \
+                                bias. Sure, one vote in Wyoming may have counted for 3.75 votes in Pennsylvania in 2020 (see bar chart and map below), but \
+                                undoubtedly those Pennsylvania voters had a greater impact on the election due to the much tighter margin in Pennsylvania, and the \
+                                greater number of electoral votes at stake (PA’s 20 vs WY’s 3)."
+                            ]),
+                            html.P(className="text-white", children=[
+                                "Voter Weight ignores the swing-state and winner-take-all aspect of the Electoral College altogether. Not because they’re \
+                                unimportant, but because that’s a whole additional layer of variables. One issue at a time! Voter Weight is a blunt instrument, and \
+                                for the purposes of my first couple articles, its crude simplicity is sufficient. Please don’t misinterpret my simplistic initial \
+                                focus to mean I’m either ignoring or downplaying the relevance of swing states! Quantifying and comparing voter impact as a function \
+                                of swing state trends is high on my list of future topics to explore."
+                            ]),
+                        ]),
                     ]),
                 ]),
                 dbc.Col(md=6, children=[
@@ -174,10 +260,13 @@ content = html.Div([
                                 But demographics aside, the Voter Weight / voter suppression calculation is the same — it may just turn out that \
                                 suppression-state bias goes beyond “five-fifths.”",
                             ]),
-                            html.Img(src="/static/screenshots/lineChartWIvsGA.png", style={"float": "left", "padding-right": "10px"}, width="100%"),
+                            dcc.Link(href="/voter-weight-timeline-visualization", children=[
+                                html.Img(src="/static/screenshots/lineChartWIvsGA.png", style={"float": "left", "padding-right": "10px"}, width="100%"),
+                            ]),
                         ])
                     ]),
                 ]),
+                dbc.Col(md=3),
             ]),
             html.Br(),
             html.Hr(className="border-light"),

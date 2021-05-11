@@ -183,7 +183,7 @@ def display_landing_page(bar_year_input, scatter_year_input):
 
 ############ voter-weight-electoral-college-bias-page1 callbacks
 @app.callback(
-    Output('fig-bar-color-by-vw', 'figure'),
+    Output('fig-bar-color-by-vw2', 'figure'),
     Output('fig-map-color-by-vw2', 'figure'),
     Output('fig-line-vw-timeline-short', 'figure'),
     Input('map-year-input', 'value'),
@@ -400,15 +400,21 @@ def display_voter_weight_conclusions(slave_state_bias_figure_type, slave_state_b
 
 ############ voter-weight-calculation callbacks
 @app.callback(
+    Output('fig-bar-color-by-vw', 'figure'),
     Output('fig-map-color-by-vw', 'figure'),
     Input('map-color-by-vw-year-input', 'value'))
 def display_voter_weight_calculation(year_input):
     # process input
     year = int(year_input)
+    # fig titles
+    title_bar_color_by_vw = 'Whose vote counted more?<br>States ordered and shaded by Voter Weight'
     # generate figs
+    fig_bar_color_by_vw = bar_plots.build_vw_by_state_bar(
+        data_obj, ddirs.ACW, 5, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD5, frame=year, 
+        base_fig_title=title_bar_color_by_vw, show_era=False)
     fig_map_color_by_vw = choropleths.build_vw_by_state_map(
         data_obj, ddirs.ACW, 5, color_col=cols.LOG_VOTE_WEIGHT, fig_width=fig_dims.MD7, frame=year)
-    return fig_map_color_by_vw
+    return fig_bar_color_by_vw, fig_map_color_by_vw
 
 
 ############ explanation-of-groupings callbacks
