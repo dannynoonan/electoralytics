@@ -90,7 +90,7 @@ content = html.Div([
                                 "As a result, fewer than 2% of people voted in each of these first 10 US presidential elections, hitting a 30-year low in 1820 \
                                 at 1.11% of the total population (see figure below)."
                             ]),
-                            html.Img(src="/static/stockImages/andrew-jackson.jpg", style={"float": "left", "padding-right": "10px", "padding-top": "5px"}, width="35%"),
+                            html.Img(src="/static/stockImages/andrew-jackson.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, width="33%"),
                             html.P(className="card-text", children=[
                                 "Popular vote data before 1800 is too scant to really work with, then from 1800 to 1824 the amount of data increases — but it’s \
                                 erratic. Several states switch back and forth between elector selection (a) by legislature, (b) by very limited popular vote, \

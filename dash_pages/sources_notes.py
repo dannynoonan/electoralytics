@@ -218,14 +218,14 @@ content = html.Div([
                                 dcc.Link("Intro: American voter enfranchisement: A zero-sum game", href="/voter-weight-electoral-college-bias-intro"),
                                 html.Ul(children=[
                                     html.Li(children=[
-                                        "Alfred R. Waud, “The First Vote”, ", html.I("Harper’s Weekly"), ", (Nov. 16 1867), ", dcc.Link("Library of Congress", 
+                                        "Alfred R. Waud, “The First Vote”, ", html.I("Harper’s Weekly"), " (Nov. 16 1867), ", dcc.Link("Library of Congress", 
                                         href="https://www.loc.gov/resource/cph.3a52371/", target="_blank"),
                                     ]),
                                 ]),
                                 dcc.Link("Part 1: Electoral College bias: Equality for states, not for voters", href="/voter-weight-electoral-college-bias-page1"),
                                 html.Ul(children=[
                                     html.Li(children=[
-                                        "1790 Census of the United States, ", dcc.Link("familytree.com", target="_blank",
+                                        "1790 Census of the United States (Oct. 24, 1791), ", dcc.Link("familytree.com", target="_blank",
                                         href="https://www.familytree.com/blog/two-hundred-and-twenty-eight-years/"),
                                     ]),
                                     html.Li(children=[
@@ -236,8 +236,8 @@ content = html.Div([
                                 dcc.Link("Part 2: Small-state bias and slave-state bias: As the framers intended", href="/voter-weight-electoral-college-bias-page2"),
                                 html.Ul(children=[
                                     html.Li(children=[
-                                        "List of votes for President and Vice President of the United States, Records of the U.S. Senate, Record Group 46 (Feb. 8, 1837), ",
-                                        dcc.Link("docsteach.org", target="_blank",
+                                        "List of votes for President and Vice President of the United States, ", html.I("Records of the U.S. Senate, Record Group 46"),
+                                        " (Feb. 8, 1837), ", dcc.Link("docsteach.org", target="_blank",
                                         href="https://www.docsteach.org/documents/document/list-of-votes-for-president-and-vice-president-of-the-united-states"),
                                     ]),
                                 ]),
@@ -248,11 +248,11 @@ content = html.Div([
                                         href="https://www.loc.gov/resource/cph.3a03175/", target="_blank"),
                                     ]),
                                     html.Li(children=[
-                                        "Frederick Douglass, William Lloyd Garrison, Wendell Phillips, ", dcc.Link("americanabolitionists.com",
+                                        "Photo montage: Frederick Douglass, William Lloyd Garrison, Wendell Phillips, ", dcc.Link("americanabolitionists.com",
                                         href="http://www.americanabolitionists.com/abolitionists-and-anti-slavery-activists.html", target="_blank"),
                                     ]),
                                     html.Li(children=[
-                                        "“Freedmen’s Bureau, ", html.I("Harper’s Weekly"), " (1868), ", dcc.Link("encyclopediaofalabama.org", target="_blank", 
+                                        "“Freedmen’s Bureau”, ", html.I("Harper’s Weekly"), " (1868), ", dcc.Link("encyclopediaofalabama.org", target="_blank", 
                                         href="http://encyclopediaofalabama.org/article/m-6202"),
                                     ]),
                                     html.Li(children=[
@@ -270,6 +270,85 @@ content = html.Div([
                                     html.Li(children=[
                                         "Thomas Nast, “The Union As It Was”, ", html.I([dcc.Link("Harper’s Weekly", target="_blank",
                                         href="https://blackhistory.harpweek.com/7Illustrations/Reconstruction/UnionAsItWas.htm")]), " (Oct. 24, 1874)"
+                                    ]),
+                                ]),
+                                dcc.Link("Part 5: Results and observations", href="/voter-weight-results"),
+                                html.Ul(children=[
+                                    html.Li(children=[
+                                        "A. B. Frost, “Of Course He Wants To Vote The Democratic Ticket”, ", html.I("Harper’s Weekly"), " (Oct. 1876), ",
+                                        dcc.Link("Wikimedia", target="_blank", 
+                                        href="https://commons.wikimedia.org/wiki/File:%27Of_Course_He_Wants_To_Vote_The_Democratic_Ticket%27_(October_1876),_Harper%27s_Weekly.jpg"),
+                                    ]),
+                                    html.Li(children=[
+                                        "Russell Lee, “A poll tax sign in Mineola, Texas” (Jan. 1939), ", dcc.Link("Library of Congress", target="_blank",
+                                        href="https://www.loc.gov/item/2017738854/"),
+                                    ]),
+                                    html.Li(children=[
+                                        "1860 Census of the United States, ", dcc.Link("census.gov", target="_blank",
+                                        href="https://www.census.gov/history/pdf/ApportionmentInformation-1860Census.pdf"),
+                                    ]),
+                                    html.Li(children=[
+                                        "“Supreme Court Invalidates Key Part of Voting Rights Act”, ", html.I([dcc.Link("New York Times", target="_blank",
+                                        href="https://www.nytimes.com/2013/06/26/us/supreme-court-ruling.html")]), " (June 25, 2013)"
+                                    ]),
+                                ]),
+                                dcc.Link("Part 6: Conclusions and interpretation", href="/voter-weight-conclusions"),
+                                html.Ul(children=[
+                                    html.Li(children=[
+                                        "E. W. Kemble, “Congress - 14th Amendment 2nd section” (1902), ", dcc.Link("Library of Congress", target="_blank", 
+                                        href="https://www.loc.gov/resource/ppmsca.07161/"), 
+                                    ]),
+                                    html.Li(children=[
+                                        "Newspaper clipping: “High Court Rules Scott Still a Slave” (Mar. 7, 1857), ", dcc.Link("Ferris State University", target="_blank", 
+                                        href="https://www.ferris.edu/htmls/news/jimcrow/timeline/slavery.htm"), 
+                                    ]),
+                                    html.Li(children=[
+                                        "Newspaper clipping: “Read and Ponder the Fugitive Slave Law” (1850), ", dcc.Link("Getty Images", target="_blank", 
+                                        href="https://www.gettyimages.com/detail/news-photo/an-anti-whig-editorial-regarding-the-fugitive-slave-law-of-news-photo/640486403"),
+                                    ]),
+                                    html.Li(children=[
+                                        "J. L. Magee, “Forcing slavery down the throat of a freesoiler” (1856), ", dcc.Link("Library of Congress", target="_blank", 
+                                        href="https://www.loc.gov/resource/lprbscsm.scsm0326/"), 
+                                    ]),
+                                    html.Li(children=[
+                                        "Pamphlet: “A voice from the South: comprising letters from Georgia to Massachusetts, and to the southern states”, ",
+                                        html.I("Baltimore, Western Continent Press"), " (1847), ", dcc.Link("Library of Congress", target="_blank", 
+                                        href="https://www.loc.gov/resource/rbaapc.16300/?sp=1"), 
+                                    ]),
+                                    html.Li(children=[
+                                        "Chip Somodevilla, “The Russell Senate Office Building on Capitol Hill”, ", html.I([dcc.Link("The Atlanta Journal-Constitution",
+                                        href="https://www.loc.gov/resource/lprbscsm.scsm0326/", target="_blank")]), " (Aug. 27 , 2018)"
+                                    ]),
+                                    html.Li(children=[
+                                        "“The 1938 Home Owners’ Loan Corporation map of Brooklyn”, ", dcc.Link("Red Line Archives", target="_blank", 
+                                        href="https://www.redlinearchive.net/portfolio/red-line-maps/"), 
+                                    ]),
+                                    html.Li(children=[
+                                        "“Luxurious Early American Railway Pullman Dining Car” (1877), ", dcc.Link("Getty Images", target="_blank", 
+                                        href="https://www.gettyimages.com/detail/illustration/luxurious-early-american-railway-pullman-royalty-free-illustration/977712268"), 
+                                    ]),
+                                    html.Li(children=[
+                                        "Johnny Jenkins or Will Counts, “Little Rock Crisis” (Sep. 23, 1957), ", dcc.Link("Getty Images", target="_blank",
+                                        href="https://www.gettyimages.com/detail/news-photo/elizabeth-eckford-ignores-the-hostile-screams-and-stares-of-news-photo/517322800"), 
+                                    ]),
+                                    html.Li(children=[
+                                        "Original Film Art: “Gone with the Wind” (1939)",
+                                    ]),
+                                    html.Li(children=[
+                                        "“A group of Klan members lead their children through a parade.” (Circa 1912-1930), ", dcc.Link("allthatsinteresting.com",
+                                        href="https://allthatsinteresting.com/ku-klux-klan-youth#5", target="_blank"), 
+                                    ]),
+                                    html.Li(children=[
+                                        "Saul Loeb, “A supporter of US President Donald Trump carries a Confederate flag as he protests in the US Capitol Rotunda on \
+                                        January 6, 2021, in Washington, DC.” (Jan. 6, 2021), ", dcc.Link("Getty Images", target="_blank",
+                                        href="https://www.gettyimages.com/detail/news-photo/supporter-of-us-president-donald-trump-carries-a-news-photo/1230455296"), 
+                                    ]),
+                                ]),
+                                dcc.Link("Appendix 2: Annotated Timeline Charting Voter Weight Trends: 1800 - 2020", href="/voter-weight-timeline-visualization"),
+                                html.Ul(children=[
+                                    html.Li(children=[
+                                        "Portrait of President Andrew Jackson (1832), ", dcc.Link("University of Tennessee Knoxville", target="_blank", 
+                                        href="https://history.utk.edu/uts-andrew-jackson-project-now-available-online/"), 
                                     ]),
                                 ]),
                             ]),
