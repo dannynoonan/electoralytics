@@ -12,7 +12,7 @@ content = html.Div([
         dbc.CardBody([
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Project sources"),
+                html.H3("Image sources"),
             ]),
             html.Br(),
             dbc.Row([
@@ -22,11 +22,22 @@ content = html.Div([
                         dbc.CardBody([
                             html.H4("Visualizing the “Jim Crow Power” through Electoral College data", className="card-title"),
                             html.P(className="card-text", children=[
-                                html.B("Citations:"),
-                                html.Ol(children=[
+                                dcc.Link("Intro: American voter enfranchisement: A zero-sum game", href="/voter-weight-electoral-college-bias-intro"),
+                                html.Ul(children=[
                                     html.Li(children=[
-                                        "Jesse Wegman, ", html.I("Let the People Pick the President"), " (2020), p. 17",
+                                        "Alfred R. Waud, “The First Vote”, Courtesy of Library of Congress (Nov. 16 1867)",
                                     ]),
+                                ]),
+                                dcc.Link("Part 1: Electoral College bias: Equality for states, not for voters", href="/voter-weight-electoral-college-bias-page1"),
+                                html.Ul(children=[
+                                    html.Li(children=[
+                                        "1790 Census of the United States, ", dcc.Link("familytree.com", "https://www.familytree.com/blog/two-hundred-and-twenty-eight-years/", target="_blank"),
+                                    ]),
+                                ]),
+                                dcc.Link("Part 1: Electoral College bias: Equality for states, not for voters", href="/voter-weight-electoral-college-bias-page1"),
+                                html.Ul(children=[
+
+
                                     html.Li(children=[
                                         "Ramtin Arablouei and Rund Abdelfatah (Hosts), Akhil Reed Amar (Guest), ", dcc.Link("“The Electoral College”",
                                         href="https://www.npr.org/2020/09/30/918717270/the-electoral-college", target="_blank"), " (Oct. 15, 2020) [Audio podcast episode], ", 
@@ -212,66 +223,7 @@ content = html.Div([
                                         "Michael Perman, ", html.I(dcc.Link("Struggle for Mastery: Disfranchisement in the South, 1888–1908", target="_blank",
                                         href="https://uncpress.org/book/9780807849095/struggle-for-mastery/")), " (2001), Introduction",
                                     ]),
-                                ]),
-                                html.B("Images:"),
-                                html.Br(),
-                                dcc.Link("Intro: American voter enfranchisement: A zero-sum game", href="/voter-weight-electoral-college-bias-intro"),
-                                html.Ul(children=[
-                                    html.Li(children=[
-                                        "Alfred R. Waud, “The First Vote”, ", html.I("Harper’s Weekly"), ", (Nov. 16 1867), ", dcc.Link("Library of Congress", 
-                                        href="https://www.loc.gov/resource/cph.3a52371/", target="_blank"),
-                                    ]),
-                                ]),
-                                dcc.Link("Part 1: Electoral College bias: Equality for states, not for voters", href="/voter-weight-electoral-college-bias-page1"),
-                                html.Ul(children=[
-                                    html.Li(children=[
-                                        "1790 Census of the United States, ", dcc.Link("familytree.com", target="_blank",
-                                        href="https://www.familytree.com/blog/two-hundred-and-twenty-eight-years/"),
-                                    ]),
-                                    html.Li(children=[
-                                        "Thomas Nast, “A National Game That Is Played Out”, ", html.I([dcc.Link("Harper’s Weekly", 
-                                        href="https://elections.harpweek.com/1876/cartoon-1876-Medium.asp?UniqueID=29&Year=1876", target="_blank")]), " (Dec. 23, 1876)"
-                                    ]),
-                                ]),
-                                dcc.Link("Part 2: Small-state bias and slave-state bias: As the framers intended", href="/voter-weight-electoral-college-bias-page2"),
-                                html.Ul(children=[
-                                    html.Li(children=[
-                                        "List of votes for President and Vice President of the United States, Records of the U.S. Senate, Record Group 46 (Feb. 8, 1837), ",
-                                        dcc.Link("docsteach.org", target="_blank",
-                                        href="https://www.docsteach.org/documents/document/list-of-votes-for-president-and-vice-president-of-the-united-states"),
-                                    ]),
-                                ]),
-                                dcc.Link("Part 3: Reconstruction and Black voting rights", href="/voter-weight-electoral-college-bias-page3"),
-                                html.Ul(children=[
-                                    html.Li(children=[
-                                        "Thomas Nast, “Shall We Call Home Our Troops?”, ", html.I("Harper’s Weekly"), " (Jan. 9, 1875), ", dcc.Link("Library of Congress",
-                                        href="https://www.loc.gov/resource/cph.3a03175/", target="_blank"),
-                                    ]),
-                                    html.Li(children=[
-                                        "Frederick Douglass, William Lloyd Garrison, Wendell Phillips, ", dcc.Link("americanabolitionists.com",
-                                        href="http://www.americanabolitionists.com/abolitionists-and-anti-slavery-activists.html", target="_blank"),
-                                    ]),
-                                    html.Li(children=[
-                                        "“Freedmen’s Bureau, ", html.I("Harper’s Weekly"), " (1868), ", dcc.Link("encyclopediaofalabama.org", target="_blank", 
-                                        href="http://encyclopediaofalabama.org/article/m-6202"),
-                                    ]),
-                                    html.Li(children=[
-                                        "W. L. Sheppard, “Electioneering at the South”, ", html.I([dcc.Link("Harper’s Weekly", target="_blank",
-                                        href="https://blackhistory.harpweek.com/7Illustrations/Reconstruction/ElectioneeringAtTheSouth.htm")]), " (July 25, 1868)"
-                                    ]),
-                                    html.Li(children=[
-                                        "Thomas Nast, “The Georgetown Election - The Negro at the Ballot-Box”, ", html.I("Harper’s Weekly"), " (Mar. 16, 1867), ",
-                                        dcc.Link("Getty Images", target="_blank", 
-                                        href="https://www.gettyimages.com/detail/news-photo/march-1867-harpers-weekly-political-cartoon-by-american-news-photo/51240022"),
-                                    ]),
-                                ]),
-                                dcc.Link("Part 4: Suppression-state bias", href="/voter-weight-electoral-college-bias-page4"),
-                                html.Ul(children=[
-                                    html.Li(children=[
-                                        "Thomas Nast, “The Union As It Was”, ", html.I([dcc.Link("Harper’s Weekly", target="_blank",
-                                        href="https://blackhistory.harpweek.com/7Illustrations/Reconstruction/UnionAsItWas.htm")]), " (Oct. 24, 1874)"
-                                    ]),
-                                ]),
+                                ])
                             ]),
                         ])
                     ])
