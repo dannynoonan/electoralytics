@@ -131,8 +131,8 @@ content = html.Div([
                             html.P(className="card-text", children=[
                                 "Northern acceptance of or apathy toward slavery was certainly a factor during the earliest years of the Republic, but this doesn’t \
                                 account for the overwhelming representation of Southern slaveholders in every branch of the federal government, nor the inordinate \
-                                amount of slave-expansionist legislation passed and court decisions rendered. Each legislative item above represented a minority \
-                                position, elevated by an electoral system mathematically biased toward slaveholder interests, pushed through the legislature by a \
+                                amount of slave-expansionist legislation passed and court decisions rendered. The legislative items above represented minority \
+                                positions, elevated by an electoral system mathematically biased toward slaveholder interests, pushed through the legislature by a \
                                 puffed-up minority faction whose inflated national power derived directly from their enslaved population."
                             ]),
                             html.Img(src="/static/stockImages/wilmot-proviso-reaction.jpg", style={"float": "right", "padding-left": "10px"}, width="40%"),

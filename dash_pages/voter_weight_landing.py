@@ -46,7 +46,7 @@ content = html.Div([
                     dbc.Card(className="border-success lead", style={"font-family": "times-new-roman"}, children=[
                         dbc.CardBody([
                             html.H3("American voter enfranchisement: A zero-sum game"),
-                            html.P("April 2, 2021", style={"font-family": "arial", "font-size": "10pt"}),
+                            html.P("By Andy Shirey — April 2, 2021", style={"font-family": "arial", "font-size": "10pt"}),
                             html.Img(src="/static/stockImages/the_first_vote_loc.jpg", style={"float": "right", "padding-left": "10px"}, width="40%"),
                             html.P(children=[
                                 "Apart from a brief hopeful period between the Civil War and the end of Reconstruction, the disenfranchisement of Southern Blacks in the \

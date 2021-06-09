@@ -24,7 +24,7 @@ content = html.Div([
                             html.A(className="list-group-item list-group-item-action flex-column align-items-start bg-primary", 
                                 href="/census-2020-retrofit", children=[
                                 html.H4(className="mb-1 text-success", children=[
-                                    "[May 5, 2021] Retrofitting 2020 Election data to the 2020 Census (", html.I("Click to read article"), ")",
+                                    "[May 5, 2021] Retrofitting the 2020 Census to 2020 Election data (", html.I("Click to read article"), ")",
                                 ]),
                                 html.Img(src="/static/screenshots/census2020Retrofit/ecVotesBarRetrofit.png", width="31.83%", style={"padding": "5px", "padding-top": "10px"}),
                                 html.Img(src="/static/screenshots/census2020Retrofit/voterWeightMapRetrofit.png", width="36.33%", style={"padding": "5px", "padding-top": "10px"}),

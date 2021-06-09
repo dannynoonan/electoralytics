@@ -12,7 +12,7 @@ content = html.Div([
         dbc.CardBody([
             html.Br(),
             dbc.Row(className="text-white", justify="center", align="center", children=[
-                html.H3("Retrofitting 2020 Election data to the 2020 Census"),
+                html.H3("Retrofitting the 2020 Census to 2020 Election data"),
             ]),
             html.Br(),
             dbc.Row([
@@ -43,7 +43,7 @@ content = html.Div([
                     dbc.Card(className="border-success lead", style={"font-family": "times-new-roman"}, children=[
                         dbc.CardBody([
                             html.H4(className="lead", style={"font-size": "20pt"}, children=["When the Census and a Presidential election overlap"]),
-                            html.P("May 5, 2021", style={"font-family": "arial", "font-size": "10pt"}),
+                            html.P("By Andy Shirey — May 5, 2021", style={"font-family": "arial", "font-size": "10pt"}),
                             html.Img(src="/static/stockImages/census-2020.jpg", style={"float": "right", "padding-left": "10px", "padding-top": "5px"}, width="50%"),
                             html.P(className="card-text", children=[
                                 "Every 10 years the US conducts a census, and every 20 years that census happens to occur in the same year as a Presidential election. \
@@ -64,7 +64,7 @@ content = html.Div([
                 dbc.Col(md=3, children=[
                     html.Div(className="list-group sticky-top", children=[
                         html.A(href="/census-2020-retrofit", className="list-group-item list-group-item-action active", children=[
-                            "→ [5/5/2021] Retrofitting 2020 Election data to the 2020 Census"]),
+                            "→ [5/5/2021] Retrofitting the 2020 Census to 2020 Election data"]),
                         html.A(href="/voter-weight-electoral-college-bias-intro", className="list-group-item list-group-item-action", children=[
                             "[4/2/2021] Visualizing the “Jim Crow Power”"]),
                         html.A(href="/voter-weight-calculation", className="list-group-item list-group-item-action", children=[

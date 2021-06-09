@@ -34,7 +34,7 @@ navbar = dbc.Card(className="text-white bg-primary", style={"z-index":"2000"}, c
         dbc.Nav(className="nav nav-pills", children=[
             dbc.NavItem(dbc.NavLink("Home", href="/")),
             dbc.DropdownMenu(label="Articles", nav=True, children=[
-                dbc.DropdownMenuItem("[5/5/2021] Retrofitting 2020 Election data to the 2020 Census", href='/census-2020-retrofit', target="_blank"), 
+                dbc.DropdownMenuItem("[5/5/2021] Retrofitting the 2020 Census to 2020 Election data", href='/census-2020-retrofit', target="_blank"), 
                 dbc.DropdownMenuItem("[4/2/2021] Visualizing the “Jim Crow Power” thru Electoral College data", href='/voter-weight-electoral-college-bias-intro', target="_blank"), 
             ]),
             dbc.DropdownMenu(label="Visualizing the “Jim Crow Power”", nav=True, children=[
