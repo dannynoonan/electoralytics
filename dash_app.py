@@ -19,7 +19,13 @@ from metadata import Columns, DataDirs, FigDimensions, YEAR_0, YEAR_N
 
 
 # base config
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY], title='Electoralytics - Visualizing Historical Presidential Election Data')
+app = dash.Dash(
+    __name__, 
+    external_stylesheets=[dbc.themes.FLATLY], 
+    title='Electoralytics - Visualizing Historical Presidential Election Data',
+    meta_tags=[{'property': 'og:image', 'content': '/static/screenshots/lineChartWIvsGAsince1800.png'}]
+)
+#http://www.electoralytics.org/static/screenshots/lineChartWIvsGAsince1800.png
 # server is needed for heroku deployment
 server = app.server
 
