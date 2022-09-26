@@ -25,7 +25,6 @@ app = dash.Dash(
     title='Electoralytics - Visualizing Historical Presidential Election Data',
     meta_tags=[{'property': 'og:image', 'content': '/static/screenshots/lineChartWIvsGAsince1800.png'}]
 )
-#http://www.electoralytics.org/static/screenshots/lineChartWIvsGAsince1800.png
 # server is needed for heroku deployment
 server = app.server
 
